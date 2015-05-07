@@ -1,0 +1,184 @@
+## THIS CONFIGURATION IS MANAGED BY PUPPET
+
+## Url on which GitLab will be reachable.
+## For more details on configuring external_url see:
+## https://gitlab.com/gitlab-org/omnibus-gitlab/blob/629def0a7a26e7c2326566f0758d4a27857b52a3/README.md#configuring-the-external-url-for-gitlab
+external_url '<%= @external_url %>'
+<%- if @git_data_dir -%>
+
+## For setting up different data storing directory
+## see https://gitlab.com/gitlab-org/omnibus-gitlab/blob/629def0a7a26e7c2326566f0758d4a27857b52a3/README.md#storing-git-data-in-an-alternative-directory
+## If you want to use a single non-default directory to store git data use:
+git_data_dir "<%= git_data_dir %>"
+<%- end -%>
+<%- if @rails -%>
+
+############################
+# gitlab.yml configuration #
+############################
+
+<%- @rails.each do |k,v| -%>
+gitlab_rails['<%= k -%>'] = '<%= v %>'
+<%- end end -%>
+<%- if @user -%>
+
+###############
+# GitLab user #
+###############
+## see https://gitlab.com/gitlab-org/omnibus-gitlab/tree/629def0a7a26e7c2326566f0758d4a27857b52a3/README.md#changing-the-name-of-the-git-user-group
+## Modify default git user.
+
+<%- @user.each do |k,v| -%>
+user['<%= k -%>'] = '<%= v %>'
+<%- end end -%>
+<%- if @unicorn -%>
+
+##################
+# GitLab Unicorn #
+##################
+## Tweak unicorn settings.
+
+<%- @unicorn.each do |k,v| -%>
+unicorn['<%= k -%>'] = '<%= v %>'
+<%- end end -%>
+<%- if @sidekiq -%>
+
+##################
+# GitLab Sidekiq #
+##################
+
+<%- @sidekiq.each do |k,v| -%>
+sidekiq['<%= k -%>'] = '<%= v %>'
+<%- end end -%>
+<%- if @shell -%>
+
+################
+# gitlab-shell #
+################
+
+<%- @shell.each do |k,v| -%>
+gitlab_shell['<%= k -%>'] = '<%= v %>'
+<%- end end -%>
+<%- if @postgresql -%>
+
+#####################
+# GitLab PostgreSQL #
+#####################
+
+<%- @postgresql.each do |k,v| -%>
+postgresql['<%= k -%>'] = '<%= v %>'
+<%- end end -%>
+<%- if @redis -%>
+
+################
+# GitLab Redis #
+################
+## Can be disabled if you are using your own redis instance.
+
+<%- @redis.each do |k,v| -%>
+redis['<%= k -%>'] = '<%= v %>'
+<%- end end -%>
+<%- if @web_server -%>
+
+#####################
+# GitLab Web server #
+#####################
+## see: https://gitlab.com/gitlab-org/omnibus-gitlab/tree/629def0a7a26e7c2326566f0758d4a27857b52a3/doc/settings/nginx.md#using-a-non-bundled-web-server
+## When bundled nginx is disabled we need to add the external webserver user to the GitLab webserver group.
+
+<%- @web_server.each do |k,v| -%>
+web_server['<%= k -%>'] = '<%= v %>'
+<%- end end -%>
+<%- if @nginx -%>
+
+################
+# GitLab Nginx #
+################
+## see: https://gitlab.com/gitlab-org/omnibus-gitlab/tree/629def0a7a26e7c2326566f0758d4a27857b52a3/doc/settings/nginx.md
+
+<%- @nginx.each do |k,v| -%>
+nginx['<%= k -%>'] = '<%= v %>'
+<%- end end -%>
+<%- if @logging -%>
+
+##################
+# GitLab Logging #
+##################
+## see: https://gitlab.com/gitlab-org/omnibus-gitlab/tree/629def0a7a26e7c2326566f0758d4a27857b52a3/README.md#logs
+
+<%- @logging.each do |k,v| -%>
+logging['<%= k -%>'] = '<%= v %>'
+<%- end end -%>
+<%- if @logrotate -%>
+
+#############
+# Logrotate #
+#############
+## see: https://gitlab.com/gitlab-org/omnibus-gitlab/tree/629def0a7a26e7c2326566f0758d4a27857b52a3/README.md#logrotate
+## You can disable built in logrotate feature.
+
+<%- @logrotate.each do |k,v| -%>
+logrotate['<%= k -%>'] = '<%= v %>'
+<%- end end -%>
+<%- if @git -%>
+
+#######
+# Git #
+#######
+## Advanced setting for configuring git system settings for omnibus-gitlab internal git
+## For multiple options under one header use array of comma separated values, eg.
+## { "receive" => ["fsckObjects = true"], "alias" => ["st = status", "co = checkout"] }
+
+<%- @git.each do |k,v| -%>
+omnibus_gitconfig['<%= k -%>'] = '<%= v %>'
+<%- end end -%>
+<%- if @ci_external_url -%>
+
+############################################
+# Url on which GitLab CI will be reachable #
+############################################
+## see https://gitlab.com/gitlab-org/omnibus-gitlab/tree/629def0a7a26e7c2326566f0758d4a27857b52a3/doc/gitlab-ci/README.md
+
+ci_external_url "<%= ci_external_url %>"
+<%- end -%>
+<%- if @gitlab_ci -%>
+
+#################################
+# application.yml configuration #
+#################################
+
+<%- @gitlab_ci.each do |k,v| -%>
+gitlab_ci['<%= k -%>'] = '<%= v %>'
+<%- end end -%>
+<%- if @ci_unicorn -%>
+
+#####################
+# GitLab CI Unicorn #
+#####################
+## Tweak unicorn settings.
+
+<%- @ci_unicorn.each do |k,v| -%>
+ci_unicorn['<%= k -%>'] = '<%= v %>'
+<%- end end -%>
+<%- if @ci_redis -%>
+
+###################
+# GitLab CI Redis #
+###################
+## see https://gitlab.com/gitlab-org/omnibus-gitlab/tree/629def0a7a26e7c2326566f0758d4a27857b52a3/doc/settings/redis.md
+## You can turn off bundled redis if you want to use your own redis instanance
+
+<%- @ci_redis.each do |k,v| -%>
+ci_redis['<%= k -%>'] = '<%= v %>'
+<%- end end -%>
+<%- if @ci_nginx -%>
+
+###################
+# GitLab CI NGINX #
+###################
+## see https://gitlab.com/gitlab-org/omnibus-gitlab/tree/629def0a7a26e7c2326566f0758d4a27857b52a3/doc/settings/nginx.md
+## You can tell the bundled NGINX that it should not serve up GitLab CI by setting ci_nginx['enable'] to false.
+
+<%- @ci_nginx.each do |k,v| -%>
+ci_nginx['<%= k -%>'] = '<%= v %>'
+<%- end end -%>

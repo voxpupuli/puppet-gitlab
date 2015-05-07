@@ -19,6 +19,7 @@ class gitlab::service {
       restart    => '/usr/bin/gitlab-ctl restart',
       start      => '/usr/bin/gitlab-ctl start',
       stop       => '/usr/bin/gitlab-ctl stop',
+      status     => '/usr/bin/gitlab-ctl status',
       hasstatus  => true,
       hasrestart => true,
     }

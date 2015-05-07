@@ -5,27 +5,28 @@
 class gitlab::config {
 
   # get variables from the toplevel manifest for usage in the template
-  $service_manage = $::gitlab::service_manage
-  $config_file    = $::gitlab::config_file
-  $external_url   = $::gitlab::external_url
-  $ci_nginx       = $::gitlab::ci_nginx
-  $ci_redis       = $::gitlab::ci_redis
-  $ci_unicorn     = $::gitlab::ci_unicorn
-  $git            = $::gitlab::git
-  $git_data_dir   = $::gitlab::git_data_dir
-  $gitlab_ci      = $::gitlab::gitlab_ci
-  $gitlab_rails   = $::gitlab::gitlab_rails
-  $logging        = $::gitlab::logging
-  $logrotate      = $::gitlab::logrotate
-  $nginx          = $::gitlab::nginx
-  $postgresql     = $::gitlab::postgresql
-  $rails          = $::gitlab::rails
-  $redis          = $::gitlab::redis
-  $shell          = $::gitlab::shell
-  $sidekiq        = $::gitlab::sidekiq
-  $unicorn        = $::gitlab::unicorn
-  $user           = $::gitlab::user
-  $web_server     = $::gitlab::web_server
+  $service_manage  = $::gitlab::service_manage
+  $config_file     = $::gitlab::config_file
+  $external_url    = $::gitlab::external_url
+  $ci_external_url = $::gitlab::ci_external_url
+  $ci_nginx        = $::gitlab::ci_nginx
+  $ci_redis        = $::gitlab::ci_redis
+  $ci_unicorn      = $::gitlab::ci_unicorn
+  $git             = $::gitlab::git
+  $git_data_dir    = $::gitlab::git_data_dir
+  $gitlab_ci       = $::gitlab::gitlab_ci
+  $gitlab_rails    = $::gitlab::gitlab_rails
+  $logging         = $::gitlab::logging
+  $logrotate       = $::gitlab::logrotate
+  $nginx           = $::gitlab::nginx
+  $postgresql      = $::gitlab::postgresql
+  $rails           = $::gitlab::rails
+  $redis           = $::gitlab::redis
+  $shell           = $::gitlab::shell
+  $sidekiq         = $::gitlab::sidekiq
+  $unicorn         = $::gitlab::unicorn
+  $user            = $::gitlab::user
+  $web_server      = $::gitlab::web_server
 
   file { $config_file:
       ensure  => file,
@@ -36,9 +37,9 @@ class gitlab::config {
 
   if $service_manage {
     # configure gitlab using the official tool
-    File[$config_file] {
-      notify => Exec['gitlab_reconfigure']
-    }
+    #File[$config_file] {
+    #  notify => Exec['gitlab_reconfigure']
+    #}
     exec { 'gitlab_reconfigure':
       command     => '/usr/bin/gitlab-ctl reconfigure',
       refreshonly => true,

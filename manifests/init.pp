@@ -39,6 +39,7 @@ class gitlab (
   $service_group         = $::gitlab::params::service_group,
   # gitlab specific
   $config_file           = $::gitlab::params::config_file,
+  $ci_external_url       = undef,
   $ci_nginx              = undef,
   $ci_redis              = undef,
   $ci_unicorn            = undef,
@@ -60,12 +61,47 @@ class gitlab (
   $web_server            = undef,
 ) inherits ::gitlab::params {
 
-  # mandatory parameters
-  # TODO validate all parameters
+  # package installation handling
+  #validate_re($package_ensure, '^installed|present|absent|purged|held|latest$')
+  validate_string($package_repo_location)
+  validate_string($package_repo_repos)
+  validate_string($package_repo_key)
+  validate_string($package_repo_key_src)
+  validate_string($package_name)
+  validate_bool($manage_package_repo)
+  # system service configuration
+  validate_string($service_name)
+  validate_bool($service_enable)
+  validate_re($service_ensure, '^stopped|false|running|true$')
+  validate_bool($service_manage)
+  validate_string($service_user)
+  validate_string($service_group)
+  # gitlab specific
+  validate_absolute_path($config_file)
+  if $ci_nginx { validate_hash($ci_nginx) }
+  if $ci_redis { validate_hash($ci_redis) }
+  if $ci_unicorn { validate_hash($ci_unicorn) }
+  if $ci_external_url { validate_string($ci_external_url) }
   validate_string($external_url)
+  if $git  { validate_hash($git) }
+  if $git_data_dir { validate_absolute_path($git_data_dir) }
+  if $gitlab_ci { validate_hash($gitlab_ci) }
+  if $gitlab_rails { validate_hash($gitlab_rails) }
+  if $logging { validate_hash($logging) }
+  if $logrotate { validate_hash($logrotate) }
+  if $nginx { validate_hash($nginx) }
+  if $postgresql { validate_hash($postgresql) }
+  if $rails { validate_hash($rails) }
+  if $redis { validate_hash($redis) }
+  if $shell { validate_hash($shell) }
+  if $sidekiq { validate_hash($sidekiq) }
+  if $unicorn { validate_hash($unicorn) }
+  if $user { validate_hash($user) }
+  if $web_server { validate_hash($web_server) }
 
   class { '::gitlab::install': } ->
-  class { '::gitlab::config': } ~>
+  class { '::gitlab::config': }
+  #class { '::gitlab::config': } ~>
   class { '::gitlab::service': }
 
   contain ::gitlab::install

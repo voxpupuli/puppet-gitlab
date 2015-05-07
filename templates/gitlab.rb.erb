@@ -1,4 +1,11 @@
 ## THIS CONFIGURATION IS MANAGED BY PUPPET
+<%- def decorate_value(v)
+  return "'#{v}'" if v.is_a?(String)
+  #return "#{v}" if v.is_a?(Fixnum)
+  #return "#{v}" if [TrueClass, FalseClass].include?(v.class)
+  return "[#{v.join(',')}]" if v.is_a?(Array)
+  return "#{v}"
+end -%>
 
 ## Url on which GitLab will be reachable.
 ## For more details on configuring external_url see:
@@ -18,8 +25,11 @@ git_data_dir "<%= git_data_dir %>"
 ############################
 
 <%- @rails.each do |k,v| -%>
-gitlab_rails['<%= k -%>'] = '<%= v %>'
-<%- end end -%>
+<%- if k == 'ldap_servers' -%>
+gitlab_rails['<%= k -%>'] = <%= decorate_value(v) %>
+<%- else -%>
+gitlab_rails['<%= k -%>'] = '<%= decorate_value(v) %>'
+<%- end end end -%>
 <%- if @user -%>
 
 ###############
@@ -39,7 +49,7 @@ user['<%= k -%>'] = '<%= v %>'
 ## Tweak unicorn settings.
 
 <%- @unicorn.each do |k,v| -%>
-unicorn['<%= k -%>'] = '<%= v %>'
+unicorn['<%= k -%>'] = '<%= decorate_value(v) %>'
 <%- end end -%>
 <%- if @sidekiq -%>
 
@@ -97,7 +107,7 @@ web_server['<%= k -%>'] = '<%= v %>'
 ## see: https://gitlab.com/gitlab-org/omnibus-gitlab/tree/629def0a7a26e7c2326566f0758d4a27857b52a3/doc/settings/nginx.md
 
 <%- @nginx.each do |k,v| -%>
-nginx['<%= k -%>'] = '<%= v %>'
+nginx['<%= k -%>'] = '<%= decorate_value(v) %>'
 <%- end end -%>
 <%- if @logging -%>
 

@@ -37,9 +37,9 @@ class gitlab::config {
 
   if $service_manage {
     # configure gitlab using the official tool
-    #File[$config_file] {
-    #  notify => Exec['gitlab_reconfigure']
-    #}
+    File[$config_file] {
+      notify => Exec['gitlab_reconfigure']
+    }
     exec { 'gitlab_reconfigure':
       command     => '/usr/bin/gitlab-ctl reconfigure',
       refreshonly => true,

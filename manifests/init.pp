@@ -100,8 +100,7 @@ class gitlab (
   if $web_server { validate_hash($web_server) }
 
   class { '::gitlab::install': } ->
-  class { '::gitlab::config': }
-  #class { '::gitlab::config': } ~>
+  class { '::gitlab::config': } ~>
   class { '::gitlab::service': }
 
   contain ::gitlab::install

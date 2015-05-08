@@ -1,10 +1,15 @@
 ## THIS CONFIGURATION IS MANAGED BY PUPPET
-<%- def decorate_value(v)
-  return "'#{v}'" if v.is_a?(String)
-  #return "#{v}" if v.is_a?(Fixnum)
-  #return "#{v}" if [TrueClass, FalseClass].include?(v.class)
-  return "[#{v.join(',')}]" if v.is_a?(Array)
-  return "#{v}"
+<%- def decorate(v)
+  if v =~ /\AYAML/
+    return v
+  elsif v.is_a?(String)
+    return "'#{v}'"
+  elsif v.is_a?(Array)
+    vedit = v.map { |s| "\"#{s}\"" }
+    return "[#{vedit.join(',')}]"
+  else
+    return v
+  end
 end -%>
 
 ## Url on which GitLab will be reachable.
@@ -25,11 +30,8 @@ git_data_dir "<%= git_data_dir %>"
 ############################
 
 <%- @rails.each do |k,v| -%>
-<%- if k == 'ldap_servers' -%>
-gitlab_rails['<%= k -%>'] = <%= decorate_value(v) %>
-<%- else -%>
-gitlab_rails['<%= k -%>'] = '<%= decorate_value(v) %>'
-<%- end end end -%>
+gitlab_rails['<%= k -%>'] = <%= decorate(v) %>
+<%- end end -%>
 <%- if @user -%>
 
 ###############
@@ -39,7 +41,7 @@ gitlab_rails['<%= k -%>'] = '<%= decorate_value(v) %>'
 ## Modify default git user.
 
 <%- @user.each do |k,v| -%>
-user['<%= k -%>'] = '<%= v %>'
+user['<%= k -%>'] = <%= decorate(v) %>
 <%- end end -%>
 <%- if @unicorn -%>
 
@@ -49,7 +51,7 @@ user['<%= k -%>'] = '<%= v %>'
 ## Tweak unicorn settings.
 
 <%- @unicorn.each do |k,v| -%>
-unicorn['<%= k -%>'] = '<%= decorate_value(v) %>'
+unicorn['<%= k -%>'] = <%= decorate(v) %>
 <%- end end -%>
 <%- if @sidekiq -%>
 
@@ -58,7 +60,7 @@ unicorn['<%= k -%>'] = '<%= decorate_value(v) %>'
 ##################
 
 <%- @sidekiq.each do |k,v| -%>
-sidekiq['<%= k -%>'] = '<%= v %>'
+sidekiq['<%= k -%>'] = <%= decorate(v) %>
 <%- end end -%>
 <%- if @shell -%>
 
@@ -67,7 +69,7 @@ sidekiq['<%= k -%>'] = '<%= v %>'
 ################
 
 <%- @shell.each do |k,v| -%>
-gitlab_shell['<%= k -%>'] = '<%= v %>'
+gitlab_shell['<%= k -%>'] = <%= decorate(v) %>
 <%- end end -%>
 <%- if @postgresql -%>
 
@@ -76,7 +78,7 @@ gitlab_shell['<%= k -%>'] = '<%= v %>'
 #####################
 
 <%- @postgresql.each do |k,v| -%>
-postgresql['<%= k -%>'] = '<%= v %>'
+postgresql['<%= k -%>'] = <%= decorate(v) %>
 <%- end end -%>
 <%- if @redis -%>
 
@@ -86,7 +88,7 @@ postgresql['<%= k -%>'] = '<%= v %>'
 ## Can be disabled if you are using your own redis instance.
 
 <%- @redis.each do |k,v| -%>
-redis['<%= k -%>'] = '<%= v %>'
+redis['<%= k -%>'] = <%= decorate(v) %>
 <%- end end -%>
 <%- if @web_server -%>
 
@@ -97,7 +99,7 @@ redis['<%= k -%>'] = '<%= v %>'
 ## When bundled nginx is disabled we need to add the external webserver user to the GitLab webserver group.
 
 <%- @web_server.each do |k,v| -%>
-web_server['<%= k -%>'] = '<%= v %>'
+web_server['<%= k -%>'] = <%= decorate(v) %>
 <%- end end -%>
 <%- if @nginx -%>
 
@@ -107,7 +109,7 @@ web_server['<%= k -%>'] = '<%= v %>'
 ## see: https://gitlab.com/gitlab-org/omnibus-gitlab/tree/629def0a7a26e7c2326566f0758d4a27857b52a3/doc/settings/nginx.md
 
 <%- @nginx.each do |k,v| -%>
-nginx['<%= k -%>'] = '<%= decorate_value(v) %>'
+nginx['<%= k -%>'] = <%= decorate(v) %>
 <%- end end -%>
 <%- if @logging -%>
 
@@ -117,7 +119,7 @@ nginx['<%= k -%>'] = '<%= decorate_value(v) %>'
 ## see: https://gitlab.com/gitlab-org/omnibus-gitlab/tree/629def0a7a26e7c2326566f0758d4a27857b52a3/README.md#logs
 
 <%- @logging.each do |k,v| -%>
-logging['<%= k -%>'] = '<%= v %>'
+logging['<%= k -%>'] = <%= decorate(v) %>
 <%- end end -%>
 <%- if @logrotate -%>
 
@@ -128,7 +130,7 @@ logging['<%= k -%>'] = '<%= v %>'
 ## You can disable built in logrotate feature.
 
 <%- @logrotate.each do |k,v| -%>
-logrotate['<%= k -%>'] = '<%= v %>'
+logrotate['<%= k -%>'] = <%= decorate(v) %>
 <%- end end -%>
 <%- if @git -%>
 
@@ -140,7 +142,7 @@ logrotate['<%= k -%>'] = '<%= v %>'
 ## { "receive" => ["fsckObjects = true"], "alias" => ["st = status", "co = checkout"] }
 
 <%- @git.each do |k,v| -%>
-omnibus_gitconfig['<%= k -%>'] = '<%= v %>'
+omnibus_gitconfig['<%= k -%>'] = <%= decorate(v) %>
 <%- end end -%>
 <%- if @ci_external_url -%>
 
@@ -158,7 +160,7 @@ ci_external_url "<%= ci_external_url %>"
 #################################
 
 <%- @gitlab_ci.each do |k,v| -%>
-gitlab_ci['<%= k -%>'] = '<%= v %>'
+gitlab_ci['<%= k -%>'] = <%= decorate(v) %>
 <%- end end -%>
 <%- if @ci_unicorn -%>
 
@@ -168,7 +170,7 @@ gitlab_ci['<%= k -%>'] = '<%= v %>'
 ## Tweak unicorn settings.
 
 <%- @ci_unicorn.each do |k,v| -%>
-ci_unicorn['<%= k -%>'] = '<%= v %>'
+ci_unicorn['<%= k -%>'] = <%= decorate(v) %>
 <%- end end -%>
 <%- if @ci_redis -%>
 
@@ -179,7 +181,7 @@ ci_unicorn['<%= k -%>'] = '<%= v %>'
 ## You can turn off bundled redis if you want to use your own redis instanance
 
 <%- @ci_redis.each do |k,v| -%>
-ci_redis['<%= k -%>'] = '<%= v %>'
+ci_redis['<%= k -%>'] = <%= decorate(v) %>
 <%- end end -%>
 <%- if @ci_nginx -%>
 
@@ -190,5 +192,5 @@ ci_redis['<%= k -%>'] = '<%= v %>'
 ## You can tell the bundled NGINX that it should not serve up GitLab CI by setting ci_nginx['enable'] to false.
 
 <%- @ci_nginx.each do |k,v| -%>
-ci_nginx['<%= k -%>'] = '<%= v %>'
+ci_nginx['<%= k -%>'] = <%= decorate(v) %>
 <%- end end -%>

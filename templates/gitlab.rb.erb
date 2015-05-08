@@ -7,6 +7,13 @@
   elsif v.is_a?(Array)
     vedit = v.map { |s| "\"#{s}\"" }
     return "[#{vedit.join(',')}]"
+  elsif v.is_a?(Hash)
+    vedit = '{ '
+    v.each do |k,v|
+      vedit << "\"#{k}\" => '#{v}', "
+    end
+    vedit << ' }'
+    return vedit
   else
     return v
   end

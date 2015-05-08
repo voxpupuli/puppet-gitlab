@@ -40,6 +40,7 @@ class gitlab (
   # gitlab specific
   $config_file           = $::gitlab::params::config_file,
   $ci_external_url       = undef,
+  $ci_nginx_eq_nginx     = false,
   $ci_nginx              = undef,
   $ci_redis              = undef,
   $ci_unicorn            = undef,
@@ -79,6 +80,7 @@ class gitlab (
   # gitlab specific
   validate_absolute_path($config_file)
   if $ci_nginx { validate_hash($ci_nginx) }
+  validate_bool($ci_nginx_eq_nginx)
   if $ci_redis { validate_hash($ci_redis) }
   if $ci_unicorn { validate_hash($ci_unicorn) }
   if $ci_external_url { validate_string($ci_external_url) }

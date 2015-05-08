@@ -5,28 +5,36 @@
 class gitlab::config {
 
   # get variables from the toplevel manifest for usage in the template
-  $service_manage  = $::gitlab::service_manage
-  $config_file     = $::gitlab::config_file
-  $external_url    = $::gitlab::external_url
-  $ci_external_url = $::gitlab::ci_external_url
-  $ci_nginx        = $::gitlab::ci_nginx
-  $ci_redis        = $::gitlab::ci_redis
-  $ci_unicorn      = $::gitlab::ci_unicorn
-  $git             = $::gitlab::git
-  $git_data_dir    = $::gitlab::git_data_dir
-  $gitlab_ci       = $::gitlab::gitlab_ci
-  $gitlab_rails    = $::gitlab::gitlab_rails
-  $logging         = $::gitlab::logging
-  $logrotate       = $::gitlab::logrotate
-  $nginx           = $::gitlab::nginx
-  $postgresql      = $::gitlab::postgresql
-  $rails           = $::gitlab::rails
-  $redis           = $::gitlab::redis
-  $shell           = $::gitlab::shell
-  $sidekiq         = $::gitlab::sidekiq
-  $unicorn         = $::gitlab::unicorn
-  $user            = $::gitlab::user
-  $web_server      = $::gitlab::web_server
+  $service_manage    = $::gitlab::service_manage
+  $config_file       = $::gitlab::config_file
+  $external_url      = $::gitlab::external_url
+  $ci_external_url   = $::gitlab::ci_external_url
+  $ci_nginx          = $::gitlab::ci_nginx
+  $ci_nginx_eq_nginx = $::gitlab::ci_nginx_eq_nginx
+  $ci_redis          = $::gitlab::ci_redis
+  $ci_unicorn        = $::gitlab::ci_unicorn
+  $git               = $::gitlab::git
+  $git_data_dir      = $::gitlab::git_data_dir
+  $gitlab_ci         = $::gitlab::gitlab_ci
+  $gitlab_rails      = $::gitlab::gitlab_rails
+  $logging           = $::gitlab::logging
+  $logrotate         = $::gitlab::logrotate
+  $nginx             = $::gitlab::nginx
+  $postgresql        = $::gitlab::postgresql
+  $rails             = $::gitlab::rails
+  $redis             = $::gitlab::redis
+  $shell             = $::gitlab::shell
+  $sidekiq           = $::gitlab::sidekiq
+  $unicorn           = $::gitlab::unicorn
+  $user              = $::gitlab::user
+  $web_server        = $::gitlab::web_server
+
+  # replicate $nginx to $ci_nginx if $ci_nginx_eq_nginx true
+  if $ci_nginx_eq_nginx {
+    $_real_ci_nginx = $nginx
+  } else {
+    $_real_ci_nginx = $ci_nginx
+  }
 
   file { $config_file:
       ensure  => file,

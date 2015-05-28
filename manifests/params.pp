@@ -5,22 +5,23 @@
 #
 class gitlab::params {
 
+  $edition = 'ce'
+
   # OS specific parameters
   case $::osfamily {
     'debian': {
-      $package_name          = 'gitlab-ce'
+      $package_name          = "gitlab-${edition}"
       $service_name          = 'gitlab-runsvdir'
-      $package_repo_location = 'https://packages.gitlab.com/gitlab/gitlab-ce/ubuntu/'
+      $package_repo_location = "https://packages.gitlab.com/gitlab/gitlab-${edition}/ubuntu/"
       $package_repo_repos    = 'main'
       $package_repo_key      = 'E15E78F4'
       $package_repo_key_src  = 'https://packages.gitlab.com/gpg.key'
     }
     'redhat': {
-      $package_name          = 'gitlab-ce'
+      $package_name          = "gitlab-${edition}"
       $service_name          = 'gitlab-runsvdir'
-      $package_repo_location = 'https://packages.gitlab.com/gitlab/gitlab-ce/el/5/$basearch'
-      $package_repo_repos    = 'gitlab_gitlab-ce'
-      $package_repo_key      = 'E15E78F4'
+      $package_repo_location = "https://packages.gitlab.com/gitlab/gitlab-${edition}/el/5/\$basearch"
+      $package_repo_repos    = "gitlab_gitlab-${edition}"
       $package_repo_key_src  = 'https://packages.gitlab.com/gpg.key'
     }
     default: {

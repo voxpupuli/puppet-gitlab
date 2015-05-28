@@ -38,6 +38,7 @@ class gitlab (
   $service_user          = $::gitlab::params::service_user,
   $service_group         = $::gitlab::params::service_group,
   # gitlab specific
+  $edition               = $::gitlab::params::edition,
   $config_file           = $::gitlab::params::config_file,
   $ci_external_url       = undef,
   $ci_nginx_eq_nginx     = false,
@@ -78,6 +79,7 @@ class gitlab (
   validate_string($service_user)
   validate_string($service_group)
   # gitlab specific
+  validate_re($edition, [ '^ee$', '^ce$' ])
   validate_absolute_path($config_file)
   if $ci_nginx { validate_hash($ci_nginx) }
   validate_bool($ci_nginx_eq_nginx)

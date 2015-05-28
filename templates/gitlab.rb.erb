@@ -1,4 +1,6 @@
 ## THIS CONFIGURATION IS MANAGED BY PUPPET
+# for all possible paramters, see:
+# https://gitlab.com/gitlab-org/omnibus-gitlab/blob/master/files/gitlab-config-template/gitlab.rb.template
 <%- def decorate(v)
   if v =~ /\AYAML/
     return v

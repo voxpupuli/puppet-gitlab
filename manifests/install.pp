@@ -4,25 +4,22 @@
 #
 class gitlab::install {
 
-  $package_name        = $::gitlab::package_name
   $package_ensure      = $::gitlab::package_ensure
   $manage_package_repo = $::gitlab::manage_package_repo
+  $edition             = $::gitlab::edition
+  $package_name        = "gitlab-${edition}"
 
   # only do repo management when on a Debian-like system
   if $manage_package_repo {
-    $package_repo_location = $::gitlab::package_repo_location
-    $package_repo_repos    = $::gitlab::package_repo_repos
-    $package_repo_key      = $::gitlab::package_repo_key
-    $package_repo_key_src  = $::gitlab::package_repo_key_src
     case $::osfamily {
       'debian': {
         apt::source { 'gitlab_official':
           comment     => 'Official repository for Gitlab',
-          location    => $package_repo_location,
+          location    => "https://packages.gitlab.com/gitlab/gitlab-${edition}/ubuntu/",
           release     => $::lsbdistcodename,
-          repos       => $package_repo_repos,
-          key         => $package_repo_key,
-          key_source  => $package_repo_key_src,
+          repos       => 'main',
+          key         => 'E15E78F4',
+          key_source  => 'https://packages.gitlab.com/gpg.key',
           include_src => true,
           include_deb => true,
         } ->
@@ -33,10 +30,10 @@ class gitlab::install {
       'redhat': {
         yumrepo { 'gitlab_official':
           descr         => 'Official repository for Gitlab',
-          baseurl       => $package_repo_location,
+          baseurl       => "https://packages.gitlab.com/gitlab/gitlab-${edition}/el/5/\$basearch",
           enabled       => 1,
           gpgcheck      => 0,
-          gpgkey        => $package_repo_key_src,
+          gpgkey        => 'https://packages.gitlab.com/gpg.key',
           repo_gpgcheck => 1,
           sslcacert     => '/etc/pki/tls/certs/ca-bundle.crt',
           sslverify     => 1,

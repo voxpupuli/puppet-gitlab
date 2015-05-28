@@ -14,6 +14,8 @@ class gitlab::params {
   $service_ensure = running
   $service_manage = true
   $service_name = 'gitlab-runsvdir'
+  $service_user = 'root'
+  $service_group = 'root'
 
   # gitlab specific
   $config_file = '/etc/gitlab/gitlab.rb'

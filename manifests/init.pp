@@ -1,25 +1,150 @@
 # == Class: gitlab
 #
-# Full description of class gitlab here.
+# This module installs and configures Gitlab with the Omnibus package.
 #
 # === Parameters
 #
-# [*sample_parameter*]
-#   Explanation of what this parameter affects and what it defaults to.
+# [*package_ensure*]
+#   Default: installed
+#   Can be used to choose exact package version to install.
+#
+# [*manage_package_repo*]
+#   Default: true
+#   Should the official package repository be managed?
+#
+# [*service_name*]
+#   Default: gitlab-runsvdir
+#   Name of the system service.
+#
+# [*service_enable*]
+#   Default: true
+#   Run the system service on boot.
+#
+# [*service_ensure*]
+#   Default: running
+#   Should Puppet start the service?
+#
+# [*service_manage*]
+#   Default: true
+#   Should Puppet manage the service?
+#
+# [*service_user*]
+#   Default: root
+#   Owner of the config file.
+#
+# [*service_group*]
+#   Default: root
+#   Group of the config file.
+#
+# [*edition*]
+#   Default: ce
+#   Gitlab edition to install. ce or ee.
+#
+# [*config_file*]
+#   Default: /etc/gitlab/gitlab.rb
+#   Path of the Gitlab Omnibus config file.
+#
+# [*ci_external_url*]
+#   Default: undef
+#   External URL of Gitlab CI.
+#
+# [*ci_nginx_eq_nginx*]
+#   Default: false
+#   Replicate the CI Nginx config from the Gitlab Nginx config.
+#
+# [*ci_nginx*]
+#   Default: undef
+#   Hash of 'ci_nginx' config parameters.
+#
+# [*ci_redis*]
+#   Default: undef
+#   Hash of 'ci_redis' config parameters.
+#
+# [*ci_unicorn*]
+#   Default: undef
+#   Hash of 'ci_unicorn' config parameters.
+#
+# [*external_url*]
+#   Default: undef
+#   External URL of Gitlab.
+#
+# [*git*]
+#   Default: undef
+#   Hash of 'omnibus_gitconfig' config parameters.
+#
+# [*git_data_dir*]
+#   Default: undef
+#   Git data dir
+#
+# [*gitlab_ci*]
+#   Default: undef
+#   Hash of 'gitlab_ci' config parameters.
+#
+# [*gitlab_rails*]
+#   Default: undef
+#   Hash of 'gitlab_rails' config parameters.
+#
+# [*logging*]
+#   Default: undef
+#   Hash of 'logging' config parameters.
+#
+# [*logrotate*]
+#   Default: undef
+#   Hash of 'logrotate' config parameters.
+#
+# [*nginx*]
+#   Default: undef
+#   Hash of 'nginx' config parameters.
+#
+# [*postgresql*]
+#   Default: undef
+#   Hash of 'postgresql' config parameters.
+#
+# [*rails*]
+#   Default: undef
+#   Hash of 'gitlab_rails' config parameters.
+#
+# [*redis*]
+#   Default: undef
+#   Hash of 'redis' config parameters.
+#
+# [*shell*]
+#   Default: undef
+#   Hash of 'gitlab_shell' config parameters.
+#
+# [*sidekiq*]
+#   Default: undef
+#   Hash of 'sidekiq' config parameters.
+#
+# [*unicorn*]
+#   Default: undef
+#   Hash of 'unicorn' config parameters.
+#
+# [*user*]
+#   Default: undef
+#   Hash of 'user' config parameters.
+#
+# [*web_server*]
+#   Default: undef
+#   Hash of 'web_server' config parameters.
 #
 # === Examples
 #
 #  class { 'gitlab':
-#    sample_parameter => 'sample value',
+#    edition           => 'ee',
+#    ci_external_url   => 'https://myci.mydomain.tld',
+#    external_url      => 'https://gitlab.mydomain.tld',
+#    nginx             => { redirect_http_to_https => true },
+#    ci_nginx_eq_nginx => true,
 #  }
 #
 # === Authors
 #
-# vshn
+# Tobias Brunner <tobias.brunner@vshn.ch>
 #
 # === Copyright
 #
-# Copyright 2015 vshn
+# Copyright 2015 Tobias Brunner, VSHN AG
 #
 class gitlab (
   # package installation handling

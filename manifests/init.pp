@@ -184,7 +184,6 @@ class gitlab (
 ) inherits ::gitlab::params {
 
   # package installation handling
-  #validate_re($package_ensure, '^installed|present|absent|purged|held|latest$')
   validate_string($package_repo_location)
   validate_string($package_repo_repos)
   validate_string($package_repo_key)

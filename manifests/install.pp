@@ -18,7 +18,7 @@ class gitlab::install {
           location    => "https://packages.gitlab.com/gitlab/gitlab-${edition}/ubuntu/",
           release     => $::lsbdistcodename,
           repos       => 'main',
-          key         => 'E15E78F4',
+          key         => '1A4C919DB987D435939638B914219A96E15E78F4',
           key_source  => 'https://packages.gitlab.com/gpg.key',
           include_src => true,
           include_deb => true,

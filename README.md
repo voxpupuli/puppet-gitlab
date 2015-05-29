@@ -16,6 +16,8 @@
 This Puppet module installs and manages [Gitlab](https://about.gitlab.com/).
 It makes use of the provided [Omnibus](https://gitlab.com/gitlab-org/omnibus-gitlab/blob/master/README.md) packages and the [packagecloud package repositories](https://packages.gitlab.com/gitlab).
 
+[![Build Status](https://travis-ci.org/vshn/puppet-gitlab.svg)](https://travis-ci.org/vshn/puppet-gitlab)
+
 ## Module Description
 
 The module installs the Gitlab package from the provided repositories and creates the configuration file

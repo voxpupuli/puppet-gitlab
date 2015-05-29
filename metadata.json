@@ -5,7 +5,7 @@
   "summary": "Installation and configuration of Gitlab Omnibus",
   "license": "BSD-3-Clause",
   "source": "https://github.com/vshn/puppet-gitlab",
-  "project_page": "https://github.com/vshn/puppet-identity",
+  "project_page": "https://github.com/vshn/puppet-gitlab",
   "issues_url": "https://github.com/vshn/puppet-gitlab/issues",
   "dependencies": [
     {

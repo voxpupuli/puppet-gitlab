@@ -30,7 +30,7 @@ class gitlab::install {
       'redhat': {
         yumrepo { 'gitlab_official':
           descr         => 'Official repository for Gitlab',
-          baseurl       => "https://packages.gitlab.com/gitlab/gitlab-${edition}/el/5/\$basearch",
+          baseurl       => "https://packages.gitlab.com/gitlab/gitlab-${edition}/el/\$releasever/\$basearch",
           enabled       => 1,
           gpgcheck      => 0,
           gpgkey        => 'https://packages.gitlab.com/gpg.key',

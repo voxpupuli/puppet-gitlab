@@ -1,6 +1,6 @@
 {
   "name": "vshn-gitlab",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "author": "vshn",
   "summary": "Installation and configuration of Gitlab Omnibus",
   "license": "BSD-3-Clause",

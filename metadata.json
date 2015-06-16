@@ -1,5 +1,5 @@
 {
-  "name": "vshnops-gitlab",
+  "name": "vshn-gitlab",
   "version": "1.0.3",
   "author": "vshn",
   "summary": "Installation and configuration of Gitlab Omnibus",

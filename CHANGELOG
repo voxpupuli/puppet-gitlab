@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v1.0.3 [2015-06-16]
+* Module is now located under the "vshn" namespace on forge. "vshnops" is
+  being deprecated!
+
 ## v1.0.2 [2015-05-29]
 
 * Correct URL to project page

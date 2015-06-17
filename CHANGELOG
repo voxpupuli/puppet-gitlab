@@ -1,10 +1,13 @@
 # CHANGELOG
 
 ## v1.1.0 [2015-06-17]
+
 * Support for RHEL 7
-* Travis not also testing against Puppet 4
+* Travis testing against Puppet 4
+* Initial support for Puppet 4 (Tested on Travis)
 
 ## v1.0.3 [2015-06-16]
+
 * Module is now located under the "vshn" namespace on forge. "vshnops" is
   being deprecated!
 

@@ -100,10 +100,6 @@
 #   Default: undef
 #   Hash of 'postgresql' config parameters.
 #
-# [*rails*]
-#   Default: undef
-#   Hash of 'gitlab_rails' config parameters.
-#
 # [*redis*]
 #   Default: undef
 #   Hash of 'redis' config parameters.
@@ -174,7 +170,6 @@ class gitlab (
   $logrotate           = undef,
   $nginx               = undef,
   $postgresql          = undef,
-  $rails               = undef,
   $redis               = undef,
   $shell               = undef,
   $sidekiq             = undef,
@@ -214,7 +209,6 @@ class gitlab (
   if $logrotate { validate_hash($logrotate) }
   if $nginx { validate_hash($nginx) }
   if $postgresql { validate_hash($postgresql) }
-  if $rails { validate_hash($rails) }
   if $redis { validate_hash($redis) }
   if $shell { validate_hash($shell) }
   if $sidekiq { validate_hash($sidekiq) }

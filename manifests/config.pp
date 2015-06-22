@@ -21,7 +21,6 @@ class gitlab::config {
   $logrotate         = $::gitlab::logrotate
   $nginx             = $::gitlab::nginx
   $postgresql        = $::gitlab::postgresql
-  $rails             = $::gitlab::rails
   $redis             = $::gitlab::redis
   $shell             = $::gitlab::shell
   $sidekiq           = $::gitlab::sidekiq

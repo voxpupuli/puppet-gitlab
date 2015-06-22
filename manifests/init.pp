@@ -128,6 +128,10 @@
 #   Default: undef
 #   Hash of 'web_server' config parameters.
 #
+# [*high_availability*]
+#   Default: undef
+#   Hash of 'high_availability' config parameters.
+#
 # === Examples
 #
 #  class { 'gitlab':
@@ -181,6 +185,7 @@ class gitlab (
   $unicorn             = undef,
   $user                = undef,
   $web_server          = undef,
+  $high_availability   = undef,
 ) inherits ::gitlab::params {
 
   # package installation handling
@@ -221,6 +226,7 @@ class gitlab (
   if $unicorn { validate_hash($unicorn) }
   if $user { validate_hash($user) }
   if $web_server { validate_hash($web_server) }
+  if $high_availability { validate_hash($high_availability) }
 
   class { '::gitlab::install': } ->
   class { '::gitlab::config': } ~>

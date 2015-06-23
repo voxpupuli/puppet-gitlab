@@ -25,13 +25,13 @@ external_url '<%= @external_url %>'
 ## If you want to use a single non-default directory to store git data use:
 git_data_dir "<%= git_data_dir %>"
 <%- end -%>
-<%- if @rails -%>
+<%- if @gitlab_rails -%>
 
 ############################
 # gitlab.yml configuration #
 ############################
 
-<%- @rails.each do |k,v| -%>
+<%- @gitlab_rails.each do |k,v| -%>
 gitlab_rails['<%= k -%>'] = <%= decorate(v) %>
 <%- end end -%>
 <%- if @user -%>

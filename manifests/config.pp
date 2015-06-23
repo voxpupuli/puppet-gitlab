@@ -28,6 +28,7 @@ class gitlab::config {
   $unicorn           = $::gitlab::unicorn
   $user              = $::gitlab::user
   $web_server        = $::gitlab::web_server
+  $high_availability = $::gitlab::high_availability
 
   # replicate $nginx to $ci_nginx if $ci_nginx_eq_nginx true
   if $ci_nginx_eq_nginx {

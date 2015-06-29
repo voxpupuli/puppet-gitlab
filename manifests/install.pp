@@ -13,6 +13,7 @@ class gitlab::install {
   if $manage_package_repo {
     case $::osfamily {
       'debian': {
+        Exec['apt_update'] -> Package[$package_name]
         apt::source { 'gitlab_official':
           comment     => 'Official repository for Gitlab',
           location    => "https://packages.gitlab.com/gitlab/gitlab-${edition}/ubuntu/",

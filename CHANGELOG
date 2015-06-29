@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## v1.2.1 [2015-06-29]
+
+* Explicit resource ordering to have apt_update executed
+  before package installation
+
+## v1.2.0 [2015-06-23]
+
+* removed `rails` parameter because it was a duplicate
+  of `gitlab_rails`. Thanks to @tdb
+* Add high_availability config section. Thanks to @tdb
+
 ## v1.1.0 [2015-06-17]
 
 * Support for RHEL 7

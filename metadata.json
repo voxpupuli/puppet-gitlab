@@ -7,6 +7,7 @@
   "source": "https://github.com/vshn/puppet-gitlab",
   "project_page": "https://github.com/vshn/puppet-gitlab",
   "issues_url": "https://github.com/vshn/puppet-gitlab/issues",
+  "tags": ["git", "gitlab"],
   "dependencies": [
     {
       "name": "puppetlabs/stdlib",

@@ -21,6 +21,14 @@ class gitlab::params {
       $service_enable = true
     }
   }
+
+  $service_restart    = '/usr/bin/gitlab-ctl restart'
+  $service_start      = '/usr/bin/gitlab-ctl start'
+  $service_stop       = '/usr/bin/gitlab-ctl stop'
+  $service_status     = '/usr/bin/gitlab-ctl status'
+  $service_hasstatus  = true
+  $service_hasrestart = true
+
   $service_ensure = running
   $service_manage = true
   $service_name = 'gitlab-runsvdir'

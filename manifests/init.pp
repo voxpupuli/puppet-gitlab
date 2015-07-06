@@ -155,6 +155,12 @@ class gitlab (
   $service_enable      = $::gitlab::params::service_enable,
   $service_ensure      = $::gitlab::params::service_ensure,
   $service_manage      = $::gitlab::params::service_manage,
+  $service_restart     = $::gitlab::params::service_restart,
+  $service_start       = $::gitlab::params::service_start,
+  $service_stop        = $::gitlab::params::service_stop,
+  $service_status      = $::gitlab::params::service_status,
+  $service_hasstatus   = $::gitlab::params::service_hasstatus,
+  $service_hasrestart  = $::gitlab::params::service_hasrestart,
   $service_user        = $::gitlab::params::service_user,
   $service_group       = $::gitlab::params::service_group,
   # gitlab specific

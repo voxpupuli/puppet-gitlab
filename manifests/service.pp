@@ -5,36 +5,16 @@
 #
 class gitlab::service {
 
-  $service_manage = $::gitlab::service_manage
-  $service_name   = $::gitlab::service_name
-  $service_ensure = $::gitlab::service_ensure
-  $service_enable = $::gitlab::service_enable
-
-  if $service_manage {
-    case $::osfamily {
-      'debian': {
-        # TODO: decide if this makes sense
-        service { $service_name:
-          ensure     => $service_ensure,
-          enable     => $service_enable,
-          provider   => 'upstart',
-          restart    => '/usr/bin/gitlab-ctl restart',
-          start      => '/usr/bin/gitlab-ctl start',
-          stop       => '/usr/bin/gitlab-ctl stop',
-          status     => '/usr/bin/gitlab-ctl status',
-          hasstatus  => true,
-          hasrestart => true,
-        }
-      }
-      'redhat': {
-        service { $service_name:
-          ensure     => $service_ensure,
-          enable     => $service_enable,
-        }
-      }
-      default: {
-        fail("OS family ${::osfamily} not supported")
-      }
+  if $::gitlab::service_manage {
+    service { $::gitlab::service_name:
+      ensure     => $::gitlab::service_ensure,
+      enable     => $::gitlab::service_enable,
+      restart    => $::gitlab::service_restart,
+      start      => $::gitlab::service_start,
+      stop       => $::gitlab::service_stop,
+      status     => $::gitlab::service_status,
+      hasstatus  => $::gitlab::service_hasstatus,
+      hasrestart => $::gitlab::service_hasrestart,
     }
   }
 

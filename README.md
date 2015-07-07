@@ -127,6 +127,10 @@ as all the preparations are there.
 
 Make sure your PR passes the Rspec tests.
 
+## Contributors
+
+Have a look at [Github contributors](https://github.com/vshn/puppet-gitlab/graphs/contributors) to see a list of all the awesome contributors to this Puppet module. <3
+
 ## Why another Gitlab module
 
 There exists a great module from @spuder: https://github.com/spuder/puppet-gitlab

@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v1.2.2 [2015-07-07]
+
+* Sort hash keys when writing gitlab.rb file. Thanks to @jrwesolo
+* Simplify parameter logic and add new parameters
+  for the gitlab service. Thanks to @jrwesolo
+
 ## v1.2.1 [2015-06-29]
 
 * Explicit resource ordering to have apt_update executed

@@ -36,6 +36,14 @@
 #   Default: root
 #   Group of the config file.
 #
+# [*service_restart/_start/_stop/_status*]
+#   Default: /usr/bin/gitlab-ctl <command>
+#   Commands for the service definition.
+#
+# [*service_hasstatus/_hasrestart*]
+#   Default: true
+#   The gitlab service has this commands available.
+#
 # [*edition*]
 #   Default: ce
 #   Gitlab edition to install. ce or ee.

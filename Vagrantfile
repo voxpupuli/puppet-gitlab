@@ -1,4 +1,5 @@
-et ft=ruby :
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
 
 Vagrant.configure("2") do |config|
   # All Vagrant configuration is done here. The most common configuration
@@ -10,7 +11,6 @@ Vagrant.configure("2") do |config|
     vb.customize ["modifyvm", :id, "--cpus", "2"]
     vb.customize ["modifyvm", :id, "--ioapic", "on"] #http://geekbacon.com/2013/02/26/cannot-set-more-than-1-cpu-in-vagrant/
   end
-
 
   config.vm.hostname  ="gitlab-test"
   config.vm.network :private_network, ip: "192.168.33.10"
@@ -26,13 +26,13 @@ Vagrant.configure("2") do |config|
     centosbox.vm.box = "centos-6_5-x64-virtualbox_4_3-plain"
     centosbox.vm.box_url = "http://puppet-vagrant-boxes.puppetlabs.com/centos-65-x64-virtualbox-puppet.box"
   end
-  
+
   # Ubuntu 12.04
   config.vm.define "ubuntu", autostart: false do |ubuntubox|
     ubuntubox.vm.box = "ubuntu-12_04-x64-virtualbox_4_2_10-plain"
     ubuntubox.vm.box_url = "http://puppet-vagrant-boxes.puppetlabs.com/ubuntu-server-12042-x64-vbox4210.box"
   end
-  
+
   # Sles 11 SP1
   config.vm.define "sles", autostart: false do |slesbox|
     slesbox.vm.box = "sles-11_sp1-x64-virtualbox_4_2_10-plain"
@@ -50,5 +50,5 @@ Vagrant.configure("2") do |config|
     oraclelinuxbox.vm.box = "oraclelinux-6_5-x64-virtualbox_4_3-plain"
     oraclelinuxbox.vm.box_url = "https://storage.us2.oraclecloud.com/v1/istoilis-istoilis/vagrant/oel65-64.box"
   end
-  
+
 end

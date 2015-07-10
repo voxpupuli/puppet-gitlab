@@ -14,9 +14,10 @@ class gitlab::install {
     case $::osfamily {
       'debian': {
         Exec['apt_update'] -> Package[$package_name]
+        $_lower_os = downcase($::operatingsystem)
         apt::source { 'gitlab_official':
           comment     => 'Official repository for Gitlab',
-          location    => "https://packages.gitlab.com/gitlab/gitlab-${edition}/ubuntu/",
+          location    => "https://packages.gitlab.com/gitlab/gitlab-${edition}/${_lower_os}/",
           release     => $::lsbdistcodename,
           repos       => 'main',
           key         => '1A4C919DB987D435939638B914219A96E15E78F4',

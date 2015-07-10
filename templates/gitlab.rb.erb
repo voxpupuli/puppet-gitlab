@@ -9,6 +9,9 @@
   elsif v.is_a?(Array)
     vedit = v.map { |s| "\"#{s}\"" }
     return "[#{vedit.join(',')}]"
+  elsif v.is_a?(Hash)
+    vedit = v.map { |k,s| "\"#{k}\" => \"#{s}\"" }
+    return "{#{vedit.join(',')}}"
   else
     return v
   end

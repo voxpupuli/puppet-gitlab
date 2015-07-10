@@ -53,6 +53,15 @@ class gitlab::config {
       refreshonly => true,
       timeout     => 1800,
     }
+
+    unless $postgresql[enable] {
+      exec { 'gitlab_setup':
+        command     => '/usr/bin/gitlab-rake gitlab:setup',
+        refreshonly => true,
+        timeout     => 1800,
+        require     => Exec['gitlab_reconfigure']
+      }
+    }
   }
 
 }

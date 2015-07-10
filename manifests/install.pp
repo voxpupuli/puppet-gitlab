@@ -30,7 +30,11 @@ class gitlab::install {
         }
       }
       'redhat': {
-        $releasever = $::os[release][major]
+        $releasever = "\$releasever"
+        
+        if is_hash($::os) {
+          $releasever = $::os[release][major]
+        }
 
         yumrepo { 'gitlab_official':
           descr         => 'Official repository for Gitlab',

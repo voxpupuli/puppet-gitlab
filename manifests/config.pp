@@ -57,7 +57,7 @@ class gitlab::config {
     if is_hash($postgresql) {
       unless $postgresql[enable] {
         exec { 'gitlab_setup':
-          command     => 'echo yes | /usr/bin/gitlab-rake gitlab:setup',
+          command     => '/bin/echo yes | /usr/bin/gitlab-rake gitlab:setup',
           refreshonly => true,
           timeout     => 1800,
           require     => Exec['gitlab_reconfigure'],

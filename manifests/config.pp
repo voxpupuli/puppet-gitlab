@@ -56,10 +56,15 @@ class gitlab::config {
 
     unless $postgresql[enable] {
       exec { 'gitlab_setup':
-        command     => '/usr/bin/gitlab-rake gitlab:setup',
+        command     => 'echo yes | /usr/bin/gitlab-rake gitlab:setup',
         refreshonly => true,
         timeout     => 1800,
-        require     => Exec['gitlab_reconfigure']
+        require     => Exec['gitlab_reconfigure'],
+        unless      => "/bin/grep complete ${git_data_dir}/postgresql.setup"
+      }
+      ->
+      file { "${git_data_dir}/postgresql.setup":
+        content => 'complete'
       }
     }
   }

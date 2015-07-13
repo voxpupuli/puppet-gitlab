@@ -30,10 +30,10 @@ class gitlab::install {
         }
       }
       'redhat': {
-        $releasever = "\$releasever"
-        
         if is_hash($::os) {
           $releasever = $::os[release][major]
+        } else {
+          $releasever = "\$releasever"
         }
 
         yumrepo { 'gitlab_official':

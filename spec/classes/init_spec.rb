@@ -89,7 +89,7 @@ describe 'gitlab' do
       }}
       it { is_expected.to contain_file('/etc/gitlab/gitlab.rb') \
         .with_content(/^\s*nginx\['enable'\] = true$/)
-        .with_content(/^\s*nginx\['listen_port'\] = '80'$/)
+        .with_content(/^\s*nginx\['listen_port'\] = ('|)80('|)$/)
       }
       describe 'and ci_nginx_eq_nginx = true' do
         let(:params) { {:nginx => {
@@ -100,9 +100,9 @@ describe 'gitlab' do
         }}
         it { is_expected.to contain_file('/etc/gitlab/gitlab.rb') \
           .with_content(/^\s*nginx\['enable'\] = true$/)
-          .with_content(/^\s*nginx\['listen_port'\] = '80'$/)
+          .with_content(/^\s*nginx\['listen_port'\] = ('|)80('|)$/)
           .with_content(/^\s*ci_nginx\['enable'\] = true$/)
-          .with_content(/^\s*ci_nginx\['listen_port'\] = '80'$/)
+          .with_content(/^\s*ci_nginx\['listen_port'\] = ('|)80('|)$/)
         }
       end
     end

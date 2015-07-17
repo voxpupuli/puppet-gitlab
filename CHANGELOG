@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## v1.3.0 [2015-07-17]
+
+* Fixed bug with gitlab.rb.erb template for use with git_data_dir
+* Updated erb template to accomodate for values being hashes
+* Added check for external database
+* Fixes for RedHat Repository URLs
+* More spec tests
+* Bump puppetlabs-apt module version requirement
+
+Thanks to @robbruce for his contributions for this version!
+
 ## v1.2.2 [2015-07-07]
 
 * Sort hash keys when writing gitlab.rb file. Thanks to @jrwesolo

@@ -156,34 +156,35 @@
 #
 class gitlab (
   # package installation handling
-  $package_ensure      = $::gitlab::params::package_ensure,
   $manage_package_repo = $::gitlab::params::manage_package_repo,
+  $package_ensure      = $::gitlab::params::package_ensure,
   # system service configuration
-  $service_name        = $::gitlab::params::service_name,
   $service_enable      = $::gitlab::params::service_enable,
   $service_ensure      = $::gitlab::params::service_ensure,
+  $service_group       = $::gitlab::params::service_group,
+  $service_hasrestart  = $::gitlab::params::service_hasrestart,
+  $service_hasstatus   = $::gitlab::params::service_hasstatus,
   $service_manage      = $::gitlab::params::service_manage,
+  $service_name        = $::gitlab::params::service_name,
   $service_restart     = $::gitlab::params::service_restart,
   $service_start       = $::gitlab::params::service_start,
-  $service_stop        = $::gitlab::params::service_stop,
   $service_status      = $::gitlab::params::service_status,
-  $service_hasstatus   = $::gitlab::params::service_hasstatus,
-  $service_hasrestart  = $::gitlab::params::service_hasrestart,
+  $service_stop        = $::gitlab::params::service_stop,
   $service_user        = $::gitlab::params::service_user,
-  $service_group       = $::gitlab::params::service_group,
   # gitlab specific
   $edition             = 'ce',
-  $config_file         = $::gitlab::params::config_file,
   $ci_external_url     = undef,
-  $ci_nginx_eq_nginx   = false,
   $ci_nginx            = undef,
+  $ci_nginx_eq_nginx   = false,
   $ci_redis            = undef,
   $ci_unicorn          = undef,
+  $config_file         = $::gitlab::params::config_file,
   $external_url        = undef,
   $git                 = undef,
   $git_data_dir        = undef,
   $gitlab_ci           = undef,
   $gitlab_rails        = undef,
+  $high_availability   = undef,
   $logging             = undef,
   $logrotate           = undef,
   $nginx               = undef,
@@ -194,7 +195,6 @@ class gitlab (
   $unicorn             = undef,
   $user                = undef,
   $web_server          = undef,
-  $high_availability   = undef,
 ) inherits ::gitlab::params {
 
   # package installation handling

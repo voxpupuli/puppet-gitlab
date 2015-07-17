@@ -5,29 +5,31 @@
 class gitlab::config {
 
   # get variables from the toplevel manifest for usage in the template
-  $service_manage    = $::gitlab::service_manage
-  $config_file       = $::gitlab::config_file
-  $external_url      = $::gitlab::external_url
   $ci_external_url   = $::gitlab::ci_external_url
   $ci_nginx          = $::gitlab::ci_nginx
   $ci_nginx_eq_nginx = $::gitlab::ci_nginx_eq_nginx
   $ci_redis          = $::gitlab::ci_redis
   $ci_unicorn        = $::gitlab::ci_unicorn
+  $config_file       = $::gitlab::config_file
+  $external_url      = $::gitlab::external_url
   $git               = $::gitlab::git
   $git_data_dir      = $::gitlab::git_data_dir
   $gitlab_ci         = $::gitlab::gitlab_ci
   $gitlab_rails      = $::gitlab::gitlab_rails
+  $high_availability = $::gitlab::high_availability
   $logging           = $::gitlab::logging
   $logrotate         = $::gitlab::logrotate
   $nginx             = $::gitlab::nginx
   $postgresql        = $::gitlab::postgresql
   $redis             = $::gitlab::redis
+  $service_group     = $::gitlab::service_group
+  $service_manage    = $::gitlab::service_manage
+  $service_user      = $::gitlab::service_user
   $shell             = $::gitlab::shell
   $sidekiq           = $::gitlab::sidekiq
   $unicorn           = $::gitlab::unicorn
   $user              = $::gitlab::user
   $web_server        = $::gitlab::web_server
-  $high_availability = $::gitlab::high_availability
 
   # replicate $nginx to $ci_nginx if $ci_nginx_eq_nginx true
   if $ci_nginx_eq_nginx {

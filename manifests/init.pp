@@ -198,10 +198,6 @@ class gitlab (
 ) inherits ::gitlab::params {
 
   # package installation handling
-  validate_string($package_repo_location)
-  validate_string($package_repo_repos)
-  validate_string($package_repo_key)
-  validate_string($package_repo_key_src)
   validate_string($package_name)
   validate_bool($manage_package_repo)
   # system service configuration

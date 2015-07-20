@@ -198,7 +198,6 @@ class gitlab (
 ) inherits ::gitlab::params {
 
   # package installation handling
-  validate_string($package_name)
   validate_bool($manage_package_repo)
   # system service configuration
   validate_string($service_name)

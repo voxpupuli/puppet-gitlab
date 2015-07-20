@@ -52,8 +52,8 @@ It requires only the [puppetlabs-apt](https://forge.puppetlabs.com/puppetlabs/ap
 a Debian based OS and the paramater `manage_package_repo` is not false. Furthermore the `stdlib` module is required.
 
 At least on RedHat based OS versions, it's required that Puppet is configured with
-the [`stringify_facts`](https://docs.puppetlabs.com/references/3.stable/configuration.html#stringifyfacts) set to `false` (Puppet < 4.0), otherwise
-the `$::os` Fact used in `install.pp` doesn't work as expected.
+the [`stringify_facts`](https://docs.puppetlabs.com/references/3.stable/configuration.html#stringifyfacts) setting set to `false` (Puppet < 4.0), otherwise
+the `$::os` fact used in `install.pp` doesn't work as expected.
 
 ### Beginning with Gitlab
 

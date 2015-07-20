@@ -10,8 +10,7 @@
     vedit = v.map { |s| "\"#{s}\"" }
     return "[#{vedit.join(',')}]"
   elsif v.is_a?(Hash)
-    vedit = v.map { |k,s| "\"#{k}\" => \"#{s}\"" }
-    return "{#{vedit.join(',')}}"
+    return v.inspect
   else
     return v
   end

@@ -106,5 +106,40 @@ describe 'gitlab' do
         }
       end
     end
+    describe 'gitlab_rails with hash value' do
+      let(:params) { {:gitlab_rails => {
+        'ldap_enabled' => true,
+        'ldap_servers' => {
+          'main' => {
+            'label' => 'LDAP',
+            'host' => '_your_ldap_server',
+            'port' => 389,
+            'uid' => 'sAMAccountName',
+            'method' => 'plain',
+            'bind_dn' => '_the_full_dn_of_the_user_you_will_bind_with',
+            'password' => '_the_password_of_the_bind_user',
+            'active_directory' => true,
+            'allow_username_or_email_login' => false,
+            'block_auto_created_users' => false,
+            'base' => '',
+            'user_filter' => '',
+          }
+        },
+        'omniauth_providers' => [
+          {
+            'name' => 'google_oauth2',
+            'app_id' => 'YOUR APP ID',
+            'app_secret' => 'YOUR APP SECRET',
+            'args' => { 'access_type' => 'offline', 'approval_prompt' => '' }
+          }
+        ]
+      }}}
+
+      it { is_expected.to contain_file('/etc/gitlab/gitlab.rb') \
+        .with_content(/^\s*gitlab_rails\['ldap_enabled'\] = true$/)
+        .with_content(/^\s*gitlab_rails\['ldap_servers'\] = {"main"=>{"label"=>"LDAP", "host"=>"_your_ldap_server", "port"=>(")?389(")?, "uid"=>"sAMAccountName", "method"=>"plain", "bind_dn"=>"_the_full_dn_of_the_user_you_will_bind_with", "password"=>"_the_password_of_the_bind_user", "active_directory"=>true, "allow_username_or_email_login"=>false, "block_auto_created_users"=>false, "base"=>"", "user_filter"=>""}}$/)
+        .with_content(/^\s*gitlab_rails\['omniauth_providers'\] = \["{"name"=>"google_oauth2", "app_id"=>"YOUR APP ID", "app_secret"=>"YOUR APP SECRET", "args"=>{"access_type"=>"offline", "approval_prompt"=>""}}"\]$/)
+      }
+    end
   end
 end

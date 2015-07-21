@@ -69,7 +69,7 @@ The module also supports Hiera, here comes an example:
 
 ```
 gitlab::external_url: 'http://gitlab.mydomain.tld'
-gitlab::rails:
+gitlab::gitlab_rails:
   time_zone: 'UTC'
   gitlab_email_enabled: false
   gitlab_default_theme: 4

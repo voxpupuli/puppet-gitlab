@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## v1.4.0 [UNRELEASED]
+## v1.4.0 [2015-07-24]
 
 * Added management of Gitlab secrets file `/etc/gitlab/gitlab-secrets.json`
 

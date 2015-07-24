@@ -132,7 +132,10 @@ gitlab::secrets:
     db_key_base: 'asecrettoken123456789012'
 ```
 
-*Hint*: This secret tokens can be generated using Ruby with `SecureRandom.hex(64)`.
+*Hint 1*: This secret tokens can be generated f.e. using Ruby with `SecureRandom.hex(64)`, or
+taken out of an installation without having `secrets` used.   
+*Hint 2*: When using the `gitlab_ci` parameter to specify the `gitlab_server`, then this parameters
+must be added also to the `secrets` hash (Omnibus overrides `gitlab-secrets.json`).
 
 ## Limitations
 

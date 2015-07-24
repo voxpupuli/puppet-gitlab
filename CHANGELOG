@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v1.4.0 [UNRELEASED]
+
+* Added management of Gitlab secrets file `/etc/gitlab/gitlab-secrets.json`
+
 ## v1.3.0 [2015-07-17]
 
 * Fixed bug with gitlab.rb.erb template for use with git_data_dir

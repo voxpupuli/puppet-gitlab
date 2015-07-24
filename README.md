@@ -115,6 +115,25 @@ class { 'gitlab':
 }
 ```
 
+### Gitlab secrets
+
+To manage `/etc/gitlab/gitlab-secrets.json` the parameter `secrets` accepts a hash.
+Here is an example how to use it with Hiera:
+
+```
+gitlab::secrets:
+  gitlab_shell:
+    secret_token: 'asecrettoken1234567890'
+  gitlab_rails:
+    secret_token: 'asecrettoken123456789010'
+  gitlab_ci:
+    secret_token: null
+    secret_key_base: 'asecrettoken123456789011'
+    db_key_base: 'asecrettoken123456789012'
+```
+
+*Hint*: This secret tokens can be generated using Ruby with `SecureRandom.hex(64)`.
+
 ## Limitations
 
 The supported operating systems by Gitlab Omnibus are to be found on the official [download page](https://about.gitlab.com/downloads/).

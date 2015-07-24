@@ -112,6 +112,15 @@
 #   Default: undef
 #   Hash of 'redis' config parameters.
 #
+# [*secrets*]
+#   Default: undef
+#   Hash of values which will be placed into $secrets_file (by default /etc/gitlab/gitlab-secrets.json)
+#   If this parameter is undef, the file won't be managed.
+#
+# [*secrets_file*]
+#   Default: /etc/gitlab/gitlab-secrets.json
+#   Full path to secrets JSON file.
+#
 # [*shell*]
 #   Default: undef
 #   Hash of 'gitlab_shell' config parameters.
@@ -190,6 +199,8 @@ class gitlab (
   $nginx               = undef,
   $postgresql          = undef,
   $redis               = undef,
+  $secrets             = undef,
+  $secrets_file        = $::gitlab::params::secrets_file,
   $shell               = undef,
   $sidekiq             = undef,
   $unicorn             = undef,
@@ -224,6 +235,7 @@ class gitlab (
   if $nginx { validate_hash($nginx) }
   if $postgresql { validate_hash($postgresql) }
   if $redis { validate_hash($redis) }
+  if $secrets { validate_hash($secrets) }
   if $shell { validate_hash($shell) }
   if $sidekiq { validate_hash($sidekiq) }
   if $unicorn { validate_hash($unicorn) }

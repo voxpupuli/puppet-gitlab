@@ -22,6 +22,8 @@ class gitlab::config {
   $nginx             = $::gitlab::nginx
   $postgresql        = $::gitlab::postgresql
   $redis             = $::gitlab::redis
+  $secrets           = $::gitlab::secrets
+  $secrets_file      = $::gitlab::secrets_file
   $service_group     = $::gitlab::service_group
   $service_manage    = $::gitlab::service_manage
   $service_user      = $::gitlab::service_user
@@ -42,13 +44,29 @@ class gitlab::config {
       ensure  => file,
       owner   => $service_user,
       group   => $service_group,
+      mode    => '0600',
       content => template('gitlab/gitlab.rb.erb');
+  }
+
+  if ! empty($secrets) {
+    file { $secrets_file:
+        ensure  => file,
+        owner   => $service_user,
+        group   => $service_group,
+        mode    => '0600',
+        content => inline_template('<%= require \'json\'; JSON.pretty_generate(@secrets) + "\n" %>'),
+    }
   }
 
   if $service_manage {
     # configure gitlab using the official tool
     File[$config_file] {
       notify => Exec['gitlab_reconfigure']
+    }
+    if ! empty($secrets) {
+      File[$secrets_file] {
+        notify => Exec['gitlab_reconfigure']
+      }
     }
     exec { 'gitlab_reconfigure':
       command     => '/usr/bin/gitlab-ctl reconfigure',

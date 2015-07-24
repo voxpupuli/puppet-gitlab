@@ -154,11 +154,3 @@ Make sure your PR passes the Rspec tests.
 
 Have a look at [Github contributors](https://github.com/vshn/puppet-gitlab/graphs/contributors) to see a list of all the awesome contributors to this Puppet module. <3
 
-## Why another Gitlab module
-
-There exists a great module from @spuder: https://github.com/spuder/puppet-gitlab
-Many thanks for the great work done there. Gitlab itself is an ever changing piece of software. Lately
-they added the package repository which makes a lot of things easier. This was one reason to rewrite the module.
-The other reason was that the other Gitlab module exposes ALL possible parameters of `gitlab.rb` which makes
-it a pain to maintain. This module makes it much easier by just exposing the sections. So it is hopefully
-much more compatible to upcoming versions of Gitlab.

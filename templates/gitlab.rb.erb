@@ -155,7 +155,7 @@ omnibus_gitconfig['<%= k -%>'] = <%= decorate(@git[k]) %>
 ############################################
 ## see https://gitlab.com/gitlab-org/omnibus-gitlab/tree/629def0a7a26e7c2326566f0758d4a27857b52a3/doc/gitlab-ci/README.md
 
-ci_external_url '<%= ci_external_url %>'
+ci_external_url '<%= @ci_external_url %>'
 <%- end -%>
 <%- if @gitlab_ci -%>
 

@@ -137,6 +137,30 @@ taken out of an installation without having `secrets` used.
 *Hint 2*: When using the `gitlab_ci` parameter to specify the `gitlab_server`, then this parameters
 must be added also to the `secrets` hash (Omnibus overrides `gitlab-secrets.json`).
 
+### LDAP configuration example
+
+Here is an example how to configure LDAP using Hiera:
+
+```
+gitlab::gitlab_rails:
+  ldap_enabled: true
+  ldap_servers:
+    myldapserver:
+      label: 'Company LDAP'
+      host: 'ldap.company.tld'
+      port: 389
+      uid: 'uid'
+      method: 'plain' # "tls" or "ssl" or "plain"
+      bind_dn: 'MYBINDDN'
+      password: 'MYBINDPW'
+      active_directory: false
+      allow_username_or_email_login: false
+      block_auto_created_users: false
+      base: 'MYBASEDN'
+      group_base: 'MYGROUPBASE'
+      user_filter: ''
+```
+
 ## Limitations
 
 The supported operating systems by Gitlab Omnibus are to be found on the official [download page](https://about.gitlab.com/downloads/).

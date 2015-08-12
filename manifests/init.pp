@@ -247,8 +247,8 @@ class gitlab (
   class { '::gitlab::config': } ~>
   class { '::gitlab::service': }
 
-  contain ::gitlab::install
-  contain ::gitlab::config
-  contain ::gitlab::service
+  contain gitlab::install
+  contain gitlab::config
+  contain gitlab::service
 
 }

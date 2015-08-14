@@ -72,6 +72,8 @@ class gitlab::config {
       command     => '/usr/bin/gitlab-ctl reconfigure',
       refreshonly => true,
       timeout     => 1800,
+      logoutput   => true,
+      tries       => 5,
     }
 
     if is_hash($postgresql) {

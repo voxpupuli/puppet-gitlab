@@ -104,6 +104,18 @@
 #   Default: undef
 #   Hash of 'logrotate' config parameters.
 #
+# [*mattermost_external_url*]
+#   Default: undef
+#   External URL of Mattermost.
+#
+# [*mattermost*]
+#   Default: undef
+#   Hash of 'mattmost' config parameters.
+#
+# [*mattermost_nginx*]
+#   Default: undef
+#   Hash of 'mattmost_nginx' config parameters.
+#
 # [*nginx*]
 #   Default: undef
 #   Hash of 'nginx' config parameters.
@@ -185,32 +197,35 @@ class gitlab (
   $service_stop        = $::gitlab::params::service_stop,
   $service_user        = $::gitlab::params::service_user,
   # gitlab specific
-  $edition                = 'ce',
-  $ci_external_url        = undef,
-  $ci_nginx               = undef,
-  $ci_nginx_eq_nginx      = false,
-  $ci_redis               = undef,
-  $ci_unicorn             = undef,
-  $config_file            = $::gitlab::params::config_file,
-  $external_url           = undef,
-  $git                    = undef,
-  $git_data_dir           = undef,
-  $gitlab_git_http_server = undef,
-  $gitlab_ci              = undef,
-  $gitlab_rails           = undef,
-  $high_availability      = undef,
-  $logging                = undef,
-  $logrotate              = undef,
-  $nginx                  = undef,
-  $postgresql             = undef,
-  $redis                  = undef,
-  $secrets                = undef,
-  $secrets_file           = $::gitlab::params::secrets_file,
-  $shell                  = undef,
-  $sidekiq                = undef,
-  $unicorn                = undef,
-  $user                   = undef,
-  $web_server             = undef,
+  $edition                 = 'ce',
+  $ci_external_url         = undef,
+  $ci_nginx                = undef,
+  $ci_nginx_eq_nginx       = false,
+  $ci_redis                = undef,
+  $ci_unicorn              = undef,
+  $config_file             = $::gitlab::params::config_file,
+  $external_url            = undef,
+  $git                     = undef,
+  $git_data_dir            = undef,
+  $gitlab_git_http_server  = undef,
+  $gitlab_ci               = undef,
+  $gitlab_rails            = undef,
+  $high_availability       = undef,
+  $logging                 = undef,
+  $logrotate               = undef,
+  $mattermost              = undef,
+  $mattermost_external_url = undef,
+  $mattermost_nginx        = undef,
+  $nginx                   = undef,
+  $postgresql              = undef,
+  $redis                   = undef,
+  $secrets                 = undef,
+  $secrets_file            = $::gitlab::params::secrets_file,
+  $shell                   = undef,
+  $sidekiq                 = undef,
+  $unicorn                 = undef,
+  $user                    = undef,
+  $web_server              = undef,
 ) inherits ::gitlab::params {
 
   # package installation handling
@@ -233,11 +248,15 @@ class gitlab (
   validate_string($external_url)
   if $git  { validate_hash($git) }
   if $git_data_dir { validate_absolute_path($git_data_dir) }
+  if $gitlab_git_http_server { validate_hash($gitlab_git_http_server) }
   if $gitlab_ci { validate_hash($gitlab_ci) }
   if $gitlab_rails { validate_hash($gitlab_rails) }
   if $logging { validate_hash($logging) }
   if $logrotate { validate_hash($logrotate) }
   if $nginx { validate_hash($nginx) }
+  if $mattermost { validate_hash($mattermost) }
+  if $mattermost_external_url { validate_string($mattermost_external_url) }
+  if $mattermost_nginx { validate_hash($mattermost_nginx) }
   if $postgresql { validate_hash($postgresql) }
   if $redis { validate_hash($redis) }
   if $secrets { validate_hash($secrets) }

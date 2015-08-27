@@ -218,3 +218,32 @@ ci_nginx['<%= k -%>'] = <%= decorate(@_real_ci_nginx[k]) %>
 <%- @high_availability.keys.sort.each do |k| -%>
 high_availability['<%= k -%>'] = <%= decorate(@high_availability[k]) %>
 <%- end end -%>
+<%- if @mattermost_external_url -%>
+
+#############################################
+# Url on which Mattermost will be reachable #
+#############################################
+## see http://doc.gitlab.com/omnibus/gitlab-mattermost/
+
+mattermost_external_url '<%= @mattermost_external_url %>'
+<%- end -%>
+<%- if @mattermost -%>
+
+#####################
+# GitLab Mattermost #
+#####################
+## see: http://doc.gitlab.com/omnibus/gitlab-mattermost/
+
+<%- @mattermost.keys.sort.each do |k| -%>
+mattermost['<%= k -%>'] = <%= decorate(@mattermost[k]) %>
+<%- end end -%>
+<%- if @mattermost_nginx -%>
+
+#####################
+# Mattermost NGINX  #
+#####################
+## see: http://doc.gitlab.com/omnibus/gitlab-mattermost/
+
+<%- @mattermost_nginx.keys.sort.each do |k| -%>
+mattermost_nginx['<%= k -%>'] = <%= decorate(@mattermost_nginx[k]) %>
+<%- end end -%>

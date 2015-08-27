@@ -168,5 +168,21 @@ describe 'gitlab' do
         .with_content(/^\s*gitlab_git_http_server\['enable'\] = true$/)
       }
     end
+    describe 'mattermost external URL' do
+      let(:params) {{:mattermost_external_url => 'https://mattermost.myserver.tld' }}
+
+      it { is_expected.to contain_file('/etc/gitlab/gitlab.rb') \
+        .with_content(/^\s*mattermost_external_url 'https:\/\/mattermost\.myserver\.tld'$/)
+      }
+    end
+    describe 'mattermost with hash value' do
+      let(:params) {{:mattermost => {
+        'enable' => true,
+      }}}
+
+      it { is_expected.to contain_file('/etc/gitlab/gitlab.rb') \
+        .with_content(/^\s*mattermost\['enable'\] = true$/)
+      }
+    end
   end
 end

@@ -4,6 +4,7 @@
 
 * Support for new features introduced in 7.14:
   * `gitlab_git_http_server` parameter
+  * `mattermost_external_url`, `mattermost` and `mattermost_nginx` parameter
 
 ## v1.4.0 [2015-07-24]
 

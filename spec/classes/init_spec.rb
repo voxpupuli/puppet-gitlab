@@ -159,5 +159,14 @@ describe 'gitlab' do
         .with_content(/^\s*gitlab_rails\['omniauth_providers'\] = \["{"name"=>"google_oauth2", "app_id"=>"YOUR APP ID", "app_secret"=>"YOUR APP SECRET", "args"=>{"access_type"=>"offline", "approval_prompt"=>""}}"\]$/)
       }
     end
+    describe 'gitlab_git_http_server with hash value' do
+      let(:params) {{:gitlab_git_http_server => {
+        'enable' => true,
+      }}}
+
+      it { is_expected.to contain_file('/etc/gitlab/gitlab.rb') \
+        .with_content(/^\s*gitlab_git_http_server\['enable'\] = true$/)
+      }
+    end
   end
 end

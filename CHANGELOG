@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## v1.5.0 [UNRELEASED]
+
+* Support for new features introduced in 7.14:
+  * `gitlab_git_http_server` parameter
+
 ## v1.4.0 [2015-07-24]
 
 * Added management of Gitlab secrets file `/etc/gitlab/gitlab-secrets.json`

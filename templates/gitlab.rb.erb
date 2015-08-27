@@ -105,6 +105,16 @@ redis['<%= k -%>'] = <%= decorate(@redis[k]) %>
 <%- @web_server.keys.sort.each do |k| -%>
 web_server['<%= k -%>'] = <%= decorate(@web_server[k]) %>
 <%- end end -%>
+<%- if @gitlab_git_http_server -%>
+
+##########################
+# GitLab Git HTTP server #
+##########################
+## see: https://about.gitlab.com/2015/08/22/gitlab-7-14-released/
+
+<%- @gitlab_git_http_server.keys.sort.each do |k| -%>
+gitlab_git_http_server['<%= k -%>'] = <%= decorate(@gitlab_git_http_server[k]) %>
+<%- end end -%>
 <%- if @nginx -%>
 
 ################

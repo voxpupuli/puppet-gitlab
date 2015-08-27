@@ -84,6 +84,10 @@
 #   Default: undef
 #   Git data dir
 #
+# [*gitlab_git_http_server*]
+#   Default: undef
+#   Hash of 'gitlab_git_http_server' config parameters.
+#
 # [*gitlab_ci*]
 #   Default: undef
 #   Hash of 'gitlab_ci' config parameters.
@@ -181,31 +185,32 @@ class gitlab (
   $service_stop        = $::gitlab::params::service_stop,
   $service_user        = $::gitlab::params::service_user,
   # gitlab specific
-  $edition             = 'ce',
-  $ci_external_url     = undef,
-  $ci_nginx            = undef,
-  $ci_nginx_eq_nginx   = false,
-  $ci_redis            = undef,
-  $ci_unicorn          = undef,
-  $config_file         = $::gitlab::params::config_file,
-  $external_url        = undef,
-  $git                 = undef,
-  $git_data_dir        = undef,
-  $gitlab_ci           = undef,
-  $gitlab_rails        = undef,
-  $high_availability   = undef,
-  $logging             = undef,
-  $logrotate           = undef,
-  $nginx               = undef,
-  $postgresql          = undef,
-  $redis               = undef,
-  $secrets             = undef,
-  $secrets_file        = $::gitlab::params::secrets_file,
-  $shell               = undef,
-  $sidekiq             = undef,
-  $unicorn             = undef,
-  $user                = undef,
-  $web_server          = undef,
+  $edition                = 'ce',
+  $ci_external_url        = undef,
+  $ci_nginx               = undef,
+  $ci_nginx_eq_nginx      = false,
+  $ci_redis               = undef,
+  $ci_unicorn             = undef,
+  $config_file            = $::gitlab::params::config_file,
+  $external_url           = undef,
+  $git                    = undef,
+  $git_data_dir           = undef,
+  $gitlab_git_http_server = undef,
+  $gitlab_ci              = undef,
+  $gitlab_rails           = undef,
+  $high_availability      = undef,
+  $logging                = undef,
+  $logrotate              = undef,
+  $nginx                  = undef,
+  $postgresql             = undef,
+  $redis                  = undef,
+  $secrets                = undef,
+  $secrets_file           = $::gitlab::params::secrets_file,
+  $shell                  = undef,
+  $sidekiq                = undef,
+  $unicorn                = undef,
+  $user                   = undef,
+  $web_server             = undef,
 ) inherits ::gitlab::params {
 
   # package installation handling

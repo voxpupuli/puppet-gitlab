@@ -6,3 +6,7 @@ spec/fixtures
 .bundle
 vendor
 Gemfile.lock
+
+# ignore Intellij project files
+/*.iml
+.idea

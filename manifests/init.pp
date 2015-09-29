@@ -20,6 +20,12 @@
 #   Default: true
 #   Run the system service on boot.
 #
+# [*service_exec*]
+#   Default: '/usr/bin/gitlab-ctl'
+#   The service executable path.
+#   Provide this variable value only if the service executable path
+#   would be a subject of change in future GitLab versions for any reason.
+#
 # [*service_ensure*]
 #   Default: running
 #   Should Puppet start the service?
@@ -191,6 +197,7 @@ class gitlab (
   $service_hasstatus   = $::gitlab::params::service_hasstatus,
   $service_manage      = $::gitlab::params::service_manage,
   $service_name        = $::gitlab::params::service_name,
+  $service_exec        = $::gitlab::params::service_exec,
   $service_restart     = $::gitlab::params::service_restart,
   $service_start       = $::gitlab::params::service_start,
   $service_status      = $::gitlab::params::service_status,

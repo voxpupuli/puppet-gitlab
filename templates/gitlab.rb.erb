@@ -2,21 +2,21 @@
 # for all possible paramters, see:
 # https://gitlab.com/gitlab-org/omnibus-gitlab/blob/master/files/gitlab-config-template/gitlab.rb.template
 <%- def decorate(v)
-	if v =~ /\AYAML/
-		return v
-	elsif v.is_a?(String)
-		return "'#{v}'"
-	elsif v.is_a?(Array)
-		temp = []
-		v.each { |elem|
-			temp.push(decorate(elem))
-		}
-		return "[#{temp.join(',')}]"
-	elsif v.is_a?(Hash)
-		return v.inspect
-	else
-		return v
-	end
+    if v =~ /\AYAML/
+        return v
+    elsif v.is_a?(String)
+        return "'#{v}'"
+    elsif v.is_a?(Array)
+        temp = []
+        v.each { |elem|
+            temp.push(decorate(elem))
+        }
+        return "[#{temp.join(',')}]"
+    elsif v.is_a?(Hash)
+        return v.inspect
+    else
+        return v
+    end
 end -%>
 
 ## Url on which GitLab will be reachable.

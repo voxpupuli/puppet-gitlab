@@ -13,17 +13,22 @@ class gitlab::install {
   if $manage_package_repo {
     case $::osfamily {
       'debian': {
+        include apt
         Exec['apt_update'] -> Package[$package_name]
         $_lower_os = downcase($::operatingsystem)
         apt::source { 'gitlab_official':
-          comment     => 'Official repository for Gitlab',
-          location    => "https://packages.gitlab.com/gitlab/gitlab-${edition}/${_lower_os}/",
-          release     => $::lsbdistcodename,
-          repos       => 'main',
-          key         => '1A4C919DB987D435939638B914219A96E15E78F4',
-          key_source  => 'https://packages.gitlab.com/gpg.key',
-          include_src => true,
-          include_deb => true,
+          comment  => 'Official repository for Gitlab',
+          location => "https://packages.gitlab.com/gitlab/gitlab-${edition}/${_lower_os}/",
+          release  => $::lsbdistcodename,
+          repos    => 'main',
+          key      => {
+            id     => '1A4C919DB987D435939638B914219A96E15E78F4',
+            source => 'https://packages.gitlab.com/gpg.key',
+          },
+          include  => {
+            src    => true,
+            deb    => true,
+          },
         } ->
         package { $package_name:
           ensure => $package_ensure,

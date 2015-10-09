@@ -20,6 +20,7 @@ class gitlab::config {
   $high_availability       = $::gitlab::high_availability
   $logging                 = $::gitlab::logging
   $logrotate               = $::gitlab::logrotate
+  $manage_accounts         = $::gitlab::manage_accounts
   $mattermost              = $::gitlab::mattermost
   $mattermost_external_url = $::gitlab::mattermost_external_url
   $mattermost_nginx        = $::gitlab::mattermost_nginx

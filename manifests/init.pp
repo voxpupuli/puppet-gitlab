@@ -104,6 +104,10 @@
 #   Default: undef
 #   Hash of 'logrotate' config parameters.
 #
+# [*manage_accounts*]
+#   Default: undef
+#   Hash of 'manage_accounts' config parameters.
+#
 # [*mattermost_external_url*]
 #   Default: undef
 #   External URL of Mattermost.
@@ -213,6 +217,7 @@ class gitlab (
   $high_availability       = undef,
   $logging                 = undef,
   $logrotate               = undef,
+  $manage_accounts         = undef,
   $mattermost              = undef,
   $mattermost_external_url = undef,
   $mattermost_nginx        = undef,
@@ -266,6 +271,7 @@ class gitlab (
   if $user { validate_hash($user) }
   if $web_server { validate_hash($web_server) }
   if $high_availability { validate_hash($high_availability) }
+  if $manage_accounts { validate_hash($manage_accounts) }
 
   class { '::gitlab::install': } ->
   class { '::gitlab::config': } ~>

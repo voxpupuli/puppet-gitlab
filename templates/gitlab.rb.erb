@@ -250,3 +250,13 @@ mattermost['<%= k -%>'] = <%= decorate(@mattermost[k]) %>
 <%- @mattermost_nginx.keys.sort.each do |k| -%>
 mattermost_nginx['<%= k -%>'] = <%= decorate(@mattermost_nginx[k]) %>
 <%- end end -%>
+<%- if @manage_accounts -%>
+
+###################
+# Manage Accounts #
+###################
+## see: https://gitlab.com/gitlab-org/omnibus-gitlab/blob/master/doc/settings/configuration.md#disable-user-and-group-account-management
+
+<%- @manage_accounts.keys.sort.each do |k| -%>
+manage_accounts['<%= k -%>'] = <%= decorate(@manage_accounts[k]) %>
+<%- end end -%>

@@ -184,5 +184,11 @@ describe 'gitlab' do
         .with_content(/^\s*mattermost\['enable'\] = true$/)
       }
     end
+    describe 'with manage_package => false' do
+      let(:params) {{:manage_package => false }}
+
+      it { should_not contain_package('gitlab-ce') }
+      it { should_not contain_package('gitlab-ee') }
+    end
   end
 end

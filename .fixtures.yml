@@ -3,6 +3,6 @@ fixtures:
     stdlib: "https://github.com/puppetlabs/puppetlabs-stdlib.git"
     apt:
       repo: "https://github.com/puppetlabs/puppetlabs-apt.git"
-      ref: "2.0.0"
+      ref: "2.2.0"
   symlinks:
     gitlab: "#{source_dir}"

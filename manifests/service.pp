@@ -4,8 +4,11 @@
 # It ensure the service is running.
 #
 class gitlab::service {
-
   if $::gitlab::service_manage {
+    file { "/etc/init.d/$::gitlab::service_name":
+      ensure => 'link',
+      target => $::gitlab::service_exec,
+    } ->
     service { $::gitlab::service_name:
       ensure     => $::gitlab::service_ensure,
       enable     => $::gitlab::service_enable,

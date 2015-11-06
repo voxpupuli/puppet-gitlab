@@ -2,7 +2,14 @@
 
 ## v1.6.0 [2015-11-06]
 
-
+* New parameter:
+  * `mattermost_nginx_eq_nginx`
+  * `package_pin` to Pin package version (package_ensure) on Debian OS
+* Puppet 4 now a first class citizen in Travis testing
+* Decorator improvements (Array). Thanks to @deadratfink
+* Symlink in /etc/init.d/ to gitlab-ctl
+* Allow disabling of omnibus user management. Thanks to @alexsmithhp
+* Update to apt module version > 2 (new dependency). Thanks to @b4ldr
 
 ## v1.5.0 [2015-08-27]
 

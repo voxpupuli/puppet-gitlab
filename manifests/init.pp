@@ -8,6 +8,10 @@
 #   Default: installed
 #   Can be used to choose exact package version to install.
 #
+# [*package_pin*]
+#   Default: false
+#   Create an apt pin for package_ensure version.
+#
 # [*manage_package_repo*]
 #   Default: true
 #   Should the official package repository be managed?
@@ -193,6 +197,7 @@ class gitlab (
   # package installation handling
   $manage_package_repo = $::gitlab::params::manage_package_repo,
   $package_ensure      = $::gitlab::params::package_ensure,
+  $package_pin         = $::gitlab::params::package_pin,
   # system service configuration
   $service_enable      = $::gitlab::params::service_enable,
   $service_ensure      = $::gitlab::params::service_ensure,

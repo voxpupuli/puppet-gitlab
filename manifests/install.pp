@@ -4,10 +4,11 @@
 #
 class gitlab::install {
 
-  $package_ensure      = $::gitlab::package_ensure
-  $manage_package_repo = $::gitlab::manage_package_repo
   $edition             = $::gitlab::edition
+  $manage_package_repo = $::gitlab::manage_package_repo
+  $package_ensure      = $::gitlab::package_ensure
   $package_name        = "gitlab-${edition}"
+  $package_pin         = $::gitlab::package_pin
 
   # only do repo management when on a Debian-like system
   if $manage_package_repo {
@@ -32,6 +33,13 @@ class gitlab::install {
         } ->
         package { $package_name:
           ensure => $package_ensure,
+        }
+        if $package_pin {
+          apt::pin { 'hold-gitlab':
+            packages => $package_name,
+            version  => $package_ensure,
+            priority => 1001,
+          }
         }
       }
       'redhat': {

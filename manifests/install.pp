@@ -6,6 +6,7 @@ class gitlab::install {
 
   $edition             = $::gitlab::edition
   $manage_package_repo = $::gitlab::manage_package_repo
+  $manage_package      = $::gitlab::manage_package
   $package_ensure      = $::gitlab::package_ensure
   $package_name        = "gitlab-${edition}"
   $package_pin         = $::gitlab::package_pin
@@ -15,7 +16,6 @@ class gitlab::install {
     case $::osfamily {
       'debian': {
         include apt
-        Exec['apt_update'] -> Package[$package_name]
         $_lower_os = downcase($::operatingsystem)
         apt::source { 'gitlab_official':
           comment  => 'Official repository for Gitlab',
@@ -30,9 +30,15 @@ class gitlab::install {
             src    => true,
             deb    => true,
           },
-        } ->
-        package { $package_name:
-          ensure => $package_ensure,
+        }
+        if $manage_package { 
+          package { $package_name:
+            ensure => $package_ensure,
+            require => [
+              Exec['apt_update'],
+              Apt::Source['gitlab_official'],
+            ],
+          }
         }
         if $package_pin {
           apt::pin { 'hold-gitlab':
@@ -58,16 +64,20 @@ class gitlab::install {
           repo_gpgcheck => 1,
           sslcacert     => '/etc/pki/tls/certs/ca-bundle.crt',
           sslverify     => 1,
-        } ->
-        package { $package_name:
-          ensure => $package_ensure,
+        }
+
+        if $manage_package {
+          package { $package_name:
+            ensure  => $package_ensure,
+            require => Yumrepo['gitlab_official'],
+          }
         }
       }
       default: {
         fail("OS family ${::osfamily} not supported")
       }
     }
-  } else {
+  } elsif $manage_package  {
     package { $package_name:
       ensure => $package_ensure,
     }

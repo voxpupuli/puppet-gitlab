@@ -9,6 +9,7 @@ class gitlab::params {
   $package_ensure = installed
   $package_pin = false
   $manage_package_repo = true
+  $manage_package = true
 
   # service parameters
   case $::osfamily {

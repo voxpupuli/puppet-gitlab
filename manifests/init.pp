@@ -16,6 +16,10 @@
 #   Default: true
 #   Should the official package repository be managed?
 #
+# [*manage_package*]
+#   Default: true
+#   Should the GitLab package be managed?
+#
 # [*service_name*]
 #   Default: gitlab-runsvdir
 #   Name of the system service.
@@ -200,6 +204,7 @@
 class gitlab (
   # package installation handling
   $manage_package_repo = $::gitlab::params::manage_package_repo,
+  $manage_package = $::gitlab::params::manage_package,
   $package_ensure = $::gitlab::params::package_ensure,
   $package_pin = $::gitlab::params::package_pin,
   # system service configuration
@@ -252,6 +257,7 @@ class gitlab (
 
   # package installation handling
   validate_bool($manage_package_repo)
+  validate_bool($manage_package)
   # system service configuration
   validate_string($service_name)
   validate_bool($service_enable)

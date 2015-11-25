@@ -161,11 +161,40 @@ gitlab::gitlab_rails:
       user_filter: ''
 ```
 
+### Gitlab CI Runner Config
+
+Here is an example how to configure Gitlab CI runners using Hiera:
+
+To use the Gitlab CI runners it is required to have the [garethr/docker](https://forge.puppetlabs.com/garethr/docker) module.
+
+$manage_docker can be set to false if docker is managed externaly.
+
+```
+classes:
+  - gitlab::cirunner
+
+gitlab_ci_runners:
+  test_runner1:{}
+  test_runner2:{}
+  test_runner3:
+    url: "https://git.alternative.org/ci"
+    registration-token: "abcdef1234567890"
+
+gitlab_ci_runners_defaults:
+  url: "https://git.example.com/ci"
+  registration-token: "1234567890abcdef"
+  executor: "docker"
+  docker-image: "ubuntu:trusty"
+
 ## Limitations
 
 The supported operating systems by Gitlab Omnibus are to be found on the official [download page](https://about.gitlab.com/downloads/).
 At the moment the module is not yet tested under RPM based operating systems. But in theory it should work
 as all the preparations are there.
+
+### Gitlab CI Runner Limitations
+
+The Gitlab CI runner installation is at the moment only tested on Ubuntu 14.04.
 
 ## Development
 

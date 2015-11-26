@@ -167,7 +167,7 @@ Here is an example how to configure Gitlab CI runners using Hiera:
 
 To use the Gitlab CI runners it is required to have the [garethr/docker](https://forge.puppetlabs.com/garethr/docker) module.
 
-$manage_docker can be set to false if docker is managed externaly.
+`$manage_docker` can be set to false if docker is managed externaly.
 
 ```
 classes:
@@ -185,6 +185,7 @@ gitlab_ci_runners_defaults:
   registration-token: "1234567890abcdef"
   executor: "docker"
   docker-image: "ubuntu:trusty"
+```
 
 ## Limitations
 

@@ -52,7 +52,7 @@ class gitlab::install {
         if is_hash($::os) {
           $releasever = $::os[release][major]
         } else {
-          $releasever = "\$releasever"
+          $releasever = $::operatingsystemmajrelease 
         }
 
         yumrepo { 'gitlab_official':

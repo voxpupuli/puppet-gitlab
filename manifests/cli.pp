@@ -12,14 +12,14 @@ class gitlab::cli(
   # check if we need to manage dependencies
   if $manage_cli_dependencies {
     $gem_dependencies  = [ Package['rubygems'], Package['ruby-devel'] ]
-    $exec_dependencies = [ Package['curl'], Package['jq'],  ]
+    $exec_dependencies = [ Package['curl'], Package['jq'], ]
   } else {
     $gem_dependencies  = undef
     $exec_dependencies = undef
   }
 
   # set up the gitlab gem to have gitlab cli support
-  package { 'gitlab':
+  package { 'gitlab-cli':
     ensure   => installed,
     provider => 'gem',
     require  => $gem_dependencies,

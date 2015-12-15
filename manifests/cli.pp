@@ -31,10 +31,7 @@ class gitlab::cli(
   # this API call this way it will work in the first puppet run
   exec { 'gitlab-settings':
     command => "/bin/echo export GITLAB_API_PRIVATE_TOKEN=`/bin/curl -s -X POST -d 'password=${gitlab_api_password}&login=${gitlab_api_user}' ${gitlab_api_endpoint}/session | /bin/jq .private_token -r` > ~/.gitlab; /bin/echo export GITLAB_API_ENDPOINT=${gitlab_api_endpoint} >> ~/.gitlab",
-    onlyif  => [
-      "/bin/test -f ~/.gitlab", 
-      "/bin/grep GITLAB_API_PRIVATE_TOKEN ~/.gitlab", 
-      "/bin/grep GITLAB_API_ENDPOINT ~/.gitlab" ],
+    unless  => "/bin/test -f ~/.gitlab && /bin/grep '^export GITLAB_API_PRIVATE_TOKEN.*$' ~/.gitlab 1>/dev/null && /bin/grep '^export GITLAB_API_ENDPOINT.*$' ~/.gitlab 1>/dev/null",
     require => $exec_dependencies,
   }
   

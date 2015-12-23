@@ -27,13 +27,13 @@ class gitlab::install {
             source => 'https://packages.gitlab.com/gpg.key',
           },
           include  => {
-            src    => true,
-            deb    => true,
+            src => true,
+            deb => true,
           },
         }
-        if $manage_package { 
+        if $manage_package {
           package { $package_name:
-            ensure => $package_ensure,
+            ensure  => $package_ensure,
             require => [
               Exec['apt_update'],
               Apt::Source['gitlab_official'],
@@ -52,7 +52,7 @@ class gitlab::install {
         if is_hash($::os) {
           $releasever = $::os[release][major]
         } else {
-          $releasever = $::operatingsystemmajrelease 
+          $releasever = $::operatingsystemmajrelease
         }
 
         yumrepo { 'gitlab_official':

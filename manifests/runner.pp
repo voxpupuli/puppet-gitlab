@@ -39,9 +39,9 @@ define gitlab::runner (
   $_config = merge($_default_config, $config)
 
   # Convert configuration into a string
-  $parameters_array = join_keys_to_values($_config, " ")
-  $parameters_array_dashes = prefix($parameters_array, "--")
-  $parameters_string = join($parameters_array_dashes, " ")
+  $parameters_array = join_keys_to_values($_config, ' ')
+  $parameters_array_dashes = prefix($parameters_array, '--')
+  $parameters_string = join($parameters_array_dashes, ' ')
 
   $runner_name = $_config['name']
   $toml_file = '/etc/gitlab-runner/config.toml'

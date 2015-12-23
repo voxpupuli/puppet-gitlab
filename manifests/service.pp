@@ -5,7 +5,7 @@
 #
 class gitlab::service {
   if $::gitlab::service_manage {
-    file { "/etc/init.d/$::gitlab::service_name":
+    file { "/etc/init.d/${::gitlab::service_name}":
       ensure => 'link',
       target => $::gitlab::service_exec,
     } ->

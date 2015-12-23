@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## v1.7.1 [2015-12-23]
+
+* Fix for stringify_facts setting. Thanks to @jsmithwvnet
+* Service enabled for all distro's. Thanks to @witjoh
+
 ## v1.7.0 [2015-11-25]
 
 * Support for managing Gitlab CI Runner. Thanks to @maetthu-indermuehle

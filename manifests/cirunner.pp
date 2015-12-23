@@ -60,7 +60,7 @@ class gitlab::cirunner (
       release  => $::lsbdistcodename,
       repos    => 'main',
       key      => {
-        'id' => '1A4C919DB987D435939638B914219A96E15E78F4',
+        'id'     => '1A4C919DB987D435939638B914219A96E15E78F4',
         'server' => 'keys.gnupg.net',
       },
       include  => {
@@ -72,7 +72,7 @@ class gitlab::cirunner (
     Exec['apt_update'] -> Package['gitlab-ci-multi-runner']
   }
   package { 'gitlab-ci-multi-runner':
-  	ensure => 'present',
+    ensure => 'present',
   }
 
   $runners_hash = hiera($hiera_runners_key, {})

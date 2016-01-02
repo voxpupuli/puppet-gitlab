@@ -187,6 +187,31 @@ gitlab_ci_runners_defaults:
   docker-image: "ubuntu:trusty"
 ```
 
+### NGINX Configuration
+
+Configuration of the embedded NGINX instance is handled by the `/etc/gitlab/gitlab.rb` file. Details on available configuration options are available at http://doc.gitlab.com/omnibus/settings/nginx.html. Options listed here can be passed in to the `nginx` parameter as a hash. For example, to enable ssh redirection:
+
+```
+class { 'gitlab':
+  external_url => 'https://gitlab.mydomain.tld',
+  nginx        => {
+    redirect_http_to_https => true,
+  },
+}
+```
+
+Similarly, the certificate and key location can be configured as follows:
+
+```
+class { 'gitlab':
+  external_url => 'https://gitlab.mydomain.tld',
+  nginx        => {
+    ssl_certificate     => '/etc/gitlab/ssl/gitlab.example.com.crt',
+    ssl_certificate_key => '/etc/gitlab/ssl/gitlab.example.com.key'
+  },
+}
+```
+
 ## Limitations
 
 The supported operating systems by Gitlab Omnibus are to be found on the official [download page](https://about.gitlab.com/downloads/).

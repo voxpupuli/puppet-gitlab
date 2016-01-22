@@ -60,7 +60,7 @@ describe 'gitlab' do
       :lsbdistid => 'debian',
       :lsbdistcodename => 'jessie',
     }}
-    it { is_expected.to contain_file('/etc/gitlab/gitlab.rb') }
+
     describe 'edition = ce' do
       let(:params) { {:edition => 'ce'} }
       it { is_expected.to contain_package('gitlab-ce').with_ensure('installed') }

@@ -1,7 +1,19 @@
 ## THIS CONFIGURATION IS MANAGED BY PUPPET
 # for all possible paramters, see:
 # https://gitlab.com/gitlab-org/omnibus-gitlab/blob/master/files/gitlab-config-template/gitlab.rb.template
-<%- def decorate(v)
+<%-
+# As this template is writing a config file based on some hashes and hashes are not meant to be in a certain order,
+# We need to ensure that the order of the keys are always outputed in the same order.
+# Otherwise puppet will always update(change) the config file.
+def sort_nested_hash_inspect(h)
+    if h.class.name == 'Hash'
+        "{" + h.sort.map{|key, value| "\"#{key}\"=>#{sort_nested_hash_inspect(value)}"}.join(", ") + "}"
+    else
+        h.inspect
+    end
+end
+
+def decorate(v)
     if v =~ /\AYAML/
         return v
     elsif v.is_a?(String)
@@ -13,7 +25,7 @@
         }
         return "[#{temp.join(',')}]"
     elsif v.is_a?(Hash)
-        return v.inspect
+        return sort_nested_hash_inspect(v)
     else
         return v
     end

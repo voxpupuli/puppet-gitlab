@@ -181,17 +181,15 @@ gitlab::cirunner::concurrent: 4
 gitlab::cirunner::metrics_server: "localhost:8888"
 
 gitlab_ci_runners:
+gitlab::cirunner::default_token: '1234567890abcdef'
+gitlab::cirunner::default_url: https://git.example.com/ci
+gitlab::cirunner::docker_runners:
   test_runner1:{}
   test_runner2:{}
   test_runner3:
     url: "https://git.alternative.org/ci"
-    registration-token: "abcdef1234567890"
-
-gitlab_ci_runners_defaults:
-  url: "https://git.example.com/ci"
-  registration-token: "1234567890abcdef"
-  executor: "docker"
-  docker-image: "ubuntu:trusty"
+    token: "abcdef1234567890"
+gitlab::cirunner::docker::default_image: 'ubuntu_trusty'
 ```
 
 ### NGINX Configuration

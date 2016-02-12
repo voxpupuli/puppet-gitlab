@@ -11,6 +11,8 @@ class gitlab::params {
   $manage_package_repo = true
   $manage_package = true
 
+  $rake_exec = '/usr/bin/gitlab-rake'
+
   $service_exec = '/usr/bin/gitlab-ctl'
   $service_restart = "${service_exec} restart"
   $service_start = "${service_exec} start"

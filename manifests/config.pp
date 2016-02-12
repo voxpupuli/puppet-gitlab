@@ -62,6 +62,7 @@ class gitlab::config {
   $service_group = $::gitlab::service_group
   $service_manage = $::gitlab::service_manage
   $service_user = $::gitlab::service_user
+  $rake_exec = $::gitlab::rake_exec
   $shell = $::gitlab::shell
   $sidekiq = $::gitlab::sidekiq
   $sidekiq_cluster = $::gitlab::sidekiq_cluster
@@ -71,6 +72,15 @@ class gitlab::config {
   $gitlab_workhorse = $::gitlab::gitlab_workhorse
   $user = $::gitlab::user
   $web_server = $::gitlab::web_server
+  $backup_cron_enable = $::gitlab::backup_cron_enable
+  $backup_cron_minute = $::gitlab::backup_cron_minute
+  $backup_cron_hour = $::gitlab::backup_cron_hour
+  if empty($::gitlab::backup_cron_hour) {
+    $backup_cron_skips = ''
+  } else {
+    $_backup_cron_skips = join($::gitlab::backup_cron_skips, ',')
+    $backup_cron_skips = "SKIP:${_backup_cron_skips}"
+  }
 
   # replicate $nginx to $mattermost_nginx if $mattermost_nginx_eq_nginx true
   if $mattermost_nginx_eq_nginx {
@@ -144,7 +154,7 @@ class gitlab::config {
     if is_hash($postgresql) {
       unless $postgresql[enable] {
         exec { 'gitlab_setup':
-          command     => '/bin/echo yes | /usr/bin/gitlab-rake gitlab:setup',
+          command     => "/bin/echo yes | ${rake_exec} gitlab:setup",
           refreshonly => true,
           timeout     => 1800,
           require     => Exec['gitlab_reconfigure'],
@@ -168,6 +178,14 @@ class gitlab::config {
       owner   => 'root',
       group   => 'root',
       mode    => '0644',
+    }
+  }
+
+  if $backup_cron_enable {
+    cron {'gitlab backup':
+      command => "${rake_exec} gitlab:backup:create CRON=1 ${backup_cron_skips}",
+      hour    => $backup_cron_hour,
+      minute  => $backup_cron_minute,
     }
   }
 }

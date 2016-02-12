@@ -253,6 +253,7 @@ class gitlab (
   $unicorn = undef,
   $user = undef,
   $web_server = undef,
+  $custom_hooks = {},
 ) inherits ::gitlab::params {
 
   # package installation handling
@@ -295,6 +296,7 @@ class gitlab (
   if $web_server { validate_hash($web_server) }
   if $high_availability { validate_hash($high_availability) }
   if $manage_accounts { validate_hash($manage_accounts) }
+  validate_hash($custom_hooks)
 
   class { '::gitlab::install': } ->
   class { '::gitlab::config': } ~>
@@ -303,5 +305,7 @@ class gitlab (
   contain gitlab::install
   contain gitlab::config
   contain gitlab::service
+  
+  create_resources(gitlab::custom_hook, $custom_hooks)
 
 }

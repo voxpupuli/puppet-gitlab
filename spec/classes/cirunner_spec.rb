@@ -41,9 +41,21 @@ describe 'gitlab::cirunner' do
             :enabled => false
           }
         },
+        :osfamily => 'RedHat',
+        :operatingsystemmajrelease => '6',
+        :operatingsystemrelease => '6.5',
+        :kernelversion => '2.6.32',
+        :kernelrelease => '2.6.32-573.8.1.el6.x86_64'
       }}
 
-      it { expect { is_expected.to contain_package('gitlab') }.to raise_error(Puppet::Error, /OS family redhat is not supported. Only Debian is suppported./) }
+      it { is_expected.to compile.with_all_deps }
+
+      it { is_expected.to contain_class('docker') }
+      it { is_expected.to contain_class('docker::images') }
+      it { is_expected.to contain_yumrepo('runner_gitlab-ci-multi-runner').with_baseurl('https://packages.gitlab.com/runner/gitlab-ci-multi-runner/el/6/$basearch') }
+
+      it { is_expected.to contain_package('gitlab-ci-multi-runner').with_ensure('present') }
+
     end
   end
 

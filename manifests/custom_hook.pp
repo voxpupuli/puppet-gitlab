@@ -58,16 +58,19 @@
 # Copyright 2014 Spencer Owen, unless otherwise noted.
 #
 define gitlab::custom_hook(
-  $namespace = undef,
-  $project = undef,
-  $type = undef,
-  $content = undef,
-  $source = undef,
-  $repos_path = undef,
+  $namespace      = undef,
+  $project        = undef,
+  $type           = undef,
+  $content        = undef,
+  $source         = undef,
+  $repos_path     = undef,
 ) {
   validate_string($namespace)
   validate_string($project)
   validate_re($type, '^(post-receive|pre-receive|update)$')
+  if $content {
+    validate_string($content)
+  }
 
   if $repos_path {
     $_repos_path = $repos_path

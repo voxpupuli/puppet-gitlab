@@ -6,6 +6,6 @@ fixtures:
       ref: "2.2.0"
     docker:
       repo: "https://github.com/garethr/garethr-docker.git"
-      ref: "4.1.1"
+      ref: "v4.1.1"
   symlinks:
     gitlab: "#{source_dir}"

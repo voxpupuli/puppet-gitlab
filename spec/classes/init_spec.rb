@@ -8,6 +8,7 @@ describe 'gitlab' do
         :osfamily => 'debian',
         :lsbdistid => 'debian',
         :lsbdistcodename => 'jessie',
+        :operatingsystem => 'Debian',
       }}
 
       it { is_expected.to compile.with_all_deps }
@@ -28,6 +29,21 @@ describe 'gitlab' do
       let(:params) {{ }}
       let(:facts) {{
         :osfamily => 'redhat',
+        :operatingsystem => 'CentOS',
+        :os              => {
+          :architecture => "x86_64",
+          :family => "RedHat",
+          :hardware => "x86_64",
+          :name => "CentOS",
+          :release => {
+            :full => "6.7",
+            :major => "6",
+            :minor => "7"
+          },
+          :selinux => {
+            :enabled => false
+          }
+        },
       }}
 
       it { is_expected.to compile.with_all_deps }
@@ -59,6 +75,7 @@ describe 'gitlab' do
       :osfamily => 'debian',
       :lsbdistid => 'debian',
       :lsbdistcodename => 'jessie',
+      :operatingsystem => 'Debian',
     }}
 
     describe 'edition = ce' do

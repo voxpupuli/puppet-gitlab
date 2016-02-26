@@ -281,6 +281,7 @@ class gitlab (
   validate_string($external_url)
   if $git  { validate_hash($git) }
   if $git_data_dir { validate_absolute_path($git_data_dir) }
+  if $gitlab_git_http_server { validate_hash($gitlab_git_http_server) }
   if $gitlab_workhorse { validate_hash($gitlab_workhorse) }
   if $gitlab_ci { validate_hash($gitlab_ci) }
   if $gitlab_rails { validate_hash($gitlab_rails) }

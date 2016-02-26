@@ -140,6 +140,15 @@ gitlab_git_http_server['<%= k -%>'] = <%= decorate(@gitlab_git_http_server[k]) %
 <%- @nginx.keys.sort.each do |k| -%>
 nginx['<%= k -%>'] = <%= decorate(@nginx[k]) %>
 <%- end end -%>
+<%- if @gitlab_workhorse -%>
+
+####################
+# GitLab Workhorse #
+####################
+
+<%- @gitlab_workhorse.keys.sort.each do |k| -%>
+gitlab_workhorse['<%= k -%>'] = <%= decorate(@gitlab_workhorse[k]) %>
+<%- end end -%>
 <%- if @logging -%>
 
 ##################

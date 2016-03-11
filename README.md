@@ -59,7 +59,7 @@ the `$::os` fact used in `install.pp` doesn't work as expected.
 
 Just include the class and specify at least `external_url`.
 
-```
+```puppet
 class { 'gitlab':
   external_url => 'http://gitlab.mydomain.tld',
 }
@@ -67,7 +67,7 @@ class { 'gitlab':
 
 The module also supports Hiera, here comes an example:
 
-```
+```yaml
 gitlab::external_url: 'http://gitlab.mydomain.tld'
 gitlab::gitlab_rails:
   time_zone: 'UTC'
@@ -79,7 +79,8 @@ gitlab::sidekiq:
 ```
 
 If one wants to install Gitlab Enterprise Edition, just define the parameter `edition` with the value `ee`:
-```
+
+```puppet
 class { 'gitlab':
   external_url => 'http://gitlab.mydomain.tld',
   edition      => 'ee',
@@ -102,7 +103,8 @@ some updates.
 All possible parameters for `gitlab.rb` can be found here: [gitlab.rb.template](https://gitlab.com/gitlab-org/omnibus-gitlab/blob/master/files/gitlab-config-template/gitlab.rb.template)
 
 Some examples:
-```
+
+```puppet
 class { 'gitlab':
   external_url => 'http://gitlab.mydomain.tld',
   gitlab_rails => {
@@ -120,7 +122,7 @@ class { 'gitlab':
 To manage `/etc/gitlab/gitlab-secrets.json` the parameter `secrets` accepts a hash.
 Here is an example how to use it with Hiera:
 
-```
+```yaml
 gitlab::secrets:
   gitlab_shell:
     secret_token: 'asecrettoken1234567890'
@@ -141,7 +143,7 @@ must be added also to the `secrets` hash (Omnibus overrides `gitlab-secrets.json
 
 Here is an example how to configure LDAP using Hiera:
 
-```
+```yaml
 gitlab::gitlab_rails:
   ldap_enabled: true
   ldap_servers:
@@ -169,7 +171,7 @@ To use the Gitlab CI runners it is required to have the [garethr/docker](https:/
 
 `$manage_docker` can be set to false if docker is managed externaly.
 
-```
+```yaml
 classes:
   - gitlab::cirunner
 
@@ -191,7 +193,7 @@ gitlab_ci_runners_defaults:
 
 Configuration of the embedded NGINX instance is handled by the `/etc/gitlab/gitlab.rb` file. Details on available configuration options are available at http://doc.gitlab.com/omnibus/settings/nginx.html. Options listed here can be passed in to the `nginx` parameter as a hash. For example, to enable ssh redirection:
 
-```
+```puppet
 class { 'gitlab':
   external_url => 'https://gitlab.mydomain.tld',
   nginx        => {
@@ -202,7 +204,7 @@ class { 'gitlab':
 
 Similarly, the certificate and key location can be configured as follows:
 
-```
+```puppet
 class { 'gitlab':
   external_url => 'https://gitlab.mydomain.tld',
   nginx        => {
@@ -210,6 +212,33 @@ class { 'gitlab':
     ssl_certificate_key => '/etc/gitlab/ssl/gitlab.example.com.key'
   },
 }
+```
+
+### Gitlab Custom Hooks
+
+Manage custom hook files within a GitLab project. Custom hooks can be created
+as a pre-receive, post-receive, or update hook. It's possible to create
+different custom hook types for the same project - one each for pre-receive,
+post-receive and update.
+
+```puppet
+gitlab::custom_hook { 'my_custom_hook':
+  namespace       => 'my_group',
+  project         => 'my_project',
+  type            => 'post-receive',
+  source          => 'puppet:///modules/my_module/post-receive',
+}
+```
+
+or via hiera
+
+```yaml
+gitlab::custom_hooks:
+  my_custom_hook:
+    namespace: my_group
+    project: my_project
+    type: post-receive
+    source: 'puppet:///modules/my_module/post-receive'
 ```
 
 ## Limitations

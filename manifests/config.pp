@@ -36,6 +36,7 @@ class gitlab::config {
   $shell = $::gitlab::shell
   $sidekiq = $::gitlab::sidekiq
   $unicorn = $::gitlab::unicorn
+  $gitlab_workhorse = $::gitlab::gitlab_workhorse
   $user = $::gitlab::user
   $web_server = $::gitlab::web_server
 

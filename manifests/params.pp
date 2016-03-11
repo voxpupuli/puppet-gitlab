@@ -11,8 +11,6 @@ class gitlab::params {
   $manage_package_repo = true
   $manage_package = true
 
-  $service_enable = true
-
   $service_exec = '/usr/bin/gitlab-ctl'
   $service_restart = "${service_exec} restart"
   $service_start = "${service_exec} start"
@@ -26,6 +24,12 @@ class gitlab::params {
   $service_name = 'gitlab-runsvdir'
   $service_user = 'root'
   $service_group = 'root'
+
+  if $::osfamily == 'RedHat' and $::operatingsystemmajrelease == '6' {
+    $service_enable = false
+  } else {
+    $service_enable = true
+  }
 
   # gitlab specific
   $config_file = '/etc/gitlab/gitlab.rb'

@@ -30,6 +30,7 @@ describe 'gitlab' do
       let(:facts) {{
         :osfamily => 'redhat',
         :operatingsystem => 'CentOS',
+        :operatingsystemmajrelease => '6',
         :os              => {
           :architecture => "x86_64",
           :family => "RedHat",

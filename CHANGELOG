@@ -3,7 +3,9 @@
 ## v1.8.0 [2016-03-11]
 
 * Support for Gitlab Workhorse. Thanks to @tunasalat
+* Support for Gitlab Pages
 * Feature to create Custom Hooks. Thanks to @b4ldr
+* Install `apt-transport-https` on Debian like OS
 
 ## v1.7.2 [2016-02-11]
 

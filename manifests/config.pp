@@ -16,6 +16,7 @@ class gitlab::config {
   $git_data_dir = $::gitlab::git_data_dir
   $gitlab_git_http_server = $::gitlab::gitlab_git_http_server
   $gitlab_ci = $::gitlab::gitlab_ci
+  $gitlab_pages = $::gitlab::gitlab_pages
   $gitlab_rails = $::gitlab::gitlab_rails
   $high_availability = $::gitlab::high_availability
   $logging = $::gitlab::logging
@@ -26,6 +27,9 @@ class gitlab::config {
   $mattermost_nginx = $::gitlab::mattermost_nginx
   $mattermost_nginx_eq_nginx = $::gitlab::mattermost_nginx_eq_nginx
   $nginx = $::gitlab::nginx
+  $pages_external_url = $::gitlab::pages_external_url
+  $pages_nginx = $::gitlab::pages_nginx
+  $pages_nginx_eq_nginx = $::gitlab::pages_nginx_eq_nginx
   $postgresql = $::gitlab::postgresql
   $redis = $::gitlab::redis
   $secrets = $::gitlab::secrets
@@ -52,6 +56,13 @@ class gitlab::config {
     $_real_mattermost_nginx = $nginx
   } else {
     $_real_mattermost_nginx = $mattermost_nginx
+  }
+
+  # replicate $nginx to $pages_nginx if $pages_nginx_eq_nginx true
+  if $pages_nginx_eq_nginx {
+    $_real_pages_nginx = $nginx
+  } else {
+    $_real_pages_nginx = $pages_nginx
   }
 
   file { $config_file:

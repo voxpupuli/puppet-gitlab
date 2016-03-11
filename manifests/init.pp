@@ -106,6 +106,10 @@
 #   Default: undef
 #   Hash of 'gitlab_ci' config parameters.
 #
+# [*gitlab_pages*]
+#   Default: undef
+#   Hash of 'gitlab_pages' config parameters.
+#
 # [*gitlab_rails*]
 #   Default: undef
 #   Hash of 'gitlab_rails' config parameters.
@@ -145,6 +149,18 @@
 # [*nginx*]
 #   Default: undef
 #   Hash of 'nginx' config parameters.
+#
+# [*pages_external_url*]
+#   Default: undef
+#   External URL of Gitlab Pages.
+#
+# [*pages_nginx*]
+#   Default: undef
+#   Hash of 'pages_nginx' config parameters.
+#
+# [*pages_nginx_eq_nginx*]
+#   Default: false
+#   Replicate the Pages Nginx config from the Gitlab Nginx config.
 #
 # [*postgresql*]
 #   Default: undef
@@ -238,6 +254,7 @@ class gitlab (
   $git_data_dir = undef,
   $gitlab_git_http_server = undef,
   $gitlab_ci = undef,
+  $gitlab_pages = undef,
   $gitlab_rails = undef,
   $high_availability = undef,
   $logging = undef,
@@ -248,6 +265,9 @@ class gitlab (
   $mattermost_nginx = undef,
   $mattermost_nginx_eq_nginx = false,
   $nginx = undef,
+  $pages_external_url = undef,
+  $pages_nginx = undef,
+  $pages_nginx_eq_nginx = false,
   $postgresql = undef,
   $redis = undef,
   $secrets = undef,
@@ -283,6 +303,7 @@ class gitlab (
   if $git  { validate_hash($git) }
   if $git_data_dir { validate_absolute_path($git_data_dir) }
   if $gitlab_git_http_server { validate_hash($gitlab_git_http_server) }
+  if $gitlab_pages { validate_hash($gitlab_pages) }
   if $gitlab_workhorse { validate_hash($gitlab_workhorse) }
   if $gitlab_ci { validate_hash($gitlab_ci) }
   if $gitlab_rails { validate_hash($gitlab_rails) }
@@ -292,6 +313,9 @@ class gitlab (
   if $mattermost { validate_hash($mattermost) }
   if $mattermost_external_url { validate_string($mattermost_external_url) }
   if $mattermost_nginx { validate_hash($mattermost_nginx) }
+  validate_string($pages_external_url)
+  if $pages_nginx { validate_hash($pages_nginx) }
+  validate_bool($pages_nginx_eq_nginx)
   if $postgresql { validate_hash($postgresql) }
   if $redis { validate_hash($redis) }
   if $secrets { validate_hash($secrets) }
@@ -311,7 +335,7 @@ class gitlab (
   contain gitlab::install
   contain gitlab::config
   contain gitlab::service
-  
+
   create_resources(gitlab::custom_hook, $custom_hooks)
 
 }

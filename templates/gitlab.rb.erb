@@ -271,6 +271,30 @@ mattermost['<%= k -%>'] = <%= decorate(@mattermost[k]) %>
 <%- @_real_mattermost_nginx.keys.sort.each do |k| -%>
 mattermost_nginx['<%= k -%>'] = <%= decorate(@_real_mattermost_nginx[k]) %>
 <%- end end -%>
+<%- if @pages_external_url -%>
+
+####################
+# GitLab Pages
+####################
+
+## Define to enable GitLab Pages
+pages_external_url '<%= @pages_external_url %>'
+<%- end -%>
+<%- if @gitlab_pages -%>
+
+<%- @gitlab_pages.keys.sort.each do |k| -%>
+gitlab_pages['<%= k -%>'] = <%= decorate(@gitlab_pages[k]) %>
+<%- end end -%>
+<%- if @_real_pages_nginx -%>
+
+######################
+# GitLab Pages NGINX #
+######################
+## see: http://doc.gitlab.com/ee/pages/administration.html
+
+<%- @_real_pages_nginx.keys.sort.each do |k| -%>
+pages_nginx['<%= k -%>'] = <%= decorate(@_real_pages_nginx[k]) %>
+<%- end end -%>
 <%- if @manage_accounts -%>
 
 ###################

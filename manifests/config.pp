@@ -17,7 +17,7 @@ class gitlab::config {
   $gitlab_git_http_server = $::gitlab::gitlab_git_http_server
   $gitlab_ci = $::gitlab::gitlab_ci
   $gitlab_pages = $::gitlab::gitlab_pages
-  $gitlab_rails = $::gitlab::gitlab_rails
+  $gitlab_rails = hiera_hash('gitlab::gitlab_rails',$::gitlab::gitlab_rails)
   $high_availability = $::gitlab::high_availability
   $logging = $::gitlab::logging
   $logrotate = $::gitlab::logrotate

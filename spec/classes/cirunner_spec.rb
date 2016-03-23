@@ -58,5 +58,18 @@ describe 'gitlab::cirunner' do
 
     end
   end
+  context 'unsupported operating systems' do
+    describe "gitlab::cirunner class without any parameters on unsupported OS" do
+      let(:params) {{ }}
+      let(:facts) {{
+         :osfamily => 'unsupported_os_family',
+      }}
+      it "should fail" do
+        expect do
+          catalogue
+        end.to raise_error(Puppet::Error, /OS family unsupported_os_family is not supported. Only Debian and Redhat is suppported./)
+      end
+    end
+  end
 
 end

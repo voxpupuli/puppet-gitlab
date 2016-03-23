@@ -36,7 +36,7 @@ class gitlab::cirunner (
   validate_bool($manage_repo)
 
   unless ($::osfamily == 'Debian' or $::osfamily == 'RedHat')  {
-    fail ("OS family ${::osfamily} is not supported. Only Debian is suppported.")
+    fail ("OS family ${::osfamily} is not supported. Only Debian and Redhat is suppported.")
   }
 
   if $manage_docker {

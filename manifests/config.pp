@@ -39,6 +39,7 @@ class gitlab::config {
   $service_user = $::gitlab::service_user
   $shell = $::gitlab::shell
   $sidekiq = $::gitlab::sidekiq
+  $source_config_file = $::gitlab::source_config_file
   $unicorn = $::gitlab::unicorn
   $gitlab_workhorse = $::gitlab::gitlab_workhorse
   $user = $::gitlab::user
@@ -65,12 +66,22 @@ class gitlab::config {
     $_real_pages_nginx = $pages_nginx
   }
 
-  file { $config_file:
+  if $source_config_file != nil{
+    file { $config_file:
+      ensure  => file,
+      owner   => $service_user,
+      group   => $service_group,
+      mode    => '0600',
+      source => $source_config_file;
+    }
+  } else {
+    file { $config_file:
       ensure  => file,
       owner   => $service_user,
       group   => $service_group,
       mode    => '0600',
       content => template('gitlab/gitlab.rb.erb');
+    }
   }
 
   if ! empty($secrets) {

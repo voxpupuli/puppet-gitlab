@@ -19,7 +19,7 @@ describe 'gitlab::cirunner' do
       it { is_expected.to contain_class('docker::images') }
       it { is_expected.to contain_apt__source('apt_gitlabci') }
 
-      it { is_expected.to contain_package('gitlab-ci-multi-runner').with_ensure('present') }
+      it { is_expected.to contain_package('gitlab-ci-multi-runner').with_ensure('installed') }
     end
     describe "gitlab class without any parameters on RedHat (CentOS)" do
       let(:params) {{ }}
@@ -54,7 +54,7 @@ describe 'gitlab::cirunner' do
       it { is_expected.to contain_class('docker::images') }
       it { is_expected.to contain_yumrepo('runner_gitlab-ci-multi-runner').with_baseurl('https://packages.gitlab.com/runner/gitlab-ci-multi-runner/el/6/$basearch') }
 
-      it { is_expected.to contain_package('gitlab-ci-multi-runner').with_ensure('present') }
+      it { is_expected.to contain_package('gitlab-ci-multi-runner').with_ensure('installed') }
 
     end
   end

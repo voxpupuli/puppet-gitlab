@@ -28,6 +28,7 @@ class gitlab::cirunner (
   $hiera_runners_key = 'gitlab_ci_runners',
   $manage_docker = true,
   $manage_repo = true,
+  $package_ensure = installed,
 ) {
 
   validate_string($hiera_default_config_key)
@@ -107,7 +108,7 @@ class gitlab::cirunner (
   }
 
   package { 'gitlab-ci-multi-runner':
-    ensure => 'present',
+    ensure => $package_ensure,
   }
 
   $runners_hash = hiera($hiera_runners_key, {})

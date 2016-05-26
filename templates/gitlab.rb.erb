@@ -51,6 +51,17 @@ git_data_dir "<%= @git_data_dir %>"
 <%- @gitlab_rails.keys.sort.each do |k| -%>
 gitlab_rails['<%= k -%>'] = <%= decorate(@gitlab_rails[k]) %>
 <%- end end -%>
+
+<%- if @registry -%>
+
+############################
+# registry configuration   #
+############################
+
+<%- @registry.keys.sort.each do |k| -%>
+registry['<%= k -%>'] = <%= decorate(@registry[k]) %>
+<%- end end -%>
+
 <%- if @user -%>
 
 ###############

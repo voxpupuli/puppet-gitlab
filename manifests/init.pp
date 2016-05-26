@@ -170,6 +170,10 @@
 #   Default: undef
 #   Hash of 'redis' config parameters.
 #
+# [*registry*]
+#   Default: undef
+#   Hash of 'registry' config parameters.
+#
 # [*secrets*]
 #   Default: undef
 #   Hash of values which will be placed into $secrets_file (by default /etc/gitlab/gitlab-secrets.json)
@@ -270,6 +274,7 @@ class gitlab (
   $pages_nginx_eq_nginx = false,
   $postgresql = undef,
   $redis = undef,
+  $registry = undef,
   $secrets = undef,
   $secrets_file = $::gitlab::params::secrets_file,
   $shell = undef,
@@ -318,6 +323,7 @@ class gitlab (
   validate_bool($pages_nginx_eq_nginx)
   if $postgresql { validate_hash($postgresql) }
   if $redis { validate_hash($redis) }
+  if $registry { validate_hash($registry) }
   if $secrets { validate_hash($secrets) }
   if $shell { validate_hash($shell) }
   if $sidekiq { validate_hash($sidekiq) }

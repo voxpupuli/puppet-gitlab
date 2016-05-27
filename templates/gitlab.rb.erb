@@ -295,6 +295,23 @@ gitlab_pages['<%= k -%>'] = <%= decorate(@gitlab_pages[k]) %>
 <%- @_real_pages_nginx.keys.sort.each do |k| -%>
 pages_nginx['<%= k -%>'] = <%= decorate(@_real_pages_nginx[k]) %>
 <%- end end -%>
+<%- if @registry_external_url -%>
+
+############
+# Registry #
+############
+
+registry_external_url '<%= @registry_external_url %>'
+<%- end -%>
+<%- if @registry_nginx -%>
+
+##################
+# Registry NGINX #
+##################
+
+<%- @registry_nginx.keys.sort.each do |k| -%>
+registry_nginx['<%= k -%>'] = <%= decorate(@registry_nginx[k]) %>
+<%- end end -%>
 <%- if @manage_accounts -%>
 
 ###################

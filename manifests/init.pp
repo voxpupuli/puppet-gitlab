@@ -174,6 +174,10 @@
 #   Default: undef
 #   Hash of 'registry' config parameters.
 #
+# [*registry_external_url*]
+#   Default: undef
+#   Hash of 'registry_external_url' config parameters.
+#
 # [*secrets*]
 #   Default: undef
 #   Hash of values which will be placed into $secrets_file (by default /etc/gitlab/gitlab-secrets.json)
@@ -275,6 +279,7 @@ class gitlab (
   $postgresql = undef,
   $redis = undef,
   $registry = undef,
+  $registry_external_url = undef,
   $secrets = undef,
   $secrets_file = $::gitlab::params::secrets_file,
   $shell = undef,
@@ -324,6 +329,7 @@ class gitlab (
   if $postgresql { validate_hash($postgresql) }
   if $redis { validate_hash($redis) }
   if $registry { validate_hash($registry) }
+  if $registry_external_url { validate_string($registry_external_url) }
   if $secrets { validate_hash($secrets) }
   if $shell { validate_hash($shell) }
   if $sidekiq { validate_hash($sidekiq) }

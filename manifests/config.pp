@@ -32,6 +32,8 @@ class gitlab::config {
   $pages_nginx_eq_nginx = $::gitlab::pages_nginx_eq_nginx
   $postgresql = $::gitlab::postgresql
   $redis = $::gitlab::redis
+  $registry = $::gitlab::registry
+  $registry_external_url = $::gitlab::registry_external_url
   $secrets = $::gitlab::secrets
   $secrets_file = $::gitlab::secrets_file
   $service_group = $::gitlab::service_group

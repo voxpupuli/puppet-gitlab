@@ -176,7 +176,7 @@
 #
 # [*registry_external_url*]
 #   Default: undef
-#   Hash of 'registry_external_url' config parameters.
+#   External URL of Gitlab Registry
 #
 # [*secrets*]
 #   Default: undef
@@ -329,7 +329,7 @@ class gitlab (
   if $postgresql { validate_hash($postgresql) }
   if $redis { validate_hash($redis) }
   if $registry { validate_hash($registry) }
-  if $registry_external_url { validate_string($registry_external_url) }
+  validate_string($registry_external_url)
   if $secrets { validate_hash($secrets) }
   if $shell { validate_hash($shell) }
   if $sidekiq { validate_hash($sidekiq) }

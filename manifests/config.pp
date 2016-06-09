@@ -10,6 +10,7 @@ class gitlab::config {
   $ci_nginx_eq_nginx = $::gitlab::ci_nginx_eq_nginx
   $ci_redis = $::gitlab::ci_redis
   $ci_unicorn = $::gitlab::ci_unicorn
+  $config_manage = $::gitlab::config_manage
   $config_file = $::gitlab::config_file
   $external_url = $::gitlab::external_url
   $git = $::gitlab::git
@@ -67,12 +68,14 @@ class gitlab::config {
     $_real_pages_nginx = $pages_nginx
   }
 
-  file { $config_file:
+  if $config_manage {
+    file { $config_file:
       ensure  => file,
       owner   => $service_user,
       group   => $service_group,
       mode    => '0600',
       content => template('gitlab/gitlab.rb.erb');
+    }
   }
 
   if ! empty($secrets) {

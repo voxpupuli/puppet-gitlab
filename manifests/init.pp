@@ -62,6 +62,10 @@
 #   Default: ce
 #   Gitlab edition to install. ce or ee.
 #
+# [*config_manage*]
+#   Default: true
+#   Should Puppet manage the config?
+#
 # [*config_file*]
 #   Default: /etc/gitlab/gitlab.rb
 #   Path of the Gitlab Omnibus config file.
@@ -256,6 +260,7 @@ class gitlab (
   $ci_nginx_eq_nginx = false,
   $ci_redis = undef,
   $ci_unicorn = undef,
+  $config_manage = $::gitlab::params::config_manage,
   $config_file = $::gitlab::params::config_file,
   $external_url = undef,
   $git = undef,
@@ -303,6 +308,7 @@ class gitlab (
   validate_string($service_group)
   # gitlab specific
   validate_re($edition, [ '^ee$', '^ce$' ])
+  validate_bool($config_manage)
   validate_absolute_path($config_file)
   if $ci_nginx { validate_hash($ci_nginx) }
   validate_bool($ci_nginx_eq_nginx)

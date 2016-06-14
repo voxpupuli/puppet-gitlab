@@ -182,6 +182,10 @@
 #  Default: undef
 #  Hash of 'registry_nginx' config parameters.
 #
+# [*registry_nginx_eq_nginx*]
+#   Default: false
+#   Replicate the registry Nginx config from the Gitlab Nginx config.
+#
 # [*secrets*]
 #   Default: undef
 #   Hash of values which will be placed into $secrets_file (by default /etc/gitlab/gitlab-secrets.json)
@@ -335,6 +339,7 @@ class gitlab (
   if $postgresql { validate_hash($postgresql) }
   if $redis { validate_hash($redis) }
   if $registry_nginx { validate_hash($registry_nginx) }
+  validate_bool($registry_nginx_eq_nginx)
   if $registry_external_url { validate_string($registry_external_url) }
   if $secrets { validate_hash($secrets) }
   if $shell { validate_hash($shell) }

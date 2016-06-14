@@ -34,6 +34,7 @@ class gitlab::config {
   $postgresql = $::gitlab::postgresql
   $redis = $::gitlab::redis
   $registry_nginx = $::gitlab::registry_nginx
+  $registry_nginx_eq_nginx = $::gitlab::registry_nginx_eq_nginx
   $registry_external_url = $::gitlab::registry_external_url
   $secrets = $::gitlab::secrets
   $secrets_file = $::gitlab::secrets_file
@@ -66,6 +67,13 @@ class gitlab::config {
     $_real_pages_nginx = $nginx
   } else {
     $_real_pages_nginx = $pages_nginx
+  }
+
+  # replicate $nginx to $registry_nginx if $registry_nginx_eq_nginx true
+  if $registry_nginx_eq_nginx {
+    $_real_registry_nginx = $nginx
+  } else {
+    $_real_registry_nginx = $registry_nginx
   }
 
   if $config_manage {

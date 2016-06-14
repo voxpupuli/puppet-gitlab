@@ -303,14 +303,14 @@ pages_nginx['<%= k -%>'] = <%= decorate(@_real_pages_nginx[k]) %>
 
 registry_external_url '<%= @registry_external_url %>'
 <%- end -%>
-<%- if @registry_nginx -%>
+<%- if @_real_registry_nginx -%>
 
 ##################
 # Registry NGINX #
 ##################
 
-<%- @registry_nginx.keys.sort.each do |k| -%>
-registry_nginx['<%= k -%>'] = <%= decorate(@registry_nginx[k]) %>
+<%- @_real_registry_nginx.keys.sort.each do |k| -%>
+registry_nginx['<%= k -%>'] = <%= decorate(@_real_registry_nginx[k]) %>
 <%- end end -%>
 <%- if @manage_accounts -%>
 

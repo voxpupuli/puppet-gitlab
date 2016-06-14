@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v1.9.0 [2016-06-14]
+
+* Support for Gitlab integrated Docker registry. Thanks to @llauren
+* Config file management can be deactivated. Thanks to @divansantana
+* Add package_ensure parameter for gitlab-ci-multi-runner package. Thanks to @thlapin
+
 ## v1.8.0 [2016-03-11]
 
 * Support for Gitlab Workhorse. Thanks to @tunasalat

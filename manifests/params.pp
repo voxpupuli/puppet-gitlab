@@ -32,6 +32,7 @@ class gitlab::params {
   }
 
   # gitlab specific
+  $config_manage = true
   $config_file = '/etc/gitlab/gitlab.rb'
   $secrets_file = '/etc/gitlab/gitlab-secrets.json'
   $edition = 'ce'

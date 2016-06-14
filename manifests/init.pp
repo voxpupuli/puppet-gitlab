@@ -289,6 +289,7 @@ class gitlab (
   $redis = undef,
   $registry_external_url = undef,
   $registry_nginx = undef,
+  $registry_nginx_eq_nginx = false,
   $secrets = undef,
   $secrets_file = $::gitlab::params::secrets_file,
   $shell = undef,

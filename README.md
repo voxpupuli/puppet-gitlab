@@ -37,7 +37,7 @@ than 7.11.
 ### What gitlab affects
 
 * Package repository (APT or YUM)
-* Package `gitlab-ce` oder `gitlab-ee` (depending on the chosen edition)
+* Package `gitlab-ce` or `gitlab-ee` (depending on the chosen edition)
 * Configuration file `/etc/gitlab/gitlab.rb`
 * System service `gitlab-runsvdir`
 * Gitlab configuration using `gitlab-ctl reconfigure`

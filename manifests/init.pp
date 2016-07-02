@@ -174,6 +174,10 @@
 #   Default: undef
 #   Hash of 'redis' config parameters.
 #
+# [*registry*]
+#   Default: undef
+#   Hash of 'registry' config parameters.
+#
 # [*registry_external_url*]
 #  Default: undef
 #  External URL of Registry
@@ -287,6 +291,7 @@ class gitlab (
   $pages_nginx_eq_nginx = false,
   $postgresql = undef,
   $redis = undef,
+  $registry = undef,
   $registry_external_url = undef,
   $registry_nginx = undef,
   $registry_nginx_eq_nginx = false,
@@ -339,6 +344,7 @@ class gitlab (
   validate_bool($pages_nginx_eq_nginx)
   if $postgresql { validate_hash($postgresql) }
   if $redis { validate_hash($redis) }
+  if $registry { validate_hash($registry) }
   if $registry_nginx { validate_hash($registry_nginx) }
   validate_bool($registry_nginx_eq_nginx)
   if $registry_external_url { validate_string($registry_external_url) }

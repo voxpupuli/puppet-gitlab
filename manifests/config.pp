@@ -33,6 +33,7 @@ class gitlab::config {
   $pages_nginx_eq_nginx = $::gitlab::pages_nginx_eq_nginx
   $postgresql = $::gitlab::postgresql
   $redis = $::gitlab::redis
+  $registry = $::gitlab::registry
   $registry_nginx = $::gitlab::registry_nginx
   $registry_nginx_eq_nginx = $::gitlab::registry_nginx_eq_nginx
   $registry_external_url = $::gitlab::registry_external_url

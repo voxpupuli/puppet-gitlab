@@ -191,6 +191,15 @@ omnibus_gitconfig['<%= k -%>'] = <%= decorate(@git[k]) %>
 
 ci_external_url '<%= @ci_external_url %>'
 <%- end -%>
+<%- if @registry -%>
+
+############################
+# registry configuration   #
+############################
+
+<%- @registry.keys.sort.each do |k| -%>
+registry['<%= k -%>'] = <%= decorate(@registry[k]) %>
+<%- end end -%>
 <%- if @gitlab_ci -%>
 
 #################################

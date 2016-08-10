@@ -207,6 +207,10 @@
 #   Default: undef
 #   Hash of 'sidekiq' config parameters.
 #
+# [*source_config_file*]
+#   Default: undef
+#   Override Hiera config with path to gitlab.rb config file.
+#
 # [*unicorn*]
 #   Default: undef
 #   Hash of 'unicorn' config parameters.
@@ -299,6 +303,7 @@ class gitlab (
   $secrets_file = $::gitlab::params::secrets_file,
   $shell = undef,
   $sidekiq = undef,
+  $source_config_file = undef,
   $unicorn = undef,
   $gitlab_workhorse = undef,
   $user = undef,

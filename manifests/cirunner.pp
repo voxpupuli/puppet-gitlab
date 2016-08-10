@@ -4,6 +4,11 @@
 #
 # === Parameters
 #
+# [*concurrent*]
+#   Default: `undef`
+#   The limit on the number of jobs that can run concurrently among
+#   all runners, or `undef` to leave unmanaged.
+#
 # [*hiera_default_config_key*]
 #   Default: gitlab_ci_runners_defaults
 #   Name of hiera hash with default configs for CI Runners.
@@ -24,6 +29,7 @@
 # Copyright 2015 Tobias Brunner, VSHN AG
 #
 class gitlab::cirunner (
+  $concurrent = undef,
   $hiera_default_config_key = 'gitlab_ci_runners_defaults',
   $hiera_runners_key = 'gitlab_ci_runners',
   $manage_docker = true,
@@ -111,11 +117,30 @@ class gitlab::cirunner (
     ensure => $package_ensure,
   }
 
+  if $concurrent {
+    validate_integer($concurrent, undef, 1)
+
+    file_line { 'gitlab-runner-concurrent':
+      path    => '/etc/gitlab-runner/config.toml',
+      line    => "concurrent = ${concurrent}",
+      match   => '^concurrent = \d+',
+      require => Package['gitlab-ci-multi-runner'],
+      notify  => Exec['gitlab-runner-restart'],
+    }
+  }
+
+  exec { 'gitlab-runner-restart':
+    command     => '/usr/bin/gitlab-ci-multi-runner restart',
+    refreshonly => true,
+    require     => Package['gitlab-ci-multi-runner'],
+  }
+
   $runners_hash = hiera($hiera_runners_key, {})
   $runners = keys($runners_hash)
   $default_config = hiera($hiera_default_config_key, {})
   gitlab::runner { $runners:
     default_config => $default_config,
     runners_hash   => $runners_hash,
+    require        => Exec['gitlab-runner-restart'],
   }
 }

@@ -21,7 +21,7 @@ describe 'gitlab::cirunner' do
 
       it { is_expected.to contain_package('gitlab-ci-multi-runner').with_ensure('installed') }
     end
-    describe "gitlab class without any parameters on RedHat (CentOS)" do
+    describe "gitlab::cirunner class without any parameters on RedHat (CentOS)" do
       let(:params) {{ }}
       let(:facts) {{
         :osfamily => 'redhat',
@@ -55,7 +55,57 @@ describe 'gitlab::cirunner' do
       it { is_expected.to contain_yumrepo('runner_gitlab-ci-multi-runner').with_baseurl('https://packages.gitlab.com/runner/gitlab-ci-multi-runner/el/6/$basearch') }
 
       it { is_expected.to contain_package('gitlab-ci-multi-runner').with_ensure('installed') }
+    end
+    describe "gitlab::cirunner class OS-independent behavior" do
+      let(:facts) {{
+        :osfamily => 'redhat',
+        :operatingsystem => 'CentOS',
+        :operatingsystemmajrelease => '6',
+        :os              => {
+          :architecture => "x86_64",
+          :family => "RedHat",
+          :hardware => "x86_64",
+          :name => "CentOS",
+          :release => {
+            :full => "6.7",
+            :major => "6",
+            :minor => "7"
+          },
+          :selinux => {
+            :enabled => false
+          }
+        },
+        :osfamily => 'RedHat',
+        :operatingsystemmajrelease => '6',
+        :operatingsystemrelease => '6.5',
+        :kernelversion => '2.6.32',
+        :kernelrelease => '2.6.32-573.8.1.el6.x86_64'
+      }}
 
+      context 'with default parameters' do
+        it { should contain_exec('gitlab-runner-restart').that_requires('Package[gitlab-ci-multi-runner]') }
+        it do
+          should contain_exec('gitlab-runner-restart').with({
+            'command'     => '/usr/bin/gitlab-ci-multi-runner restart',
+            'refreshonly' => true,
+          })
+        end
+        it { should contain_gitlab__runner('test_runner').that_requires('Exec[gitlab-runner-restart]') }
+        it { should_not contain_file_line('gitlab-runner-concurrent') }
+      end
+
+      context 'with concurrent => 10' do
+        let(:params) { { :concurrent => 10 } }
+        it { should contain_file_line('gitlab-runner-concurrent').that_requires('Package[gitlab-ci-multi-runner]') }
+        it { should contain_file_line('gitlab-runner-concurrent').that_notifies('Exec[gitlab-runner-restart]') }
+        it do
+          should contain_file_line('gitlab-runner-concurrent').with({
+            'path'  => '/etc/gitlab-runner/config.toml',
+            'line'  => 'concurrent = 10',
+            'match' => '^concurrent = \d+',
+          })
+        end
+      end
     end
   end
   context 'unsupported operating systems' do

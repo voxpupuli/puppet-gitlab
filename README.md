@@ -175,6 +175,8 @@ To use the Gitlab CI runners it is required to have the [garethr/docker](https:/
 classes:
   - gitlab::cirunner
 
+gitlab::cirunner::concurrent: 4
+
 gitlab_ci_runners:
   test_runner1:{}
   test_runner2:{}

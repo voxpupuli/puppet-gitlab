@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## v1.10.0 [2016-08-XX]
+
+* Several small fixes
+* Updates to Spec Tests
+* Full registry configuration. Thanks to @jkroepke
+* Enhanced CI runner configuration (concurrent) and testing. Thanks to @iamjamestl
+
 ## v1.9.2 [2016-06-14]
 
 * Nginx config replication for registry nginx

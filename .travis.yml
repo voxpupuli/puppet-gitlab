@@ -14,4 +14,6 @@ env:
   - PUPPET_VERSION="~> 4.1.0" STRICT_VARIABLES=yes
   - PUPPET_VERSION="~> 4.2.0" STRICT_VARIABLES=yes
   - PUPPET_VERSION="~> 4.5.3" STRICT_VARIABLES=yes
-
+matrix:
+  allow_failures:
+    - env: PUPPET_VERSION="~> 4.5.3" STRICT_VARIABLES=yes

@@ -25,8 +25,9 @@ The module installs the Gitlab package from the provided repositories and create
 which is then used by `gitlab-ctl reconfigure` to configure all the services. *Fun fact: This really uses
 Chef to configure all the services.*
 
-Supported are Debian based (Ubuntu, Debian) and RedHat based (CentOS, RHEL) operating systems. Although the
-RedHat based are not yet tested.
+Supported are Debian based (Ubuntu, Debian) and RedHat based (CentOS, RHEL) operating systems.
+
+Beaker acceptance tests are run in Travis for CentOS 6 and Ubuntu 12.04.
 
 As Gitlab is providing the package repo since 7.10+, this module only works with CE edition greater than 7.10.
 Also the enterprise edition package is only available since 7.11+. So the EE is supported with versions greater
@@ -135,7 +136,7 @@ gitlab::secrets:
 ```
 
 *Hint 1*: This secret tokens can be generated f.e. using Ruby with `SecureRandom.hex(64)`, or
-taken out of an installation without having `secrets` used.   
+taken out of an installation without having `secrets` used.
 *Hint 2*: When using the `gitlab_ci` parameter to specify the `gitlab_server`, then this parameters
 must be added also to the `secrets` hash (Omnibus overrides `gitlab-secrets.json`).
 

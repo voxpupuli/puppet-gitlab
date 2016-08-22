@@ -5,6 +5,7 @@ describe 'gitlab' do
     describe "gitlab class without any parameters on Debian (Jessie)" do
       let(:params) {{ }}
       let(:facts) {{
+        :gitlab_systemd  => false,
         :osfamily => 'debian',
         :lsbdistid => 'debian',
         :lsbdistcodename => 'jessie',
@@ -28,6 +29,7 @@ describe 'gitlab' do
     describe "gitlab class without any parameters on RedHat (CentOS)" do
       let(:params) {{ }}
       let(:facts) {{
+        :gitlab_systemd  => false,
         :osfamily => 'redhat',
         :operatingsystem => 'CentOS',
         :operatingsystemmajrelease => '6',
@@ -63,6 +65,7 @@ describe 'gitlab' do
   context 'unsupported operating system' do
     describe 'gitlab class without any parameters on Solaris/Nexenta' do
       let(:facts) {{
+        :gitlab_systemd  => false,
         :osfamily        => 'Solaris',
         :operatingsystem => 'Nexenta',
       }}
@@ -71,8 +74,61 @@ describe 'gitlab' do
     end
   end
 
+  context 'linking init script on non-systemd' do
+    describe 'gitlab class on a non-systemd machine' do
+      let(:facts) {{
+        :gitlab_systemd => false,
+        :osfamily => 'redhat',
+        :operatingsystem => 'CentOS',
+        :operatingsystemmajrelease => '6',
+        :os              => {
+          :architecture => "x86_64",
+          :family => "RedHat",
+          :hardware => "x86_64",
+          :name => "CentOS",
+          :release => {
+            :full => "6.7",
+            :major => "6",
+            :minor => "7"
+          },
+          :selinux => {
+            :enabled => false
+          }
+        },
+      }}
+
+      it { is_expected.to contain_file('/etc/init.d/gitlab-runsvdir').with_ensure('link') }
+    end
+
+    describe 'gitlab class on a systemd machine' do
+      let(:facts) {{
+        :gitlab_systemd => true,
+        :osfamily => 'redhat',
+        :operatingsystem => 'CentOS',
+        :operatingsystemmajrelease => '6',
+        :os              => {
+          :architecture => "x86_64",
+          :family => "RedHat",
+          :hardware => "x86_64",
+          :name => "CentOS",
+          :release => {
+            :full => "7.2",
+            :major => "7",
+            :minor => "2"
+          },
+          :selinux => {
+            :enabled => false
+          }
+        },
+      }}
+
+      it { is_expected.to contain_file('/etc/init.d/gitlab-runsvdir').with_ensure('absent') }
+    end
+  end
+
   context 'gitlab specific parameters' do
     let(:facts) {{
+      :gitlab_systemd  => false,
       :osfamily => 'debian',
       :lsbdistid => 'debian',
       :lsbdistcodename => 'jessie',

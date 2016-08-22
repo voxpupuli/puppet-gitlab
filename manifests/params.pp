@@ -31,6 +31,12 @@ class gitlab::params {
     $service_enable = true
   }
 
+  if ($::gitlab_systemd) {
+    $service_initd_ensure = 'absent'
+  } else {
+    $service_initd_ensure = 'link'
+  }
+
   # gitlab specific
   $config_manage = true
   $config_file = '/etc/gitlab/gitlab.rb'

@@ -28,6 +28,12 @@
 #   Default: true
 #   Run the system service on boot.
 #
+# [*service_initd_ensure*]
+#   Default for systemd systems, as determined by the $::gitlab_systemd fact: "absent"
+#   Else: "link"
+#   Sets "ensure => 'absent'" or "ensure => 'link'" on init.d softlink
+#   depending on the $::gitlab_systemd fact to avoid conflicts with systemd.
+#
 # [*service_exec*]
 #   Default: '/usr/bin/gitlab-ctl'
 #   The service executable path.
@@ -261,6 +267,7 @@ class gitlab (
   $package_pin = $::gitlab::params::package_pin,
   # system service configuration
   $service_enable = $::gitlab::params::service_enable,
+  $service_initd_ensure = $::gitlab::params::service_initd_ensure,
   $service_ensure = $::gitlab::params::service_ensure,
   $service_group = $::gitlab::params::service_group,
   $service_hasrestart = $::gitlab::params::service_hasrestart,

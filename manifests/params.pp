@@ -31,6 +31,12 @@ class gitlab::params {
     $service_enable = true
   }
 
+  if ($::operatingsystem == 'Ubuntu' and $::operatingsystemrelease in ['15.04','15.10','16.04','16.10']) or ($::operatingsystem == 'Debian' and $::operatingsystemrelease == '8') {
+    $service_initd_ensure = 'absent'
+  } else {
+    $service_initd_ensure = 'link'
+  }
+
   # gitlab specific
   $config_manage = true
   $config_file = '/etc/gitlab/gitlab.rb'

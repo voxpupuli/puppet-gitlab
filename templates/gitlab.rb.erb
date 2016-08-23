@@ -170,6 +170,19 @@ logging['<%= k -%>'] = <%= decorate(@logging[k]) %>
 <%- @logrotate.keys.sort.each do |k| -%>
 logrotate['<%= k -%>'] = <%= decorate(@logrotate[k]) %>
 <%- end end -%>
+<%- if @manage_storage_directories -%>
+
+#######################
+# Storage directories #
+#######################
+## Disable managing storage directories
+## Set only if the select directories are created manually
+## See: http://doc.gitlab.com/omnibus/settings/configuration.html#disable-storage-directories-management
+# manage_storage_directories['enable'] = false
+
+<%- @manage_storage_directories.keys.sort.each do |k| -%>
+manage_storage_directories['<%= k -%>'] = <%= decorate(@manage_storage_directories[k]) %>
+<%- end end -%>
 <%- if @git -%>
 
 #######

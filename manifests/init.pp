@@ -130,6 +130,10 @@
 #   Default: undef
 #   Hash of 'logrotate' config parameters.
 #
+# [*manage_storage_directories*]
+#   Default: undef
+#   Hash of 'manage_storage_directories' config parameters.
+#
 # [*manage_accounts*]
 #   Default: undef
 #   Hash of 'manage_accounts' config parameters.
@@ -284,6 +288,7 @@ class gitlab (
   $high_availability = undef,
   $logging = undef,
   $logrotate = undef,
+  $manage_storage_directories = undef,
   $manage_accounts = undef,
   $mattermost = undef,
   $mattermost_external_url = undef,
@@ -340,6 +345,7 @@ class gitlab (
   if $gitlab_rails { validate_hash($gitlab_rails) }
   if $logging { validate_hash($logging) }
   if $logrotate { validate_hash($logrotate) }
+  if $manage_storage_directories { validate_hash($manage_storage_directories) }
   if $nginx { validate_hash($nginx) }
   if $mattermost { validate_hash($mattermost) }
   if $mattermost_external_url { validate_string($mattermost_external_url) }

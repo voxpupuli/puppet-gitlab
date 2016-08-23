@@ -13,6 +13,6 @@
 Facter.add(:gitlab_systemd) do
   confine :kernel => :linux
   setcode do
-    %x{ps -p 1 -o comm=}.gsub("\n",'') == 'systemd'
+    Facter::Util::Resolution.exec('ps -p 1 -o comm=') == 'systemd'
   end
 end

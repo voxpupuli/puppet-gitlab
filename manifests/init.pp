@@ -29,10 +29,10 @@
 #   Run the system service on boot.
 #
 # [*service_initd_ensure*]
-#   Default for 'Ubuntu 15.04, 15.10, 16.04, 16.10' or 'Debian 8': "absent"
+#   Default for systemd systems, as determined by the $::gitlab_systemd fact: "absent"
 #   Else: "link"
 #   Sets "ensure => 'absent'" or "ensure => 'link'" on init.d softlink
-#   depending on systems OS to avoid conflicts with systemd.
+#   depending on the $::gitlab_systemd fact to avoid conflicts with systemd.
 #
 # [*service_exec*]
 #   Default: '/usr/bin/gitlab-ctl'

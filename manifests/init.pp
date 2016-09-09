@@ -94,6 +94,10 @@
 #   Default: undef
 #   External URL of Gitlab.
 #
+# [*external_port*]
+#   Default: undef
+#   External PORT of Gitlab.
+#
 # [*git*]
 #   Default: undef
 #   Hash of 'omnibus_gitconfig' config parameters.
@@ -275,6 +279,7 @@ class gitlab (
   $config_manage = $::gitlab::params::config_manage,
   $config_file = $::gitlab::params::config_file,
   $external_url = undef,
+  $external_port = undef,
   $git = undef,
   $git_data_dir = undef,
   $gitlab_git_http_server = undef,

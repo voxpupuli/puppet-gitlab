@@ -93,6 +93,12 @@ describe 'gitlab' do
         .with_content(/^\s*external_url 'http:\/\/gitlab\.mycompany\.com\/'$/)
       }
     end
+    describe 'external_port' do
+      let(:params) { {:external_port => 987654} }
+      it { is_expected.to contain_file('/etc/gitlab/gitlab.rb') \
+        .with_content(/^\s*external_port '987654'$/)
+      }
+    end
     describe 'ci_external_url' do
       let(:params) { {:ci_external_url => 'http://gitlabci.mycompany.com/'} }
       it { is_expected.to contain_file('/etc/gitlab/gitlab.rb') \

@@ -13,6 +13,7 @@ class gitlab::config {
   $config_manage = $::gitlab::config_manage
   $config_file = $::gitlab::config_file
   $external_url = $::gitlab::external_url
+  $external_port = $::gitlab::external_port
   $git = $::gitlab::git
   $git_data_dir = $::gitlab::git_data_dir
   $gitlab_git_http_server = $::gitlab::gitlab_git_http_server

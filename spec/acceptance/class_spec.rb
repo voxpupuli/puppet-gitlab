@@ -47,7 +47,7 @@ describe 'gitlab class' do
 
     context 'allows http connection on port 80' do
       describe command('curl 0.0.0.0:80/users/sign_in') do
-        its(:stdout) { should match /reset_password_token/ }
+        its(:stdout) { should match /reset_password_token|GitLab/ }
       end
     end
 

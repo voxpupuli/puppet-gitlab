@@ -24,6 +24,7 @@ class gitlab::params {
   $service_name = 'gitlab-runsvdir'
   $service_user = 'root'
   $service_group = 'root'
+  $service_provider = 'base'
 
   if $::osfamily == 'RedHat' and $::operatingsystemmajrelease == '6' {
     $service_enable = false

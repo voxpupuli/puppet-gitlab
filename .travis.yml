@@ -25,13 +25,13 @@ matrix:
       sudo: required
       services: docker
       env: BEAKER_set="ubuntu-server-1204-docker" PUPPET_INSTALL_TYPE=foss
-      script: bundle exec rake acceptance
+      script: bundle exec rspec spec/acceptance/travis_ci_acceptance_spec.rb
       bundler_args: --without development
     - rvm: '2.1'
       sudo: required
       services: docker
       env: BEAKER_set="centos-6-docker" PUPPET_INSTALL_TYPE=foss
-      script: bundle exec rake acceptance
+      script: bundle exec rspec spec/acceptance/travis_ci_acceptance_spec.rb
       bundler_args: --without development
   allow_failures:
     - env: BEAKER_set="ubuntu-server-1204-docker" PUPPET_INSTALL_TYPE=foss

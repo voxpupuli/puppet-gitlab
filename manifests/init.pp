@@ -64,6 +64,12 @@
 #   Default: true
 #   The gitlab service has this commands available.
 #
+# [*service_provider*]
+#   Default: base
+#   The provider Puppet will use to start the service
+#   Since gitlab-ctl is a supervisor process, we use base and run
+#   the commands via runsvdir
+#
 # [*edition*]
 #   Default: ce
 #   Gitlab edition to install. ce or ee.
@@ -280,6 +286,7 @@ class gitlab (
   $service_status = $::gitlab::params::service_status,
   $service_stop = $::gitlab::params::service_stop,
   $service_user = $::gitlab::params::service_user,
+  $service_provider = $::gitlab::params::service_provider,
   # gitlab specific
   $edition = 'ce',
   $ci_external_url = undef,

@@ -18,6 +18,7 @@ class gitlab::service {
       status     => $::gitlab::service_status,
       hasstatus  => $::gitlab::service_hasstatus,
       hasrestart => $::gitlab::service_hasrestart,
+      provider   => $::gitlab::service_provider,
     }
   }
 

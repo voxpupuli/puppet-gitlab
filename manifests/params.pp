@@ -39,6 +39,7 @@ class gitlab::params {
   }
 
   # gitlab specific
+  $external_url = "http://${fqdn}"
   $config_manage = true
   $config_file = '/etc/gitlab/gitlab.rb'
   $secrets_file = '/etc/gitlab/gitlab-secrets.json'

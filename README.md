@@ -58,7 +58,7 @@ the `$::os` fact used in `install.pp` doesn't work as expected.
 
 ### Beginning with Gitlab
 
-Just include the class and specify at least `external_url`.
+Just include the class and specify at least `external_url`. If `external_url` is not specified it will default to the FQDN fact of the system. 
 
 ```puppet
 class { 'gitlab':

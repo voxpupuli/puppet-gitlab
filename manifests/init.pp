@@ -103,7 +103,7 @@
 #   Hash of 'ci_unicorn' config parameters.
 #
 # [*external_url*]
-#   Default: undef
+#   Default: http://$fqdn
 #   External URL of Gitlab.
 #
 # [*external_port*]
@@ -296,7 +296,7 @@ class gitlab (
   $ci_unicorn = undef,
   $config_manage = $::gitlab::params::config_manage,
   $config_file = $::gitlab::params::config_file,
-  $external_url = undef,
+  $external_url = $::gitlab::params::external_url,
   $external_port = undef,
   $git = undef,
   $git_data_dir = undef,

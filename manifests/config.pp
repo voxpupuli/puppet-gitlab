@@ -10,24 +10,35 @@ class gitlab::config {
   $ci_nginx_eq_nginx = $::gitlab::ci_nginx_eq_nginx
   $ci_redis = $::gitlab::ci_redis
   $ci_unicorn = $::gitlab::ci_unicorn
+  $config_manage = $::gitlab::config_manage
   $config_file = $::gitlab::config_file
   $external_url = $::gitlab::external_url
+  $external_port = $::gitlab::external_port
   $git = $::gitlab::git
   $git_data_dir = $::gitlab::git_data_dir
   $gitlab_git_http_server = $::gitlab::gitlab_git_http_server
   $gitlab_ci = $::gitlab::gitlab_ci
+  $gitlab_pages = $::gitlab::gitlab_pages
   $gitlab_rails = $::gitlab::gitlab_rails
   $high_availability = $::gitlab::high_availability
   $logging = $::gitlab::logging
   $logrotate = $::gitlab::logrotate
+  $manage_storage_directories = $::gitlab::manage_storage_directories
   $manage_accounts = $::gitlab::manage_accounts
   $mattermost = $::gitlab::mattermost
   $mattermost_external_url = $::gitlab::mattermost_external_url
   $mattermost_nginx = $::gitlab::mattermost_nginx
   $mattermost_nginx_eq_nginx = $::gitlab::mattermost_nginx_eq_nginx
   $nginx = $::gitlab::nginx
+  $pages_external_url = $::gitlab::pages_external_url
+  $pages_nginx = $::gitlab::pages_nginx
+  $pages_nginx_eq_nginx = $::gitlab::pages_nginx_eq_nginx
   $postgresql = $::gitlab::postgresql
   $redis = $::gitlab::redis
+  $registry = $::gitlab::registry
+  $registry_nginx = $::gitlab::registry_nginx
+  $registry_nginx_eq_nginx = $::gitlab::registry_nginx_eq_nginx
+  $registry_external_url = $::gitlab::registry_external_url
   $secrets = $::gitlab::secrets
   $secrets_file = $::gitlab::secrets_file
   $service_group = $::gitlab::service_group
@@ -35,7 +46,9 @@ class gitlab::config {
   $service_user = $::gitlab::service_user
   $shell = $::gitlab::shell
   $sidekiq = $::gitlab::sidekiq
+  $source_config_file = $::gitlab::source_config_file
   $unicorn = $::gitlab::unicorn
+  $gitlab_workhorse = $::gitlab::gitlab_workhorse
   $user = $::gitlab::user
   $web_server = $::gitlab::web_server
 
@@ -53,12 +66,38 @@ class gitlab::config {
     $_real_mattermost_nginx = $mattermost_nginx
   }
 
-  file { $config_file:
-      ensure  => file,
-      owner   => $service_user,
-      group   => $service_group,
-      mode    => '0600',
-      content => template('gitlab/gitlab.rb.erb');
+  # replicate $nginx to $pages_nginx if $pages_nginx_eq_nginx true
+  if $pages_nginx_eq_nginx {
+    $_real_pages_nginx = $nginx
+  } else {
+    $_real_pages_nginx = $pages_nginx
+  }
+
+  # replicate $nginx to $registry_nginx if $registry_nginx_eq_nginx true
+  if $registry_nginx_eq_nginx {
+    $_real_registry_nginx = $nginx
+  } else {
+    $_real_registry_nginx = $registry_nginx
+  }
+
+  if $config_manage {
+    if $source_config_file {
+      file { $config_file:
+        ensure  => file,
+        owner   => $service_user,
+        group   => $service_group,
+        mode    => '0600',
+        source  => $source_config_file,
+      }
+    } else {
+      file { $config_file:
+        ensure  => file,
+        owner   => $service_user,
+        group   => $service_group,
+        mode    => '0600',
+        content => template('gitlab/gitlab.rb.erb');
+      }
+    }
   }
 
   if ! empty($secrets) {

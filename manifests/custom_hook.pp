@@ -58,12 +58,12 @@
 # Copyright 2014 Spencer Owen, unless otherwise noted.
 #
 define gitlab::custom_hook(
-  $namespace      = undef,
-  $project        = undef,
-  $type           = undef,
-  $content        = undef,
-  $source         = undef,
-  $repos_path     = undef,
+  $namespace = undef,
+  $project = undef,
+  $type = undef,
+  $content = undef,
+  $source = undef,
+  $repos_path = undef,
 ) {
   validate_string($namespace)
   validate_string($project)
@@ -73,17 +73,16 @@ define gitlab::custom_hook(
     $_repos_path = $repos_path
   } elsif $::gitlab::git_data_dir {
     $_repos_path = "${::gitlab::git_data_dir}/repositories"
-
   } else {
     $_repos_path = '/var/opt/gitlab/git-data/repositories'
   }
   validate_absolute_path($_repos_path)
 
-  if !$content and !$source {
+  if ! ($content) and ! ($source) {
     fail('gitlab::custom_hook resource must specify either content or source')
   }
 
-  if $content and $source {
+  if ($content) and ($source) {
     fail('gitlab::custom_hook resource must specify either content or source, but not both')
   }
 
@@ -94,21 +93,21 @@ define gitlab::custom_hook(
   $hook_path = "${_repos_path}/${namespace}/${project}.git/custom_hooks"
 
   File {
-    owner     => $::gitlab::service_user,
-    group     => $::gitlab::service_group,
-    mode      => '0755',
+    owner => $::gitlab::service_user,
+    group => $::gitlab::service_group,
+    mode  => '0755',
   }
 
   # Create the custom_hooks directory for this project, if it doesn't exist
   if !defined(File[$hook_path]) {
     file { $hook_path:
-      ensure      => directory,
+      ensure => directory,
     }
   }
 
   file { "${hook_path}/${type}":
-    ensure      => 'present',
-    content     => $content,
-    source      => $source,
+    ensure  => 'present',
+    content => $content,
+    source  => $source,
   }
 }

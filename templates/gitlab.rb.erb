@@ -35,6 +35,9 @@ end -%>
 ## For more details on configuring external_url see:
 ## https://gitlab.com/gitlab-org/omnibus-gitlab/blob/629def0a7a26e7c2326566f0758d4a27857b52a3/README.md#configuring-the-external-url-for-gitlab
 external_url '<%= @external_url %>'
+<%- if @external_port -%>
+external_port '<%= @external_port %>'
+<%- end -%>
 <%- if @git_data_dir -%>
 
 ## For setting up different data storing directory
@@ -140,6 +143,15 @@ gitlab_git_http_server['<%= k -%>'] = <%= decorate(@gitlab_git_http_server[k]) %
 <%- @nginx.keys.sort.each do |k| -%>
 nginx['<%= k -%>'] = <%= decorate(@nginx[k]) %>
 <%- end end -%>
+<%- if @gitlab_workhorse -%>
+
+####################
+# GitLab Workhorse #
+####################
+
+<%- @gitlab_workhorse.keys.sort.each do |k| -%>
+gitlab_workhorse['<%= k -%>'] = <%= decorate(@gitlab_workhorse[k]) %>
+<%- end end -%>
 <%- if @logging -%>
 
 ##################
@@ -160,6 +172,19 @@ logging['<%= k -%>'] = <%= decorate(@logging[k]) %>
 
 <%- @logrotate.keys.sort.each do |k| -%>
 logrotate['<%= k -%>'] = <%= decorate(@logrotate[k]) %>
+<%- end end -%>
+<%- if @manage_storage_directories -%>
+
+#######################
+# Storage directories #
+#######################
+## Disable managing storage directories
+## Set only if the select directories are created manually
+## See: http://doc.gitlab.com/omnibus/settings/configuration.html#disable-storage-directories-management
+# manage_storage_directories['enable'] = false
+
+<%- @manage_storage_directories.keys.sort.each do |k| -%>
+manage_storage_directories['<%= k -%>'] = <%= decorate(@manage_storage_directories[k]) %>
 <%- end end -%>
 <%- if @git -%>
 
@@ -182,6 +207,15 @@ omnibus_gitconfig['<%= k -%>'] = <%= decorate(@git[k]) %>
 
 ci_external_url '<%= @ci_external_url %>'
 <%- end -%>
+<%- if @registry -%>
+
+############################
+# registry configuration   #
+############################
+
+<%- @registry.keys.sort.each do |k| -%>
+registry['<%= k -%>'] = <%= decorate(@registry[k]) %>
+<%- end end -%>
 <%- if @gitlab_ci -%>
 
 #################################
@@ -261,6 +295,47 @@ mattermost['<%= k -%>'] = <%= decorate(@mattermost[k]) %>
 
 <%- @_real_mattermost_nginx.keys.sort.each do |k| -%>
 mattermost_nginx['<%= k -%>'] = <%= decorate(@_real_mattermost_nginx[k]) %>
+<%- end end -%>
+<%- if @pages_external_url -%>
+
+####################
+# GitLab Pages
+####################
+
+## Define to enable GitLab Pages
+pages_external_url '<%= @pages_external_url %>'
+<%- end -%>
+<%- if @gitlab_pages -%>
+
+<%- @gitlab_pages.keys.sort.each do |k| -%>
+gitlab_pages['<%= k -%>'] = <%= decorate(@gitlab_pages[k]) %>
+<%- end end -%>
+<%- if @_real_pages_nginx -%>
+
+######################
+# GitLab Pages NGINX #
+######################
+## see: http://doc.gitlab.com/ee/pages/administration.html
+
+<%- @_real_pages_nginx.keys.sort.each do |k| -%>
+pages_nginx['<%= k -%>'] = <%= decorate(@_real_pages_nginx[k]) %>
+<%- end end -%>
+<%- if @registry_external_url -%>
+
+############
+# Registry #
+############
+
+registry_external_url '<%= @registry_external_url %>'
+<%- end -%>
+<%- if @_real_registry_nginx -%>
+
+##################
+# Registry NGINX #
+##################
+
+<%- @_real_registry_nginx.keys.sort.each do |k| -%>
+registry_nginx['<%= k -%>'] = <%= decorate(@_real_registry_nginx[k]) %>
 <%- end end -%>
 <%- if @manage_accounts -%>
 

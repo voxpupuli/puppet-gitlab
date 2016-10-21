@@ -28,6 +28,12 @@
 #   Default: true
 #   Run the system service on boot.
 #
+# [*service_initd_ensure*]
+#   Default for systemd systems, as determined by the $::gitlab_systemd fact: "absent"
+#   Else: "link"
+#   Sets "ensure => 'absent'" or "ensure => 'link'" on init.d softlink
+#   depending on the $::gitlab_systemd fact to avoid conflicts with systemd.
+#
 # [*service_exec*]
 #   Default: '/usr/bin/gitlab-ctl'
 #   The service executable path.
@@ -58,9 +64,19 @@
 #   Default: true
 #   The gitlab service has this commands available.
 #
+# [*service_provider*]
+#   Default: base
+#   The provider Puppet will use to start the service
+#   Since gitlab-ctl is a supervisor process, we use base and run
+#   the commands via runsvdir
+#
 # [*edition*]
 #   Default: ce
 #   Gitlab edition to install. ce or ee.
+#
+# [*config_manage*]
+#   Default: true
+#   Should Puppet manage the config?
 #
 # [*config_file*]
 #   Default: /etc/gitlab/gitlab.rb
@@ -87,8 +103,12 @@
 #   Hash of 'ci_unicorn' config parameters.
 #
 # [*external_url*]
-#   Default: undef
+#   Default: http://$fqdn
 #   External URL of Gitlab.
+#
+# [*external_port*]
+#   Default: undef
+#   External PORT of Gitlab.
 #
 # [*git*]
 #   Default: undef
@@ -106,9 +126,17 @@
 #   Default: undef
 #   Hash of 'gitlab_ci' config parameters.
 #
+# [*gitlab_pages*]
+#   Default: undef
+#   Hash of 'gitlab_pages' config parameters.
+#
 # [*gitlab_rails*]
 #   Default: undef
 #   Hash of 'gitlab_rails' config parameters.
+#
+# [*gitlab_workhorse*]
+#   Default: undef
+#   Hash of 'gitlab_workhorse' config parameters.
 #
 # [*logging*]
 #   Default: undef
@@ -117,6 +145,10 @@
 # [*logrotate*]
 #   Default: undef
 #   Hash of 'logrotate' config parameters.
+#
+# [*manage_storage_directories*]
+#   Default: undef
+#   Hash of 'manage_storage_directories' config parameters.
 #
 # [*manage_accounts*]
 #   Default: undef
@@ -142,6 +174,18 @@
 #   Default: undef
 #   Hash of 'nginx' config parameters.
 #
+# [*pages_external_url*]
+#   Default: undef
+#   External URL of Gitlab Pages.
+#
+# [*pages_nginx*]
+#   Default: undef
+#   Hash of 'pages_nginx' config parameters.
+#
+# [*pages_nginx_eq_nginx*]
+#   Default: false
+#   Replicate the Pages Nginx config from the Gitlab Nginx config.
+#
 # [*postgresql*]
 #   Default: undef
 #   Hash of 'postgresql' config parameters.
@@ -149,6 +193,22 @@
 # [*redis*]
 #   Default: undef
 #   Hash of 'redis' config parameters.
+#
+# [*registry*]
+#   Default: undef
+#   Hash of 'registry' config parameters.
+#
+# [*registry_external_url*]
+#  Default: undef
+#  External URL of Registry
+#
+# [*registry_nginx*]
+#  Default: undef
+#  Hash of 'registry_nginx' config parameters.
+#
+# [*registry_nginx_eq_nginx*]
+#   Default: false
+#   Replicate the registry Nginx config from the Gitlab Nginx config.
 #
 # [*secrets*]
 #   Default: undef
@@ -166,6 +226,10 @@
 # [*sidekiq*]
 #   Default: undef
 #   Hash of 'sidekiq' config parameters.
+#
+# [*source_config_file*]
+#   Default: undef
+#   Override Hiera config with path to gitlab.rb config file.
 #
 # [*unicorn*]
 #   Default: undef
@@ -209,6 +273,7 @@ class gitlab (
   $package_pin = $::gitlab::params::package_pin,
   # system service configuration
   $service_enable = $::gitlab::params::service_enable,
+  $service_initd_ensure = $::gitlab::params::service_initd_ensure,
   $service_ensure = $::gitlab::params::service_ensure,
   $service_group = $::gitlab::params::service_group,
   $service_hasrestart = $::gitlab::params::service_hasrestart,
@@ -221,6 +286,7 @@ class gitlab (
   $service_status = $::gitlab::params::service_status,
   $service_stop = $::gitlab::params::service_stop,
   $service_user = $::gitlab::params::service_user,
+  $service_provider = $::gitlab::params::service_provider,
   # gitlab specific
   $edition = 'ce',
   $ci_external_url = undef,
@@ -228,29 +294,42 @@ class gitlab (
   $ci_nginx_eq_nginx = false,
   $ci_redis = undef,
   $ci_unicorn = undef,
+  $config_manage = $::gitlab::params::config_manage,
   $config_file = $::gitlab::params::config_file,
-  $external_url = undef,
+  $external_url = $::gitlab::params::external_url,
+  $external_port = undef,
   $git = undef,
   $git_data_dir = undef,
   $gitlab_git_http_server = undef,
   $gitlab_ci = undef,
+  $gitlab_pages = undef,
   $gitlab_rails = undef,
   $high_availability = undef,
   $logging = undef,
   $logrotate = undef,
+  $manage_storage_directories = undef,
   $manage_accounts = undef,
   $mattermost = undef,
   $mattermost_external_url = undef,
   $mattermost_nginx = undef,
   $mattermost_nginx_eq_nginx = false,
   $nginx = undef,
+  $pages_external_url = undef,
+  $pages_nginx = undef,
+  $pages_nginx_eq_nginx = false,
   $postgresql = undef,
   $redis = undef,
+  $registry = undef,
+  $registry_external_url = undef,
+  $registry_nginx = undef,
+  $registry_nginx_eq_nginx = false,
   $secrets = undef,
   $secrets_file = $::gitlab::params::secrets_file,
   $shell = undef,
   $sidekiq = undef,
+  $source_config_file = undef,
   $unicorn = undef,
+  $gitlab_workhorse = undef,
   $user = undef,
   $web_server = undef,
   $custom_hooks = {},
@@ -268,6 +347,7 @@ class gitlab (
   validate_string($service_group)
   # gitlab specific
   validate_re($edition, [ '^ee$', '^ce$' ])
+  validate_bool($config_manage)
   validate_absolute_path($config_file)
   if $ci_nginx { validate_hash($ci_nginx) }
   validate_bool($ci_nginx_eq_nginx)
@@ -278,16 +358,26 @@ class gitlab (
   if $git  { validate_hash($git) }
   if $git_data_dir { validate_absolute_path($git_data_dir) }
   if $gitlab_git_http_server { validate_hash($gitlab_git_http_server) }
+  if $gitlab_pages { validate_hash($gitlab_pages) }
+  if $gitlab_workhorse { validate_hash($gitlab_workhorse) }
   if $gitlab_ci { validate_hash($gitlab_ci) }
   if $gitlab_rails { validate_hash($gitlab_rails) }
   if $logging { validate_hash($logging) }
   if $logrotate { validate_hash($logrotate) }
+  if $manage_storage_directories { validate_hash($manage_storage_directories) }
   if $nginx { validate_hash($nginx) }
   if $mattermost { validate_hash($mattermost) }
   if $mattermost_external_url { validate_string($mattermost_external_url) }
   if $mattermost_nginx { validate_hash($mattermost_nginx) }
+  validate_string($pages_external_url)
+  if $pages_nginx { validate_hash($pages_nginx) }
+  validate_bool($pages_nginx_eq_nginx)
   if $postgresql { validate_hash($postgresql) }
   if $redis { validate_hash($redis) }
+  if $registry { validate_hash($registry) }
+  if $registry_nginx { validate_hash($registry_nginx) }
+  validate_bool($registry_nginx_eq_nginx)
+  if $registry_external_url { validate_string($registry_external_url) }
   if $secrets { validate_hash($secrets) }
   if $shell { validate_hash($shell) }
   if $sidekiq { validate_hash($sidekiq) }
@@ -306,6 +396,8 @@ class gitlab (
   contain gitlab::config
   contain gitlab::service
   
+  create_resources(gitlab::custom_hook, $custom_hooks)
+
   create_resources(gitlab::custom_hook, $custom_hooks)
 
 }

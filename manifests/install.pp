@@ -16,6 +16,7 @@ class gitlab::install {
     case $::osfamily {
       'debian': {
         include apt
+        ensure_packages('apt-transport-https')
         $_lower_os = downcase($::operatingsystem)
         apt::source { 'gitlab_official':
           comment  => 'Official repository for Gitlab',

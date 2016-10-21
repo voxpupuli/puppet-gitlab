@@ -1,6 +1,5 @@
 .*.sw?
 pkg
-spec/fixtures
 .rspec_system
 .vagrant
 .bundle
@@ -10,3 +9,10 @@ Gemfile.lock
 # ignore Intellij project files
 /*.iml
 .idea
+
+spec/fixtures
+!spec/fixtures/hiera.yaml
+!spec/fixtures/hieradata/*
+
+log/
+junit/

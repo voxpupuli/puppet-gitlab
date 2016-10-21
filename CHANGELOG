@@ -1,5 +1,33 @@
 # CHANGELOG
 
+## v1.10.0 [2016-08-10]
+
+* Several small fixes
+* Updates to Spec Tests
+* Full registry configuration. Thanks to @jkroepke
+* Enhanced CI runner configuration (concurrent) and testing. Thanks to @iamjamestl
+
+## v1.9.2 [2016-06-14]
+
+* Nginx config replication for registry nginx
+
+## v1.9.1 [2016-06-14]
+
+* Fix missed changes in tag
+
+## v1.9.0 [2016-06-14]
+
+* Support for Gitlab integrated Docker registry. Thanks to @llauren
+* Config file management can be deactivated. Thanks to @divansantana
+* Add package_ensure parameter for gitlab-ci-multi-runner package. Thanks to @thlapin
+
+## v1.8.0 [2016-03-11]
+
+* Support for Gitlab Workhorse. Thanks to @tunasalat
+* Support for Gitlab Pages
+* Feature to create Custom Hooks. Thanks to @b4ldr
+* Install `apt-transport-https` on Debian like OS
+
 ## v1.7.2 [2016-02-11]
 
 * Sort nested hashes to make sure they don't trigger a service reload every time

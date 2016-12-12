@@ -52,8 +52,13 @@ git_data_dir "<%= @git_data_dir %>"
 ############################
 
 <%- @gitlab_rails.keys.sort.each do |k| -%>
+<%- if k == 'ldap_servers' -%>
+gitlab_rails['<%= k -%>'] = YAML.load <<-EOS
+<%= @gitlab_rails[k].to_yaml.gsub(/\s+$/,'').gsub(/---\s*\n/,'') %>
+EOS
+<%- else -%>
 gitlab_rails['<%= k -%>'] = <%= decorate(@gitlab_rails[k]) %>
-<%- end end -%>
+<%- end end end -%>
 <%- if @user -%>
 
 ###############

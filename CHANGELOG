@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## v1.11.0 [2016-12-23]
+
+* Feature to manage `manage_storage_directores`. Thanks to Greg Dowmont
+* Feature to manage `external_port`. Thanks to @blakejakopovic
+* New parameter `service_provider`. Thanks to @petems
+* Better systemd compatibility. Thanks to @petems and @bastian.jeske
+* Beaver acceptance tests. Thanks to @petems
+* `external_url` now defaults to `http://$fqdn`. Thanks to @willonit
+* Fixes to gitlab.rb template for `gitlab_rails` setting. Thanks to John Nicholas
+* Small fix for easier upgrading from ce to ee. Thanks to @dhollinger
+
 ## v1.10.0 [2016-08-10]
 
 * Several small fixes

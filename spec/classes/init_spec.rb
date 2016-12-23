@@ -18,7 +18,7 @@ describe 'gitlab' do
       it { is_expected.to contain_class('gitlab::install').that_comes_before('Class[gitlab::config]') }
       it { is_expected.to contain_class('gitlab::config') }
       it { is_expected.to contain_class('gitlab::service').that_subscribes_to('Class[gitlab::config]') }
-      it { is_expected.to contain_apt__source('gitlab_official') }
+      it { is_expected.to contain_apt__source('gitlab_official_ce') }
       it { is_expected.to contain_exec('gitlab_reconfigure') }
       it { is_expected.to contain_file('/etc/gitlab/gitlab.rb') }
 
@@ -55,7 +55,7 @@ describe 'gitlab' do
       it { is_expected.to contain_class('gitlab::install').that_comes_before('Class[gitlab::config]') }
       it { is_expected.to contain_class('gitlab::config') }
       it { is_expected.to contain_class('gitlab::service').that_subscribes_to('Class[gitlab::config]') }
-      it { is_expected.to contain_yumrepo('gitlab_official') }
+      it { is_expected.to contain_yumrepo('gitlab_official_ce') }
 
       it { is_expected.to contain_service('gitlab-runsvdir') }
       it { is_expected.to contain_package('gitlab-ce').with_ensure('installed') }

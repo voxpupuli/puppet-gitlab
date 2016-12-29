@@ -63,6 +63,9 @@ class gitlab::cirunner (
   if $manage_repo {
     case $::osfamily {
       'Debian': {
+        include apt
+        ensure_packages('apt-transport-https')
+
         $distid = downcase($::lsbdistid)
 
         ::apt::source { 'apt_gitlabci':

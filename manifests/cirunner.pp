@@ -48,6 +48,9 @@ class gitlab::cirunner (
 
   if $manage_docker {
     include ::docker
+    # workaround for cirunner issue #1617
+    # https://gitlab.com/gitlab-org/gitlab-ci-multi-runner/issues/1617
+    ensure_packages('xz-utils')
 
     $docker_images = {
       ubuntu_trusty => {

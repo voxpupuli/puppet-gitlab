@@ -138,9 +138,9 @@ class gitlab::cirunner (
     require     => Package['gitlab-ci-multi-runner'],
   }
 
-  $runners_hash = hiera($hiera_runners_key, {})
+  $runners_hash = hiera_hash($hiera_runners_key, {})
   $runners = keys($runners_hash)
-  $default_config = hiera($hiera_default_config_key, {})
+  $default_config = hiera_hash($hiera_default_config_key, {})
   gitlab::runner { $runners:
     default_config => $default_config,
     runners_hash   => $runners_hash,

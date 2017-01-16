@@ -16,6 +16,8 @@ end
 def decorate(v)
     if v =~ /\AYAML/
         return v
+    elsif v =~ /^[\d]+$/
+        return Integer(v)
     elsif v.is_a?(String)
         return "'#{v}'"
     elsif v.is_a?(Array)
@@ -23,9 +25,13 @@ def decorate(v)
         v.each { |elem|
             temp.push(decorate(elem))
         }
-        return "[#{temp.join(',')}]"
+        return v
     elsif v.is_a?(Hash)
-        return sort_nested_hash_inspect(v)
+        temp = {}
+        v.each { |k, val|
+            temp[k] = decorate(val)
+        }
+        return sort_nested_hash_inspect(temp)
     else
         return v
     end

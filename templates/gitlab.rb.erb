@@ -262,7 +262,7 @@ ci_redis['<%= k -%>'] = <%= decorate(@ci_redis[k]) %>
 <%- @_real_ci_nginx.keys.sort.each do |k| -%>
 ci_nginx['<%= k -%>'] = <%= decorate(@_real_ci_nginx[k]) %>
 <%- end end -%>
-<%- if @promethues -%>
+<%- if @prometheus -%>
 
 ##############
 # Prometheus #

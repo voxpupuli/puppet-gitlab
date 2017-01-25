@@ -30,10 +30,12 @@ class gitlab::config {
   $mattermost_nginx = $::gitlab::mattermost_nginx
   $mattermost_nginx_eq_nginx = $::gitlab::mattermost_nginx_eq_nginx
   $nginx = $::gitlab::nginx
+  $node_exporter = $::gitlab::node_exporter
   $pages_external_url = $::gitlab::pages_external_url
   $pages_nginx = $::gitlab::pages_nginx
   $pages_nginx_eq_nginx = $::gitlab::pages_nginx_eq_nginx
   $postgresql = $::gitlab::postgresql
+  $prometheus = $::gitlab::prometheus
   $redis = $::gitlab::redis
   $registry = $::gitlab::registry
   $registry_nginx = $::gitlab::registry_nginx
@@ -83,11 +85,11 @@ class gitlab::config {
   if $config_manage {
     if $source_config_file {
       file { $config_file:
-        ensure  => file,
-        owner   => $service_user,
-        group   => $service_group,
-        mode    => '0600',
-        source  => $source_config_file,
+        ensure => file,
+        owner  => $service_user,
+        group  => $service_group,
+        mode   => '0600',
+        source => $source_config_file,
       }
     } else {
       file { $config_file:

@@ -34,7 +34,9 @@ class gitlab::cirunner (
   $hiera_runners_key = 'gitlab_ci_runners',
   $manage_docker = true,
   $manage_repo = true,
+  $xz_package_name = 'xz-utils',
   $package_ensure = installed,
+
 ) {
 
   validate_string($hiera_default_config_key)
@@ -50,7 +52,7 @@ class gitlab::cirunner (
     include ::docker
     # workaround for cirunner issue #1617
     # https://gitlab.com/gitlab-org/gitlab-ci-multi-runner/issues/1617
-    ensure_packages('xz-utils')
+    ensure_packages($xz_package_name)
 
     $docker_images = {
       ubuntu_trusty => {

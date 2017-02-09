@@ -5,17 +5,24 @@
 # As this template is writing a config file based on some hashes and hashes are not meant to be in a certain order,
 # We need to ensure that the order of the keys are always outputed in the same order.
 # Otherwise puppet will always update(change) the config file.
-def sort_nested_hash_inspect(h)
-    if h.class.name == 'Hash'
-        "{" + h.sort.map{|key, value| "\"#{key}\"=>#{sort_nested_hash_inspect(value)}"}.join(", ") + "}"
-    else
-        h.inspect
+
+def sort_hash_by_key(hash, deep=true, &block)
+  if hash.kind_of?(Hash)
+    hash.keys.sort(&block).reduce({}) do |memo, key|
+      memo[key] = hash[key]
+      if deep && memo[key].kind_of?(Hash)
+        memo[key] = sort_hash_by_key(memo[key], true, &block)
+      end
+      memo
     end
+  end
 end
 
 def decorate(v)
     if v =~ /\AYAML/
         return v
+    elsif v =~ /^[\d]+$/
+        return Integer(v)
     elsif v.is_a?(String)
         return "'#{v}'"
     elsif v.is_a?(Array)
@@ -23,13 +30,18 @@ def decorate(v)
         v.each { |elem|
             temp.push(decorate(elem))
         }
-        return "[#{temp.join(',')}]"
+        return v
     elsif v.is_a?(Hash)
-        return sort_nested_hash_inspect(v)
+        temp = {}
+        v.each { |k, val|
+            temp[k] = decorate(val)
+        }
+        return sort_hash_by_key(temp)
     else
         return v
     end
-end -%>
+end
+-%>
 
 ## Url on which GitLab will be reachable.
 ## For more details on configuring external_url see:
@@ -51,11 +63,13 @@ git_data_dir "<%= @git_data_dir %>"
 # gitlab.yml configuration #
 ############################
 
+
 <%- @gitlab_rails.keys.sort.each do |k| -%>
 <%- if k == 'ldap_servers' -%>
 gitlab_rails['<%= k -%>'] = YAML.load <<-EOS
-<%= @gitlab_rails[k].to_yaml.gsub(/\s+$/,'').gsub(/---\s*\n/,'') %>
+<%= sort_hash_by_key(@gitlab_rails[k]).to_yaml.gsub(/\s+$/,'').gsub(/---\s*\n/,'') %>
 EOS
+
 <%- else -%>
 gitlab_rails['<%= k -%>'] = <%= decorate(@gitlab_rails[k]) %>
 <%- end end end -%>

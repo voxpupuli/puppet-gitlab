@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## v.1.11.2 [2017-02-09]
+* Fixed Sorted Hash method in gitlab.rb template to sort ldap hash too
+
+## v.1.11.1 [2017-01-12]
+
+* Fixed gitlab.rb template for Integers in `gitlab_rails` setting because of rack_attack_git_basic_auth will fail during gitlab reconfiguration if the Integer Values are Strings.
+
 ## v1.11.0 [2016-12-23]
 
 * Feature to manage `manage_storage_directores`. Thanks to Greg Dowmont
@@ -10,13 +17,6 @@
 * `external_url` now defaults to `http://$fqdn`. Thanks to @willonit
 * Fixes to gitlab.rb template for `gitlab_rails` setting. Thanks to John Nicholas
 * Small fix for easier upgrading from ce to ee. Thanks to @dhollinger
-
-## v.1.11.2 [2017-02-09]
-* Fixed Sorted Hash method in gitlab.rb template to sort ldap hash too
-
-## v.1.11.0 [2017-01-12]
-
-* Fixed gitlab.rb template for Integers in `gitlab_rails` setting because of rack_attack_git_basic_auth will fail during gitlab reconfiguration if the Integer Values are Strings. 
 
 ## v1.10.0 [2016-08-10]
 

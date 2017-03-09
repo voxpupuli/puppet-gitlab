@@ -264,6 +264,15 @@ describe 'gitlab' do
         .with_content(/^\s*mattermost\['enable'\] = true$/)
       }
     end
+    describe 'prometheus with hash value' do
+      let(:params) {{:prometheus => {
+        'enable' => true,
+      }}}
+
+      it { is_expected.to contain_file('/etc/gitlab/gitlab.rb') \
+        .with_content(/^\s*prometheus\['enable'\] = true$/)
+      }
+    end
     describe 'with manage_package => false' do
       let(:params) {{:manage_package => false }}
 

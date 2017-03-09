@@ -33,6 +33,7 @@ class gitlab::config {
   $pages_external_url = $::gitlab::pages_external_url
   $pages_nginx = $::gitlab::pages_nginx
   $pages_nginx_eq_nginx = $::gitlab::pages_nginx_eq_nginx
+  $prometheus = $::gitlab::prometheus
   $postgresql = $::gitlab::postgresql
   $redis = $::gitlab::redis
   $registry = $::gitlab::registry

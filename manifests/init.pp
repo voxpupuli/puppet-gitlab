@@ -318,6 +318,7 @@ class gitlab (
   $pages_nginx = undef,
   $pages_nginx_eq_nginx = false,
   $postgresql = undef,
+  $prometheus = undef,
   $redis = undef,
   $registry = undef,
   $registry_external_url = undef,

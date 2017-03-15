@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## v.1.11.1 [2017-01-12]
+## UNRELEASED
 
 * Fixed gitlab.rb template for Integers in `gitlab_rails` setting because of rack_attack_git_basic_auth will fail during gitlab reconfiguration if the Integer Values are Strings. 
 

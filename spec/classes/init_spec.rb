@@ -235,7 +235,7 @@ describe 'gitlab' do
 
       it { is_expected.to contain_file('/etc/gitlab/gitlab.rb') \
         .with_content(/^\s*gitlab_rails\['ldap_enabled'\] = true$/)
-        .with_content(/^\s*gitlab_rails\['ldap_servers'\] = YAML.load <<-EOS\n  main:\n    label: LDAP\n    host: \"_your_ldap_server\"\n    port: \"?389\"?\n    uid: sAMAccountName\n    method: plain\n    bind_dn: \"_the_full_dn_of_the_user_you_will_bind_with\"\n    password: \"_the_password_of_the_bind_user\"\n    active_directory: true\n    allow_username_or_email_login: false\n    block_auto_created_users: false\n    base: \"\"\n    user_filter: \"\"\nEOS\n/m)
+        .with_content(/^\s*gitlab_rails\['ldap_servers'\] = YAML.load <<-EOS\n  main:\n    active_directory: true\n    allow_username_or_email_login: false\n    base: \"\"\n    bind_dn: \"_the_full_dn_of_the_user_you_will_bind_with\"\n    block_auto_created_users: false\n    host: \"_your_ldap_server\"\n    label: LDAP\n    method: plain\n    password: \"_the_password_of_the_bind_user\"\n    port: \"?389\"?\n    uid: sAMAccountName\n    user_filter: \"\"\nEOS\n/m)
         .with_content(/^\s*gitlab_rails\['omniauth_providers'\] = \[{\"name\"=>\"google_oauth2\", \"app_id\"=>\"YOUR APP ID\", \"app_secret\"=>\"YOUR APP SECRET\", \"args\"=>{\"access_type\"=>\"offline\", \"approval_prompt\"=>\"\"}}\]$/)
       }
     end

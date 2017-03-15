@@ -36,7 +36,6 @@ class gitlab::cirunner (
   $manage_repo = true,
   $xz_package_name = 'xz-utils',
   $package_ensure = installed,
-
 ) {
 
   validate_string($hiera_default_config_key)

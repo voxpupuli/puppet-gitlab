@@ -34,6 +34,7 @@ class gitlab::cirunner (
   $hiera_runners_key = 'gitlab_ci_runners',
   $manage_docker = true,
   $manage_repo = true,
+  $xz_package_name = 'xz-utils',
   $package_ensure = installed,
 ) {
 
@@ -50,7 +51,7 @@ class gitlab::cirunner (
     include ::docker
     # workaround for cirunner issue #1617
     # https://gitlab.com/gitlab-org/gitlab-ci-multi-runner/issues/1617
-    ensure_packages('xz-utils')
+    ensure_packages($xz_package_name)
 
     $docker_images = {
       ubuntu_trusty => {
@@ -66,6 +67,9 @@ class gitlab::cirunner (
   if $manage_repo {
     case $::osfamily {
       'Debian': {
+        include apt
+        ensure_packages('apt-transport-https')
+
         $distid = downcase($::lsbdistid)
 
         ::apt::source { 'apt_gitlabci':
@@ -138,9 +142,9 @@ class gitlab::cirunner (
     require     => Package['gitlab-ci-multi-runner'],
   }
 
-  $runners_hash = hiera($hiera_runners_key, {})
+  $runners_hash = hiera_hash($hiera_runners_key, {})
   $runners = keys($runners_hash)
-  $default_config = hiera($hiera_default_config_key, {})
+  $default_config = hiera_hash($hiera_default_config_key, {})
   gitlab::runner { $runners:
     default_config => $default_config,
     runners_hash   => $runners_hash,

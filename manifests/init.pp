@@ -174,6 +174,10 @@
 #   Default: undef
 #   Hash of 'nginx' config parameters.
 #
+# [*node_exporter*]
+#   Default: undef
+#   Hash of 'node_exporter' config parameters.
+#
 # [*pages_external_url*]
 #   Default: undef
 #   External URL of Gitlab Pages.
@@ -189,6 +193,10 @@
 # [*postgresql*]
 #   Default: undef
 #   Hash of 'postgresql' config parameters.
+#
+# [*prometheus*]
+#   Default: undef
+#   Hash of 'prometheus' config parameters.
 #
 # [*redis*]
 #   Default: undef
@@ -314,10 +322,12 @@ class gitlab (
   $mattermost_nginx = undef,
   $mattermost_nginx_eq_nginx = false,
   $nginx = undef,
+  $node_exporter = undef,
   $pages_external_url = undef,
   $pages_nginx = undef,
   $pages_nginx_eq_nginx = false,
   $postgresql = undef,
+  $prometheus = undef,
   $redis = undef,
   $registry = undef,
   $registry_external_url = undef,

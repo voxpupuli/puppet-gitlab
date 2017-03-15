@@ -248,6 +248,15 @@ describe 'gitlab' do
         .with_content(/^\s*gitlab_git_http_server\['enable'\] = true$/)
       }
     end
+    describe 'gitlab_rails with string value' do
+      let(:params) {{:gitlab_rails => {
+        'backup_path' => '/opt/gitlab_backup',
+      }}}
+
+      it { is_expected.to contain_file('/etc/gitlab/gitlab.rb') \
+        .with_content(/^\s*gitlab_rails\['backup_path'\] = \'\/opt\/gitlab_backup\'$/)
+      }
+    end
     describe 'rack_attack_git_basic_auth with Numbers and Strings' do
       let(:params) {{
          :gitlab_rails => {

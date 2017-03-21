@@ -34,7 +34,7 @@ def decorate(v)
     elsif v.is_a?(Hash)
         temp = {}
         v.each { |k, val|
-            temp[k] = decorate(val)
+            temp[k] = val
         }
         return sort_hash_by_key(temp)
     else

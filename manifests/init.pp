@@ -178,6 +178,18 @@
 #   Default: undef
 #   Hash of 'node_exporter' config parameters.
 #
+# [*redis_exporter*]
+#   Default: undef
+#   Hash of 'redis_exporter' config parameters.
+#
+# [*postgres_exporter*]
+#   Default: undef
+#   Hash of 'postgres_exporter' config parameters.
+#
+# [*gitlab_monitor*]
+#   Default: undef
+#   Hash of 'gitlab_monitor' config parameters.
+#
 # [*pages_external_url*]
 #   Default: undef
 #   External URL of Gitlab Pages.
@@ -323,6 +335,9 @@ class gitlab (
   $mattermost_nginx_eq_nginx = false,
   $nginx = undef,
   $node_exporter = undef,
+  $redis_exporter = undef,
+  $postgres_exporter = undef,
+  $gitlab_monitor = undef,
   $pages_external_url = undef,
   $pages_nginx = undef,
   $pages_nginx_eq_nginx = false,

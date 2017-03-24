@@ -296,7 +296,35 @@ prometheus['<%= k -%>'] = <%= decorate(@prometheus[k]) %>
 <%- @node_exporter.keys.sort.each do |k| -%>
 node_exporter['<%= k -%>'] = <%= decorate(@node_exporter[k]) %>
 <%- end end -%>
+<%- if @redis_exporter -%>
+
+################################################################################
+## Prometheus Redis exporter
+##! Docs: https://docs.gitlab.com/ce/administration/monitoring/performance/prometheus.html
+
+<%- @redis_exporter.keys.sort.each do |k| -%>
+redis_exporter['<%= k -%>'] = <%= decorate(@redis_exporter[k]) %>
+<%- end end -%>
+<%- if @postgres_exporter -%>
+
+################################################################################
+## Postgres exporter
+##! Docs: https://docs.gitlab.com/ce/administration/monitoring/performance/prometheus.html
+
+<%- @postgres_exporter.keys.sort.each do |k| -%>
+postgres_exporter['<%= k -%>'] = <%= decorate(@postgres_exporter[k]) %>
+<%- end end -%>
+<%- if @gitlab_monitor -%>
+
+################################################################################
+## Gitlab monitor
+##! Docs: https://docs.gitlab.com/ce/administration/monitoring/performance/prometheus.html
+
+<%- @gitlab_monitor.keys.sort.each do |k| -%>
+gitlab_monitor['<%= k -%>'] = <%= decorate(@gitlab_monitor[k]) %>
+<%- end end -%>
 <%- if @high_availability -%>
+
 
 #####################
 # High Availability #

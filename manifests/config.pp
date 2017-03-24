@@ -31,6 +31,9 @@ class gitlab::config {
   $mattermost_nginx_eq_nginx = $::gitlab::mattermost_nginx_eq_nginx
   $nginx = $::gitlab::nginx
   $node_exporter = $::gitlab::node_exporter
+  $redis_exporter = $::gitlab::redis_exporter
+  $postgres_exporter = $::gitlab::postgres_exporter
+  $gitlab_monitor = $::gitlab::gitlab_monitor
   $pages_external_url = $::gitlab::pages_external_url
   $pages_nginx = $::gitlab::pages_nginx
   $pages_nginx_eq_nginx = $::gitlab::pages_nginx_eq_nginx

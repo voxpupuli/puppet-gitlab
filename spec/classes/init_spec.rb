@@ -216,7 +216,7 @@ describe 'gitlab' do
       it { is_expected.to contain_file('/etc/gitlab/gitlab.rb') \
         .with_content(/^\s*gitlab_rails\['ldap_enabled'\] = true$/)
         .with_content(/^\s*gitlab_rails\['ldap_servers'\] = YAML.load <<-EOS\n  main:\n    active_directory: true\n    allow_username_or_email_login: false\n    base: \"\"\n    bind_dn: \"_the_full_dn_of_the_user_you_will_bind_with\"\n    block_auto_created_users: false\n    host: \"_your_ldap_server\"\n    label: LDAP\n    method: plain\n    password: \"_the_password_of_the_bind_user\"\n    port: \"?389\"?\n    uid: sAMAccountName\n    user_filter: \"\"\nEOS\n/m)
-        .with_content(/^\s*gitlab_rails\['omniauth_providers'\] = \[{\"name\"=>\"google_oauth2\", \"app_id\"=>\"YOUR APP ID\", \"app_secret\"=>\"YOUR APP SECRET\", \"args\"=>{\"access_type\"=>\"offline\", \"approval_prompt\"=>\"\"}}\]$/)
+        .with_content(/^\s*gitlab_rails\['omniauth_providers'\] = \[{\"app_id\"=>\"YOUR APP ID\", \"app_secret\"=>\"YOUR APP SECRET\", \"args\"=>{\"access_type\"=>\"offline\", \"approval_prompt\"=>\"\"}, \"name\"=>\"google_oauth2\"}\]$/)
       }
     end
     describe 'gitlab_git_http_server with hash value' do
@@ -234,7 +234,7 @@ describe 'gitlab' do
       }}}
 
       it { is_expected.to contain_file('/etc/gitlab/gitlab.rb') \
-        .with_content(/^\s*gitlab_rails\['backup_path'\] = \'\/opt\/gitlab_backup\'$/)
+        .with_content(/^\s*gitlab_rails\['backup_path'\] = "\/opt\/gitlab_backup"$/)
       }
     end
     describe 'rack_attack_git_basic_auth with Numbers and Strings' do

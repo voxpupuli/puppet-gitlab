@@ -18,28 +18,20 @@ def sort_hash_by_key(hash, deep=true, &block)
   end
 end
 
+def numify(obj)
+  if obj.is_a?(String)
+    Integer(obj) rescue Float(obj) rescue obj
+  elsif obj.is_a?(Array)
+    obj.map { |item| numify(item) }
+  elsif obj.is_a?(Hash)
+    sort_hash_by_key(obj.merge(obj) { |_, v| numify(v) })
+  else
+    obj
+  end
+end
+
 def decorate(v)
-    if v =~ /\AYAML/
-        return v
-    elsif v =~ /^[\d]+$/
-        return Integer(v)
-    elsif v.is_a?(String)
-        return "'#{v}'"
-    elsif v.is_a?(Array)
-        temp = []
-        v.each { |elem|
-            temp.push(decorate(elem))
-        }
-        return v
-    elsif v.is_a?(Hash)
-        temp = {}
-        v.each { |k, val|
-            temp[k] = val
-        }
-        return sort_hash_by_key(temp)
-    else
-        return v
-    end
+  numify(v).inspect
 end
 -%>
 

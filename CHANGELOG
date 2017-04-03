@@ -1,8 +1,16 @@
 # CHANGELOG
 
-## UNRELEASED
+## v1.12.0 [2017-04-03]
 
 * Fixed gitlab.rb template for Integers in `gitlab_rails` setting because of rack_attack_git_basic_auth will fail during gitlab reconfiguration if the Integer Values are Strings. 
+* Add dependencies to apt-transport-https, xz-utils
+* Merge hashes for runner configuration
+* Fix use of integers in gitlab_rails settings
+* Add Prometheus and node_exporter params
+* Fix hash sorting for LDAP
+* Remove pe requirement
+* Do not decorate within hash to avoid quoting twice
+* Remove ci_external_url parameter as it breaks configuration build
 
 ## v1.11.0 [2016-12-23]
 

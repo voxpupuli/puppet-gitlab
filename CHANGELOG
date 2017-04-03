@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## v1.13.2 [2017-04-03]
+
+* Fix handling of integers and string quoting in gitlab.rb
+* Fix spec test
+
+## v1.13.1 [2017-04-03]
+
+* Fix metadata.json
+
 ## v1.13.0 [2017-04-03]
 
 * Remove ci_nginx configuration options for compatibility with Gitlab 9

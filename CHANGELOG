@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v1.13.0 [2017-04-03]
+
+* Remove ci_nginx configuration options for compatibility with Gitlab 9
+
 ## v1.12.0 [2017-04-03]
 
 * Fixed gitlab.rb template for Integers in `gitlab_rails` setting because of rack_attack_git_basic_auth will fail during gitlab reconfiguration if the Integer Values are Strings. 

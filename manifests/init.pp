@@ -82,14 +82,6 @@
 #   Default: /etc/gitlab/gitlab.rb
 #   Path of the Gitlab Omnibus config file.
 #
-# [*ci_nginx_eq_nginx*]
-#   Default: false
-#   Replicate the CI Nginx config from the Gitlab Nginx config.
-#
-# [*ci_nginx*]
-#   Default: undef
-#   Hash of 'ci_nginx' config parameters.
-#
 # [*ci_redis*]
 #   Default: undef
 #   Hash of 'ci_redis' config parameters.
@@ -269,7 +261,6 @@
 #    edition           => 'ee',
 #    external_url      => 'https://gitlab.mydomain.tld',
 #    nginx             => { redirect_http_to_https => true },
-#    ci_nginx_eq_nginx => true,
 #  }
 #
 # === Authors
@@ -304,8 +295,6 @@ class gitlab (
   $service_provider = $::gitlab::params::service_provider,
   # gitlab specific
   $edition = 'ce',
-  $ci_nginx = undef,
-  $ci_nginx_eq_nginx = false,
   $ci_redis = undef,
   $ci_unicorn = undef,
   $config_manage = $::gitlab::params::config_manage,
@@ -368,8 +357,6 @@ class gitlab (
   validate_re($edition, [ '^ee$', '^ce$' ])
   validate_bool($config_manage)
   validate_absolute_path($config_file)
-  if $ci_nginx { validate_hash($ci_nginx) }
-  validate_bool($ci_nginx_eq_nginx)
   if $ci_redis { validate_hash($ci_redis) }
   if $ci_unicorn { validate_hash($ci_unicorn) }
   validate_string($external_url)

@@ -5,8 +5,6 @@
 class gitlab::config {
 
   # get variables from the toplevel manifest for usage in the template
-  $ci_nginx = $::gitlab::ci_nginx
-  $ci_nginx_eq_nginx = $::gitlab::ci_nginx_eq_nginx
   $ci_redis = $::gitlab::ci_redis
   $ci_unicorn = $::gitlab::ci_unicorn
   $config_manage = $::gitlab::config_manage
@@ -55,13 +53,6 @@ class gitlab::config {
   $gitlab_workhorse = $::gitlab::gitlab_workhorse
   $user = $::gitlab::user
   $web_server = $::gitlab::web_server
-
-  # replicate $nginx to $ci_nginx if $ci_nginx_eq_nginx true
-  if $ci_nginx_eq_nginx {
-    $_real_ci_nginx = $nginx
-  } else {
-    $_real_ci_nginx = $ci_nginx
-  }
 
   # replicate $nginx to $mattermost_nginx if $mattermost_nginx_eq_nginx true
   if $mattermost_nginx_eq_nginx {

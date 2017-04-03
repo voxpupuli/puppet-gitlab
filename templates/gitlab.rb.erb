@@ -256,17 +256,6 @@ ci_unicorn['<%= k -%>'] = <%= decorate(@ci_unicorn[k]) %>
 <%- @ci_redis.keys.sort.each do |k| -%>
 ci_redis['<%= k -%>'] = <%= decorate(@ci_redis[k]) %>
 <%- end end -%>
-<%- if @_real_ci_nginx -%>
-
-###################
-# GitLab CI NGINX #
-###################
-## see https://gitlab.com/gitlab-org/omnibus-gitlab/tree/629def0a7a26e7c2326566f0758d4a27857b52a3/doc/settings/nginx.md
-## You can tell the bundled NGINX that it should not serve up GitLab CI by setting ci_nginx['enable'] to false.
-
-<%- @_real_ci_nginx.keys.sort.each do |k| -%>
-ci_nginx['<%= k -%>'] = <%= decorate(@_real_ci_nginx[k]) %>
-<%- end end -%>
 <%- if @prometheus -%>
 
 ##############

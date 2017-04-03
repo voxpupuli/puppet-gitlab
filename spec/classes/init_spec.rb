@@ -155,12 +155,6 @@ describe 'gitlab' do
         .with_content(/^\s*external_port '987654'$/)
       }
     end
-    describe 'ci_external_url' do
-      let(:params) { {:ci_external_url => 'http://gitlabci.mycompany.com/'} }
-      it { is_expected.to contain_file('/etc/gitlab/gitlab.rb') \
-        .with_content(/^\s*ci_external_url 'http:\/\/gitlabci\.mycompany\.com\/'$/)
-      }
-    end
     describe 'nginx' do
       let(:params) { {:nginx => {
         'enable' => true,

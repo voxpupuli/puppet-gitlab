@@ -82,10 +82,6 @@
 #   Default: /etc/gitlab/gitlab.rb
 #   Path of the Gitlab Omnibus config file.
 #
-# [*ci_external_url*]
-#   Default: undef
-#   External URL of Gitlab CI.
-#
 # [*ci_nginx_eq_nginx*]
 #   Default: false
 #   Replicate the CI Nginx config from the Gitlab Nginx config.
@@ -271,7 +267,6 @@
 #
 #  class { 'gitlab':
 #    edition           => 'ee',
-#    ci_external_url   => 'https://myci.mydomain.tld',
 #    external_url      => 'https://gitlab.mydomain.tld',
 #    nginx             => { redirect_http_to_https => true },
 #    ci_nginx_eq_nginx => true,
@@ -309,7 +304,6 @@ class gitlab (
   $service_provider = $::gitlab::params::service_provider,
   # gitlab specific
   $edition = 'ce',
-  $ci_external_url = undef,
   $ci_nginx = undef,
   $ci_nginx_eq_nginx = false,
   $ci_redis = undef,
@@ -378,7 +372,6 @@ class gitlab (
   validate_bool($ci_nginx_eq_nginx)
   if $ci_redis { validate_hash($ci_redis) }
   if $ci_unicorn { validate_hash($ci_unicorn) }
-  if $ci_external_url { validate_string($ci_external_url) }
   validate_string($external_url)
   if $git  { validate_hash($git) }
   if $git_data_dir { validate_absolute_path($git_data_dir) }

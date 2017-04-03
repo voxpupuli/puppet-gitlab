@@ -5,7 +5,6 @@
 class gitlab::config {
 
   # get variables from the toplevel manifest for usage in the template
-  $ci_external_url = $::gitlab::ci_external_url
   $ci_nginx = $::gitlab::ci_nginx
   $ci_nginx_eq_nginx = $::gitlab::ci_nginx_eq_nginx
   $ci_redis = $::gitlab::ci_redis

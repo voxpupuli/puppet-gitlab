@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v1.13.3 [2017-04-04]
+
+* Remove broken and unnecessary YAML workaround from gitlab.rb.erb
+
 ## v1.13.2 [2017-04-03]
 
 * Fix handling of integers and string quoting in gitlab.rb

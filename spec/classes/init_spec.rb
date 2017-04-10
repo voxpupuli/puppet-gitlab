@@ -274,6 +274,24 @@ describe 'gitlab' do
         .with_content(/^\s*mattermost\['enable'\] = true$/)
       }
     end
+    describe 'prometheus with hash value' do
+      let(:params) {{:prometheus => {
+        'enable' => true,
+      }}}
+
+      it { is_expected.to contain_file('/etc/gitlab/gitlab.rb') \
+        .with_content(/^\s*prometheus\['enable'\] = true$/)
+      }
+    end
+    describe 'prometheus with hash value change listen address' do
+      let(:params) {{:prometheus => {
+        'listen_address' => 'localhost:9091',
+      }}}
+
+      it { is_expected.to contain_file('/etc/gitlab/gitlab.rb') \
+        .with_content(/^\s*prometheus\['listen_address'\] = 'localhost:9091'$/)
+      }
+    end
     describe 'with manage_package => false' do
       let(:params) {{:manage_package => false }}
 

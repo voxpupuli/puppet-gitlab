@@ -379,3 +379,12 @@ registry_nginx['<%= k -%>'] = <%= decorate(@_real_registry_nginx[k]) %>
 <%- @manage_accounts.keys.sort.each do |k| -%>
 manage_accounts['<%= k -%>'] = <%= decorate(@manage_accounts[k]) %>
 <%- end end -%>
+<%- if @prometheus -%>
+##############
+# Prometheus #
+##############
+## see: https://docs.gitlab.com/ce/administration/monitoring/prometheus/index.html
+
+<%- @prometheus.keys.sort.each do |k| -%>
+prometheus['<%= k -%>'] = <%= decorate(@prometheus[k]) %>
+<%- end end -%>

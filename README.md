@@ -164,6 +164,23 @@ gitlab::gitlab_rails:
       user_filter: ''
 ```
 
+### Enable Gitlab Embedded Prometheus
+
+Currently there is not a lot to be done here, as Gitlab pretty much only support on or off (default). To do with Hiera:
+
+```yaml
+gitlab::prometheus:
+  enable: true
+```
+
+If you are using Gitlab 8.17, you can change the listening address with:
+
+```yaml
+gitlab::prometheus:
+  enable: true
+  listen_address: 'localhost:9091'
+```
+
 ### Gitlab CI Runner Config
 
 Here is an example how to configure Gitlab CI runners using Hiera:

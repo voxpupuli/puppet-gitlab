@@ -37,12 +37,16 @@ class gitlab::config {
   $postgresql = $::gitlab::postgresql
   $prometheus = $::gitlab::prometheus
   $redis = $::gitlab::redis
+  $redis_master_role = $::gitlab::redis_master_role
+  $redis_slave_role = $::gitlab::redis_slave_role
+  $redis_sentinel_role = $::gitlab::redis_sentinel_role
   $registry = $::gitlab::registry
   $registry_nginx = $::gitlab::registry_nginx
   $registry_nginx_eq_nginx = $::gitlab::registry_nginx_eq_nginx
   $registry_external_url = $::gitlab::registry_external_url
   $secrets = $::gitlab::secrets
   $secrets_file = $::gitlab::secrets_file
+  $sentinel = $::gitlab::sentinel
   $service_group = $::gitlab::service_group
   $service_manage = $::gitlab::service_manage
   $service_user = $::gitlab::service_user

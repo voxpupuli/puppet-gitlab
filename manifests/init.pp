@@ -202,6 +202,18 @@
 #   Default: undef
 #   Hash of 'redis' config parameters.
 #
+# [*redis_master_role*]
+#   Default: undef
+#   To enable Redis master role for the node.
+#
+# [*redis_slave_role*]
+#   Default: undef
+#   To enable Redis slave role for the node.
+#
+# [*redis_sentinel_role*]
+#   Default: undef
+#   To enable sentinel role for the node.
+#
 # [*registry*]
 #   Default: undef
 #   Hash of 'registry' config parameters.
@@ -226,6 +238,10 @@
 # [*secrets_file*]
 #   Default: /etc/gitlab/gitlab-secrets.json
 #   Full path to secrets JSON file.
+#
+# [*sentinel*]
+#   Default: undef
+#   Hash of 'sentinel' config parameters.
 #
 # [*shell*]
 #   Default: undef
@@ -327,12 +343,16 @@ class gitlab (
   $postgresql = undef,
   $prometheus = undef,
   $redis = undef,
+  $redis_master_role = undef,
+  $redis_slave_role = undef,
+  $redis_sentinel_role = undef,
   $registry = undef,
   $registry_external_url = undef,
   $registry_nginx = undef,
   $registry_nginx_eq_nginx = false,
   $secrets = undef,
   $secrets_file = $::gitlab::params::secrets_file,
+  $sentinel = undef,
   $shell = undef,
   $sidekiq = undef,
   $source_config_file = undef,
@@ -379,11 +399,15 @@ class gitlab (
   validate_bool($pages_nginx_eq_nginx)
   if $postgresql { validate_hash($postgresql) }
   if $redis { validate_hash($redis) }
+  if $redis_master_role { validate_bool($redis_master_role) }
+  if $redis_slave_role { validate_bool($redis_slave_role) }
+  if $redis_sentinel_role { validate_bool($redis_sentinel_role) }
   if $registry { validate_hash($registry) }
   if $registry_nginx { validate_hash($registry_nginx) }
   validate_bool($registry_nginx_eq_nginx)
   if $registry_external_url { validate_string($registry_external_url) }
   if $secrets { validate_hash($secrets) }
+  if $sentinel { validate_hash($sentinel) }
   if $shell { validate_hash($shell) }
   if $sidekiq { validate_hash($sidekiq) }
   if $unicorn { validate_hash($unicorn) }

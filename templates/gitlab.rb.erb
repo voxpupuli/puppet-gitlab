@@ -116,6 +116,24 @@ postgresql['<%= k -%>'] = <%= decorate(@postgresql[k]) %>
 <%- @redis.keys.sort.each do |k| -%>
 redis['<%= k -%>'] = <%= decorate(@redis[k]) %>
 <%- end end -%>
+<%- if @redis_master_role -%>
+#######################
+# Gitlab Redis Master #
+#######################
+## see https://docs.gitlab.com/omnibus/settings/redis.html
+## see https://gitlab.com/gitlab-org/omnibus-gitlab/blob/master/files/gitlab-config-template/gitlab.rb.template#L667
+
+redis_master_role['enable'] = true
+<%- end -%>
+<%- if @redis_slave_role -%>
+#######################
+# Gitlab Redis Slave #
+#######################
+## see https://docs.gitlab.com/omnibus/settings/redis.html
+## see https://gitlab.com/gitlab-org/omnibus-gitlab/blob/master/files/gitlab-config-template/gitlab.rb.template#L668
+
+redis_slave_role['enable'] = true
+<%- end -%>
 <%- if @web_server -%>
 
 #####################
@@ -378,4 +396,22 @@ registry_nginx['<%= k -%>'] = <%= decorate(@_real_registry_nginx[k]) %>
 
 <%- @manage_accounts.keys.sort.each do |k| -%>
 manage_accounts['<%= k -%>'] = <%= decorate(@manage_accounts[k]) %>
+<%- end end -%>
+<%- if @redis_sentinel_role -%>
+
+##################
+# Redis Sentinel #
+##################
+
+sentinel['enable'] = true
+<%- end -%>
+<%- if @sentinel -%>
+
+###################
+# GitLab Sentinel #
+###################
+## To enable Sentinel and disable all other services in this machine, enable below section.
+## https://gitlab.com/gitlab-org/omnibus-gitlab/blob/master/files/gitlab-config-template/gitlab.rb.template#L1406-1453
+<%- @sentinel.keys.sort.each do |k| -%>
+redis['<%= k -%>'] = <%= decorate(@sentinel[k]) %>
 <%- end end -%>

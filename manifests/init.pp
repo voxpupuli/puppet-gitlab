@@ -102,6 +102,10 @@
 #   Default: undef
 #   Hash of 'omnibus_gitconfig' config parameters.
 #
+# [*gitaly*]
+#   Default: undef
+#   Hash of 'Gitaly' config parameters.
+#
 # [*git_data_dir*]
 #   Default: undef
 #   Git data dir
@@ -318,6 +322,7 @@ class gitlab (
   $external_url = $::gitlab::params::external_url,
   $external_port = undef,
   $git = undef,
+  $gitaly = undef,
   $git_data_dir = undef,
   $gitlab_git_http_server = undef,
   $gitlab_ci = undef,
@@ -381,6 +386,7 @@ class gitlab (
   if $ci_unicorn { validate_hash($ci_unicorn) }
   validate_string($external_url)
   if $git  { validate_hash($git) }
+  if $gitaly  { validate_hash($gitaly) }
   if $git_data_dir { validate_absolute_path($git_data_dir) }
   if $gitlab_git_http_server { validate_hash($gitlab_git_http_server) }
   if $gitlab_pages { validate_hash($gitlab_pages) }

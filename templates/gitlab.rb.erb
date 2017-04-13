@@ -405,7 +405,7 @@ manage_accounts['<%= k -%>'] = <%= decorate(@manage_accounts[k]) %>
 # Redis Sentinel #
 ##################
 
-sentinel['enable'] = true
+redis_sentinel_role['enable'] = true
 <%- end -%>
 <%- if @sentinel -%>
 

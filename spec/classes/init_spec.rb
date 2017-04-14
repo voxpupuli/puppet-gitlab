@@ -21,23 +21,31 @@ describe 'gitlab', :type => :class do
 				case facts[:osfamily]
 				when 'Debian'
       		it { is_expected.to contain_apt__source('gitlab_official_ce') }
-				when 'redhat'
+				when 'RedHat'
       		it { is_expected.to contain_yumrepo('gitlab_official_ce') }
 				end
 
-				if facts[:gitlab_systemd] == "absent"
+				if ! facts[:gitlab_systemd]
 					it { is_expected.to contain_file('/etc/init.d/gitlab-runsvdir').with_ensure('link') }
+				else
+					it { is_expected.to contain_file('/etc/init.d/gitlab-runsvdir').with_ensure('absent') }
 				end
 			end
 
+			context "with custom facts" do
+
+			end
 			context "with class specific parameters" do
-				describe 'edition = ce' do
-      		let(:params) { {:edition => 'ce'} }
-      		it { is_expected.to contain_package('gitlab-ce').with_ensure('installed') }
-    		end
     		describe 'edition = ee' do
       		let(:params) { {:edition => 'ee'} }
       		it { is_expected.to contain_package('gitlab-ee').with_ensure('installed') }
+
+					case facts[:osfamily]
+					when 'Debian'
+      			it { is_expected.to contain_apt__source('gitlab_official_ee') }
+					when 'RedHat'
+      			it { is_expected.to contain_yumrepo('gitlab_official_ee') }
+					end
     		end
 			  describe 'external_url' do
       		let(:params) { {:external_url => 'http://gitlab.mycompany.com/'} }

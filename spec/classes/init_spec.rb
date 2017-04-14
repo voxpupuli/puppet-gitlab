@@ -6,7 +6,7 @@ describe 'gitlab', :type => :class do
       let(:facts) do
         facts
       end
-      
+
       context "with default params" do
         it { is_expected.to contain_class('gitlab::params') }
         it { is_expected.to contain_class('gitlab::install').that_comes_before('Class[gitlab::config]') }
@@ -25,16 +25,8 @@ describe 'gitlab', :type => :class do
           it { is_expected.to contain_yumrepo('gitlab_official_ce') }
         end
 
-        if ! facts[:gitlab_systemd]
-          it { is_expected.to contain_file('/etc/init.d/gitlab-runsvdir').with_ensure('link') }
-        else
-          it { is_expected.to contain_file('/etc/init.d/gitlab-runsvdir').with_ensure('absent') }
-        end
       end
 
-      context "with custom facts" do
-
-      end
       context "with class specific parameters" do
         describe 'edition = ee' do
           let(:params) { {:edition => 'ee'} }
@@ -69,7 +61,7 @@ describe 'gitlab', :type => :class do
             .with_content(/^\s*nginx\['enable'\] = true$/)
             .with_content(/^\s*nginx\['listen_port'\] = ('|)80('|)$/)
           }
-        end 
+        end
         describe 'secrets' do
           let(:params) { {:secrets => {
             'gitlab_shell' => {
@@ -124,7 +116,7 @@ describe 'gitlab', :type => :class do
             .with_content( /\s*#{Regexp.quote(expected_content[:gitlab_rb__ldap_servers])}/m )
             .with_content(/^\s*gitlab_rails\['omniauth_providers'\] = \[{\"app_id\"=>\"YOUR APP ID\", \"app_secret\"=>\"YOUR APP SECRET\", \"args\"=>{\"access_type\"=>\"offline\", \"approval_prompt\"=>\"\"}, \"name\"=>\"google_oauth2\"}\]$/)
           }
-        end 
+        end
         describe 'gitlab_git_http_server with hash value' do
           let(:params) {{:gitlab_git_http_server => {
             'enable' => true,

@@ -28,12 +28,6 @@
 #   Default: true
 #   Run the system service on boot.
 #
-# [*service_initd_ensure*]
-#   Default for systemd systems, as determined by the $::gitlab_systemd fact: "absent"
-#   Else: "link"
-#   Sets "ensure => 'absent'" or "ensure => 'link'" on init.d softlink
-#   depending on the $::gitlab_systemd fact to avoid conflicts with systemd.
-#
 # [*service_exec*]
 #   Default: '/usr/bin/gitlab-ctl'
 #   The service executable path.
@@ -63,12 +57,6 @@
 # [*service_hasstatus/_hasrestart*]
 #   Default: true
 #   The gitlab service has this commands available.
-#
-# [*service_provider*]
-#   Default: base
-#   The provider Puppet will use to start the service
-#   Since gitlab-ctl is a supervisor process, we use base and run
-#   the commands via runsvdir
 #
 # [*edition*]
 #   Default: ce
@@ -299,7 +287,6 @@ class gitlab (
   $package_pin = $::gitlab::params::package_pin,
   # system service configuration
   $service_enable = $::gitlab::params::service_enable,
-  $service_initd_ensure = $::gitlab::params::service_initd_ensure,
   $service_ensure = $::gitlab::params::service_ensure,
   $service_group = $::gitlab::params::service_group,
   $service_hasrestart = $::gitlab::params::service_hasrestart,
@@ -312,7 +299,6 @@ class gitlab (
   $service_status = $::gitlab::params::service_status,
   $service_stop = $::gitlab::params::service_stop,
   $service_user = $::gitlab::params::service_user,
-  $service_provider = $::gitlab::params::service_provider,
   # gitlab specific
   $edition = 'ce',
   $ci_redis = undef,

@@ -50,15 +50,10 @@ class gitlab::install {
         }
       }
       'redhat': {
-        if is_hash($::os) {
-          $releasever = $::os[release][major]
-        } else {
-          $releasever = $::operatingsystemmajrelease
-        }
 
         yumrepo { "gitlab_official_${edition}":
           descr         => 'Official repository for Gitlab',
-          baseurl       => "https://packages.gitlab.com/gitlab/gitlab-${edition}/el/${releasever}/\$basearch",
+          baseurl       => "https://packages.gitlab.com/gitlab/gitlab-${edition}/el/\$releasever/\$basearch",
           enabled       => 1,
           gpgcheck      => 0,
           gpgkey        => 'https://packages.gitlab.com/gpg.key',

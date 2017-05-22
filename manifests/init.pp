@@ -190,6 +190,10 @@
 #   Default: undef
 #   Hash of 'prometheus' config parameters.
 #
+# [*prometheus_monitoring_enable*]
+#   Default: undef
+#   Enable/disable prometheus support.
+#
 # [*redis*]
 #   Default: undef
 #   Hash of 'redis' config parameters.
@@ -334,6 +338,7 @@ class gitlab (
   $pages_nginx_eq_nginx = false,
   $postgresql = undef,
   $prometheus = undef,
+  $prometheus_monitoring_enable = undef,
   $redis = undef,
   $redis_master_role = undef,
   $redis_slave_role = undef,
@@ -392,6 +397,7 @@ class gitlab (
   if $pages_nginx { validate_hash($pages_nginx) }
   validate_bool($pages_nginx_eq_nginx)
   if $postgresql { validate_hash($postgresql) }
+  if $prometheus_monitoring_enable != undef { validate_bool($prometheus_monitoring_enable) }
   if $redis { validate_hash($redis) }
   if $redis_master_role { validate_bool($redis_master_role) }
   if $redis_slave_role { validate_bool($redis_slave_role) }

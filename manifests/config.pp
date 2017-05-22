@@ -43,6 +43,7 @@ class gitlab::config {
   $pages_nginx_eq_nginx = $::gitlab::pages_nginx_eq_nginx
   $postgresql = $::gitlab::postgresql
   $prometheus = $::gitlab::prometheus
+  $prometheus_monitoring_enable = $::gitlab::prometheus_monitoring_enable
   $redis = $::gitlab::redis
   $redis_master_role = $::gitlab::redis_master_role
   $redis_slave_role = $::gitlab::redis_slave_role

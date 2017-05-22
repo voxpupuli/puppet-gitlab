@@ -96,6 +96,15 @@ unicorn['<%= k -%>'] = <%= decorate(@unicorn[k]) %>
 <%- @sidekiq.keys.sort.each do |k| -%>
 sidekiq['<%= k -%>'] = <%= decorate(@sidekiq[k]) %>
 <%- end end -%>
+<%- if @sidekiq_cluster -%>
+
+##########################
+# GitLab Sidekiq Cluster #
+##########################
+
+<%- @sidekiq_cluster.keys.sort.each do |k| -%>
+sidekiq_cluster['<%= k -%>'] = <%= decorate(@sidekiq_cluster[k]) %>
+<%- end end -%>
 <%- if @shell -%>
 
 ################

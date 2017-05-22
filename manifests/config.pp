@@ -60,6 +60,7 @@ class gitlab::config {
   $service_user = $::gitlab::service_user
   $shell = $::gitlab::shell
   $sidekiq = $::gitlab::sidekiq
+  $sidekiq_cluster = $::gitlab::sidekiq_cluster
   $skip_auto_migrations = $::gitlab::skip_auto_migrations
   $source_config_file = $::gitlab::source_config_file
   $unicorn = $::gitlab::unicorn

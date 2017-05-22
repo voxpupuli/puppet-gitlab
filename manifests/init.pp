@@ -247,6 +247,10 @@
 #   Default: undef
 #   Hash of 'sidekiq' config parameters.
 #
+# [*sidekiq_cluster*]
+#   Default: undef
+#   Hash of 'sidekiq_cluster' config parameters.
+#
 # [*skip_auto_migrations*]
 #   Default: undef
 #   Enable or disable auto migrations. undef keeps the current state on the system.
@@ -356,6 +360,7 @@ class gitlab (
   $sentinel = undef,
   $shell = undef,
   $sidekiq = undef,
+  $sidekiq_cluster = undef,
   $skip_auto_migrations = undef,
   $source_config_file = undef,
   $unicorn = undef,
@@ -415,6 +420,7 @@ class gitlab (
   if $sentinel { validate_hash($sentinel) }
   if $shell { validate_hash($shell) }
   if $sidekiq { validate_hash($sidekiq) }
+  if $sidekiq_cluster { validate_hash($sidekiq_cluster) }
   if $skip_auto_migrations != undef { validate_bool($skip_auto_migrations) }
   if $unicorn { validate_hash($unicorn) }
   if $user { validate_hash($user) }

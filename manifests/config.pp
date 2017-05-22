@@ -16,7 +16,7 @@ class gitlab::config {
   $git_data_dir = $::gitlab::git_data_dir
   # git_data_dirs is the new way to specify data_dirs, introduced in 8.10
   if $git_data_dir {
-    $git_data_dirs = { 'default' => $::gitlab::git_data_dir }.merge($::gitlab::git_data_dirs) 
+    $git_data_dirs = merge({ 'default' => $::gitlab::git_data_dir }, $::gitlab::git_data_dirs)
   } else {
     $git_data_dirs = $::gitlab::git_data_dirs
   }

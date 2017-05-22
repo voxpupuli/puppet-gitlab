@@ -310,7 +310,7 @@ class gitlab (
   $git = undef,
   $gitaly = undef,
   $git_data_dir = undef,
-  $git_data_dirs = {},
+  $git_data_dirs = undef,
   $gitlab_git_http_server = undef,
   $gitlab_ci = undef,
   $gitlab_pages = undef,

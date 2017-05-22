@@ -14,6 +14,12 @@ class gitlab::config {
   $git = $::gitlab::git
   $gitaly = $::gitlab::gitaly
   $git_data_dir = $::gitlab::git_data_dir
+  # git_data_dirs is the new way to specify data_dirs, introduced in 8.10
+  if $git_data_dir {
+    $git_data_dirs = { 'default' => $::gitlab::git_data_dir }.merge($::gitlab::git_data_dirs) 
+  } else {
+    $git_data_dirs = $::gitlab::git_data_dirs
+  }
   $gitlab_git_http_server = $::gitlab::gitlab_git_http_server
   $gitlab_ci = $::gitlab::gitlab_ci
   $gitlab_pages = $::gitlab::gitlab_pages

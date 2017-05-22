@@ -310,6 +310,7 @@ class gitlab (
   $git = undef,
   $gitaly = undef,
   $git_data_dir = undef,
+  $git_data_dirs = {},
   $gitlab_git_http_server = undef,
   $gitlab_ci = undef,
   $gitlab_pages = undef,
@@ -374,6 +375,7 @@ class gitlab (
   if $git  { validate_hash($git) }
   if $gitaly  { validate_hash($gitaly) }
   if $git_data_dir { validate_absolute_path($git_data_dir) }
+  if $git_data_dirs { validate_hash($git_data_dirs) }
   if $gitlab_git_http_server { validate_hash($gitlab_git_http_server) }
   if $gitlab_pages { validate_hash($gitlab_pages) }
   if $gitlab_workhorse { validate_hash($gitlab_workhorse) }

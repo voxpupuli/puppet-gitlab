@@ -182,6 +182,27 @@ describe 'gitlab', :type => :class do
     describe 'gitlab class without any parameters on Solaris/Nexenta' do
       it { is_expected.to compile.and_raise_error(/is not supported/) }
     end
+    describe 'with data_dirs' do
+      let(:params) do
+        {
+          'git_data_dirs' => {
+            'default' => '/var/opt/gitlab/data',
+            'alt' => '/opt/data'
+          }
+        }
+       end
+      it do
+        is_expected.to contain_file('/etc/gitlab/gitlab.rb')
+          .with_content(/^\s*git_data_dirs\(\{\"alt\"\=\>\"\/opt\/data\"\,\s\"default\"=>\"\/var\/opt\/gitlab\/data\"\}\)/)
+      end
+    end
+    describe 'without data_dirs' do
+      let(:params) {{:git_data_dir => '/var/opt/data' }}
+      it do
+        is_expected.to contain_file('/etc/gitlab/gitlab.rb')
+          .with_content(%r{"/var/opt/data"})
+      end
+    end
   end
 
 end

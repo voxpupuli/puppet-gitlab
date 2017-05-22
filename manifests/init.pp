@@ -247,6 +247,10 @@
 #   Default: undef
 #   Hash of 'sidekiq' config parameters.
 #
+# [*skip_auto_migrations*]
+#   Default: undef
+#   Enable or disable auto migrations. undef keeps the current state on the system.
+#
 # [*source_config_file*]
 #   Default: undef
 #   Override Hiera config with path to gitlab.rb config file.
@@ -352,6 +356,7 @@ class gitlab (
   $sentinel = undef,
   $shell = undef,
   $sidekiq = undef,
+  $skip_auto_migrations = undef,
   $source_config_file = undef,
   $unicorn = undef,
   $gitlab_workhorse = undef,
@@ -410,6 +415,7 @@ class gitlab (
   if $sentinel { validate_hash($sentinel) }
   if $shell { validate_hash($shell) }
   if $sidekiq { validate_hash($sidekiq) }
+  if $skip_auto_migrations != undef { validate_bool($skip_auto_migrations) }
   if $unicorn { validate_hash($unicorn) }
   if $user { validate_hash($user) }
   if $web_server { validate_hash($web_server) }

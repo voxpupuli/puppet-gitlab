@@ -60,6 +60,7 @@ class gitlab::config {
   $service_user = $::gitlab::service_user
   $shell = $::gitlab::shell
   $sidekiq = $::gitlab::sidekiq
+  $skip_auto_migrations = $::gitlab::skip_auto_migrations
   $source_config_file = $::gitlab::source_config_file
   $unicorn = $::gitlab::unicorn
   $gitlab_workhorse = $::gitlab::gitlab_workhorse
@@ -152,4 +153,16 @@ class gitlab::config {
     }
   }
 
+  if $skip_auto_migrations != undef {
+    $_skip_auto_migrations_ensure = $skip_auto_migrations ? {
+      true    => 'present',
+      default => 'absent',
+    }
+    file { '/etc/gitlab/skip-auto-migrations':
+      ensure  => $_skip_auto_migrations_ensure,
+      owner   => 'root',
+      group   => 'root',
+      mode    => '0644',
+    }
+  }
 }

@@ -48,15 +48,15 @@ external_port '<%= @external_port %>'
 ## If you want to use a single non-default directory to store git data use:
 git_data_dir "<%= @git_data_dir %>"
 <%- end -%>
-
 <%- if @git_data_dirs -%>
+
 ### For setting up different data storing directory
 ###! Docs: https://docs.gitlab.com/omnibus/settings/configuration.html#storing-git-data-in-an-alternative-directory
 ###! **If you want to use a single non-default directory to store git data use a
 ###!   path that doesn't contain symlinks.**
 git_data_dirs(<%= decorate(@git_data_dirs) %>)
-<%- end -%>
 
+<%- end -%>
 <%- if @gitlab_rails -%>
 
 ############################

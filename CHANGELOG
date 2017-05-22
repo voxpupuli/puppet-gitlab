@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## v1.14.0 [2017-05-22]
+
+* Support data_dirs (thanks to logicminds/Corey Osman)
+* Add flag to disable all prometheus functionality
+* Add flag to disable auto migrations
+* Support sidekiq_cluster configuration options
+
 ## v1.13.3 [2017-04-04]
 
 * Remove broken and unnecessary YAML workaround from gitlab.rb.erb

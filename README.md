@@ -244,12 +244,6 @@ gitlab::custom_hooks:
     source: 'puppet:///modules/my_module/post-receive'
 ```
 
-## Limitations
-
-The supported operating systems by Gitlab Omnibus are to be found on the official [download page](https://about.gitlab.com/downloads/).
-At the moment the module is not yet tested under RPM based operating systems. But in theory it should work
-as all the preparations are there.
-
 ### Gitlab CI Runner Limitations
 
 The Gitlab CI runner installation is at the moment only tested on Ubuntu 14.04.

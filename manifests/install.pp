@@ -18,7 +18,7 @@ class gitlab::install {
         include apt
         ensure_packages('apt-transport-https')
         $_lower_os = downcase($::operatingsystem)
-        apt::source { 'gitlab_official':
+        apt::source { "gitlab_official_${edition}":
           comment  => 'Official repository for Gitlab',
           location => "https://packages.gitlab.com/gitlab/gitlab-${edition}/${_lower_os}/",
           release  => $::lsbdistcodename,
@@ -37,7 +37,7 @@ class gitlab::install {
             ensure  => $package_ensure,
             require => [
               Exec['apt_update'],
-              Apt::Source['gitlab_official'],
+              Apt::Source["gitlab_official_${edition}"],
             ],
           }
         }
@@ -50,15 +50,10 @@ class gitlab::install {
         }
       }
       'redhat': {
-        if is_hash($::os) {
-          $releasever = $::os[release][major]
-        } else {
-          $releasever = $::operatingsystemmajrelease
-        }
 
-        yumrepo { 'gitlab_official':
+        yumrepo { "gitlab_official_${edition}":
           descr         => 'Official repository for Gitlab',
-          baseurl       => "https://packages.gitlab.com/gitlab/gitlab-${edition}/el/${releasever}/\$basearch",
+          baseurl       => "https://packages.gitlab.com/gitlab/gitlab-${edition}/el/\$releasever/\$basearch",
           enabled       => 1,
           gpgcheck      => 0,
           gpgkey        => 'https://packages.gitlab.com/gpg.key',
@@ -70,7 +65,7 @@ class gitlab::install {
         if $manage_package {
           package { $package_name:
             ensure  => $package_ensure,
-            require => Yumrepo['gitlab_official'],
+            require => Yumrepo["gitlab_official_${edition}"],
           }
         }
       }

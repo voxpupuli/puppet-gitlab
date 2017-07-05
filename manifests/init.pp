@@ -28,12 +28,6 @@
 #   Default: true
 #   Run the system service on boot.
 #
-# [*service_initd_ensure*]
-#   Default for systemd systems, as determined by the $::gitlab_systemd fact: "absent"
-#   Else: "link"
-#   Sets "ensure => 'absent'" or "ensure => 'link'" on init.d softlink
-#   depending on the $::gitlab_systemd fact to avoid conflicts with systemd.
-#
 # [*service_exec*]
 #   Default: '/usr/bin/gitlab-ctl'
 #   The service executable path.
@@ -64,12 +58,6 @@
 #   Default: true
 #   The gitlab service has this commands available.
 #
-# [*service_provider*]
-#   Default: base
-#   The provider Puppet will use to start the service
-#   Since gitlab-ctl is a supervisor process, we use base and run
-#   the commands via runsvdir
-#
 # [*edition*]
 #   Default: ce
 #   Gitlab edition to install. ce or ee.
@@ -81,18 +69,6 @@
 # [*config_file*]
 #   Default: /etc/gitlab/gitlab.rb
 #   Path of the Gitlab Omnibus config file.
-#
-# [*ci_external_url*]
-#   Default: undef
-#   External URL of Gitlab CI.
-#
-# [*ci_nginx_eq_nginx*]
-#   Default: false
-#   Replicate the CI Nginx config from the Gitlab Nginx config.
-#
-# [*ci_nginx*]
-#   Default: undef
-#   Hash of 'ci_nginx' config parameters.
 #
 # [*ci_redis*]
 #   Default: undef
@@ -113,6 +89,10 @@
 # [*git*]
 #   Default: undef
 #   Hash of 'omnibus_gitconfig' config parameters.
+#
+# [*gitaly*]
+#   Default: undef
+#   Hash of 'Gitaly' config parameters.
 #
 # [*git_data_dir*]
 #   Default: undef
@@ -174,6 +154,22 @@
 #   Default: undef
 #   Hash of 'nginx' config parameters.
 #
+# [*node_exporter*]
+#   Default: undef
+#   Hash of 'node_exporter' config parameters.
+#
+# [*redis_exporter*]
+#   Default: undef
+#   Hash of 'redis_exporter' config parameters.
+#
+# [*postgres_exporter*]
+#   Default: undef
+#   Hash of 'postgres_exporter' config parameters.
+#
+# [*gitlab_monitor*]
+#   Default: undef
+#   Hash of 'gitlab_monitor' config parameters.
+#
 # [*pages_external_url*]
 #   Default: undef
 #   External URL of Gitlab Pages.
@@ -190,9 +186,29 @@
 #   Default: undef
 #   Hash of 'postgresql' config parameters.
 #
+# [*prometheus*]
+#   Default: undef
+#   Hash of 'prometheus' config parameters.
+#
+# [*prometheus_monitoring_enable*]
+#   Default: undef
+#   Enable/disable prometheus support.
+#
 # [*redis*]
 #   Default: undef
 #   Hash of 'redis' config parameters.
+#
+# [*redis_master_role*]
+#   Default: undef
+#   To enable Redis master role for the node.
+#
+# [*redis_slave_role*]
+#   Default: undef
+#   To enable Redis slave role for the node.
+#
+# [*redis_sentinel_role*]
+#   Default: undef
+#   To enable sentinel role for the node.
 #
 # [*registry*]
 #   Default: undef
@@ -219,6 +235,10 @@
 #   Default: /etc/gitlab/gitlab-secrets.json
 #   Full path to secrets JSON file.
 #
+# [*sentinel*]
+#   Default: undef
+#   Hash of 'sentinel' config parameters.
+#
 # [*shell*]
 #   Default: undef
 #   Hash of 'gitlab_shell' config parameters.
@@ -226,6 +246,14 @@
 # [*sidekiq*]
 #   Default: undef
 #   Hash of 'sidekiq' config parameters.
+#
+# [*sidekiq_cluster*]
+#   Default: undef
+#   Hash of 'sidekiq_cluster' config parameters.
+#
+# [*skip_auto_migrations*]
+#   Default: undef
+#   Enable or disable auto migrations. undef keeps the current state on the system.
 #
 # [*source_config_file*]
 #   Default: undef
@@ -251,10 +279,8 @@
 #
 #  class { 'gitlab':
 #    edition           => 'ee',
-#    ci_external_url   => 'https://myci.mydomain.tld',
 #    external_url      => 'https://gitlab.mydomain.tld',
 #    nginx             => { redirect_http_to_https => true },
-#    ci_nginx_eq_nginx => true,
 #  }
 #
 # === Authors
@@ -273,7 +299,6 @@ class gitlab (
   $package_pin = $::gitlab::params::package_pin,
   # system service configuration
   $service_enable = $::gitlab::params::service_enable,
-  $service_initd_ensure = $::gitlab::params::service_initd_ensure,
   $service_ensure = $::gitlab::params::service_ensure,
   $service_group = $::gitlab::params::service_group,
   $service_hasrestart = $::gitlab::params::service_hasrestart,
@@ -286,12 +311,8 @@ class gitlab (
   $service_status = $::gitlab::params::service_status,
   $service_stop = $::gitlab::params::service_stop,
   $service_user = $::gitlab::params::service_user,
-  $service_provider = $::gitlab::params::service_provider,
   # gitlab specific
   $edition = 'ce',
-  $ci_external_url = undef,
-  $ci_nginx = undef,
-  $ci_nginx_eq_nginx = false,
   $ci_redis = undef,
   $ci_unicorn = undef,
   $config_manage = $::gitlab::params::config_manage,
@@ -299,7 +320,9 @@ class gitlab (
   $external_url = $::gitlab::params::external_url,
   $external_port = undef,
   $git = undef,
+  $gitaly = undef,
   $git_data_dir = undef,
+  $git_data_dirs = undef,
   $gitlab_git_http_server = undef,
   $gitlab_ci = undef,
   $gitlab_pages = undef,
@@ -314,19 +337,31 @@ class gitlab (
   $mattermost_nginx = undef,
   $mattermost_nginx_eq_nginx = false,
   $nginx = undef,
+  $node_exporter = undef,
+  $redis_exporter = undef,
+  $postgres_exporter = undef,
+  $gitlab_monitor = undef,
   $pages_external_url = undef,
   $pages_nginx = undef,
   $pages_nginx_eq_nginx = false,
   $postgresql = undef,
+  $prometheus = undef,
+  $prometheus_monitoring_enable = undef,
   $redis = undef,
+  $redis_master_role = undef,
+  $redis_slave_role = undef,
+  $redis_sentinel_role = undef,
   $registry = undef,
   $registry_external_url = undef,
   $registry_nginx = undef,
   $registry_nginx_eq_nginx = false,
   $secrets = undef,
   $secrets_file = $::gitlab::params::secrets_file,
+  $sentinel = undef,
   $shell = undef,
   $sidekiq = undef,
+  $sidekiq_cluster = undef,
+  $skip_auto_migrations = undef,
   $source_config_file = undef,
   $unicorn = undef,
   $gitlab_workhorse = undef,
@@ -349,14 +384,13 @@ class gitlab (
   validate_re($edition, [ '^ee$', '^ce$' ])
   validate_bool($config_manage)
   validate_absolute_path($config_file)
-  if $ci_nginx { validate_hash($ci_nginx) }
-  validate_bool($ci_nginx_eq_nginx)
   if $ci_redis { validate_hash($ci_redis) }
   if $ci_unicorn { validate_hash($ci_unicorn) }
-  if $ci_external_url { validate_string($ci_external_url) }
   validate_string($external_url)
   if $git  { validate_hash($git) }
+  if $gitaly  { validate_hash($gitaly) }
   if $git_data_dir { validate_absolute_path($git_data_dir) }
+  if $git_data_dirs { validate_hash($git_data_dirs) }
   if $gitlab_git_http_server { validate_hash($gitlab_git_http_server) }
   if $gitlab_pages { validate_hash($gitlab_pages) }
   if $gitlab_workhorse { validate_hash($gitlab_workhorse) }
@@ -373,14 +407,21 @@ class gitlab (
   if $pages_nginx { validate_hash($pages_nginx) }
   validate_bool($pages_nginx_eq_nginx)
   if $postgresql { validate_hash($postgresql) }
+  if $prometheus_monitoring_enable != undef { validate_bool($prometheus_monitoring_enable) }
   if $redis { validate_hash($redis) }
+  if $redis_master_role { validate_bool($redis_master_role) }
+  if $redis_slave_role { validate_bool($redis_slave_role) }
+  if $redis_sentinel_role { validate_bool($redis_sentinel_role) }
   if $registry { validate_hash($registry) }
   if $registry_nginx { validate_hash($registry_nginx) }
   validate_bool($registry_nginx_eq_nginx)
   if $registry_external_url { validate_string($registry_external_url) }
   if $secrets { validate_hash($secrets) }
+  if $sentinel { validate_hash($sentinel) }
   if $shell { validate_hash($shell) }
   if $sidekiq { validate_hash($sidekiq) }
+  if $sidekiq_cluster { validate_hash($sidekiq_cluster) }
+  if $skip_auto_migrations != undef { validate_bool($skip_auto_migrations) }
   if $unicorn { validate_hash($unicorn) }
   if $user { validate_hash($user) }
   if $web_server { validate_hash($web_server) }

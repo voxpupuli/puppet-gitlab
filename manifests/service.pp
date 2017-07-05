@@ -5,10 +5,6 @@
 #
 class gitlab::service {
   if $::gitlab::service_manage {
-    file { "/etc/init.d/${::gitlab::service_name}":
-      ensure => $::gitlab::service_initd_ensure,
-      target => $::gitlab::service_exec,
-    } ->
     service { $::gitlab::service_name:
       ensure     => $::gitlab::service_ensure,
       enable     => $::gitlab::service_enable,
@@ -18,7 +14,6 @@ class gitlab::service {
       status     => $::gitlab::service_status,
       hasstatus  => $::gitlab::service_hasstatus,
       hasrestart => $::gitlab::service_hasrestart,
-      provider   => $::gitlab::service_provider,
     }
   }
 

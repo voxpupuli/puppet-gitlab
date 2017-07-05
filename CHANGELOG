@@ -1,5 +1,52 @@
 # CHANGELOG
 
+## v1.14.0 [2017-05-22]
+
+* Support data_dirs (thanks to logicminds/Corey Osman)
+* Add flag to disable all prometheus functionality
+* Add flag to disable auto migrations
+* Support sidekiq_cluster configuration options
+
+## v1.13.3 [2017-04-04]
+
+* Remove broken and unnecessary YAML workaround from gitlab.rb.erb
+
+## v1.13.2 [2017-04-03]
+
+* Fix handling of integers and string quoting in gitlab.rb
+* Fix spec test
+
+## v1.13.1 [2017-04-03]
+
+* Fix metadata.json
+
+## v1.13.0 [2017-04-03]
+
+* Remove ci_nginx configuration options for compatibility with Gitlab 9
+
+## v1.12.0 [2017-04-03]
+
+* Fixed gitlab.rb template for Integers in `gitlab_rails` setting because of rack_attack_git_basic_auth will fail during gitlab reconfiguration if the Integer Values are Strings. 
+* Add dependencies to apt-transport-https, xz-utils
+* Merge hashes for runner configuration
+* Fix use of integers in gitlab_rails settings
+* Add Prometheus and node_exporter params
+* Fix hash sorting for LDAP
+* Remove pe requirement
+* Do not decorate within hash to avoid quoting twice
+* Remove ci_external_url parameter as it breaks configuration build
+
+## v1.11.0 [2016-12-23]
+
+* Feature to manage `manage_storage_directores`. Thanks to Greg Dowmont
+* Feature to manage `external_port`. Thanks to @blakejakopovic
+* New parameter `service_provider`. Thanks to @petems
+* Better systemd compatibility. Thanks to @petems and @bastian.jeske
+* Beaver acceptance tests. Thanks to @petems
+* `external_url` now defaults to `http://$fqdn`. Thanks to @willonit
+* Fixes to gitlab.rb template for `gitlab_rails` setting. Thanks to John Nicholas
+* Small fix for easier upgrading from ce to ee. Thanks to @dhollinger
+
 ## v1.10.0 [2016-08-10]
 
 * Several small fixes

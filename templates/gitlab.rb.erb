@@ -5,31 +5,35 @@
 # As this template is writing a config file based on some hashes and hashes are not meant to be in a certain order,
 # We need to ensure that the order of the keys are always outputed in the same order.
 # Otherwise puppet will always update(change) the config file.
-def sort_nested_hash_inspect(h)
-    if h.class.name == 'Hash'
-        "{" + h.sort.map{|key, value| "\"#{key}\"=>#{sort_nested_hash_inspect(value)}"}.join(", ") + "}"
-    else
-        h.inspect
+
+def sort_hash_by_key(hash, deep=true, &block)
+  if hash.kind_of?(Hash)
+    hash.keys.sort(&block).reduce({}) do |memo, key|
+      memo[key] = hash[key]
+      if deep && memo[key].kind_of?(Hash)
+        memo[key] = sort_hash_by_key(memo[key], true, &block)
+      end
+      memo
     end
+  end
+end
+
+def numify(obj)
+  if obj.is_a?(String)
+    Integer(obj) rescue Float(obj) rescue obj
+  elsif obj.is_a?(Array)
+    obj.map { |item| numify(item) }
+  elsif obj.is_a?(Hash)
+    sort_hash_by_key(obj.merge(obj) { |_, v| numify(v) })
+  else
+    obj
+  end
 end
 
 def decorate(v)
-    if v =~ /\AYAML/
-        return v
-    elsif v.is_a?(String)
-        return "'#{v}'"
-    elsif v.is_a?(Array)
-        temp = []
-        v.each { |elem|
-            temp.push(decorate(elem))
-        }
-        return "[#{temp.join(',')}]"
-    elsif v.is_a?(Hash)
-        return sort_nested_hash_inspect(v)
-    else
-        return v
-    end
-end -%>
+  numify(v).inspect
+end
+-%>
 
 ## Url on which GitLab will be reachable.
 ## For more details on configuring external_url see:
@@ -39,11 +43,19 @@ external_url '<%= @external_url %>'
 external_port '<%= @external_port %>'
 <%- end -%>
 <%- if @git_data_dir -%>
-
 ## For setting up different data storing directory
 ## see https://gitlab.com/gitlab-org/omnibus-gitlab/blob/629def0a7a26e7c2326566f0758d4a27857b52a3/README.md#storing-git-data-in-an-alternative-directory
 ## If you want to use a single non-default directory to store git data use:
 git_data_dir "<%= @git_data_dir %>"
+<%- end -%>
+<%- if @git_data_dirs -%>
+
+### For setting up different data storing directory
+###! Docs: https://docs.gitlab.com/omnibus/settings/configuration.html#storing-git-data-in-an-alternative-directory
+###! **If you want to use a single non-default directory to store git data use a
+###!   path that doesn't contain symlinks.**
+git_data_dirs(<%= decorate(@git_data_dirs) %>)
+
 <%- end -%>
 <%- if @gitlab_rails -%>
 
@@ -84,6 +96,15 @@ unicorn['<%= k -%>'] = <%= decorate(@unicorn[k]) %>
 <%- @sidekiq.keys.sort.each do |k| -%>
 sidekiq['<%= k -%>'] = <%= decorate(@sidekiq[k]) %>
 <%- end end -%>
+<%- if @sidekiq_cluster -%>
+
+##########################
+# GitLab Sidekiq Cluster #
+##########################
+
+<%- @sidekiq_cluster.keys.sort.each do |k| -%>
+sidekiq_cluster['<%= k -%>'] = <%= decorate(@sidekiq_cluster[k]) %>
+<%- end end -%>
 <%- if @shell -%>
 
 ################
@@ -112,6 +133,26 @@ postgresql['<%= k -%>'] = <%= decorate(@postgresql[k]) %>
 <%- @redis.keys.sort.each do |k| -%>
 redis['<%= k -%>'] = <%= decorate(@redis[k]) %>
 <%- end end -%>
+<%- if @redis_master_role -%>
+
+#######################
+# Gitlab Redis Master #
+#######################
+## see https://docs.gitlab.com/omnibus/settings/redis.html
+## see https://gitlab.com/gitlab-org/omnibus-gitlab/blob/master/files/gitlab-config-template/gitlab.rb.template#L667
+
+redis_master_role['enable'] = true
+<%- end -%>
+<%- if @redis_slave_role -%>
+
+#######################
+# Gitlab Redis Slave #
+#######################
+## see https://docs.gitlab.com/omnibus/settings/redis.html
+## see https://gitlab.com/gitlab-org/omnibus-gitlab/blob/master/files/gitlab-config-template/gitlab.rb.template#L668
+
+redis_slave_role['enable'] = true
+<%- end -%>
 <%- if @web_server -%>
 
 #####################
@@ -198,15 +239,6 @@ manage_storage_directories['<%= k -%>'] = <%= decorate(@manage_storage_directori
 <%- @git.keys.sort.each do |k| -%>
 omnibus_gitconfig['<%= k -%>'] = <%= decorate(@git[k]) %>
 <%- end end -%>
-<%- if @ci_external_url -%>
-
-############################################
-# Url on which GitLab CI will be reachable #
-############################################
-## see https://gitlab.com/gitlab-org/omnibus-gitlab/tree/629def0a7a26e7c2326566f0758d4a27857b52a3/doc/gitlab-ci/README.md
-
-ci_external_url '<%= @ci_external_url %>'
-<%- end -%>
 <%- if @registry -%>
 
 ############################
@@ -246,18 +278,58 @@ ci_unicorn['<%= k -%>'] = <%= decorate(@ci_unicorn[k]) %>
 <%- @ci_redis.keys.sort.each do |k| -%>
 ci_redis['<%= k -%>'] = <%= decorate(@ci_redis[k]) %>
 <%- end end -%>
-<%- if @_real_ci_nginx -%>
+<%- if @prometheus or defined?(@prometheus_monitoring_enable) -%>
 
-###################
-# GitLab CI NGINX #
-###################
-## see https://gitlab.com/gitlab-org/omnibus-gitlab/tree/629def0a7a26e7c2326566f0758d4a27857b52a3/doc/settings/nginx.md
-## You can tell the bundled NGINX that it should not serve up GitLab CI by setting ci_nginx['enable'] to false.
+##############
+# Prometheus #
+##############
+##! Docs: https://docs.gitlab.com/ce/administration/monitoring/performance/prometheus.html
 
-<%- @_real_ci_nginx.keys.sort.each do |k| -%>
-ci_nginx['<%= k -%>'] = <%= decorate(@_real_ci_nginx[k]) %>
+<%- if defined?(@prometheus_monitoring_enable) -%>prometheus_monitoring['enable'] = <%= @prometheus_monitoring_enable %>
+<%- end -%>
+<%- if @prometheus %>
+<%- @prometheus.keys.sort.each do |k| -%>
+prometheus['<%= k -%>'] = <%= decorate(@prometheus[k]) %>
+<%- end end end -%>
+<%- if @node_exporter -%>
+
+############################
+# Prometheus Node Exporter #
+############################
+##! Docs: https://docs.gitlab.com/ce/administration/monitoring/performance/prometheus.html
+
+<%- @node_exporter.keys.sort.each do |k| -%>
+node_exporter['<%= k -%>'] = <%= decorate(@node_exporter[k]) %>
+<%- end end -%>
+<%- if @redis_exporter -%>
+
+################################################################################
+## Prometheus Redis exporter
+##! Docs: https://docs.gitlab.com/ce/administration/monitoring/performance/prometheus.html
+
+<%- @redis_exporter.keys.sort.each do |k| -%>
+redis_exporter['<%= k -%>'] = <%= decorate(@redis_exporter[k]) %>
+<%- end end -%>
+<%- if @postgres_exporter -%>
+
+################################################################################
+## Postgres exporter
+##! Docs: https://docs.gitlab.com/ce/administration/monitoring/performance/prometheus.html
+
+<%- @postgres_exporter.keys.sort.each do |k| -%>
+postgres_exporter['<%= k -%>'] = <%= decorate(@postgres_exporter[k]) %>
+<%- end end -%>
+<%- if @gitlab_monitor -%>
+
+################################################################################
+## Gitlab monitor
+##! Docs: https://docs.gitlab.com/ce/administration/monitoring/performance/prometheus.html
+
+<%- @gitlab_monitor.keys.sort.each do |k| -%>
+gitlab_monitor['<%= k -%>'] = <%= decorate(@gitlab_monitor[k]) %>
 <%- end end -%>
 <%- if @high_availability -%>
+
 
 #####################
 # High Availability #
@@ -346,4 +418,32 @@ registry_nginx['<%= k -%>'] = <%= decorate(@_real_registry_nginx[k]) %>
 
 <%- @manage_accounts.keys.sort.each do |k| -%>
 manage_accounts['<%= k -%>'] = <%= decorate(@manage_accounts[k]) %>
+<%- end end -%>
+<%- if @redis_sentinel_role -%>
+
+##################
+# Redis Sentinel #
+##################
+
+redis_sentinel_role['enable'] = true
+<%- end -%>
+<%- if @sentinel -%>
+
+###################
+# GitLab Sentinel #
+###################
+## To enable Sentinel and disable all other services in this machine, enable below section.
+## https://gitlab.com/gitlab-org/omnibus-gitlab/blob/master/files/gitlab-config-template/gitlab.rb.template#L1406-1453
+<%- @sentinel.keys.sort.each do |k| -%>
+sentinel['<%= k -%>'] = <%= decorate(@sentinel[k]) %>
+<%- end end -%>
+<%- if @gitaly -%>
+
+##########
+# Gitaly #
+##########
+## To configure Gitaly, refer below section
+## https://gitlab.com/gitlab-org/omnibus-gitlab/blob/master/files/gitlab-config-template/gitlab.rb.template#L1352-1363
+<%- @gitaly.keys.sort.each do |k| -%>
+gitaly['<%= k -%>'] = <%= decorate(@gitaly[k]) %>
 <%- end end -%>

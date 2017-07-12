@@ -86,6 +86,22 @@
 #   Default: undef
 #   External PORT of Gitlab.
 #
+# [*geo_postgresql*]
+#   Default: undef
+#   Hash of 'geo_postgresql' config parameters.
+#
+# [*geo_primary_role*]
+#   Default: false
+#   Boolean to enable Geo primary role
+#
+# [*geo_secondary*]
+#   Default: undef
+#   Hash of 'geo_secondary' config parameters.
+#
+# [*geo_secondary_role*]
+#   Default: false
+#   Boolean to enable Geo secondary role
+#
 # [*git*]
 #   Default: undef
 #   Hash of 'omnibus_gitconfig' config parameters.
@@ -319,6 +335,10 @@ class gitlab (
   $config_file = $::gitlab::params::config_file,
   $external_url = $::gitlab::params::external_url,
   $external_port = undef,
+  $geo_postgresql = undef,
+  $geo_primary_role = false,
+  $geo_secondary = undef,
+  $geo_secondary_role = false,
   $git = undef,
   $gitaly = undef,
   $git_data_dir = undef,
@@ -384,6 +404,10 @@ class gitlab (
   validate_re($edition, [ '^ee$', '^ce$' ])
   validate_bool($config_manage)
   validate_absolute_path($config_file)
+  if $geo_postgresql { validate_hash($geo_postgresql) }
+  validate_bool($geo_primary_role)
+  if $geo_secondary { validate_hash($geo_secondary) }
+  validate_bool($geo_secondary_role)
   if $ci_redis { validate_hash($ci_redis) }
   if $ci_unicorn { validate_hash($ci_unicorn) }
   validate_string($external_url)

@@ -1,125 +1,240 @@
 require 'spec_helper'
 
 describe 'gitlab::cirunner' do
-  context 'supported operating systems' do
-    describe "gitlab::cirunner class without any parameters on Ubuntu Trusty" do
-      let(:params) {{ }}
-      let(:facts) {{
-        :osfamily => 'Debian',
-        :lsbdistid => 'Ubuntu',
-        :lsbdistcodename => 'trusty',
-        :operatingsystem => 'Debian',
-        :operatingsystemmajrelease => 'jessie/sid',
-        :kernelrelease => '3.13.0-71-generic',
-      }}
+  # by default the hiera integration uses hiera data from the shared_contexts.rb file
+  # but basically to mock hiera you first need to add a key/value pair
+  # to the specific context in the spec/shared_contexts.rb file
+  # Note: you can only use a single hiera context per describe/context block
+  # rspec-puppet does not allow you to swap out hiera data on a per test block
+  # include_context :hiera
+  let(:node) { 'gitlab_cirunner.example.com' }
 
-      it { is_expected.to compile.with_all_deps }
+  # below is the facts hash that gives you the ability to mock
+  # facts on a per describe/context block.  If you use a fact in your
+  # manifest you should mock the facts below.
+  let(:facts) do
+    {}
+  end
 
-      it { is_expected.to contain_class('docker') }
-      it { is_expected.to contain_class('docker::images') }
-      it { is_expected.to contain_apt__source('apt_gitlabci') }
+  # below is a list of the resource parameters that you can override.
+  # By default all non-required parameters are commented out,
+  # while all required parameters will require you to add a value
+  let(:params) do
+    {
+      # concurrent: :undef,
+      # manage_repo: true,
+      # conf_file: "/etc/gitlab-runner/config.toml",
+      # package_ensure: "installed",
+      # default_coordinator: "https://gitlab.com",
+      # default_run_untagged: true,
+      # default_locked: false,
+      # default_tags: :undef,
+      # docker_runners: {},
+      # shell_runners: {},
+      # ssh_runners: {},
+      # docker_ssh_runners: {},
+      # parallels_runners: {},
+      # virtualbox_runners: {},
+      # kubernetes_runners: {},
 
-      it { is_expected.to contain_package('gitlab-ci-multi-runner').with_ensure('installed') }
-    end
-    describe "gitlab::cirunner class without any parameters on RedHat (CentOS)" do
-      let(:params) {{ }}
-      let(:facts) {{
-        :osfamily => 'redhat',
-        :operatingsystem => 'CentOS',
-        :operatingsystemmajrelease => '6',
-        :os              => {
-          :architecture => "x86_64",
-          :family => "RedHat",
-          :hardware => "x86_64",
-          :name => "CentOS",
-          :release => {
-            :full => "6.7",
-            :major => "6",
-            :minor => "7"
-          },
-          :selinux => {
-            :enabled => false
-          }
-        },
-        :osfamily => 'RedHat',
-        :operatingsystemmajrelease => '6',
-        :operatingsystemrelease => '6.5',
-        :kernelversion => '2.6.32',
-        :kernelrelease => '2.6.32-573.8.1.el6.x86_64'
-      }}
-
-      it { is_expected.to compile.with_all_deps }
-
-      it { is_expected.to contain_class('docker') }
-      it { is_expected.to contain_class('docker::images') }
-      it { is_expected.to contain_yumrepo('runner_gitlab-ci-multi-runner').with_baseurl('https://packages.gitlab.com/runner/gitlab-ci-multi-runner/el/6/$basearch') }
-
-      it { is_expected.to contain_package('gitlab-ci-multi-runner').with_ensure('installed') }
-    end
-    describe "gitlab::cirunner class OS-independent behavior" do
-      let(:facts) {{
-        :osfamily => 'redhat',
-        :operatingsystem => 'CentOS',
-        :operatingsystemmajrelease => '6',
-        :os              => {
-          :architecture => "x86_64",
-          :family => "RedHat",
-          :hardware => "x86_64",
-          :name => "CentOS",
-          :release => {
-            :full => "6.7",
-            :major => "6",
-            :minor => "7"
-          },
-          :selinux => {
-            :enabled => false
-          }
-        },
-        :osfamily => 'RedHat',
-        :operatingsystemmajrelease => '6',
-        :operatingsystemrelease => '6.5',
-        :kernelversion => '2.6.32',
-        :kernelrelease => '2.6.32-573.8.1.el6.x86_64'
-      }}
-
-      context 'with default parameters' do
-        it { should contain_exec('gitlab-runner-restart').that_requires('Package[gitlab-ci-multi-runner]') }
-        it do
-          should contain_exec('gitlab-runner-restart').with({
-            'command'     => '/usr/bin/gitlab-ci-multi-runner restart',
-            'refreshonly' => true,
-          })
-        end
-        it { should contain_gitlab__runner('test_runner').that_requires('Exec[gitlab-runner-restart]') }
-        it { should_not contain_file_line('gitlab-runner-concurrent') }
+    }
+  end
+  # add these two lines in a single test block to enable puppet and hiera debug mode
+  # Puppet::Util::Log.level = :debug
+  # Puppet::Util::Log.newdestination(:console)
+  # This will need to get moved
+  # it { pp catalogue.resources }
+  on_supported_os.each do |os, facts|
+    context "on #{os}" do
+      let(:facts) do
+        facts
       end
-
-      context 'with concurrent => 10' do
-        let(:params) { { :concurrent => 10 } }
-        it { should contain_file_line('gitlab-runner-concurrent').that_requires('Package[gitlab-ci-multi-runner]') }
-        it { should contain_file_line('gitlab-runner-concurrent').that_notifies('Exec[gitlab-runner-restart]') }
+      describe 'check default config' do
+        it { is_expected.to compile.with_all_deps }
+        it { is_expected.to contain_class('gitlab::cirunner') }
+        if facts[:osfamily] == 'Debian'
+          it { is_expected.to contain_package('apt-transport-https') }
+          it { is_expected.to contain_class('apt') }
+          it do
+            is_expected.to contain_apt__source('apt_gitlabci').with(
+              comment: 'GitlabCI Runner Repo',
+              location: "https://packages.gitlab.com/runner/gitlab-ci-multi-runner/#{facts[:lsbdistid].downcase}/",
+              release: facts[:lsbdistcodename],
+              repos: 'main',
+              key: {
+                'id'     => '1A4C919DB987D435939638B914219A96E15E78F4',
+                'server' => 'keys.gnupg.net'
+              },
+              include: {
+                'src' => false,
+                'deb' => true
+              }
+            )
+          end
+        elsif facts[:osfamily] == 'RedHat'
+          it do
+            is_expected.to contain_yumrepo('runner_gitlab-ci-multi-runner').with(
+              ensure: 'present',
+              baseurl: "https://packages.gitlab.com/runner/gitlab-ci-multi-runner/el/#{facts[:operatingsystemmajrelease]}/$basearch",
+              descr: 'runner_gitlab-ci-multi-runner',
+              enabled: '1',
+              gpgcheck: '0',
+              gpgkey: 'https://packages.gitlab.com/gpg.key',
+              repo_gpgcheck: '1',
+              sslcacert: '/etc/pki/tls/certs/ca-bundle.crt',
+              sslverify: '1',
+            )
+          end
+          it do
+            is_expected.to contain_yumrepo('runner_gitlab-ci-multi-runner-source').with(
+              ensure: 'present',
+              baseurl: "https://packages.gitlab.com/runner/gitlab-ci-multi-runner/el/#{facts[:operatingsystemmajrelease]}/SRPMS",
+              descr: 'runner_gitlab-ci-multi-runner-source',
+              enabled: '1',
+              gpgcheck: '0',
+              gpgkey: 'https://packages.gitlab.com/gpg.key',
+              repo_gpgcheck: '1',
+              sslcacert: '/etc/pki/tls/certs/ca-bundle.crt',
+              sslverify: '1',
+            )
+          end
+        end
         it do
-          should contain_file_line('gitlab-runner-concurrent').with({
-            'path'  => '/etc/gitlab-runner/config.toml',
-            'line'  => 'concurrent = 10',
-            'match' => '^concurrent = \d+',
-          })
+          is_expected.to contain_package('gitlab-ci-multi-runner').with_ensure(
+            'installed',
+          )
+        end
+        it { is_expected.to_not contain_file_line('gitlab-runner-concurrent') }
+        it do
+          is_expected.to contain_exec('gitlab-runner-restart').with(
+            command: '/usr/bin/gitlab-ci-multi-runner restart',
+            refreshonly: true,
+            require: 'Package[gitlab-ci-multi-runner]',
+          )
+        end
+        it { is_expected.to_not contain_class('::gitlab::cirunner::docker') }
+        it { is_expected.to_not contain_class('::gitlab::cirunner::shell') }
+        it { is_expected.to_not contain_class('::gitlab::cirunner::ssh') }
+        it { is_expected.to_not contain_class('::gitlab::cirunner::docker_ssh') }
+        it { is_expected.to_not contain_class('::gitlab::cirunner::docker') }
+        it { is_expected.to_not contain_class('::gitlab::cirunner::parallels') }
+        it { is_expected.to_not contain_class('::gitlab::cirunner::virtualbox') }
+        it { is_expected.to_not contain_class('::gitlab::cirunner::kubernetes') }
+      end
+      describe 'Change Defaults' do
+        context 'concurrent' do
+          before { params.merge!(concurrent: 42) }
+          it { is_expected.to compile }
+          it do
+            is_expected.to contain_file_line('gitlab-runner-concurrent').with(
+              path: '/etc/gitlab-runner/config.toml',
+              line: 'concurrent = 42',
+              match: '^concurrent = \d+',
+              require: 'Package[gitlab-ci-multi-runner]',
+              notify: 'Exec[gitlab-runner-restart]',
+            )
+          end
+        end
+        context 'manage_repo' do
+          before { params.merge!(manage_repo: false) }
+          it { is_expected.to compile }
+          it { is_expected.to_not contain_class('apt') }
+          it { is_expected.to_not contain_apt__source('apt_gitlabci') }
+          it { is_expected.to_not contain_package('apt-transport-https') }
+          it do
+            is_expected.to_not contain_yumrepo('runner_gitlab-ci-multi-runner')
+          end
+          it do
+            is_expected.to_not contain_yumrepo(
+              'runner_gitlab-ci-multi-runner-source'
+            )
+          end
+        end
+        context 'conf_file' do
+          before { params.merge!(conf_file: '/foo/bar', concurrent: 42) }
+          it { is_expected.to compile }
+          it do
+            is_expected.to contain_file_line('gitlab-runner-concurrent').with(
+              path: '/foo/bar',
+              line: 'concurrent = 42',
+              match: '^concurrent = \d+',
+              require: 'Package[gitlab-ci-multi-runner]',
+              notify: 'Exec[gitlab-runner-restart]',
+            )
+          end
+        end
+        context 'package_ensure' do
+          before { params.merge!(package_ensure: 'absent') }
+          it { is_expected.to compile }
+          it do
+            is_expected.to contain_package('gitlab-ci-multi-runner').with_ensure(
+              'absent',
+            )
+          end
+        end
+      end
+      describe 'check bad type' do
+        context 'concurrent' do
+          before { params.merge!(concurrent: true) }
+          it { expect { subject.call }.to raise_error(Puppet::Error) }
+        end
+        context 'manage_repo' do
+          before { params.merge!(manage_repo: 'foobar') }
+          it { expect { subject.call }.to raise_error(Puppet::Error) }
+        end
+        context 'conf_file' do
+          before { params.merge!(conf_file: true) }
+          it { expect { subject.call }.to raise_error(Puppet::Error) }
+        end
+        context 'package_ensure' do
+          before { params.merge!(package_ensure: 'foobar') }
+          it { expect { subject.call }.to raise_error(Puppet::Error) }
+        end
+        context 'default_coordinator' do
+          before { params.merge!(default_coordinator: true) }
+          it { expect { subject.call }.to raise_error(Puppet::Error) }
+        end
+        context 'default_run_untagged' do
+          before { params.merge!(default_run_untagged: 'foobar') }
+          it { expect { subject.call }.to raise_error(Puppet::Error) }
+        end
+        context 'default_locked' do
+          before { params.merge!(default_locked: 'foobar') }
+          it { expect { subject.call }.to raise_error(Puppet::Error) }
+        end
+        context 'default_tags' do
+          before { params.merge!(default_tags: true) }
+          it { expect { subject.call }.to raise_error(Puppet::Error) }
+        end
+        context 'docker_runners' do
+          before { params.merge!(docker_runners: true) }
+          it { expect { subject.call }.to raise_error(Puppet::Error) }
+        end
+        context 'shell_runners' do
+          before { params.merge!(shell_runners: true) }
+          it { expect { subject.call }.to raise_error(Puppet::Error) }
+        end
+        context 'ssh_runners' do
+          before { params.merge!(ssh_runners: true) }
+          it { expect { subject.call }.to raise_error(Puppet::Error) }
+        end
+        context 'docker_ssh_runners' do
+          before { params.merge!(docker_ssh_runners: true) }
+          it { expect { subject.call }.to raise_error(Puppet::Error) }
+        end
+        context 'parallels_runners' do
+          before { params.merge!(parallels_runners: true) }
+          it { expect { subject.call }.to raise_error(Puppet::Error) }
+        end
+        context 'virtualbox_runners' do
+          before { params.merge!(virtualbox_runners: true) }
+          it { expect { subject.call }.to raise_error(Puppet::Error) }
+        end
+        context 'kubernetes_runners' do
+          before { params.merge!(kubernetes_runners: true) }
+          it { expect { subject.call }.to raise_error(Puppet::Error) }
         end
       end
     end
   end
-  context 'unsupported operating systems' do
-    describe "gitlab::cirunner class without any parameters on unsupported OS" do
-      let(:params) {{ }}
-      let(:facts) {{
-         :osfamily => 'unsupported_os_family',
-      }}
-      it "should fail" do
-        expect do
-          catalogue
-        end.to raise_error(Puppet::Error, /OS family unsupported_os_family is not supported. Only Debian and Redhat is suppported./)
-      end
-    end
-  end
-
 end

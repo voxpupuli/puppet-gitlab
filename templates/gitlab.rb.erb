@@ -447,3 +447,37 @@ sentinel['<%= k -%>'] = <%= decorate(@sentinel[k]) %>
 <%- @gitaly.keys.sort.each do |k| -%>
 gitaly['<%= k -%>'] = <%= decorate(@gitaly[k]) %>
 <%- end end -%>
+<%- if @geo_primary_role -%>
+
+#####################
+# Gitlab Geo Primary#
+#####################
+## To configure Gitlab Geo, refer below section.
+## https://gitlab.com/gitlab-org/omnibus-gitlab/blob/master/files/gitlab-config-template/gitlab.rb.template#L1459
+
+geo_primary_role['enable'] = true
+<%- end -%>
+<%- if @geo_secondary_role -%>
+
+#######################
+# Gitlab Geo Secondary#
+#######################
+## To configure Gitlab Geo, refer below section.
+## https://gitlab.com/gitlab-org/omnibus-gitlab/blob/master/files/gitlab-config-template/gitlab.rb.template#1463-L1481
+
+geo_secondary_role['enable'] =  true
+<%- if @geo_secondary -%>
+<%- @geo_secondary.keys.sort.each do |k| -%>
+geo_secondary['<%= k -%>'] = <%= decorate(@geo_secondary[k]) %>
+<%- end end -%>
+<%- end -%>
+<%- if @geo_postgresql -%>
+
+########################
+# Gitlab Geo Postgresql#
+########################
+## To configure GitLab Geo Secondary Tracking Database (EE only).
+
+<%- @geo_postgresql.keys.sort.each do |k| -%>
+geo_postgresql['<%= k -%>'] = <%= decorate(@geo_postgresql[k]) %>
+<%- end end -%>

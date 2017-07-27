@@ -11,6 +11,10 @@ class gitlab::config {
   $config_file = $::gitlab::config_file
   $external_url = $::gitlab::external_url
   $external_port = $::gitlab::external_port
+  $geo_postgresql = $::gitlab::geo_postgresql
+  $geo_primary_role = $::gitlab::geo_primary_role
+  $geo_secondary = $::gitlab::geo_secondary
+  $geo_secondary_role = $::gitlab::geo_secondary_role
   $git = $::gitlab::git
   $gitaly = $::gitlab::gitaly
   $git_data_dir = $::gitlab::git_data_dir

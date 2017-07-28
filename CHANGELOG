@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v1.15.1 [2017-07-28]
+
+* Dummy release for Puppet Forge
+
 ## v1.15.0 [2017-07-28]
 
 * Support geo_* configuration options (thanks to shaheed121)

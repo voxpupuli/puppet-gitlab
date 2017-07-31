@@ -15,5 +15,5 @@ class gitlab::cirunner::ssh (
 ) {
   include ::gitlab::cirunner
 
-  create_resources('gitlab::runners::ssh', $runners)
+  create_resources('gitlab::runner::ssh', $runners)
 }

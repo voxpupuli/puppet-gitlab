@@ -66,5 +66,5 @@ class gitlab::cirunner::docker (
       }
     }
   }
-  create_resources('gitlab::runners::docker', $runners)
+  create_resources('gitlab::runner::docker', $runners)
 }

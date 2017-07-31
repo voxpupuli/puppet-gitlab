@@ -11,5 +11,5 @@ class gitlab::cirunner::shell (
 ) {
   include ::gitlab::cirunner
 
-  create_resources('gitlab::runners::shell', $runners)
+  create_resources('gitlab::runner::shell', $runners)
 }

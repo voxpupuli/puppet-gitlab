@@ -13,5 +13,5 @@ class gitlab::cirunner::parallels (
 ) {
   include ::gitlab::cirunner
 
-  create_resources('gitlab::runners::parallels', $runners)
+  create_resources('gitlab::runner::parallels', $runners)
 }

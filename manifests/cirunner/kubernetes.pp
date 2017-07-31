@@ -40,5 +40,5 @@ class gitlab::cirunner::kubernetes (
 ) {
   include ::gitlab::cirunner
 
-  create_resources('gitlab::runners::kubernetes', $runners)
+  create_resources('gitlab::runner::kubernetes', $runners)
 }

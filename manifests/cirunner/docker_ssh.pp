@@ -71,5 +71,5 @@ class gitlab::cirunner::docker_ssh (
       }
     }
   }
-  create_resources('gitlab::runners::docker_ssh', $runners)
+  create_resources('gitlab::runner::docker_ssh', $runners)
 }

@@ -13,5 +13,5 @@ class gitlab::cirunner::virtualbox (
 ) {
   include ::gitlab::cirunner
 
-  create_resources('gitlab::runners::virtualbox', $runners)
+  create_resources('gitlab::runner::virtualbox', $runners)
 }

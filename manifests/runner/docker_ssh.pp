@@ -44,7 +44,7 @@ define gitlab::runner::docker_ssh (
   include ::gitlab::cirunner::docker_ssh
   $executor_cmd = '--executor docker_ssh'
   $_name        = "docker_ssh_${name}"
-  $name_cmd     = "-n ${_name}"
+  $name_cmd     = "-n --name ${_name}"
   $token_cmd = ::gitlab::cirunner::cmd_str(
     'registration-token',
     [$token, $gitlab::cirunner::docker_ssh::default_token,

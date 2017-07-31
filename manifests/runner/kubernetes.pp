@@ -40,7 +40,7 @@ define gitlab::runner::kubernetes (
   include ::gitlab::cirunner::kubernetes
   $executor_cmd = '--executor kubernetes'
   $_name        = "kubernetes_${name}"
-  $name_cmd     = "-n ${_name}"
+  $name_cmd     = "-n --name ${_name}"
   $token_cmd = ::gitlab::cirunner::cmd_str(
     'registration-token',
     [$token, $gitlab::cirunner::kubernetes::default_token,

@@ -13,7 +13,7 @@ define gitlab::runner::parallels (
   include ::gitlab::cirunner::parallels
   $executor_cmd = '--executor parallels'
   $_name        = "parallels_${name}"
-  $name_cmd     = "-n ${_name}"
+  $name_cmd     = "-n --name ${_name}"
   $token_cmd = ::gitlab::cirunner::cmd_str(
     'registration-token',
     [$token, $gitlab::cirunner::parallels::default_token,

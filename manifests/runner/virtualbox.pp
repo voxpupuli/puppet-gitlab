@@ -13,7 +13,7 @@ define gitlab::runner::virtualbox (
   include ::gitlab::cirunner::virtualbox
   $executor_cmd = '--executor virtualbox'
   $_name        = "virtualbox_${name}"
-  $name_cmd     = "-n ${_name}"
+  $name_cmd     = "-n --name ${_name}"
   $token_cmd = ::gitlab::cirunner::cmd_str(
     'registration-token',
     [$token, $gitlab::cirunner::virtualbox::default_token,

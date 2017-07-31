@@ -39,7 +39,7 @@ define gitlab::runner::docker (
   include ::gitlab::cirunner::docker
   $executor_cmd = '--executor docker'
   $_name        = "docker_${name}"
-  $name_cmd     = "-n ${_name}"
+  $name_cmd     = "-n --name ${_name}"
   $token_cmd = ::gitlab::cirunner::cmd_str(
     'registration-token',
     [$token, $gitlab::cirunner::docker::default_token,

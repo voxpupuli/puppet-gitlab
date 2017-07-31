@@ -15,7 +15,7 @@ define gitlab::runner::ssh (
   include ::gitlab::cirunner::ssh
   $executor_cmd = '--executor ssh'
   $_name        = "ssh_${name}"
-  $name_cmd     = "-n ${_name}"
+  $name_cmd     = "-n --name ${_name}"
   $token_cmd = ::gitlab::cirunner::cmd_str(
     'registration-token',
     [$token, $gitlab::cirunner::ssh::default_token,

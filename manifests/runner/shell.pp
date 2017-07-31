@@ -11,7 +11,7 @@ define gitlab::runner::shell (
   include ::gitlab::cirunner::shell
   $executor_cmd = '--executor shell'
   $_name        = "shell_${name}"
-  $name_cmd     = "-n ${_name}"
+  $name_cmd     = "-n --name ${_name}"
   $token_cmd = ::gitlab::cirunner::cmd_str(
     'registration-token',
     [$token, $gitlab::cirunner::shell::default_token,

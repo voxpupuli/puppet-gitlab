@@ -436,9 +436,5 @@ class gitlab (
   contain gitlab::install
   contain gitlab::config
   contain gitlab::service
-  
   create_resources(gitlab::custom_hook, $custom_hooks)
-
-  create_resources(gitlab::custom_hook, $custom_hooks)
-
 }

@@ -244,6 +244,26 @@ gitlab::custom_hooks:
     source: 'puppet:///modules/my_module/post-receive'
 ```
 
+Since GitLab Shell 4.1.0 and GitLab 8.15 Chained hooks are supported. You can
+create global hooks which will run for each repository on your server. Global
+hooks can be created as a pre-receive, post-receive, or update hook. 
+
+```puppet
+gitlab::global_hook { 'my_custom_hook':
+  type            => 'post-receive',
+  source          => 'puppet:///modules/my_module/post-receive',
+}
+```
+
+or via hiera
+
+```yaml
+gitlab::global_hooks:
+  my_custom_hook:
+    type: post-receive
+    source: 'puppet:///modules/my_module/post-receive'
+```
+
 ### Gitlab CI Runner Limitations
 
 The Gitlab CI runner installation is at the moment only tested on Ubuntu 14.04.

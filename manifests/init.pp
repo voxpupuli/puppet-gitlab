@@ -439,6 +439,4 @@ class gitlab (
   
   create_resources(gitlab::custom_hook, $custom_hooks)
 
-  create_resources(gitlab::custom_hook, $custom_hooks)
-
 }

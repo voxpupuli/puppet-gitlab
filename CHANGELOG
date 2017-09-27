@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v2.0.0 ?
+
+WARNING: Since Gitlab 10.0 gitlab-ci-multi-runner project has been renamed to gitlab-runner
+
+* Change package to new `gitlab-runner` >= 10.0
+
 ## v1.15.1 [2017-07-28]
 
 * Dummy release for Puppet Forge

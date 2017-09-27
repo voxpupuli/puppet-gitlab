@@ -152,6 +152,7 @@ class gitlab::cirunner (
   $runners = keys($runners_hash)
   $default_config = hiera_hash($hiera_default_config_key, {})
   gitlab::runner { $runners:
+    binary         => $package_name,
     default_config => $default_config,
     runners_hash   => $runners_hash,
     require        => Exec['gitlab-runner-restart'],

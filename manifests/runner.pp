@@ -48,7 +48,7 @@ define gitlab::runner (
 
   # Execute gitlab ci multirunner register
   exec {"Register_runner_${title}":
-    command => "/usr/bin/gitlab-ci-multi-runner register -n ${parameters_string}",
+    command => "/usr/bin/gitlab-runner register -n ${parameters_string}",
     unless  => "/bin/grep ${runner_name} ${toml_file}",
   }
 

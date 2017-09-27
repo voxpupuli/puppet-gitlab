@@ -19,7 +19,7 @@ describe 'gitlab::cirunner' do
       it { is_expected.to contain_class('docker::images') }
       it { is_expected.to contain_apt__source('apt_gitlabci') }
 
-      it { is_expected.to contain_package('gitlab-ci-multi-runner').with_ensure('installed') }
+      it { is_expected.to contain_package('gitlab-runner').with_ensure('installed') }
     end
     describe "gitlab::cirunner class without any parameters on RedHat (CentOS)" do
       let(:params) {{ }}
@@ -52,9 +52,9 @@ describe 'gitlab::cirunner' do
 
       it { is_expected.to contain_class('docker') }
       it { is_expected.to contain_class('docker::images') }
-      it { is_expected.to contain_yumrepo('runner_gitlab-ci-multi-runner').with_baseurl('https://packages.gitlab.com/runner/gitlab-ci-multi-runner/el/6/$basearch') }
+      it { is_expected.to contain_yumrepo('runner_gitlab-runner').with_baseurl('https://packages.gitlab.com/runner/gitlab-runner/el/6/$basearch') }
 
-      it { is_expected.to contain_package('gitlab-ci-multi-runner').with_ensure('installed') }
+      it { is_expected.to contain_package('gitlab-runner').with_ensure('installed') }
     end
     describe "gitlab::cirunner class OS-independent behavior" do
       let(:facts) {{
@@ -83,10 +83,10 @@ describe 'gitlab::cirunner' do
       }}
 
       context 'with default parameters' do
-        it { should contain_exec('gitlab-runner-restart').that_requires('Package[gitlab-ci-multi-runner]') }
+        it { should contain_exec('gitlab-runner-restart').that_requires('Package[gitlab-runner]') }
         it do
           should contain_exec('gitlab-runner-restart').with({
-            'command'     => '/usr/bin/gitlab-ci-multi-runner restart',
+            'command'     => '/usr/bin/gitlab-runner restart',
             'refreshonly' => true,
           })
         end
@@ -96,7 +96,7 @@ describe 'gitlab::cirunner' do
 
       context 'with concurrent => 10' do
         let(:params) { { :concurrent => 10 } }
-        it { should contain_file_line('gitlab-runner-concurrent').that_requires('Package[gitlab-ci-multi-runner]') }
+        it { should contain_file_line('gitlab-runner-concurrent').that_requires('Package[gitlab-runner]') }
         it { should contain_file_line('gitlab-runner-concurrent').that_notifies('Exec[gitlab-runner-restart]') }
         it do
           should contain_file_line('gitlab-runner-concurrent').with({

@@ -68,7 +68,7 @@ describe 'gitlab class' do
       apply_manifest(pp, :catch_changes  => true)
     end
 
-    describe package('gitlab-ci-multi-runner') do
+    describe package('gitlab-runner') do
       it { is_expected.to be_installed }
     end
   end

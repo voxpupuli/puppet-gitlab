@@ -21,10 +21,12 @@
 # Copyright 2015 Tobias Brunner, VSHN AG
 #
 define gitlab::runner (
+  $binary,
   $runners_hash,
   $default_config = {},
 ) {
 
+  validate_string($binary)
   validate_hash($runners_hash)
   validate_hash($default_config)
 
@@ -48,7 +50,7 @@ define gitlab::runner (
 
   # Execute gitlab ci multirunner register
   exec {"Register_runner_${title}":
-    command => "/usr/bin/gitlab-ci-multi-runner register -n ${parameters_string}",
+    command => "/usr/bin/${binary} register -n ${parameters_string}",
     unless  => "/bin/grep ${runner_name} ${toml_file}",
   }
 

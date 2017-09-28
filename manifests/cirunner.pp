@@ -13,7 +13,7 @@
 #   Default: gitlab_ci_runners_defaults
 #   Name of hiera hash with default configs for CI Runners.
 #   The config is the parameters for the /usr/bin/gitlab-ci-multi-runner register
-#   command.
+#   command (for version 10.x: /usr/bin/gitlab-runner).
 #
 # [*hiera_runners_key*]
 #   Default: gitlab_ci_runners
@@ -36,12 +36,16 @@ class gitlab::cirunner (
   $manage_repo = true,
   $xz_package_name = 'xz-utils',
   $package_ensure = installed,
+  $package_name = 'gitlab-ci-multi-runner',
 ) {
 
   validate_string($hiera_default_config_key)
   validate_string($hiera_runners_key)
   validate_bool($manage_docker)
   validate_bool($manage_repo)
+  validate_string($xz_package_name)
+  validate_string($package_ensure)
+  validate_string($package_name)
 
   unless ($::osfamily == 'Debian' or $::osfamily == 'RedHat')  {
     fail ("OS family ${::osfamily} is not supported. Only Debian and Redhat is suppported.")
@@ -65,6 +69,8 @@ class gitlab::cirunner (
   }
 
   if $manage_repo {
+    $repo_base_url = 'https://packages.gitlab.com'
+
     case $::osfamily {
       'Debian': {
         include apt
@@ -74,7 +80,7 @@ class gitlab::cirunner (
 
         ::apt::source { 'apt_gitlabci':
           comment  => 'GitlabCI Runner Repo',
-          location => "https://packages.gitlab.com/runner/gitlab-ci-multi-runner/${distid}/",
+          location => "${repo_base_url}/runner/${package_name}/${distid}/",
           release  => $::lsbdistcodename,
           repos    => 'main',
           key      => {
@@ -86,29 +92,29 @@ class gitlab::cirunner (
             'deb' => true,
           }
         }
-        Apt::Source['apt_gitlabci'] -> Package['gitlab-ci-multi-runner']
-        Exec['apt_update'] -> Package['gitlab-ci-multi-runner']
+        Apt::Source['apt_gitlabci'] -> Package[$package_name]
+        Exec['apt_update'] -> Package[$package_name]
       }
       'RedHat': {
-        yumrepo { 'runner_gitlab-ci-multi-runner':
+        yumrepo { "runner_${package_name}":
           ensure        => 'present',
-          baseurl       => "https://packages.gitlab.com/runner/gitlab-ci-multi-runner/el/${::operatingsystemmajrelease}/\$basearch",
-          descr         => 'runner_gitlab-ci-multi-runner',
+          baseurl       => "${repo_base_url}/runner/${package_name}/el/${::operatingsystemmajrelease}/\$basearch",
+          descr         => "runner_${package_name}",
           enabled       => '1',
           gpgcheck      => '0',
-          gpgkey        => 'https://packages.gitlab.com/gpg.key',
+          gpgkey        => "${repo_base_url}/gpg.key",
           repo_gpgcheck => '1',
           sslcacert     => '/etc/pki/tls/certs/ca-bundle.crt',
           sslverify     => '1',
         }
 
-        yumrepo { 'runner_gitlab-ci-multi-runner-source':
+        yumrepo { "runner_${package_name}-source":
           ensure        => 'present',
-          baseurl       => "https://packages.gitlab.com/runner/gitlab-ci-multi-runner/el/${::operatingsystemmajrelease}/SRPMS",
-          descr         => 'runner_gitlab-ci-multi-runner-source',
+          baseurl       => "${repo_base_url}/runner/${package_name}/el/${::operatingsystemmajrelease}/SRPMS",
+          descr         => "runner_${package_name}-source",
           enabled       => '1',
           gpgcheck      => '0',
-          gpgkey        => 'https://packages.gitlab.com/gpg.key',
+          gpgkey        => "${repo_base_url}/gpg.key",
           repo_gpgcheck => '1',
           sslcacert     => '/etc/pki/tls/certs/ca-bundle.crt',
           sslverify     => '1',
@@ -120,7 +126,7 @@ class gitlab::cirunner (
     }
   }
 
-  package { 'gitlab-ci-multi-runner':
+  package { $package_name:
     ensure => $package_ensure,
   }
 
@@ -131,21 +137,22 @@ class gitlab::cirunner (
       path    => '/etc/gitlab-runner/config.toml',
       line    => "concurrent = ${concurrent}",
       match   => '^concurrent = \d+',
-      require => Package['gitlab-ci-multi-runner'],
+      require => Package[$package_name],
       notify  => Exec['gitlab-runner-restart'],
     }
   }
 
   exec { 'gitlab-runner-restart':
-    command     => '/usr/bin/gitlab-ci-multi-runner restart',
+    command     => "/usr/bin/${package_name} restart",
     refreshonly => true,
-    require     => Package['gitlab-ci-multi-runner'],
+    require     => Package[$package_name],
   }
 
   $runners_hash = hiera_hash($hiera_runners_key, {})
   $runners = keys($runners_hash)
   $default_config = hiera_hash($hiera_default_config_key, {})
   gitlab::runner { $runners:
+    binary         => $package_name,
     default_config => $default_config,
     runners_hash   => $runners_hash,
     require        => Exec['gitlab-runner-restart'],

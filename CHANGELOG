@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v1.15.2 [2017-09-28]
+
+* Make CI runner package_name configurable (must be set to "gitlab-runner" for Gitlab 10.x). Thanks to Paul B. (paulRbr)!
+
 ## v1.15.1 [2017-07-28]
 
 * Dummy release for Puppet Forge

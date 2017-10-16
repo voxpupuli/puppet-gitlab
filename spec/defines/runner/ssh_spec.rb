@@ -223,7 +223,7 @@ describe 'gitlab::runner::ssh' do
           it do
             is_expected.to contain_exec(
               "Register_runner_#{title}"
-            ).with_command(%r{--tags foo,bar})
+            ).with_command(%r{--tag-list foo,bar})
           end
         end
         context "gitlab::cirunner::ssh::tags: ['foo', 'bar']" do
@@ -237,7 +237,7 @@ describe 'gitlab::runner::ssh' do
           it do
             is_expected.to contain_exec(
               "Register_runner_#{title}"
-            ).with_command(%r{--tags foo,bar})
+            ).with_command(%r{--tag-list foo,bar})
           end
         end
         context "tags: ['foo', 'bar']" do
@@ -246,7 +246,7 @@ describe 'gitlab::runner::ssh' do
           it do
             is_expected.to contain_exec(
               "Register_runner_#{title}"
-            ).with_command(%r{--tags foo,bar})
+            ).with_command(%r{--tag-list foo,bar})
           end
         end
         context "gitlab::cirunner::ssh::ssh_user: 'foobar'" do

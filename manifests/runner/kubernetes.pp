@@ -62,7 +62,7 @@ define gitlab::runner::kubernetes (
     $::gitlab::cirunner::default_locked]
   )
   $tags_cmd = ::gitlab::cirunner::cmd_str(
-    'tags',
+    'tag-list',
     [$tags, $gitlab::cirunner::kubernetes::default_tags,
     $::gitlab::cirunner::default_tags]
   )

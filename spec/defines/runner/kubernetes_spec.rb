@@ -248,7 +248,7 @@ describe 'gitlab::runner::kubernetes' do
           it do
             is_expected.to contain_exec(
               "Register_runner_#{title}"
-            ).with_command(%r{--tags foo,bar})
+            ).with_command(%r{--tag-list foo,bar})
           end
         end
         context "gitlab::cirunner::kubernetes::tags: ['foo', 'bar']" do
@@ -262,7 +262,7 @@ describe 'gitlab::runner::kubernetes' do
           it do
             is_expected.to contain_exec(
               "Register_runner_#{title}"
-            ).with_command(%r{--tags foo,bar})
+            ).with_command(%r{--tag-list foo,bar})
           end
         end
         context "tags: ['foo', 'bar']" do
@@ -271,7 +271,7 @@ describe 'gitlab::runner::kubernetes' do
           it do
             is_expected.to contain_exec(
               "Register_runner_#{title}"
-            ).with_command(%r{--tags foo,bar})
+            ).with_command(%r{--tag-list foo,bar})
           end
         end
         context "gitlab::cirunner::kubernetes::host: 'foobar'" do

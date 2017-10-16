@@ -221,7 +221,7 @@ describe 'gitlab::runner::virtualbox' do
           it do
             is_expected.to contain_exec(
               "Register_runner_#{title}"
-            ).with_command(%r{--tags foo,bar})
+            ).with_command(%r{--tag-list foo,bar})
           end
         end
         context "gitlab::cirunner::virtualbox::tags: ['foo', 'bar']" do
@@ -235,7 +235,7 @@ describe 'gitlab::runner::virtualbox' do
           it do
             is_expected.to contain_exec(
               "Register_runner_#{title}"
-            ).with_command(%r{--tags foo,bar})
+            ).with_command(%r{--tag-list foo,bar})
           end
         end
         context "tags: ['foo', 'bar']" do
@@ -244,7 +244,7 @@ describe 'gitlab::runner::virtualbox' do
           it do
             is_expected.to contain_exec(
               "Register_runner_#{title}"
-            ).with_command(%r{--tags foo,bar})
+            ).with_command(%r{--tag-list foo,bar})
           end
         end
         context "gitlab::cirunner::virtualbox::base_name: 'foobar'" do

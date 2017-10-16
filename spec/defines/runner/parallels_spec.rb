@@ -220,7 +220,7 @@ describe 'gitlab::runner::parallels' do
           it do
             is_expected.to contain_exec(
               "Register_runner_#{title}"
-            ).with_command(%r{--tags foo,bar})
+            ).with_command(%r{--tag-list foo,bar})
           end
         end
         context "gitlab::cirunner::parallels::tags: ['foo', 'bar']" do
@@ -234,7 +234,7 @@ describe 'gitlab::runner::parallels' do
           it do
             is_expected.to contain_exec(
               "Register_runner_#{title}"
-            ).with_command(%r{--tags foo,bar})
+            ).with_command(%r{--tag-list foo,bar})
           end
         end
         context "tags: ['foo', 'bar']" do
@@ -243,7 +243,7 @@ describe 'gitlab::runner::parallels' do
           it do
             is_expected.to contain_exec(
               "Register_runner_#{title}"
-            ).with_command(%r{--tags foo,bar})
+            ).with_command(%r{--tag-list foo,bar})
           end
         end
         context "gitlab::cirunner::parallels::base_name: 'foobar'" do

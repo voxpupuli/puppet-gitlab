@@ -66,7 +66,7 @@ define gitlab::runner::docker_ssh (
     $::gitlab::cirunner::default_locked]
   )
   $tags_cmd = ::gitlab::cirunner::cmd_str(
-    'tags',
+    'tag-list',
     [$tags, $gitlab::cirunner::docker_ssh::default_tags,
     $::gitlab::cirunner::default_tags]
   )

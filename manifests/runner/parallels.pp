@@ -35,7 +35,7 @@ define gitlab::runner::parallels (
     $::gitlab::cirunner::default_locked]
   )
   $tags_cmd = ::gitlab::cirunner::cmd_str(
-    'tags',
+    'tag-list',
     [$tags, $gitlab::cirunner::parallels::default_tags,
     $::gitlab::cirunner::default_tags]
   )

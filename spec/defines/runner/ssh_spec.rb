@@ -58,7 +58,7 @@ describe 'gitlab::runner::ssh' do
       describe 'check default config' do
         it do
           is_expected.to contain_exec("Register_runner_#{title}").with(
-            command: %r{/usr/bin/gitlab-ci-multi-runner register --executor ssh --registration-token TOKEN --url https://gitlab.com -n ssh_#{title} --run-untagged\s+$},
+            command: %r{/usr/bin/gitlab-ci-multi-runner register --executor ssh --registration-token TOKEN --url https://gitlab.com -n --name ssh_#{title} --run-untagged\s+$},
             unless:  "/bin/grep ssh_#{title} /etc/gitlab-runner/config.toml",
           )
         end

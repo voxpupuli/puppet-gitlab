@@ -56,7 +56,7 @@ describe 'gitlab::runner::virtualbox' do
       describe 'check default config' do
         it do
           is_expected.to contain_exec("Register_runner_#{title}").with(
-            command: %r{/usr/bin/gitlab-ci-multi-runner register --executor virtualbox --registration-token TOKEN --url https://gitlab.com -n virtualbox_#{title} --run-untagged\s+--virtualbox-disable-snapshots$},
+            command: %r{/usr/bin/gitlab-ci-multi-runner register --executor virtualbox --registration-token TOKEN --url https://gitlab.com -n --name virtualbox_#{title} --run-untagged\s+--virtualbox-disable-snapshots$},
             unless:  "/bin/grep virtualbox_#{title} /etc/gitlab-runner/config.toml",
           )
         end

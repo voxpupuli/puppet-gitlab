@@ -83,7 +83,7 @@ describe 'gitlab::runner::kubernetes' do
       describe 'check default config' do
         it do
           is_expected.to contain_exec("Register_runner_#{title}").with(
-            command: %r{/usr/bin/gitlab-ci-multi-runner register --executor kubernetes --registration-token TOKEN --url https://gitlab.com -n kubernetes_#{title} --run-untagged\s+$},
+            command: %r{/usr/bin/gitlab-ci-multi-runner register --executor kubernetes --registration-token TOKEN --url https://gitlab.com -n --name kubernetes_#{title} --run-untagged\s+$},
             unless:  "/bin/grep kubernetes_#{title} /etc/gitlab-runner/config.toml",
           )
         end

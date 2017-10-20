@@ -81,7 +81,7 @@ describe 'gitlab::runner::docker' do
       describe 'check default config' do
         it do
           is_expected.to contain_exec("Register_runner_#{title}").with(
-            command: %r{/usr/bin/gitlab-ci-multi-runner register --executor docker --registration-token TOKEN --url https://gitlab.com -n docker_#{title} --run-untagged\s+--docker-image ubuntu_trusty\s+},
+            command: %r{/usr/bin/gitlab-ci-multi-runner register --executor docker --registration-token TOKEN --url https://gitlab.com -n --name docker_#{title} --run-untagged\s+--docker-image ubuntu_trusty\s+},
             unless:  "/bin/grep docker_#{title} /etc/gitlab-runner/config.toml",
           )
         end

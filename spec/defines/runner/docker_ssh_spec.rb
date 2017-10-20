@@ -81,7 +81,7 @@ describe 'gitlab::runner::docker_ssh' do
       describe 'check default config' do
         it do
           is_expected.to contain_exec("Register_runner_#{title}").with(
-            command: %r{/usr/bin/gitlab-ci-multi-runner register --executor docker_ssh --registration-token TOKEN --url https://gitlab.com -n docker_ssh_#{title} --run-untagged\s+--docker-image ubuntu_trusty\s+$},
+            command: %r{/usr/bin/gitlab-ci-multi-runner register --executor docker_ssh --registration-token TOKEN --url https://gitlab.com -n --name docker_ssh_#{title} --run-untagged\s+--docker-image ubuntu_trusty\s+$},
             unless:  "/bin/grep docker_ssh_#{title} /etc/gitlab-runner/config.toml",
           )
         end

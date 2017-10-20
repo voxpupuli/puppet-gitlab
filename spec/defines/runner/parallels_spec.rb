@@ -55,7 +55,7 @@ describe 'gitlab::runner::parallels' do
       describe 'check default config' do
         it do
           is_expected.to contain_exec("Register_runner_#{title}").with(
-            command: %r{/usr/bin/gitlab-ci-multi-runner register --executor parallels --registration-token TOKEN --url https://gitlab.com -n parallels_#{title} --run-untagged\s+--parallels-disable-snapshots$},
+            command: %r{/usr/bin/gitlab-ci-multi-runner register --executor parallels --registration-token TOKEN --url https://gitlab.com -n --name parallels_#{title} --run-untagged\s+--parallels-disable-snapshots$},
             unless:  "/bin/grep parallels_#{title} /etc/gitlab-runner/config.toml",
           )
         end

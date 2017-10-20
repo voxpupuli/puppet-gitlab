@@ -55,7 +55,7 @@ describe 'gitlab::runner::shell' do
         it { is_expected.to compile.with_all_deps }
         it do
           is_expected.to contain_exec('Register_runner_shell_test').with(
-            command: '/usr/bin/gitlab-ci-multi-runner register --executor shell --registration-token TOKEN --url https://gitlab.com -n shell_test --run-untagged   --shell bash',
+            command: '/usr/bin/gitlab-ci-multi-runner register --executor shell --registration-token TOKEN --url https://gitlab.com -n --name shell_test --run-untagged   --shell bash',
             unless:  '/bin/grep shell_test /etc/gitlab-runner/config.toml',
           )
         end

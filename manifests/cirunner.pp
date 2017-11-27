@@ -42,7 +42,7 @@ class gitlab::cirunner (
   $manage_repo = true,
   $xz_package_name = 'xz-utils',
   $package_ensure = installed,
-  $package_name = 'gitlab-ci-multi-runner',
+  $package_name = 'gitlab-runner',
 ) {
 
   validate_string($hiera_default_config_key)

@@ -110,14 +110,14 @@ describe 'gitlab::cirunner' do
         end
       end
 
-      context 'with metrics_server => localhost:8888' do
-        let(:params) { { :metrics_server => 'localhost:8888' } }
+      context 'with metrics_server => localhost:9252' do
+        let(:params) { { :metrics_server => 'localhost:9252' } }
         it { should contain_file_line('gitlab-runner-metrics-server').that_requires("Package[#{package_name}]") }
         it { should contain_file_line('gitlab-runner-metrics-server').that_notifies('Exec[gitlab-runner-restart]') }
         it do
           should contain_file_line('gitlab-runner-metrics-server').with({
             'path'  => '/etc/gitlab-runner/config.toml',
-            'line'  => 'metrics_server = "localhost:8888"',
+            'line'  => 'metrics_server = "localhost:9252"',
 	    'match' => '^metrics_server = .+',
           })
         end

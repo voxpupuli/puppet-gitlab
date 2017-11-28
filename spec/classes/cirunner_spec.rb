@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'gitlab::cirunner' do
   context 'supported operating systems' do
-    package_name = 'gitlab-ci-multi-runner'
+    package_name = 'gitlab-runner'
 
     describe "gitlab::cirunner class without any parameters on Ubuntu Trusty" do
       let(:params) {{ }}

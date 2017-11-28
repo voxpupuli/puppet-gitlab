@@ -117,7 +117,7 @@ describe 'gitlab::cirunner' do
         it do
           should contain_file_line('gitlab-runner-metrics-server').with({
             'path'  => '/etc/gitlab-runner/config.toml',
-            'line'  => 'metrics_server = localhost:8888',
+            'line'  => 'metrics_server = "localhost:8888"',
 	    'match' => '^metrics_server = .+',
           })
         end

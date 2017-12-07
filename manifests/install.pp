@@ -58,7 +58,7 @@ class gitlab::install {
 
         yumrepo { "gitlab_official_${edition}":
           descr         => 'Official repository for Gitlab',
-          baseurl       => "https://packages.gitlab.com/gitlab/gitlab-${edition}/el/${::os_version_major}/\$basearch",
+          baseurl       => "https://packages.gitlab.com/gitlab/gitlab-${edition}/el/${::operatingsystemmajrelease}/\$basearch",
           enabled       => 1,
           repo_gpgcheck => 1,
           gpgcheck      => 1,

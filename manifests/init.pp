@@ -357,6 +357,7 @@ class gitlab (
   $ci_unicorn = undef,
   $config_manage = $::gitlab::params::config_manage,
   $config_file = $::gitlab::params::config_file,
+  $custom_hooks_dir = undef,
   $external_url = $::gitlab::params::external_url,
   $external_port = undef,
   $geo_postgresql = undef,
@@ -416,6 +417,7 @@ class gitlab (
   $backup_cron_hour = 2,
   $backup_cron_skips = [],
   $custom_hooks = {},
+  $global_hooks = {},
 ) inherits ::gitlab::params {
 
   # package installation handling
@@ -432,6 +434,7 @@ class gitlab (
   validate_re($edition, [ '^ee$', '^ce$' ])
   validate_bool($config_manage)
   validate_absolute_path($config_file)
+  if $custom_hooks_dir { validate_absolute_path($custom_hooks_dir) }
   if $geo_postgresql { validate_hash($geo_postgresql) }
   validate_bool($geo_primary_role)
   if $geo_secondary { validate_hash($geo_secondary) }
@@ -484,6 +487,7 @@ class gitlab (
   validate_integer($backup_cron_hour,23)
   validate_array($backup_cron_skips)
   validate_hash($custom_hooks)
+  validate_hash($glocal_hooks)
 
   class { '::gitlab::install': } ->
   class { '::gitlab::config': } ~>
@@ -494,5 +498,5 @@ class gitlab (
   contain gitlab::service
  
   create_resources(gitlab::custom_hook, $custom_hooks)
-
+  create_resources(gitlab::global_hook, $global_hooks)
 }

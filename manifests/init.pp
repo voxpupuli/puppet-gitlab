@@ -58,6 +58,11 @@
 #   Default: true
 #   The gitlab service has this commands available.
 #
+# [*rake_exec*]
+#   Default: '/usr/bin/gitlab-rake'
+#   The gitlab-rake executable path. 
+#   You should not need to change this path.
+#
 # [*edition*]
 #   Default: ce
 #   Gitlab edition to install. ce or ee.
@@ -291,6 +296,24 @@
 #   Default: undef
 #   Hash of 'high_availability' config parameters.
 #
+# [*backup_cron_enable*]
+#   Default: false
+#   Boolean to enable the daily backup cron job
+#
+# [*backup_cron_minute*]
+#   Default: 0
+#   The minute when to run the daily backup cron job
+#
+# [*backup_cron_hour*]
+#   Default: 2
+#   The hour when to run the daily backup cron job
+#
+# [*backup_cron_skips*]
+#   Default: []
+#   Array of items to skip
+#   valid values: db, uploads, repositories, builds,
+#                 artifacts, lfs, registry, pages
+#
 # === Examples
 #
 #  class { 'gitlab':
@@ -328,6 +351,7 @@ class gitlab (
   $service_stop = $::gitlab::params::service_stop,
   $service_user = $::gitlab::params::service_user,
   # gitlab specific
+  $rake_exec = $::gitlab::params::rake_exec,
   $edition = 'ce',
   $ci_redis = undef,
   $ci_unicorn = undef,
@@ -387,6 +411,10 @@ class gitlab (
   $gitlab_workhorse = undef,
   $user = undef,
   $web_server = undef,
+  $backup_cron_enable = false,
+  $backup_cron_minute = 0,
+  $backup_cron_hour = 2,
+  $backup_cron_skips = [],
   $custom_hooks = {},
 ) inherits ::gitlab::params {
 
@@ -451,6 +479,10 @@ class gitlab (
   if $web_server { validate_hash($web_server) }
   if $high_availability { validate_hash($high_availability) }
   if $manage_accounts { validate_hash($manage_accounts) }
+  validate_bool($backup_cron_enable)
+  validate_integer($backup_cron_minute,59)
+  validate_integer($backup_cron_hour,23)
+  validate_array($backup_cron_skips)
   validate_hash($custom_hooks)
 
   class { '::gitlab::install': } ->
@@ -460,7 +492,7 @@ class gitlab (
   contain gitlab::install
   contain gitlab::config
   contain gitlab::service
-
+ 
   create_resources(gitlab::custom_hook, $custom_hooks)
 
 }

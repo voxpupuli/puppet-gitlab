@@ -9,6 +9,11 @@
 #   The limit on the number of jobs that can run concurrently among
 #   all runners, or `undef` to leave unmanaged.
 #
+# [*metrics_server*]
+#   Default: `undef`
+#   [host]:<port> to enable metrics server as described in
+#   https://docs.gitlab.com/runner/monitoring/README.html#configuration-of-the-metrics-http-server
+#
 # [*hiera_default_config_key*]
 #   Default: gitlab_ci_runners_defaults
 #   Name of hiera hash with default configs for CI Runners.
@@ -30,13 +35,14 @@
 #
 class gitlab::cirunner (
   $concurrent = undef,
+  $metrics_server = undef,
   $hiera_default_config_key = 'gitlab_ci_runners_defaults',
   $hiera_runners_key = 'gitlab_ci_runners',
   $manage_docker = true,
   $manage_repo = true,
   $xz_package_name = 'xz-utils',
   $package_ensure = installed,
-  $package_name = 'gitlab-ci-multi-runner',
+  $package_name = 'gitlab-runner',
 ) {
 
   validate_string($hiera_default_config_key)
@@ -137,6 +143,18 @@ class gitlab::cirunner (
       path    => '/etc/gitlab-runner/config.toml',
       line    => "concurrent = ${concurrent}",
       match   => '^concurrent = \d+',
+      require => Package[$package_name],
+      notify  => Exec['gitlab-runner-restart'],
+    }
+  }
+
+  if $metrics_server {
+    validate_re($metrics_server, '.*:.+', 'metrics_server must be in the format [host]:<port>')
+
+    file_line { 'gitlab-runner-metrics-server':
+      path    => '/etc/gitlab-runner/config.toml',
+      line    => "metrics_server = \"${metrics_server}\"",
+      match   => '^metrics_server = .+',
       require => Package[$package_name],
       notify  => Exec['gitlab-runner-restart'],
     }

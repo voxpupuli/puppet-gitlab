@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'gitlab::cirunner' do
   context 'supported operating systems' do
-    package_name = 'gitlab-ci-multi-runner'
+    package_name = 'gitlab-runner'
 
     describe "gitlab::cirunner class without any parameters on Ubuntu Trusty" do
       let(:params) {{ }}
@@ -94,6 +94,7 @@ describe 'gitlab::cirunner' do
         end
         it { should contain_gitlab__runner('test_runner').that_requires('Exec[gitlab-runner-restart]') }
         it { should_not contain_file_line('gitlab-runner-concurrent') }
+        it { should_not contain_file_line('gitlab-runner-metrics-server') }
       end
 
       context 'with concurrent => 10' do
@@ -105,6 +106,19 @@ describe 'gitlab::cirunner' do
             'path'  => '/etc/gitlab-runner/config.toml',
             'line'  => 'concurrent = 10',
             'match' => '^concurrent = \d+',
+          })
+        end
+      end
+
+      context 'with metrics_server => localhost:9252' do
+        let(:params) { { :metrics_server => 'localhost:9252' } }
+        it { should contain_file_line('gitlab-runner-metrics-server').that_requires("Package[#{package_name}]") }
+        it { should contain_file_line('gitlab-runner-metrics-server').that_notifies('Exec[gitlab-runner-restart]') }
+        it do
+          should contain_file_line('gitlab-runner-metrics-server').with({
+            'path'  => '/etc/gitlab-runner/config.toml',
+            'line'  => 'metrics_server = "localhost:9252"',
+	    'match' => '^metrics_server = .+',
           })
         end
       end

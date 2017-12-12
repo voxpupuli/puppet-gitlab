@@ -178,6 +178,8 @@ classes:
 
 gitlab::cirunner::concurrent: 4
 
+gitlab::cirunner::metrics_server: "localhost:8888"
+
 gitlab_ci_runners:
   test_runner1:{}
   test_runner2:{}

@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## v1.16.0 [2017-12-13]
+
+* **Migration to Vox Pupuli**
+* Fix for new git_data_dirs syntax in Gitlab 10
+* Add support for metrics_server in CI Runner
+* Install GitLab Runner using the name it has from 10.x onwards
+* Fix repo URL for RHEL 7[1]. Enable gpgcheck and add in gitlab-ee key
+* Add backup job
+* Add support for chained global hooks
+
 ## v1.15.2 [2017-09-28]
 
 * Make CI runner package_name configurable (must be set to "gitlab-runner" for Gitlab 10.x). Thanks to Paul B. (paulRbr)!

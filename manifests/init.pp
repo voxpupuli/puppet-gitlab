@@ -487,7 +487,7 @@ class gitlab (
   validate_integer($backup_cron_hour,23)
   validate_array($backup_cron_skips)
   validate_hash($custom_hooks)
-  validate_hash($glocal_hooks)
+  validate_hash($global_hooks)
 
   class { '::gitlab::install': } ->
   class { '::gitlab::config': } ~>

@@ -58,7 +58,7 @@ the `$::os` fact used in `install.pp` doesn't work as expected.
 
 ### Beginning with Gitlab
 
-Just include the class and specify at least `external_url`. If `external_url` is not specified it will default to the FQDN fact of the system. 
+Just include the class and specify at least `external_url`. If `external_url` is not specified it will default to the FQDN fact of the system.
 
 ```puppet
 class { 'gitlab':
@@ -248,7 +248,7 @@ gitlab::custom_hooks:
 
 Since GitLab Shell 4.1.0 and GitLab 8.15 Chained hooks are supported. You can
 create global hooks which will run for each repository on your server. Global
-hooks can be created as a pre-receive, post-receive, or update hook. 
+hooks can be created as a pre-receive, post-receive, or update hook.
 
 ```puppet
 gitlab::global_hook { 'my_custom_hook':
@@ -265,6 +265,19 @@ gitlab::global_hooks:
     type: post-receive
     source: 'puppet:///modules/my_module/post-receive'
 ```
+
+### Fast Lookup of SSH keys
+
+GitLab instances with a large number of users may notice slowdowns when making initial connections for ssh operations.
+GitLab has created a feature that allows authorized ssh keys to be stored in the db (instead of the `authorized_keys`
+file for the `git` user)
+
+You can enable this feature in GitLab using the `store_git_keys_in_db` parameter.
+
+Please note, managing the sshd service and openssh is outside the scope of this module.
+You will need to configure the AuthorizedKeysCommand for the `git` user in sshd.server yourself.
+Instructions for this are provided by GitLab at
+[Fast lookup of authorized SSH keys in the databasse](https://docs.gitlab.com/ee/administration/operations/fast_ssh_key_lookup.html)
 
 ### Gitlab CI Runner Limitations
 

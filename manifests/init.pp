@@ -60,7 +60,7 @@
 #
 # [*rake_exec*]
 #   Default: '/usr/bin/gitlab-rake'
-#   The gitlab-rake executable path. 
+#   The gitlab-rake executable path.
 #   You should not need to change this path.
 #
 # [*edition*]
@@ -276,6 +276,12 @@
 #   Default: undef
 #   Enable or disable auto migrations. undef keeps the current state on the system.
 #
+# [*store_git_keys_in_db*]
+#   Default: false
+#   Enable or disable Fast Lookup of authorized SSH keys in the database
+#   See: https://docs.gitlab.com/ee/administration/operations/fast_ssh_key_lookup.html
+#
+#
 # [*source_config_file*]
 #   Default: undef
 #   Override Hiera config with path to gitlab.rb config file.
@@ -408,6 +414,7 @@ class gitlab (
   $sidekiq_cluster = undef,
   $skip_auto_migrations = undef,
   $source_config_file = undef,
+  $store_git_keys_in_db = false,
   $unicorn = undef,
   $gitlab_workhorse = undef,
   $user = undef,
@@ -433,6 +440,7 @@ class gitlab (
   # gitlab specific
   validate_re($edition, [ '^ee$', '^ce$' ])
   validate_bool($config_manage)
+  validate_bool($store_git_keys_in_db)
   validate_absolute_path($config_file)
   if $custom_hooks_dir { validate_absolute_path($custom_hooks_dir) }
   if $geo_postgresql { validate_hash($geo_postgresql) }
@@ -496,7 +504,7 @@ class gitlab (
   contain gitlab::install
   contain gitlab::config
   contain gitlab::service
- 
+
   create_resources(gitlab::custom_hook, $custom_hooks)
   create_resources(gitlab::global_hook, $global_hooks)
 }

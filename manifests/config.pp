@@ -181,6 +181,32 @@ class gitlab::config {
     }
   }
 
+  if $store_git_keys_in_db != undef {
+    $_store_git_keys_in_db = $store_git_keys_in_db ? {
+      true    => 'file',
+      default => 'absent',
+    }
+
+    $opt_gitlab_shell_dir = $store_git_keys_in_db ? {
+      true    => 'directory',
+      default => 'absent'
+    }
+
+    file {'/opt/gitlab-shell':
+      ensure => $opt_gitlab_shell_dir,
+      owner  => 'root',
+      group  => 'git',
+    }
+
+    file {'/opt/gitlab-shell/authorized_keys':
+      ensure  => $_store_git_keys_in_db,
+      owner   => 'root',
+      group   => 'git',
+      mode    => '0650',
+      source  => 'puppet:///modules/gitlab/gitlab_shell_authorized_keys'
+    }
+  }
+
   if $backup_cron_enable {
     cron {'gitlab backup':
       command => "${rake_exec} gitlab:backup:create CRON=1 ${backup_cron_skips}",

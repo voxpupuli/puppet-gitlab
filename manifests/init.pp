@@ -487,16 +487,16 @@ class gitlab (
   validate_integer($backup_cron_hour,23)
   validate_array($backup_cron_skips)
   validate_hash($custom_hooks)
-  validate_hash($glocal_hooks)
+  validate_hash($global_hooks)
 
-  class { '::gitlab::install': } ->
-  class { '::gitlab::config': } ~>
-  class { '::gitlab::service': }
+  class { '::gitlab::install': }
+  -> class { '::gitlab::config': }
+  ~> class { '::gitlab::service': }
 
   contain gitlab::install
   contain gitlab::config
   contain gitlab::service
- 
+
   create_resources(gitlab::custom_hook, $custom_hooks)
   create_resources(gitlab::global_hook, $global_hooks)
 }

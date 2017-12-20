@@ -194,7 +194,7 @@ describe 'gitlab', :type => :class do
 
           it do
             is_expected.to contain_file('/opt/gitlab-shell/authorized_keys')
-              .with_content(/\/opt\/gitlab\/embedded\/service\/gitlab-shell\/bin\/authorized_key/)
+              .with_content(/^\s*\/opt\/gitlab\/embedded\/service\/gitlab-shell\/bin\/authorized_key/)
           end
         end
       end

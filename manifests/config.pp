@@ -67,6 +67,7 @@ class gitlab::config {
   $sidekiq = $::gitlab::sidekiq
   $sidekiq_cluster = $::gitlab::sidekiq_cluster
   $skip_auto_migrations = $::gitlab::skip_auto_migrations
+  $store_git_keys_in_db = $::gitlab::store_git_keys_in_db
   $source_config_file = $::gitlab::source_config_file
   $unicorn = $::gitlab::unicorn
   $gitlab_workhorse = $::gitlab::gitlab_workhorse

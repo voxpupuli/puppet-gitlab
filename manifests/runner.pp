@@ -11,10 +11,6 @@
 #   Hash with default configration for runners. This will
 #   be merged with the runners_hash config
 #
-# [*ensure*]
-#   String, may be 'present' or 'absent'
-#   used to decide if a runner has to be registered or unregistered
-#
 # === Authors
 #
 # Tobias Brunner <tobias.brunner@vshn.ch>
@@ -28,7 +24,6 @@ define gitlab::runner (
   $binary,
   $runners_hash,
   $default_config = {},
-  $ensure = 'present',
 ) {
 
   validate_string($binary)
@@ -53,17 +48,18 @@ define gitlab::runner (
   $runner_name = $_config['name']
   $toml_file = '/etc/gitlab-runner/config.toml'
 
-  if $ensure == 'present' {
-
-    # Execute gitlab ci multirunner register
-    exec {"Register_runner_${title}":
-      command => "/usr/bin/${binary} register -n ${parameters_string}",
-      unless  => "/bin/grep ${runner_name} ${toml_file}",
+  if $_config['ensure'] == 'absent' {
+      # Execute gitlab ci multirunner unregister
+      exec {"Unregister_runner_${title}":
+        command => "/usr/bin/${binary} unregister -n ${title}",
+        onlyif  => "/bin/grep ${runner_name} ${toml_file}",
+      }
+    } else {
+      # Execute gitlab ci multirunner register
+      exec {"Register_runner_${title}":
+        command => "/usr/bin/${binary} register -n ${parameters_string}",
+        unless  => "/bin/grep ${runner_name} ${toml_file}",
+      }
     }
-  } else {
-    exec {"Unregister_runner_${title}":
-          command => "/usr/bin/${binary} unregister -n ${parameters_string}",
-        }
-  }
 
 }

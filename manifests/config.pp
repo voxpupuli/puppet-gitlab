@@ -75,11 +75,11 @@ class gitlab::config {
   $backup_cron_enable = $::gitlab::backup_cron_enable
   $backup_cron_minute = $::gitlab::backup_cron_minute
   $backup_cron_hour = $::gitlab::backup_cron_hour
-  if empty($::gitlab::backup_cron_hour) {
+  if empty($::gitlab::backup_cron_skips) {
     $backup_cron_skips = ''
   } else {
     $_backup_cron_skips = join($::gitlab::backup_cron_skips, ',')
-    $backup_cron_skips = "SKIP:${_backup_cron_skips}"
+    $backup_cron_skips = "SKIP=${_backup_cron_skips}"
   }
 
   # replicate $nginx to $mattermost_nginx if $mattermost_nginx_eq_nginx true
@@ -135,8 +135,10 @@ class gitlab::config {
 
   if $service_manage {
     # configure gitlab using the official tool
-    File[$config_file] {
-      notify => Exec['gitlab_reconfigure']
+    if $config_manage {
+      File[$config_file] {
+        notify => Exec['gitlab_reconfigure']
+      }
     }
     if ! empty($secrets) {
       File[$secrets_file] {

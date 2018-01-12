@@ -44,7 +44,7 @@ describe 'gitlab', type: :class do
 
           it {
             is_expected.to contain_file('/etc/gitlab/gitlab.rb'). \
-              with_content(/^\s*external_url 'http:\/\/gitlab\.mycompany\.com\/'$/)
+              with_content(%r{^\s*external_url 'http:\/\/gitlab\.mycompany\.com\/'$})
           }
         end
         describe 'external_port' do
@@ -155,7 +155,7 @@ describe 'gitlab', type: :class do
 
           it {
             is_expected.to contain_file('/etc/gitlab/gitlab.rb'). \
-              with_content(/^\s*gitlab_rails\['backup_path'\] = "\/opt\/gitlab_backup"$/)
+              with_content(%r{^\s*gitlab_rails\['backup_path'\] = "\/opt\/gitlab_backup"$})
           }
         end
         describe 'rack_attack_git_basic_auth with Numbers and Strings' do
@@ -183,7 +183,7 @@ describe 'gitlab', type: :class do
 
           it {
             is_expected.to contain_file('/etc/gitlab/gitlab.rb'). \
-              with_content(/^\s*mattermost_external_url 'https:\/\/mattermost\.myserver\.tld'$/)
+              with_content(%r{^\s*mattermost_external_url 'https:\/\/mattermost\.myserver\.tld'$})
           }
         end
         describe 'mattermost with hash value' do
@@ -216,7 +216,7 @@ describe 'gitlab', type: :class do
 
           it do
             is_expected.to contain_file('/etc/gitlab/gitlab.rb').
-              with_content(/^\s*git_data_dirs\(\{\"alt\"\=\>\"\/opt\/data\"\,\s\"default\"=>\"\/var\/opt\/gitlab\/data\"\}\)/)
+              with_content(%r{^\s*git_data_dirs\(\{\"alt\"\=\>\"\/opt\/data\"\,\s\"default\"=>\"\/var\/opt\/gitlab\/data\"\}\)})
           end
         end
         describe 'without data_dirs' do

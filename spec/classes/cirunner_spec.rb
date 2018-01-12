@@ -29,9 +29,10 @@ describe 'gitlab::cirunner' do
       let(:params) { {} }
       let(:facts) do
         {
-          osfamily: 'redhat',
+          osfamily: 'RedHat',
           operatingsystem: 'CentOS',
           operatingsystemmajrelease: '6',
+          operatingsystemrelease: '6.5',
           os: {
             architecture: 'x86_64',
             family: 'RedHat',
@@ -46,9 +47,6 @@ describe 'gitlab::cirunner' do
               enabled: false
             }
           },
-          osfamily: 'RedHat',
-          operatingsystemmajrelease: '6',
-          operatingsystemrelease: '6.5',
           kernelversion: '2.6.32',
           kernelrelease: '2.6.32-573.8.1.el6.x86_64'
         }
@@ -65,9 +63,10 @@ describe 'gitlab::cirunner' do
     describe 'gitlab::cirunner class OS-independent behavior' do
       let(:facts) do
         {
-          osfamily: 'redhat',
+          osfamily: 'RedHat',
           operatingsystem: 'CentOS',
           operatingsystemmajrelease: '6',
+          operatingsystemrelease: '6.5',
           os: {
             architecture: 'x86_64',
             family: 'RedHat',
@@ -82,9 +81,6 @@ describe 'gitlab::cirunner' do
               enabled: false
             }
           },
-          osfamily: 'RedHat',
-          operatingsystemmajrelease: '6',
-          operatingsystemrelease: '6.5',
           kernelversion: '2.6.32',
           kernelrelease: '2.6.32-573.8.1.el6.x86_64'
         }

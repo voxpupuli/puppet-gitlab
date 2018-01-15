@@ -158,11 +158,10 @@ class gitlab::config {
           refreshonly => true,
           timeout     => 1800,
           require     => Exec['gitlab_reconfigure'],
-          unless      => "/bin/grep complete ${git_data_dir}/postgresql.setup"
+          unless      => "/bin/grep complete ${git_data_dir}/postgresql.setup",
         }
-        ->
-        file { "${git_data_dir}/postgresql.setup":
-          content => 'complete'
+        -> file { "${git_data_dir}/postgresql.setup":
+          content => 'complete',
         }
       }
     }
@@ -174,10 +173,10 @@ class gitlab::config {
       default => 'absent',
     }
     file { '/etc/gitlab/skip-auto-migrations':
-      ensure  => $_skip_auto_migrations_ensure,
-      owner   => 'root',
-      group   => 'root',
-      mode    => '0644',
+      ensure => $_skip_auto_migrations_ensure,
+      owner  => 'root',
+      group  => 'root',
+      mode   => '0644',
     }
   }
 

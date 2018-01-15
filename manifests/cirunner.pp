@@ -96,7 +96,7 @@ class gitlab::cirunner (
           include  => {
             'src' => false,
             'deb' => true,
-          }
+          },
         }
         Apt::Source['apt_gitlabci'] -> Package[$package_name]
         Exec['apt_update'] -> Package[$package_name]

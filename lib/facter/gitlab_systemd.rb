@@ -1,6 +1,6 @@
 # Fact: gitlab_systemd
 #
-# Purpose: 
+# Purpose:
 #   Determine whether SystemD is the init system on the node
 #
 # Resolution:
@@ -11,7 +11,7 @@
 #
 
 Facter.add(:gitlab_systemd) do
-  confine :kernel => :linux
+  confine kernel: :linux
   setcode do
     Facter::Util::Resolution.exec('ps -p 1 -o comm=') == 'systemd'
   end

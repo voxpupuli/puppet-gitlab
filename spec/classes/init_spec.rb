@@ -221,7 +221,7 @@ describe 'gitlab', type: :class do
         describe 'with roles' do
           let(:params) {{:roles => ['redis_sentinel_role', 'redis_master_role'] }}
           it { is_expected.to contain_file('/etc/gitlab/gitlab.rb') \
-            .with_content(/^\s*roles \['redis_sentinel_role', 'redis_master_role'\]$/)
+            .with_content(/^\s*roles \["redis_sentinel_role", "redis_master_role"\]$/)
           }
         end
         describe 'with data_dirs' do

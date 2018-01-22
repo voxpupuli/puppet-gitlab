@@ -1,0 +1,4 @@
+{
+  "description": "Cleans up old postgres database after upgrade",
+  "input_method": "environment"
+}

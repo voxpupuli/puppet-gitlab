@@ -1,0 +1,4 @@
+{
+  "description": "Upgrades the postgres database if needed",
+  "input_method": "environment"
+}

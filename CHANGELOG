@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## Unreleased
+* Drop support for puppet less than 4.7
+
 ## v1.16.0 [2017-12-13]
 
 * **Migration to Vox Pupuli**
@@ -49,7 +52,7 @@
 
 ## v1.12.0 [2017-04-03]
 
-* Fixed gitlab.rb template for Integers in `gitlab_rails` setting because of rack_attack_git_basic_auth will fail during gitlab reconfiguration if the Integer Values are Strings. 
+* Fixed gitlab.rb template for Integers in `gitlab_rails` setting because of rack_attack_git_basic_auth will fail during gitlab reconfiguration if the Integer Values are Strings.
 * Add dependencies to apt-transport-https, xz-utils
 * Merge hashes for runner configuration
 * Fix use of integers in gitlab_rails settings

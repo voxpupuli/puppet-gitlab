@@ -22,8 +22,7 @@ def numify(obj)
   if obj.is_a?(String)
     Integer(obj) rescue Float(obj) rescue obj
   elsif obj.is_a?(Array)
-    $obj_list = obj
-    $obj_list.map { |item| numify(item) }
+    obj.map { |item| numify(item) }
   elsif obj.is_a?(Hash)
     sort_hash_by_key(obj.merge(obj) { |_, v| numify(v) })
   else

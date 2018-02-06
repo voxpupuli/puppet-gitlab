@@ -31,7 +31,11 @@ def numify(obj)
 end
 
 def decorate(v)
-  numify(v).inspect
+  if (v.is_a?(String) and v.start_with?("%w"))
+    v.gsub('"', '')
+  else
+    numify(v).inspect
+  end
 end
 -%>
 

@@ -12,14 +12,17 @@ matrix:
   include:
   - rvm: 2.1.9
     bundler_args: --without system_tests development release
-    env: PUPPET_VERSION="~> 4.0" CHECK=test PARALLEL_TEST_PROCESSORS=16
-  - rvm: 2.4.2
+    env: PUPPET_VERSION="~> 4.0" CHECK=test PARALLEL_TEST_PROCESSORS=12
+  - rvm: 2.4.3
     bundler_args: --without system_tests development release
     env: PUPPET_VERSION="~> 5.0" CHECK=test_with_coveralls
-  - rvm: 2.4.2
+  - rvm: 2.5.0
+    bundler_args: --without system_tests development release
+    env: PUPPET_VERSION="~> 5.0" CHECK=test_with_coveralls
+  - rvm: 2.4.3
     bundler_args: --without system_tests development release
     env: PUPPET_VERSION="~> 5.0" CHECK=rubocop
-  - rvm: 2.4.2
+  - rvm: 2.4.3
     bundler_args: --without system_tests development release
     env: PUPPET_VERSION="~> 5.0" CHECK=build DEPLOY_TO_FORGE=yes
 branches:
@@ -37,7 +40,7 @@ deploy:
   provider: puppetforge
   user: puppet
   password:
-    secure: ""
+    secure: "iStKD31BM2tH9V3IbVJ0BTekwPWwhZbj4rb+6Xiz44cL4pNTHX3ymiAmbGjP0tlVbkzr1+jgUiTXG7ubLG0lTr2mjbgmBWa8ZcyH933HTZ7pzwIUtBjKuZjHT9vG1qZ3MPLDgb9R/i1qRj9rk6pRNlAyhqk5B/ynmO1uzcPneQHo8wToN/WvFGQIw/9I/FFWQQO/6Ap9LpD7xSF5ZAcg94tMpTkBebEuibZOi3Ze5Ah3zf2vHOOFSRcTTrFynyn1mYkUFU1xaOuoqvyTp7Tv+M1+uB1zIXJSJ4oNNeWsC5mLkKz1UBT5GQN7CFaFLawmGqhLQx29sk483Y5+K1NIX8UST47oZFc+bTQjAWJPlVj16lMApB1AXBzov3Cdz3n7GOfZla4BK/2FLqXXbG2KLMMQS/dG3rnLFM4vCT3ED48ZIXV4mb+wpbiXPV4HlOhEbtMSNwXwgWzq3+9yn2PO0rrmGA8tYeY1+ffHoyYGu4aiXO6xzQE8Xbp4LqDeYzRRM078t5BlYyuaU6ZTYgCVFoS9weQETGD1soF8nRObD9Flk2kB+XRIaQytIkQwOR8B28Z44L4ha5syfqvNbuNcJWHvJJNkhT9WlfdcQdmTdIPhglrCGrPtiVp83Ictps6qL5mJRpWcVQarubOGac2YfWC6CBFvxgo7lMFSoYFR3gc="
   on:
     tags: true
     # all_branches is required to use tags

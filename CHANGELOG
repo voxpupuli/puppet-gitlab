@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## v1.16.0 [2017-12-13]
+## v1.16.0 [2018-02-07]
 
 * **Migration to Vox Pupuli**
 * Fix for new git_data_dirs syntax in Gitlab 10

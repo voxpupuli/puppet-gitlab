@@ -17,7 +17,7 @@ This Puppet module installs and manages [Gitlab](https://about.gitlab.com/).
 It makes use of the provided [Omnibus](https://gitlab.com/gitlab-org/omnibus-gitlab/blob/master/README.md) packages and the [packagecloud package repositories](https://packages.gitlab.com/gitlab).
 
 [![Build Status](https://api.travis-ci.org/voxpupuli/puppet-gitlab.svg?branch=master)](https://travis-ci.org/voxpupuli/puppet-gitlab)
-[![vshn-gitlab](https://img.shields.io/puppetforge/v/puppet/gitlab.svg)](https://forge.puppetlabs.com/puppet/gitlab)
+[![puppet-gitlab](https://img.shields.io/puppetforge/v/puppet/gitlab.svg)](https://forge.puppetlabs.com/puppet/gitlab)
 
 Please note: The module [vshn/gitlab](https://forge.puppet.com/vshn/gitlab) has been deprecated
 and is now available under Vox Pupuli [puppet/gitlab](https://forge.puppet.com/puppet/gitlab).
@@ -285,7 +285,7 @@ Make sure your PR passes the Rspec tests.
 
 ## Contributors
 
-Have a look at [Github contributors](https://github.com/vshn/puppet-gitlab/graphs/contributors) to see a list of all the awesome contributors to this Puppet module. <3
+Have a look at [Github contributors](https://github.com/voxpupuli/puppet-gitlab/graphs/contributors) to see a list of all the awesome contributors to this Puppet module. <3
 This module was created and maintained by [VSHN AG](https://vshn.ch/) until the end of 2017. It was then donated
 to Voxpupuli so that a broader community is able to maintain the module.
 

@@ -17,7 +17,10 @@ This Puppet module installs and manages [Gitlab](https://about.gitlab.com/).
 It makes use of the provided [Omnibus](https://gitlab.com/gitlab-org/omnibus-gitlab/blob/master/README.md) packages and the [packagecloud package repositories](https://packages.gitlab.com/gitlab).
 
 [![Build Status](https://api.travis-ci.org/voxpupuli/puppet-gitlab.svg?branch=master)](https://travis-ci.org/voxpupuli/puppet-gitlab)
-[![vshn-gitlab](https://img.shields.io/puppetforge/v/vshn/gitlab.svg)](https://forge.puppetlabs.com/vshn/gitlab)
+[![vshn-gitlab](https://img.shields.io/puppetforge/v/puppet/gitlab.svg)](https://forge.puppetlabs.com/puppet/gitlab)
+
+Please note: The module [vshn/gitlab](https://forge.puppet.com/vshn/gitlab) has been deprecated
+and is now available under Vox Pupuli [puppet/gitlab](https://forge.puppet.com/puppet/gitlab).
 
 ## Module Description
 

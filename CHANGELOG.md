@@ -4,7 +4,16 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v1.16.1](https://github.com/voxpupuli/puppet-gitlab/tree/v1.16.1) (2018-02-07)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-gitlab/compare/v1.16.0...v1.16.1)
+
+**Merged pull requests:**
+
+- modulesync 1.7.0 [\#191](https://github.com/voxpupuli/puppet-gitlab/pull/191) ([tobru](https://github.com/tobru))
+
 ## [v1.16.0](https://github.com/voxpupuli/puppet-gitlab/tree/v1.16.0) (2018-02-07)
+
 [Full Changelog](https://github.com/voxpupuli/puppet-gitlab/compare/v1.15.2...v1.16.0)
 
 **Implemented enhancements:**
@@ -36,24 +45,24 @@ These should not affect the functionality of the module.
 - apt dep version bump [\#169](https://github.com/voxpupuli/puppet-gitlab/pull/169) ([minorOffense](https://github.com/minorOffense))
 - Add support for metrics\_server in CI Runner [\#167](https://github.com/voxpupuli/puppet-gitlab/pull/167) ([djjudas21](https://github.com/djjudas21))
 - Fix for new git\_data\_dirs syntax in Gitlab 10 [\#164](https://github.com/voxpupuli/puppet-gitlab/pull/164) ([flyinbutrs](https://github.com/flyinbutrs))
+- Add 'package\_name' param to cirunner class [\#160](https://github.com/voxpupuli/puppet-gitlab/pull/160) ([dandunckelman](https://github.com/dandunckelman))
 - Add backup job [\#155](https://github.com/voxpupuli/puppet-gitlab/pull/155) ([b4ldr](https://github.com/b4ldr))
 - add support for chained global hooks [\#154](https://github.com/voxpupuli/puppet-gitlab/pull/154) ([hboomsma](https://github.com/hboomsma))
 
 ## [v1.15.2](https://github.com/voxpupuli/puppet-gitlab/tree/v1.15.2) (2017-09-28)
+
 [Full Changelog](https://github.com/voxpupuli/puppet-gitlab/compare/v1.15.1...v1.15.2)
 
 **Closed issues:**
 
 - Different directory name inside the Forge package [\#151](https://github.com/voxpupuli/puppet-gitlab/issues/151)
 
-**Merged pull requests:**
-
-- Add 'package\_name' param to cirunner class [\#160](https://github.com/voxpupuli/puppet-gitlab/pull/160) ([dandunckelman](https://github.com/dandunckelman))
-
 ## [v1.15.1](https://github.com/voxpupuli/puppet-gitlab/tree/v1.15.1) (2017-07-28)
+
 [Full Changelog](https://github.com/voxpupuli/puppet-gitlab/compare/v1.15.0...v1.15.1)
 
 ## [v1.15.0](https://github.com/voxpupuli/puppet-gitlab/tree/v1.15.0) (2017-07-28)
+
 [Full Changelog](https://github.com/voxpupuli/puppet-gitlab/compare/v1.14.0...v1.15.0)
 
 **Closed issues:**
@@ -68,6 +77,7 @@ These should not affect the functionality of the module.
 - Drop warning about RPM support [\#142](https://github.com/voxpupuli/puppet-gitlab/pull/142) ([djjudas21](https://github.com/djjudas21))
 
 ## [v1.14.0](https://github.com/voxpupuli/puppet-gitlab/tree/v1.14.0) (2017-05-22)
+
 [Full Changelog](https://github.com/voxpupuli/puppet-gitlab/compare/v1.13.3...v1.14.0)
 
 **Implemented enhancements:**
@@ -89,20 +99,26 @@ These should not affect the functionality of the module.
 - Added Gitaly related params + fixed template for redis/sentinel related data. [\#130](https://github.com/voxpupuli/puppet-gitlab/pull/130) ([shaheed121](https://github.com/shaheed121))
 - Adding support to confifure redis HA while using omnibus package [\#129](https://github.com/voxpupuli/puppet-gitlab/pull/129) ([shaheed121](https://github.com/shaheed121))
 - Fix spec test [\#128](https://github.com/voxpupuli/puppet-gitlab/pull/128) ([op-ct](https://github.com/op-ct))
+- Adds ability to specify git\_data\_dirs [\#110](https://github.com/voxpupuli/puppet-gitlab/pull/110) ([logicminds](https://github.com/logicminds))
 
 ## [v1.13.3](https://github.com/voxpupuli/puppet-gitlab/tree/v1.13.3) (2017-04-04)
+
 [Full Changelog](https://github.com/voxpupuli/puppet-gitlab/compare/v1.13.2...v1.13.3)
 
 ## [v1.13.2](https://github.com/voxpupuli/puppet-gitlab/tree/v1.13.2) (2017-04-03)
+
 [Full Changelog](https://github.com/voxpupuli/puppet-gitlab/compare/v1.13.1...v1.13.2)
 
 ## [v1.13.1](https://github.com/voxpupuli/puppet-gitlab/tree/v1.13.1) (2017-04-03)
+
 [Full Changelog](https://github.com/voxpupuli/puppet-gitlab/compare/v1.13.0...v1.13.1)
 
 ## [v1.13.0](https://github.com/voxpupuli/puppet-gitlab/tree/v1.13.0) (2017-04-03)
+
 [Full Changelog](https://github.com/voxpupuli/puppet-gitlab/compare/v1.12.0...v1.13.0)
 
 ## [v1.12.0](https://github.com/voxpupuli/puppet-gitlab/tree/v1.12.0) (2017-04-03)
+
 [Full Changelog](https://github.com/voxpupuli/puppet-gitlab/compare/v1.11.0...v1.12.0)
 
 **Closed issues:**
@@ -118,13 +134,13 @@ These should not affect the functionality of the module.
 - fixed method for sorting hashes in gitlab.rb to sort ldap hashes too [\#116](https://github.com/voxpupuli/puppet-gitlab/pull/116) ([rwuest](https://github.com/rwuest))
 - In CentOS land - this is just xz [\#115](https://github.com/voxpupuli/puppet-gitlab/pull/115) ([mlosapio](https://github.com/mlosapio))
 - Add settings for Prometheus [\#111](https://github.com/voxpupuli/puppet-gitlab/pull/111) ([mansong1](https://github.com/mansong1))
-- Adds ability to specify git\_data\_dirs [\#110](https://github.com/voxpupuli/puppet-gitlab/pull/110) ([logicminds](https://github.com/logicminds))
 - fixed the use of Integers in gitlab\_rails Settings inside gitlab.rb [\#109](https://github.com/voxpupuli/puppet-gitlab/pull/109) ([rwuest](https://github.com/rwuest))
 - cirunner: merge hashes for runner configuration [\#108](https://github.com/voxpupuli/puppet-gitlab/pull/108) ([knackaron](https://github.com/knackaron))
 - cirunner: add missing hard dependency for xz-utils [\#105](https://github.com/voxpupuli/puppet-gitlab/pull/105) ([roock](https://github.com/roock))
 - cirunner: fix missing dependency to apt-transport-https [\#104](https://github.com/voxpupuli/puppet-gitlab/pull/104) ([roock](https://github.com/roock))
 
 ## [v1.11.0](https://github.com/voxpupuli/puppet-gitlab/tree/v1.11.0) (2016-12-23)
+
 [Full Changelog](https://github.com/voxpupuli/puppet-gitlab/compare/v1.10.0...v1.11.0)
 
 **Implemented enhancements:**
@@ -150,6 +166,7 @@ These should not affect the functionality of the module.
 - Add Beaker Travis acceptance tests [\#89](https://github.com/voxpupuli/puppet-gitlab/pull/89) ([petems](https://github.com/petems))
 
 ## [v1.10.0](https://github.com/voxpupuli/puppet-gitlab/tree/v1.10.0) (2016-08-10)
+
 [Full Changelog](https://github.com/voxpupuli/puppet-gitlab/compare/v1.9.2...v1.10.0)
 
 **Implemented enhancements:**
@@ -173,8 +190,10 @@ These should not affect the functionality of the module.
 
 - Added registry configuration hash option [\#84](https://github.com/voxpupuli/puppet-gitlab/pull/84) ([jkroepke](https://github.com/jkroepke))
 - Typo fix: 'oder' -\> 'or' [\#83](https://github.com/voxpupuli/puppet-gitlab/pull/83) ([Anovadea](https://github.com/Anovadea))
+- Allow settings of custom gitlab.rb config file [\#69](https://github.com/voxpupuli/puppet-gitlab/pull/69) ([agray1017](https://github.com/agray1017))
 
 ## [v1.9.2](https://github.com/voxpupuli/puppet-gitlab/tree/v1.9.2) (2016-06-14)
+
 [Full Changelog](https://github.com/voxpupuli/puppet-gitlab/compare/v1.9.1...v1.9.2)
 
 **Closed issues:**
@@ -182,9 +201,11 @@ These should not affect the functionality of the module.
 - Bump version to \> 1.8.0 [\#78](https://github.com/voxpupuli/puppet-gitlab/issues/78)
 
 ## [v1.9.1](https://github.com/voxpupuli/puppet-gitlab/tree/v1.9.1) (2016-06-14)
+
 [Full Changelog](https://github.com/voxpupuli/puppet-gitlab/compare/v1.9.0...v1.9.1)
 
 ## [v1.9.0](https://github.com/voxpupuli/puppet-gitlab/tree/v1.9.0) (2016-06-14)
+
 [Full Changelog](https://github.com/voxpupuli/puppet-gitlab/compare/v1.8.0...v1.9.0)
 
 **Implemented enhancements:**
@@ -203,11 +224,11 @@ These should not affect the functionality of the module.
 - Make config file management configurable [\#80](https://github.com/voxpupuli/puppet-gitlab/pull/80) ([divansantana](https://github.com/divansantana))
 - Add support for Registry [\#76](https://github.com/voxpupuli/puppet-gitlab/pull/76) ([llauren](https://github.com/llauren))
 - Add package\_ensure parameter for gitlab-ci-multi-runner package. [\#70](https://github.com/voxpupuli/puppet-gitlab/pull/70) ([thlapin](https://github.com/thlapin))
-- Allow settings of custom gitlab.rb config file [\#69](https://github.com/voxpupuli/puppet-gitlab/pull/69) ([agray1017](https://github.com/agray1017))
 - Fix cirunner failure-message for unsupported OS families [\#68](https://github.com/voxpupuli/puppet-gitlab/pull/68) ([gerhardsam](https://github.com/gerhardsam))
 - add documentation [\#63](https://github.com/voxpupuli/puppet-gitlab/pull/63) ([b4ldr](https://github.com/b4ldr))
 
 ## [v1.8.0](https://github.com/voxpupuli/puppet-gitlab/tree/v1.8.0) (2016-03-11)
+
 [Full Changelog](https://github.com/voxpupuli/puppet-gitlab/compare/v1.7.2...v1.8.0)
 
 **Implemented enhancements:**
@@ -232,6 +253,7 @@ These should not affect the functionality of the module.
 - Add RedHat support for cirunner [\#53](https://github.com/voxpupuli/puppet-gitlab/pull/53) ([petems](https://github.com/petems))
 
 ## [v1.7.2](https://github.com/voxpupuli/puppet-gitlab/tree/v1.7.2) (2016-01-22)
+
 [Full Changelog](https://github.com/voxpupuli/puppet-gitlab/compare/v1.7.1...v1.7.2)
 
 **Closed issues:**
@@ -246,6 +268,7 @@ These should not affect the functionality of the module.
 - Cleanup coding-style issues. [\#45](https://github.com/voxpupuli/puppet-gitlab/pull/45) ([andrekeller](https://github.com/andrekeller))
 
 ## [v1.7.1](https://github.com/voxpupuli/puppet-gitlab/tree/v1.7.1) (2015-12-23)
+
 [Full Changelog](https://github.com/voxpupuli/puppet-gitlab/compare/v1.7.0...v1.7.1)
 
 **Implemented enhancements:**
@@ -262,6 +285,7 @@ These should not affect the functionality of the module.
 - Fix this module should work with out having to set the stringify\_facts option [\#41](https://github.com/voxpupuli/puppet-gitlab/pull/41) ([jcsmith](https://github.com/jcsmith))
 
 ## [v1.7.0](https://github.com/voxpupuli/puppet-gitlab/tree/v1.7.0) (2015-11-25)
+
 [Full Changelog](https://github.com/voxpupuli/puppet-gitlab/compare/v1.6.0...v1.7.0)
 
 **Closed issues:**
@@ -274,6 +298,7 @@ These should not affect the functionality of the module.
 - Gitlab CI Runner [\#39](https://github.com/voxpupuli/puppet-gitlab/pull/39) ([maetthu-indermuehle](https://github.com/maetthu-indermuehle))
 
 ## [v1.6.0](https://github.com/voxpupuli/puppet-gitlab/tree/v1.6.0) (2015-11-06)
+
 [Full Changelog](https://github.com/voxpupuli/puppet-gitlab/compare/v1.5.0...v1.6.0)
 
 **Fixed bugs:**
@@ -294,6 +319,7 @@ These should not affect the functionality of the module.
 - Fix unrecognized datatypes inside array in decorate method [\#29](https://github.com/voxpupuli/puppet-gitlab/pull/29) ([deadratfink](https://github.com/deadratfink))
 
 ## [v1.5.0](https://github.com/voxpupuli/puppet-gitlab/tree/v1.5.0) (2015-08-27)
+
 [Full Changelog](https://github.com/voxpupuli/puppet-gitlab/compare/v1.4.0...v1.5.0)
 
 **Closed issues:**
@@ -306,6 +332,7 @@ These should not affect the functionality of the module.
 - Add retries to gitlab-ctl reconfigure [\#25](https://github.com/voxpupuli/puppet-gitlab/pull/25) ([npwalker](https://github.com/npwalker))
 
 ## [v1.4.0](https://github.com/voxpupuli/puppet-gitlab/tree/v1.4.0) (2015-07-24)
+
 [Full Changelog](https://github.com/voxpupuli/puppet-gitlab/compare/v1.3.0...v1.4.0)
 
 **Closed issues:**
@@ -318,6 +345,7 @@ These should not affect the functionality of the module.
 - Simplify the decorator for hashes. This allows nested hashes to be output correctly. [\#18](https://github.com/voxpupuli/puppet-gitlab/pull/18) ([thlapin](https://github.com/thlapin))
 
 ## [v1.3.0](https://github.com/voxpupuli/puppet-gitlab/tree/v1.3.0) (2015-07-17)
+
 [Full Changelog](https://github.com/voxpupuli/puppet-gitlab/compare/v1.2.2...v1.3.0)
 
 **Closed issues:**
@@ -336,6 +364,7 @@ These should not affect the functionality of the module.
 -  Adds vagrant file [\#9](https://github.com/voxpupuli/puppet-gitlab/pull/9) ([spuder](https://github.com/spuder))
 
 ## [v1.2.2](https://github.com/voxpupuli/puppet-gitlab/tree/v1.2.2) (2015-07-07)
+
 [Full Changelog](https://github.com/voxpupuli/puppet-gitlab/compare/v1.2.1...v1.2.2)
 
 **Merged pull requests:**
@@ -344,9 +373,11 @@ These should not affect the functionality of the module.
 - Added Tags to the metadata [\#6](https://github.com/voxpupuli/puppet-gitlab/pull/6) ([maetthu-indermuehle](https://github.com/maetthu-indermuehle))
 
 ## [v1.2.1](https://github.com/voxpupuli/puppet-gitlab/tree/v1.2.1) (2015-06-29)
+
 [Full Changelog](https://github.com/voxpupuli/puppet-gitlab/compare/v1.2.0...v1.2.1)
 
 ## [v1.2.0](https://github.com/voxpupuli/puppet-gitlab/tree/v1.2.0) (2015-06-23)
+
 [Full Changelog](https://github.com/voxpupuli/puppet-gitlab/compare/v1.1.0...v1.2.0)
 
 **Closed issues:**
@@ -359,6 +390,7 @@ These should not affect the functionality of the module.
 - Add high\_availability config section. [\#4](https://github.com/voxpupuli/puppet-gitlab/pull/4) ([tdb](https://github.com/tdb))
 
 ## [v1.1.0](https://github.com/voxpupuli/puppet-gitlab/tree/v1.1.0) (2015-06-17)
+
 [Full Changelog](https://github.com/voxpupuli/puppet-gitlab/compare/v1.0.3...v1.1.0)
 
 **Merged pull requests:**
@@ -366,15 +398,21 @@ These should not affect the functionality of the module.
 - RHEL 7 support [\#2](https://github.com/voxpupuli/puppet-gitlab/pull/2) ([danfoster](https://github.com/danfoster))
 
 ## [v1.0.3](https://github.com/voxpupuli/puppet-gitlab/tree/v1.0.3) (2015-06-16)
+
 [Full Changelog](https://github.com/voxpupuli/puppet-gitlab/compare/v1.0.2...v1.0.3)
 
 ## [v1.0.2](https://github.com/voxpupuli/puppet-gitlab/tree/v1.0.2) (2015-05-29)
+
 [Full Changelog](https://github.com/voxpupuli/puppet-gitlab/compare/v1.0.1...v1.0.2)
 
 ## [v1.0.1](https://github.com/voxpupuli/puppet-gitlab/tree/v1.0.1) (2015-05-29)
+
 [Full Changelog](https://github.com/voxpupuli/puppet-gitlab/compare/v1.0.0...v1.0.1)
 
 ## [v1.0.0](https://github.com/voxpupuli/puppet-gitlab/tree/v1.0.0) (2015-05-29)
 
+[Full Changelog](https://github.com/voxpupuli/puppet-gitlab/compare/b4544b0052d91d0f59c13a23de0e983babf599a5...v1.0.0)
 
-\* *This Change Log was automatically generated by [github_changelog_generator](https://github.com/skywinder/Github-Changelog-Generator)*
+
+
+\* *This Changelog was automatically generated by [github_changelog_generator](https://github.com/skywinder/Github-Changelog-Generator)*

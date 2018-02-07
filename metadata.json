@@ -1,6 +1,6 @@
 {
   "name": "puppet-gitlab",
-  "version": "1.16.1",
+  "version": "1.16.2-rc0",
   "author": "Vox Pupuli",
   "summary": "Installation and configuration of Gitlab Omnibus",
   "license": "BSD-3-Clause",

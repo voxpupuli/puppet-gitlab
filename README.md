@@ -61,7 +61,7 @@ the `$::os` fact used in `install.pp` doesn't work as expected.
 
 ### Beginning with Gitlab
 
-Just include the class and specify at least `external_url`. If `external_url` is not specified it will default to the FQDN fact of the system. 
+Just include the class and specify at least `external_url`. If `external_url` is not specified it will default to the FQDN fact of the system.
 
 ```puppet
 class { 'gitlab':
@@ -173,7 +173,7 @@ Here is an example how to configure Gitlab CI runners using Hiera:
 
 To use the Gitlab CI runners it is required to have the [garethr/docker](https://forge.puppetlabs.com/garethr/docker) module.
 
-`$manage_docker` can be set to false if docker is managed externaly.
+`$manage_docker` can be set to false if docker is managed externally.
 
 ```yaml
 classes:
@@ -251,7 +251,7 @@ gitlab::custom_hooks:
 
 Since GitLab Shell 4.1.0 and GitLab 8.15 Chained hooks are supported. You can
 create global hooks which will run for each repository on your server. Global
-hooks can be created as a pre-receive, post-receive, or update hook. 
+hooks can be created as a pre-receive, post-receive, or update hook.
 
 ```puppet
 gitlab::global_hook { 'my_custom_hook':
@@ -288,4 +288,3 @@ Make sure your PR passes the Rspec tests.
 Have a look at [Github contributors](https://github.com/voxpupuli/puppet-gitlab/graphs/contributors) to see a list of all the awesome contributors to this Puppet module. <3
 This module was created and maintained by [VSHN AG](https://vshn.ch/) until the end of 2017. It was then donated
 to Voxpupuli so that a broader community is able to maintain the module.
-

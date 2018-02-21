@@ -24,7 +24,7 @@ def numify(obj)
   elsif obj.is_a?(Array)
     obj.map { |item| numify(item) }
   elsif obj.is_a?(Hash)
-    sort_hash_by_key(obj.merge(obj) { |_, v| numify(v) })
+    sort_hash_by_key(obj.merge(obj) { |v1, v2| numify(v1) <=> numify(v2) })
   else
     obj
   end

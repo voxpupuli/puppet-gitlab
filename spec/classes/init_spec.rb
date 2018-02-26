@@ -219,7 +219,7 @@ describe 'gitlab', type: :class do
           it { is_expected.not_to contain_package('gitlab-ee') }
         end
         describe 'with roles' do
-          let(:params) {{:roles => ['redis_sentinel_role', 'redis_master_role'] }}
+          let(:params) { { :roles => ['redis_sentinel_role', 'redis_master_role'] } }
           it { is_expected.to contain_file('/etc/gitlab/gitlab.rb') \
             .with_content(/^\s*roles \["redis_sentinel_role", "redis_master_role"\]$/)
           }

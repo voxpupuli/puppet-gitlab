@@ -60,7 +60,7 @@
 #
 # [*rake_exec*]
 #   Default: '/usr/bin/gitlab-rake'
-#   The gitlab-rake executable path. 
+#   The gitlab-rake executable path.
 #   You should not need to change this path.
 #
 # [*edition*]
@@ -142,6 +142,10 @@
 # [*logging*]
 #   Default: undef
 #   Hash of 'logging' config parameters.
+#
+# [*letsencrypt*]
+#   Default: undef
+#   Hash of 'letsencrypt' config parameters.
 #
 # [*logrotate*]
 #   Default: undef
@@ -374,6 +378,7 @@ class gitlab (
   $gitlab_rails = undef,
   $high_availability = undef,
   $logging = undef,
+  Optional[Hash] $letsencrypt = undef,
   $logrotate = undef,
   $manage_storage_directories = undef,
   $manage_accounts = undef,

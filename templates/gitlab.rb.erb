@@ -193,6 +193,16 @@ nginx['<%= k -%>'] = <%= decorate(@nginx[k]) %>
 <%- @gitlab_workhorse.keys.sort.each do |k| -%>
 gitlab_workhorse['<%= k -%>'] = <%= decorate(@gitlab_workhorse[k]) %>
 <%- end end -%>
+<%- if @letsencrypt -%>
+
+######################
+# GitLab Letsencrypt #
+######################
+## see: https://docs.gitlab.com/omnibus/settings/ssl.html#let-39-s-encrypt-integration
+
+<%- @letsencrypt.keys.sort.each do |k| -%>
+letsencrypt['<%= k -%>'] = <%= decorate(@letsencrypt[k]) %>
+<%- end end -%>
 <%- if @logging -%>
 
 ##################

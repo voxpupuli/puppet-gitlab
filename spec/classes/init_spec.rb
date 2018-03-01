@@ -69,6 +69,20 @@ describe 'gitlab', type: :class do
               with_content(%r{^\s*nginx\['listen_port'\] = ('|)80('|)$})
           }
         end
+        describe 'letsencrypt' do
+          let(:params) do
+            { letsencrypt: {
+              'enable' => true,
+              'contact_emails' => ['test@example.com']
+            } }
+          end
+
+          it {
+            is_expected.to contain_file('/etc/gitlab/gitlab.rb'). \
+              with_content(%r{^\s*letsencrypt\['enable'\] = true$}).
+              with_content(%r{^\s*letsencrypt\['contact_emails'\] = \["test@example.com"\]$})
+          }
+        end
         describe 'secrets' do
           let(:params) do
             { secrets: {

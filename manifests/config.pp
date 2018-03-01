@@ -29,6 +29,7 @@ class gitlab::config {
   $gitlab_pages = $::gitlab::gitlab_pages
   $gitlab_rails = $::gitlab::gitlab_rails
   $high_availability = $::gitlab::high_availability
+  $letsencrypt = $::gitlab::letsencrypt
   $logging = $::gitlab::logging
   $logrotate = $::gitlab::logrotate
   $manage_storage_directories = $::gitlab::manage_storage_directories

@@ -2,7 +2,7 @@ fixtures:
   repositories:
     stdlib:
       repo: "https://github.com/puppetlabs/puppetlabs-stdlib.git"
-      ref: "4.12.0"
+      ref: "4.14.0"
     apt:
       repo: "https://github.com/puppetlabs/puppetlabs-apt.git"
       ref: "2.2.0"

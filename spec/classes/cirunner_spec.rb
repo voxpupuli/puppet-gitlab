@@ -1,127 +1,70 @@
 require 'spec_helper'
 
 describe 'gitlab::cirunner' do
-  context 'supported operating systems' do
-    package_name = 'gitlab-runner'
+  package_name = 'gitlab-runner'
 
-    describe 'gitlab::cirunner class without any parameters on Ubuntu Trusty' do
-      let(:params) { {} }
+  on_supported_os.each do |os, facts|
+    context "on #{os}" do
       let(:facts) do
-        {
-          osfamily: 'Debian',
-          lsbdistid: 'Ubuntu',
-          lsbdistcodename: 'trusty',
-          operatingsystem: 'Debian',
-          operatingsystemmajrelease: 'jessie/sid',
-          kernelrelease: '3.13.0-71-generic'
-        }
+        facts
       end
 
       it { is_expected.to compile.with_all_deps }
 
       it { is_expected.to contain_class('docker') }
       it { is_expected.to contain_class('docker::images') }
-      it { is_expected.to contain_apt__source('apt_gitlabci') }
-
       it { is_expected.to contain_package(package_name).with_ensure('installed') }
+
+      case facts[:osfamily]
+      when 'RedHat'
+        it { is_expected.to contain_yumrepo("runner_#{package_name}").with_baseurl("https://packages.gitlab.com/runner/#{package_name}/el/$releasever/$basearch") }
+      when 'Debian'
+        it { is_expected.to contain_apt__source('apt_gitlabci') }
+      end
+
+      it { is_expected.to contain_exec('gitlab-runner-restart').that_requires("Package[#{package_name}]") }
+      it do
+        is_expected.to contain_exec('gitlab-runner-restart').with('command' => "/usr/bin/#{package_name} restart",
+                                                                  'refreshonly' => true)
+      end
+      it { is_expected.to contain_gitlab__runner('test_runner').that_requires('Exec[gitlab-runner-restart]') }
+      it { is_expected.not_to contain_file_line('gitlab-runner-concurrent') }
+      it { is_expected.not_to contain_file_line('gitlab-runner-metrics-server') }
     end
-    describe 'gitlab::cirunner class without any parameters on RedHat (CentOS)' do
-      let(:params) { {} }
+
+    context "on #{os} with concurrent => 10" do
       let(:facts) do
-        {
-          osfamily: 'RedHat',
-          operatingsystem: 'CentOS',
-          operatingsystemmajrelease: '6',
-          operatingsystemrelease: '6.5',
-          os: {
-            architecture: 'x86_64',
-            family: 'RedHat',
-            hardware: 'x86_64',
-            name: 'CentOS',
-            release: {
-              full: '6.7',
-              major: '6',
-              minor: '7'
-            },
-            selinux: {
-              enabled: false
-            }
-          },
-          kernelversion: '2.6.32',
-          kernelrelease: '2.6.32-573.8.1.el6.x86_64'
-        }
+        facts
       end
 
-      it { is_expected.to compile.with_all_deps }
+      let(:params) { { concurrent: 10 } }
 
-      it { is_expected.to contain_class('docker') }
-      it { is_expected.to contain_class('docker::images') }
-      it { is_expected.to contain_yumrepo("runner_#{package_name}").with_baseurl("https://packages.gitlab.com/runner/#{package_name}/el/6/$basearch") }
-
-      it { is_expected.to contain_package(package_name).with_ensure('installed') }
+      it { is_expected.to contain_file_line('gitlab-runner-concurrent').that_requires("Package[#{package_name}]") }
+      it { is_expected.to contain_file_line('gitlab-runner-concurrent').that_notifies('Exec[gitlab-runner-restart]') }
+      it do
+        is_expected.to contain_file_line('gitlab-runner-concurrent').with('path' => '/etc/gitlab-runner/config.toml',
+                                                                          'line'  => 'concurrent = 10',
+                                                                          'match' => '^concurrent = \d+')
+      end
     end
-    describe 'gitlab::cirunner class OS-independent behavior' do
+
+    context "on #{os} with metrics_server => localhost:9252" do
       let(:facts) do
-        {
-          osfamily: 'RedHat',
-          operatingsystem: 'CentOS',
-          operatingsystemmajrelease: '6',
-          operatingsystemrelease: '6.5',
-          os: {
-            architecture: 'x86_64',
-            family: 'RedHat',
-            hardware: 'x86_64',
-            name: 'CentOS',
-            release: {
-              full: '6.7',
-              major: '6',
-              minor: '7'
-            },
-            selinux: {
-              enabled: false
-            }
-          },
-          kernelversion: '2.6.32',
-          kernelrelease: '2.6.32-573.8.1.el6.x86_64'
-        }
+        facts
       end
 
-      context 'with default parameters' do
-        it { is_expected.to contain_exec('gitlab-runner-restart').that_requires("Package[#{package_name}]") }
-        it do
-          is_expected.to contain_exec('gitlab-runner-restart').with('command' => "/usr/bin/#{package_name} restart",
-                                                                    'refreshonly' => true)
-        end
-        it { is_expected.to contain_gitlab__runner('test_runner').that_requires('Exec[gitlab-runner-restart]') }
-        it { is_expected.not_to contain_file_line('gitlab-runner-concurrent') }
-        it { is_expected.not_to contain_file_line('gitlab-runner-metrics-server') }
-      end
+      let(:params) { { metrics_server: 'localhost:9252' } }
 
-      context 'with concurrent => 10' do
-        let(:params) { { concurrent: 10 } }
-
-        it { is_expected.to contain_file_line('gitlab-runner-concurrent').that_requires("Package[#{package_name}]") }
-        it { is_expected.to contain_file_line('gitlab-runner-concurrent').that_notifies('Exec[gitlab-runner-restart]') }
-        it do
-          is_expected.to contain_file_line('gitlab-runner-concurrent').with('path' => '/etc/gitlab-runner/config.toml',
-                                                                            'line'  => 'concurrent = 10',
-                                                                            'match' => '^concurrent = \d+')
-        end
-      end
-
-      context 'with metrics_server => localhost:9252' do
-        let(:params) { { metrics_server: 'localhost:9252' } }
-
-        it { is_expected.to contain_file_line('gitlab-runner-metrics-server').that_requires("Package[#{package_name}]") }
-        it { is_expected.to contain_file_line('gitlab-runner-metrics-server').that_notifies('Exec[gitlab-runner-restart]') }
-        it do
-          is_expected.to contain_file_line('gitlab-runner-metrics-server').with('path' => '/etc/gitlab-runner/config.toml',
-                                                                                'line'  => 'metrics_server = "localhost:9252"',
-                                                                                'match' => '^metrics_server = .+')
-        end
+      it { is_expected.to contain_file_line('gitlab-runner-metrics-server').that_requires("Package[#{package_name}]") }
+      it { is_expected.to contain_file_line('gitlab-runner-metrics-server').that_notifies('Exec[gitlab-runner-restart]') }
+      it do
+        is_expected.to contain_file_line('gitlab-runner-metrics-server').with('path' => '/etc/gitlab-runner/config.toml',
+                                                                              'line'  => 'metrics_server = "localhost:9252"',
+                                                                              'match' => '^metrics_server = .+')
       end
     end
   end
+
   context 'unsupported operating systems' do
     describe 'gitlab::cirunner class without any parameters on unsupported OS' do
       let(:params) { {} }
@@ -134,7 +77,7 @@ describe 'gitlab::cirunner' do
       it 'fails' do
         expect do
           catalogue
-        end.to raise_error(Puppet::Error, %r{OS family unsupported_os_family is not supported. Only Debian and Redhat is suppported.})
+        end.to raise_error(Puppet::Error, %r{OS family unsupported_os_family is not supported. Only Debian and Redhat is supported.})
       end
     end
   end

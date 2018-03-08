@@ -24,6 +24,14 @@
 #   Default: gitlab_ci_runners
 #   Name of hiera hash with individual runners to be installed.
 #
+# [*common_config*]
+#   Default: {}
+#   hash with default configs for CI Runners.
+#
+# [*runners_config*]
+#   Default: {}
+#   hash with individual runners to be installed
+#
 # === Authors
 #
 # Tobias Brunner <tobias.brunner@vshn.ch>
@@ -38,6 +46,8 @@ class gitlab::cirunner (
   $metrics_server = undef,
   $hiera_default_config_key = 'gitlab_ci_runners_defaults',
   $hiera_runners_key = 'gitlab_ci_runners',
+  $common_config = {},
+  $runners_config = {},
   $manage_docker = true,
   $manage_repo = true,
   $xz_package_name = 'xz-utils',
@@ -52,6 +62,8 @@ class gitlab::cirunner (
   validate_string($xz_package_name)
   validate_string($package_ensure)
   validate_string($package_name)
+  validate_hash($common_config)
+  validate_hash($runners_config)
 
   unless ($::osfamily == 'Debian' or $::osfamily == 'RedHat')  {
     fail ("OS family ${::osfamily} is not supported. Only Debian and Redhat is suppported.")
@@ -166,9 +178,9 @@ class gitlab::cirunner (
     require     => Package[$package_name],
   }
 
-  $runners_hash = hiera_hash($hiera_runners_key, {})
+  $runners_hash = merge($runners_config, hiera_hash($hiera_runners_key, {}))
   $runners = keys($runners_hash)
-  $default_config = hiera_hash($hiera_default_config_key, {})
+  $default_config = merge($common_config, hiera_hash($hiera_default_config_key, {}))
   gitlab::runner { $runners:
     binary         => $package_name,
     default_config => $default_config,

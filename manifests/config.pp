@@ -68,6 +68,7 @@ class gitlab::config {
   $sidekiq = $::gitlab::sidekiq
   $sidekiq_cluster = $::gitlab::sidekiq_cluster
   $skip_auto_migrations = $::gitlab::skip_auto_migrations
+  $store_git_keys_in_db = $::gitlab::store_git_keys_in_db
   $source_config_file = $::gitlab::source_config_file
   $unicorn = $::gitlab::unicorn
   $gitlab_workhorse = $::gitlab::gitlab_workhorse
@@ -180,6 +181,32 @@ class gitlab::config {
       owner  => 'root',
       group  => 'root',
       mode   => '0644',
+    }
+  }
+
+  if $store_git_keys_in_db != undef {
+    $_store_git_keys_in_db = $store_git_keys_in_db ? {
+      true    => 'file',
+      default => 'absent',
+    }
+
+    $opt_gitlab_shell_dir = $store_git_keys_in_db ? {
+      true    => 'directory',
+      default => 'absent'
+    }
+
+    file {'/opt/gitlab-shell':
+      ensure => $opt_gitlab_shell_dir,
+      owner  => 'root',
+      group  => 'git',
+    }
+
+    file {'/opt/gitlab-shell/authorized_keys':
+      ensure  => $_store_git_keys_in_db,
+      owner   => 'root',
+      group   => 'git',
+      mode    => '0650',
+      source  => 'puppet:///modules/gitlab/gitlab_shell_authorized_keys'
     }
   }
 

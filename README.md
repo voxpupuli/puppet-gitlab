@@ -269,6 +269,19 @@ gitlab::global_hooks:
     source: 'puppet:///modules/my_module/post-receive'
 ```
 
+### Fast Lookup of SSH keys
+
+GitLab instances with a large number of users may notice slowdowns when making initial connections for ssh operations.
+GitLab has created a feature that allows authorized ssh keys to be stored in the db (instead of the `authorized_keys`
+file for the `git` user)
+
+You can enable this feature in GitLab using the `store_git_keys_in_db` parameter.
+
+Please note, managing the sshd service and openssh is outside the scope of this module.
+You will need to configure the AuthorizedKeysCommand for the `git` user in sshd.server yourself.
+Instructions for this are provided by GitLab at
+[Fast lookup of authorized SSH keys in the databasse](https://docs.gitlab.com/ee/administration/operations/fast_ssh_key_lookup.html)
+
 ### Gitlab CI Runner Limitations
 
 The Gitlab CI runner installation is at the moment only tested on Ubuntu 14.04.

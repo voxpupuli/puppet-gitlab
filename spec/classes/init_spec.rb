@@ -241,6 +241,13 @@ describe 'gitlab', type: :class do
               with_content(%r{"/var/opt/data"})
           end
         end
+        describe 'with store_git_keys_in_db' do
+          let(:params) {{ 'store_git_keys_in_db' => true }}
+
+          it do
+            is_expected.to contain_file('/opt/gitlab-shell/authorized_keys')
+          end
+        end
       end
     end
   end

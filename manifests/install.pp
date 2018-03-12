@@ -17,11 +17,10 @@ class gitlab::install {
       'debian': {
         include apt
         ensure_packages('apt-transport-https')
-        $_lower_os = downcase($::operatingsystem)
+
         apt::source { "gitlab_official_${edition}":
           comment  => 'Official repository for Gitlab',
-          location => "https://packages.gitlab.com/gitlab/gitlab-${edition}/${_lower_os}/",
-          release  => $::lsbdistcodename,
+          location => "https://packages.gitlab.com/gitlab/gitlab-${edition}/${::operatingsystem.downcase}/",
           repos    => 'main',
           key      => {
             id     => '1A4C919DB987D435939638B914219A96E15E78F4',

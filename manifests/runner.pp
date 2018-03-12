@@ -21,15 +21,10 @@
 # Copyright 2015 Tobias Brunner, VSHN AG
 #
 define gitlab::runner (
-  $binary,
-  $runners_hash,
-  $default_config = {},
+  String $binary,
+  Hash $runners_hash,
+  Hash $default_config = {},
 ) {
-
-  validate_string($binary)
-  validate_hash($runners_hash)
-  validate_hash($default_config)
-
   # Set resource name as name for the runner
   $name_config = {
     name => $title,

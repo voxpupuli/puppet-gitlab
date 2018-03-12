@@ -34,27 +34,19 @@
 # Copyright 2015 Tobias Brunner, VSHN AG
 #
 class gitlab::cirunner (
-  $concurrent = undef,
-  $metrics_server = undef,
-  $hiera_default_config_key = 'gitlab_ci_runners_defaults',
-  $hiera_runners_key = 'gitlab_ci_runners',
-  $manage_docker = true,
-  $manage_repo = true,
-  $xz_package_name = 'xz-utils',
-  $package_ensure = installed,
-  $package_name = 'gitlab-runner',
+  Optional[Integer]          $concurrent               = undef,
+  Optional[Pattern[/.*:.+/]] $metrics_server           = undef,
+  String                     $hiera_default_config_key = 'gitlab_ci_runners_defaults',
+  String                     $hiera_runners_key        = 'gitlab_ci_runners',
+  Boolean                    $manage_docker            = true,
+  Boolean                    $manage_repo              = true,
+  String                     $xz_package_name          = 'xz-utils',
+  String                     $package_ensure           = installed,
+  String                     $package_name             = 'gitlab-runner',
 ) {
 
-  validate_string($hiera_default_config_key)
-  validate_string($hiera_runners_key)
-  validate_bool($manage_docker)
-  validate_bool($manage_repo)
-  validate_string($xz_package_name)
-  validate_string($package_ensure)
-  validate_string($package_name)
-
   unless ($::osfamily == 'Debian' or $::osfamily == 'RedHat')  {
-    fail ("OS family ${::osfamily} is not supported. Only Debian and Redhat is suppported.")
+    fail ("OS family ${::osfamily} is not supported. Only Debian and Redhat is supported.")
   }
 
   if $manage_docker {
@@ -82,12 +74,9 @@ class gitlab::cirunner (
         include apt
         ensure_packages('apt-transport-https')
 
-        $distid = downcase($::lsbdistid)
-
-        ::apt::source { 'apt_gitlabci':
+        apt::source { 'apt_gitlabci':
           comment  => 'GitlabCI Runner Repo',
-          location => "${repo_base_url}/runner/${package_name}/${distid}/",
-          release  => $::lsbdistcodename,
+          location => "${repo_base_url}/runner/${package_name}/${::lsbdistid.downcase}/",
           repos    => 'main',
           key      => {
             'id'     => '1A4C919DB987D435939638B914219A96E15E78F4',
@@ -104,7 +93,7 @@ class gitlab::cirunner (
       'RedHat': {
         yumrepo { "runner_${package_name}":
           ensure        => 'present',
-          baseurl       => "${repo_base_url}/runner/${package_name}/el/${::operatingsystemmajrelease}/\$basearch",
+          baseurl       => "${repo_base_url}/runner/${package_name}/el/\$releasever/\$basearch",
           descr         => "runner_${package_name}",
           enabled       => '1',
           gpgcheck      => '0',
@@ -116,7 +105,7 @@ class gitlab::cirunner (
 
         yumrepo { "runner_${package_name}-source":
           ensure        => 'present',
-          baseurl       => "${repo_base_url}/runner/${package_name}/el/${::operatingsystemmajrelease}/SRPMS",
+          baseurl       => "${repo_base_url}/runner/${package_name}/el/\$releasever/SRPMS",
           descr         => "runner_${package_name}-source",
           enabled       => '1',
           gpgcheck      => '0',
@@ -136,9 +125,7 @@ class gitlab::cirunner (
     ensure => $package_ensure,
   }
 
-  if $concurrent {
-    validate_integer($concurrent, undef, 1)
-
+  if $concurrent != undef {
     file_line { 'gitlab-runner-concurrent':
       path    => '/etc/gitlab-runner/config.toml',
       line    => "concurrent = ${concurrent}",
@@ -149,8 +136,6 @@ class gitlab::cirunner (
   }
 
   if $metrics_server {
-    validate_re($metrics_server, '.*:.+', 'metrics_server must be in the format [host]:<port>')
-
     file_line { 'gitlab-runner-metrics-server':
       path    => '/etc/gitlab-runner/config.toml',
       line    => "metrics_server = \"${metrics_server}\"",
@@ -166,9 +151,10 @@ class gitlab::cirunner (
     require     => Package[$package_name],
   }
 
-  $runners_hash = hiera_hash($hiera_runners_key, {})
-  $runners = keys($runners_hash)
-  $default_config = hiera_hash($hiera_default_config_key, {})
+  $runners_hash   = lookup({'name' => $hiera_runners_key, 'value_type' => Hash, 'default_value' => {}})
+  $runners        = $runners_hash.keys
+  $default_config = lookup({'name' => $hiera_default_config_key, 'value_type' => Hash, 'default_value' => {}})
+
   gitlab::runner { $runners:
     binary         => $package_name,
     default_config => $default_config,

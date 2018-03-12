@@ -1,14 +1,18 @@
-FROM ruby:2.1-alpine
-MAINTAINER Tobias Brunner <tobias.brunner@vshn.ch>
+FROM ruby:2.4-alpine
 
-ENV PUPPET_VERSION "~> 3.8.0"
-RUN apk add --no-cache git bash alpine-sdk && \
-    adduser -S puppet && \
-    mkdir /home/puppet/gitlab && \
-    chown -R puppet /home/puppet
+WORKDIR /opt/puppet
 
-WORKDIR /home/puppet/gitlab
-COPY Gemfile /home/puppet/gitlab
+ENV PUPPET_VERSION "~> 5"
+ENV PARALLEL_TEST_PROCESSORS=4
 
-#USER puppet
-RUN bundle install --without development system_tests
+RUN apk add --no-cache git bash alpine-sdk
+
+# Cache gems
+COPY Gemfile .
+RUN bundle install --without system_tests development release --path=${BUNDLE_PATH:-vendor/bundle}
+
+COPY . .
+
+RUN bundle exec rake rubocop
+RUN bundle exec rake test
+RUN bundle exec rake test_with_coveralls

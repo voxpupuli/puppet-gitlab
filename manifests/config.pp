@@ -201,12 +201,12 @@ class gitlab::config {
       group  => 'git',
     }
 
-    file {'/opt/gitlab-shell/authorized_keys':
-      ensure  => $_store_git_keys_in_db,
-      owner   => 'root',
-      group   => 'git',
-      mode    => '0650',
-      source  => 'puppet:///modules/gitlab/gitlab_shell_authorized_keys'
+    file { '/opt/gitlab-shell/authorized_keys':
+      ensure => $_store_git_keys_in_db,
+      owner  => 'root',
+      group  => 'git',
+      mode   => '0650',
+      source => 'puppet:///modules/gitlab/gitlab_shell_authorized_keys',
     }
   }
 

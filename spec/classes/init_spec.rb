@@ -48,11 +48,11 @@ describe 'gitlab', type: :class do
           }
         end
         describe 'external_port' do
-          let(:params) { { external_port: 987_654 } }
+          let(:params) { { external_port: 9654 } }
 
           it {
             is_expected.to contain_file('/etc/gitlab/gitlab.rb'). \
-              with_content(%r{^\s*external_port '987654'$})
+              with_content(%r{^\s*external_port '9654'$})
           }
         end
         describe 'nginx' do
@@ -242,7 +242,7 @@ describe 'gitlab', type: :class do
           end
         end
         describe 'with store_git_keys_in_db' do
-          let(:params) {{ 'store_git_keys_in_db' => true }}
+          let(:params) { { store_git_keys_in_db: true } }
 
           it do
             is_expected.to contain_file('/opt/gitlab-shell/authorized_keys')
@@ -255,7 +255,6 @@ describe 'gitlab', type: :class do
   context 'on usupported os' do
     let(:facts) do
       {
-        gitlab_systemd: false,
         osfamily: 'Solaris',
         operatingsystem: 'Nexenta'
       }

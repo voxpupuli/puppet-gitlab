@@ -74,15 +74,6 @@ class gitlab::config {
   $gitlab_workhorse = $::gitlab::gitlab_workhorse
   $user = $::gitlab::user
   $web_server = $::gitlab::web_server
-  $backup_cron_enable = $::gitlab::backup_cron_enable
-  $backup_cron_minute = $::gitlab::backup_cron_minute
-  $backup_cron_hour = $::gitlab::backup_cron_hour
-  if empty($::gitlab::backup_cron_skips) {
-    $backup_cron_skips = ''
-  } else {
-    $_backup_cron_skips = join($::gitlab::backup_cron_skips, ',')
-    $backup_cron_skips = "SKIP=${_backup_cron_skips}"
-  }
 
   # replicate $nginx to $mattermost_nginx if $mattermost_nginx_eq_nginx true
   if $mattermost_nginx_eq_nginx {
@@ -207,14 +198,6 @@ class gitlab::config {
       group  => 'git',
       mode   => '0650',
       source => 'puppet:///modules/gitlab/gitlab_shell_authorized_keys',
-    }
-  }
-
-  if $backup_cron_enable {
-    cron {'gitlab backup':
-      command => "${rake_exec} gitlab:backup:create CRON=1 ${backup_cron_skips}",
-      hour    => $backup_cron_hour,
-      minute  => $backup_cron_minute,
     }
   }
 }

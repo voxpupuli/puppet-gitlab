@@ -435,10 +435,12 @@ class gitlab (
   class { '::gitlab::install': }
   -> class { '::gitlab::config': }
   ~> class { '::gitlab::service': }
+  -> class { '::gitlab::backup': }
 
   contain gitlab::install
   contain gitlab::config
   contain gitlab::service
+  contain gitlab::backup
 
   $custom_hooks.each |$name, $options| {
     gitlab::custom_hook { $name:

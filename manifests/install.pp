@@ -51,7 +51,7 @@ class gitlab::install {
       'redhat': {
 
         $gpgkey = $edition ? {
-            'ee'    => 'https://packages.gitlab.com/gitlab/gitlab-ce/gpgkey https://packages.gitlab.com/gitlab/gitlab-ee/gpgkey/gitlab-gitlab-ee-3D645A26AB9FBD22.pub.gpg',
+            'ee'    => 'https://packages.gitlab.com/gitlab/gitlab-ee/gpgkey https://packages.gitlab.com/gitlab/gitlab-ee/gpgkey/gitlab-gitlab-ee-3D645A26AB9FBD22.pub.gpg',
             'ce'    => 'https://packages.gitlab.com/gitlab/gitlab-ce/gpgkey https://packages.gitlab.com/gitlab/gitlab-ce/gpgkey/gitlab-gitlab-ce-3D645A26AB9FBD22.pub.gpg'
         }
 

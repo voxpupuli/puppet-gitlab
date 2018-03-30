@@ -49,15 +49,16 @@ class gitlab::install {
         }
       }
       'redhat': {
-
         $gpgkey = $edition ? {
             'ee'    => 'https://packages.gitlab.com/gitlab/gitlab-ce/gpgkey https://packages.gitlab.com/gitlab/gitlab-ee/gpgkey/gitlab-gitlab-ee-3D645A26AB9FBD22.pub.gpg',
             'ce'    => 'https://packages.gitlab.com/gitlab/gitlab-ce/gpgkey https://packages.gitlab.com/gitlab/gitlab-ce/gpgkey/gitlab-gitlab-ce-3D645A26AB9FBD22.pub.gpg'
         }
 
+        $releasever = $facts['os']['release']['major']
+
         yumrepo { "gitlab_official_${edition}":
           descr         => 'Official repository for Gitlab',
-          baseurl       => "https://packages.gitlab.com/gitlab/gitlab-${edition}/el/${::operatingsystemmajrelease}/\$basearch",
+          baseurl       => "https://packages.gitlab.com/gitlab/gitlab-${edition}/el/${releasever}/\$basearch",
           enabled       => 1,
           repo_gpgcheck => 1,
           gpgcheck      => 1,

@@ -146,7 +146,7 @@ class gitlab::config {
       tries       => 5,
     }
 
-    if is_hash($postgresql) {
+    if $postgresql =~ Hash {
       unless $postgresql[enable] {
         exec { 'gitlab_setup':
           command     => "/bin/echo yes | ${rake_exec} gitlab:setup",

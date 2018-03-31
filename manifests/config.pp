@@ -145,21 +145,6 @@ class gitlab::config {
       logoutput   => true,
       tries       => 5,
     }
-
-    if $postgresql =~ Hash {
-      unless $postgresql[enable] {
-        exec { 'gitlab_setup':
-          command     => "/bin/echo yes | ${rake_exec} gitlab:setup",
-          refreshonly => true,
-          timeout     => 1800,
-          require     => Exec['gitlab_reconfigure'],
-          unless      => "/bin/grep complete ${git_data_dir}/postgresql.setup",
-        }
-        -> file { "${git_data_dir}/postgresql.setup":
-          content => 'complete',
-        }
-      }
-    }
   }
 
   if $skip_auto_migrations != undef {

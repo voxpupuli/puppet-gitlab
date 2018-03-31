@@ -229,7 +229,9 @@ describe 'gitlab', type: :class do
             }
           end
           let(:expected_content) do
-            datadirs: %(git_data_dirs({\"default\"=>{\"path\"=>\"/git-data/data\"}})\n)
+            {
+              datadirs: %(git_data_dirs({\"default\"=>{\"path\"=>\"/git-data/data\"}})\n)
+            }
           end
 
           it do

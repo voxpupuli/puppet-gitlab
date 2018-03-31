@@ -223,7 +223,7 @@ describe 'gitlab', type: :class do
             {
               'git_data_dirs' => {
                 'default' => {
-                  'path' => '/git-data/data',
+                  'path' => '/git-data/data'
                 }
               }
             }

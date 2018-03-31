@@ -222,23 +222,16 @@ describe 'gitlab', type: :class do
           let(:params) do
             {
               'git_data_dirs' => {
-                'default' => '/var/opt/gitlab/data',
-                'alt' => '/opt/data'
+                'default' => {
+                  'path' => '/git-data/data',
+                }
               }
             }
           end
 
           it do
             is_expected.to contain_file('/etc/gitlab/gitlab.rb').
-              with_content(%r{^\s*git_data_dirs\(\{\"alt\"\=\>\"\/opt\/data\"\,\s\"default\"=>\"\/var\/opt\/gitlab\/data\"\}\)})
-          end
-        end
-        describe 'without data_dirs' do
-          let(:params) { { git_data_dir: '/var/opt/data' } }
-
-          it do
-            is_expected.to contain_file('/etc/gitlab/gitlab.rb').
-              with_content(%r{"/var/opt/data"})
+              with_content(%r{^\s*git_data_dirs\(\{\"default\"\=\>\{\"path\"=>\"\/git-data\/data\"\}\})})
           end
         end
         describe 'with store_git_keys_in_db' do

@@ -17,13 +17,7 @@ class gitlab::config {
   $geo_secondary_role = $::gitlab::geo_secondary_role
   $git = $::gitlab::git
   $gitaly = $::gitlab::gitaly
-  $git_data_dir = $::gitlab::git_data_dir
-  # git_data_dirs is the new way to specify data_dirs, introduced in 8.10
-  if $git_data_dir {
-    $git_data_dirs = merge({ 'default' => { 'path' => $::gitlab::git_data_dir} }, $::gitlab::git_data_dirs)
-  } else {
-    $git_data_dirs = $::gitlab::git_data_dirs
-  }
+  $git_data_dirs = $::gitlab::git_data_dirs
   $gitlab_git_http_server = $::gitlab::gitlab_git_http_server
   $gitlab_ci = $::gitlab::gitlab_ci
   $gitlab_pages = $::gitlab::gitlab_pages

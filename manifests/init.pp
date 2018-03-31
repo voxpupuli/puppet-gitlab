@@ -115,9 +115,9 @@
 #   Default: undef
 #   Hash of 'Gitaly' config parameters.
 #
-# [*git_data_dir*]
+# [*git_data_dirs*]
 #   Default: undef
-#   Git data dir
+#   Hash of git data directories
 #
 # [*gitlab_git_http_server*]
 #   Default: undef
@@ -376,7 +376,6 @@ class gitlab (
   Boolean                        $geo_secondary_role            = false,
   Optional[Hash]                 $git                           = undef,
   Optional[Hash]                 $gitaly                        = undef,
-  Optional[Stdlib::Absolutepath] $git_data_dir                  = undef,
   Optional[Hash]                 $git_data_dirs                 = undef,
   Optional[Hash]                 $gitlab_git_http_server        = undef,
   Optional[Hash]                 $gitlab_ci                     = undef,

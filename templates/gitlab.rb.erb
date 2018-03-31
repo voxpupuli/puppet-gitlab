@@ -42,12 +42,6 @@ external_url '<%= @external_url %>'
 <%- if @external_port -%>
 external_port '<%= @external_port %>'
 <%- end -%>
-<%- if @git_data_dir -%>
-## For setting up different data storing directory
-## see https://gitlab.com/gitlab-org/omnibus-gitlab/blob/629def0a7a26e7c2326566f0758d4a27857b52a3/README.md#storing-git-data-in-an-alternative-directory
-## If you want to use a single non-default directory to store git data use:
-git_data_dir "<%= @git_data_dir %>"
-<%- end -%>
 <%- if @git_data_dirs -%>
 
 ### For setting up different data storing directory

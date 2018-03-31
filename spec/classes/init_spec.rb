@@ -228,10 +228,13 @@ describe 'gitlab', type: :class do
               }
             }
           end
+          let(:expected_content) do
+            datadirs: %(git_data_dirs({\"default\"=>{\"path\"=>\"/git-data/data\"}})\n)
+          end
 
           it do
             is_expected.to contain_file('/etc/gitlab/gitlab.rb').
-              with_content(%r{^\s*git_data_dirs\(\{\"default\"\=\>\{\"path\"=>\"\/git-data\/data\"\}\})})
+              with_content(%r{\s*#{Regexp.quote(expected_content[:datadirs])}}m)
           end
         end
         describe 'with store_git_keys_in_db' do

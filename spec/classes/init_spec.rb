@@ -221,7 +221,7 @@ describe 'gitlab', type: :class do
         describe 'with roles' do
           let(:params) do
             {
-              'roles' => %w['redis_sentinel_role' 'redis_master_role']
+              'roles' => %w[redis_sentinel_role redis_master_role]
             }
           end
 

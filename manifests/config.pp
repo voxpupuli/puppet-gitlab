@@ -68,6 +68,7 @@ class gitlab::config {
   $gitlab_workhorse = $::gitlab::gitlab_workhorse
   $user = $::gitlab::user
   $web_server = $::gitlab::web_server
+  $roles = $::gitlab::roles
 
   # replicate $nginx to $mattermost_nginx if $mattermost_nginx_eq_nginx true
   if $mattermost_nginx_eq_nginx {

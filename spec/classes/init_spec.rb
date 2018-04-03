@@ -218,6 +218,24 @@ describe 'gitlab', type: :class do
           it { is_expected.not_to contain_package('gitlab-ce') }
           it { is_expected.not_to contain_package('gitlab-ee') }
         end
+        describe 'with roles' do
+          let(:params) do
+            {
+              'roles' => %w[redis_sentinel_role redis_master_role]
+            }
+          end
+
+          let(:expected_content) do
+            {
+              roles: %(roles [\"redis_sentinel_role\", \"redis_master_role\"])
+            }
+          end
+
+          it {
+            is_expected.to contain_file('/etc/gitlab/gitlab.rb').
+              with_content(%r{\s*#{Regexp.quote(expected_content[:roles])}}m)
+          }
+        end
         describe 'with data_dirs' do
           let(:params) do
             {

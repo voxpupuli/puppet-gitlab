@@ -251,6 +251,11 @@
 #   Default: false
 #   Replicate the registry Nginx config from the Gitlab Nginx config.
 #
+# [*roles*]
+#   Default: undef
+#   Array of roles when using a HA or Geo enabled GitLab configuration
+#   See: https://docs.gitlab.com/omnibus/roles/README.html for acceptable values
+#
 # [*secrets*]
 #   Default: undef
 #   Hash of values which will be placed into $secrets_file (by default /etc/gitlab/gitlab-secrets.json)
@@ -410,6 +415,7 @@ class gitlab (
   Optional[String]               $registry_external_url         = undef,
   Optional[Hash]                 $registry_nginx                = undef,
   Boolean                        $registry_nginx_eq_nginx       = false,
+  Optional[Array]                $roles                         = undef,
   Optional[Hash]                 $secrets                       = undef,
   Stdlib::Absolutepath           $secrets_file                  = $::gitlab::params::secrets_file,
   Optional[Hash]                 $sentinel                      = undef,

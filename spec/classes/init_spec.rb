@@ -224,8 +224,13 @@ describe 'gitlab', type: :class do
               'roles' => ['redis_sentinel_role', 'redis_master_role']
             }
           end
+          let(:expected_content) do
+            {
+              roles: %(roles [\"redis_sentinel_role\", \"redis_master_role\"])
+            }
+          end
           it { is_expected.to contain_file('/etc/gitlab/gitlab.rb') \
-            .with_content(%r{\s*roles\ %w[redis_sentinel_role redis_master_role]})
+            .with_content(%r{\s*#{Regexp.quote(expected_content[:roles])}}m)
           }
         end
         describe 'with data_dirs' do

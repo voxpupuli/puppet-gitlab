@@ -4,6 +4,32 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v2.0.0](https://github.com/voxpupuli/puppet-gitlab/tree/v2.0.0) (2018-03-28)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-gitlab/compare/v1.16.1...v2.0.0)
+
+**Merged pull requests:**
+
+- DB indexing for git authorized keys [\#177](https://github.com/voxpupuli/puppet-gitlab/pull/177) ([LongLiveCHIEF](https://github.com/LongLiveCHIEF))
+- Allow managing backup cron w/o managing the config file [\#180](https://github.com/voxpupuli/puppet-gitlab/pull/180)([mhyzon](https://github.com/mhyzon))
+- Fixed RedHat Installation [\#198](https://github.com/voxpupuli/puppet-gitlab/pull/198)([dsavell](https://github.com/dsavell))
+- add letsencrypt section to gitlab.rb [\#200](https://github.com/voxpupuli/puppet-gitlab/pull/200)([costela](https://github.com/costela))
+- Move backup to its own class [\#205](https://github.com/voxpupuli/puppet-gitlab/pull/205)([\#baurmatt](https://github.com/baurmatt))
+- Remove deprecated hiera and validation functions [\#119](https://github.com/voxpupuli/puppet-gitlab/pull/119) ([jkroepke](https://github.com/jkroepke))
+
+**Fixed Bugs:**
+
+- Incorrect SKIP Syntax for backup jobs [\#180](https://github.com/voxpupuli/puppet-gitlab/pull/180)
+- Backup cron configuration will trigger gitlab restart [\#204](https://github.com/voxpupuli/puppet-gitlab/issues/204)
+- RHEL 7.2 Installation Failure (Possibly GPG Key URL) [\#196](https://github.com/voxpupuli/puppet-gitlab/issues/196)
+- YUM GPG keys are invalid [\#203](https://github.com/voxpupuli/puppet-gitlab/issues/203)
+
+**Closed issues:**
+
+- data dir changes in gitlab 9 [\#137] https://github.com/voxpupuli/puppet-gitlab/issues/137
+- Drop Puppet 3 support [\#118](https://github.com/voxpupuli/puppet-gitlab/issues/118)
+- Feature: Allow database to index git authorized_keys [\#168](https://github.com/voxpupuli/puppet-gitlab/issues/168)
+
 ## [v1.16.1](https://github.com/voxpupuli/puppet-gitlab/tree/v1.16.1) (2018-02-07)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-gitlab/compare/v1.16.0...v1.16.1)

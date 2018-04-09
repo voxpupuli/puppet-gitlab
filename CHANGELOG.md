@@ -4,12 +4,55 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v2.0.0](https://github.com/voxpupuli/puppet-gitlab/tree/v2.0.0) (2018-04-07)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-gitlab/compare/v1.16.1...v2.0.0)
+
+**Breaking changes:**
+
+- git\_data\_dirs not documented, deprecate git\_data\_dir [\#159](https://github.com/voxpupuli/puppet-gitlab/issues/159)
+- remove auto-execution of gitlab:setup [\#210](https://github.com/voxpupuli/puppet-gitlab/pull/210) ([LongLiveCHIEF](https://github.com/LongLiveCHIEF))
+- remove git\_data\_dir [\#209](https://github.com/voxpupuli/puppet-gitlab/pull/209) ([LongLiveCHIEF](https://github.com/LongLiveCHIEF))
+
+**Implemented enhancements:**
+
+- Migrate Puppet Module to Voxpupuli [\#171](https://github.com/voxpupuli/puppet-gitlab/issues/171)
+- Feature: Allow database to index git authorized\_keys [\#168](https://github.com/voxpupuli/puppet-gitlab/issues/168)
+- data dir changes in gitlab 9 [\#137](https://github.com/voxpupuli/puppet-gitlab/issues/137)
+- add letsencrypt section to gitlab.rb [\#200](https://github.com/voxpupuli/puppet-gitlab/pull/200) ([costela](https://github.com/costela))
+- Add ha roles [\#186](https://github.com/voxpupuli/puppet-gitlab/pull/186) ([LongLiveCHIEF](https://github.com/LongLiveCHIEF))
+- Db indexing for git authorized keys [\#177](https://github.com/voxpupuli/puppet-gitlab/pull/177) ([LongLiveCHIEF](https://github.com/LongLiveCHIEF))
+- drop legacy is\_hash method, replace topscope fact with facts hash [\#107](https://github.com/voxpupuli/puppet-gitlab/pull/107) ([james-powis](https://github.com/james-powis))
+
+**Fixed bugs:**
+
+- RHEL 7.2 Installation Failure \(Possibly GPG Key URL\) [\#196](https://github.com/voxpupuli/puppet-gitlab/issues/196)
+- After upgrade to GitLab 10.4.3 each puppet run wants to remove  [\#195](https://github.com/voxpupuli/puppet-gitlab/issues/195)
+- Fixed redhat installation [\#198](https://github.com/voxpupuli/puppet-gitlab/pull/198) ([dsavell](https://github.com/dsavell))
+
+**Closed issues:**
+
+- Backup cron configuration will trigger gitlab restart [\#204](https://github.com/voxpupuli/puppet-gitlab/issues/204)
+- YUM GPG keys are invalid [\#203](https://github.com/voxpupuli/puppet-gitlab/issues/203)
+- add support for letsencrypt options [\#199](https://github.com/voxpupuli/puppet-gitlab/issues/199)
+- RPM gpg key verification failure on install [\#194](https://github.com/voxpupuli/puppet-gitlab/issues/194)
+
+**Merged pull requests:**
+
+- bump puppet to latest supported version 4.10.0 [\#208](https://github.com/voxpupuli/puppet-gitlab/pull/208) ([bastelfreak](https://github.com/bastelfreak))
+- Move backup to its own class [\#205](https://github.com/voxpupuli/puppet-gitlab/pull/205) ([baurmatt](https://github.com/baurmatt))
+- Propose small spelling change [\#185](https://github.com/voxpupuli/puppet-gitlab/pull/185) ([jeis2497052](https://github.com/jeis2497052))
+- Allow managing backup cron w/o managing the config file [\#180](https://github.com/voxpupuli/puppet-gitlab/pull/180) ([mhyzon](https://github.com/mhyzon))
+- Remove deprecated hiera and validation functions [\#119](https://github.com/voxpupuli/puppet-gitlab/pull/119) ([jkroepke](https://github.com/jkroepke))
+
 ## [v1.16.1](https://github.com/voxpupuli/puppet-gitlab/tree/v1.16.1) (2018-02-07)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-gitlab/compare/v1.16.0...v1.16.1)
 
 **Merged pull requests:**
 
+- modulesync 1.7.0 take 2 [\#193](https://github.com/voxpupuli/puppet-gitlab/pull/193) ([tobru](https://github.com/tobru))
+- release 1.16.1 [\#192](https://github.com/voxpupuli/puppet-gitlab/pull/192) ([tobru](https://github.com/tobru))
 - modulesync 1.7.0 [\#191](https://github.com/voxpupuli/puppet-gitlab/pull/191) ([tobru](https://github.com/tobru))
 
 ## [v1.16.0](https://github.com/voxpupuli/puppet-gitlab/tree/v1.16.0) (2018-02-07)
@@ -45,7 +88,6 @@ These should not affect the functionality of the module.
 - apt dep version bump [\#169](https://github.com/voxpupuli/puppet-gitlab/pull/169) ([minorOffense](https://github.com/minorOffense))
 - Add support for metrics\_server in CI Runner [\#167](https://github.com/voxpupuli/puppet-gitlab/pull/167) ([djjudas21](https://github.com/djjudas21))
 - Fix for new git\_data\_dirs syntax in Gitlab 10 [\#164](https://github.com/voxpupuli/puppet-gitlab/pull/164) ([flyinbutrs](https://github.com/flyinbutrs))
-- Add 'package\_name' param to cirunner class [\#160](https://github.com/voxpupuli/puppet-gitlab/pull/160) ([dandunckelman](https://github.com/dandunckelman))
 - Add backup job [\#155](https://github.com/voxpupuli/puppet-gitlab/pull/155) ([b4ldr](https://github.com/b4ldr))
 - add support for chained global hooks [\#154](https://github.com/voxpupuli/puppet-gitlab/pull/154) ([hboomsma](https://github.com/hboomsma))
 
@@ -56,6 +98,10 @@ These should not affect the functionality of the module.
 **Closed issues:**
 
 - Different directory name inside the Forge package [\#151](https://github.com/voxpupuli/puppet-gitlab/issues/151)
+
+**Merged pull requests:**
+
+- Add 'package\_name' param to cirunner class [\#160](https://github.com/voxpupuli/puppet-gitlab/pull/160) ([dandunckelman](https://github.com/dandunckelman))
 
 ## [v1.15.1](https://github.com/voxpupuli/puppet-gitlab/tree/v1.15.1) (2017-07-28)
 
@@ -204,6 +250,10 @@ These should not affect the functionality of the module.
 
 [Full Changelog](https://github.com/voxpupuli/puppet-gitlab/compare/v1.9.0...v1.9.1)
 
+**Merged pull requests:**
+
+- Make config file management configurable [\#80](https://github.com/voxpupuli/puppet-gitlab/pull/80) ([divansantana](https://github.com/divansantana))
+
 ## [v1.9.0](https://github.com/voxpupuli/puppet-gitlab/tree/v1.9.0) (2016-06-14)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-gitlab/compare/v1.8.0...v1.9.0)
@@ -221,7 +271,6 @@ These should not affect the functionality of the module.
 
 **Merged pull requests:**
 
-- Make config file management configurable [\#80](https://github.com/voxpupuli/puppet-gitlab/pull/80) ([divansantana](https://github.com/divansantana))
 - Add support for Registry [\#76](https://github.com/voxpupuli/puppet-gitlab/pull/76) ([llauren](https://github.com/llauren))
 - Add package\_ensure parameter for gitlab-ci-multi-runner package. [\#70](https://github.com/voxpupuli/puppet-gitlab/pull/70) ([thlapin](https://github.com/thlapin))
 - Fix cirunner failure-message for unsupported OS families [\#68](https://github.com/voxpupuli/puppet-gitlab/pull/68) ([gerhardsam](https://github.com/gerhardsam))

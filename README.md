@@ -286,6 +286,13 @@ Instructions for this are provided by GitLab at
 
 The Gitlab CI runner installation is at the moment only tested on Ubuntu 14.04.
 
+## Tasks
+
+The Gitlab module has a task that allows a user to upgrade the pgsql database Gitlab uses if upgrading from version 9.2.18, which is required to upgrade Gitlab past 10.  When running the tasks on the command line, you will need to use the `--sudo`, `--run-as-root`, and `--tty` flags to execute the commands as needed for your environment.
+
+
+Please refer to to the [PE documentation](https://puppet.com/docs/pe/2017.3/orchestrator/running_tasks.html) or [Bolt documentation](https://puppet.com/docs/bolt/latest/bolt.html) on how to execute a task.
+
 ## Development
 
 1. Fork it (https://github.com/voxpupuli/puppet-gitlab/fork)

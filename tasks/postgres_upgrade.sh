@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo 'Checking pgsql version'
-CMD=$(sudo gitlab-psql --version)
+CMD=$(gitlab-psql --version)
 echo "version is ${CMD##* }"
 #9.2.18
 if [ "${CMD##* }" = "9.2.18" ]; then
@@ -11,7 +11,7 @@ if [ "${CMD##* }" = "9.2.18" ]; then
   echo "Database size is: $DB_SIZE kb and freespace is $FREE kb"
   if [ $DB_SIZE -lt $FREE ]; then
     echo 'Enough freespace available to proceed.'
-    sudo gitlab-ctl pg-upgrade
+    gitlab-ctl pg-upgrade
     echo 'Upgrade complete.  Please verify everything is correct and then run the post_upgrade task.'
   else
     echo 'You need to have enough freespace for a second copy of the database. Please resolve and then re-run the task.'

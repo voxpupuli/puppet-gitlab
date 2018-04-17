@@ -19,7 +19,7 @@ def sort_hash_by_key(hash, deep=true, &block)
 end
 
 def numify(obj)
-  if obj.is_a?(String)
+  if obj.is_a?(String) and not ['true','false'].include?(obj)
     Integer(obj) rescue Float(obj) rescue obj
   elsif obj.is_a?(Array)
     obj.map { |item| numify(item) }

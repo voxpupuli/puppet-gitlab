@@ -427,7 +427,7 @@ class gitlab (
   Boolean                        $store_git_keys_in_db          = false,
   Optional[Hash]                 $unicorn                       = undef,
   Optional[Hash]                 $gitlab_workhorse              = undef,
-  Optional[String]               $user                          = undef,
+  Optional[Hash]                 $user                          = undef,
   Optional[String]               $web_server                    = undef,
   Boolean                        $backup_cron_enable            = false,
   Integer[0,59]                  $backup_cron_minute            = 0,

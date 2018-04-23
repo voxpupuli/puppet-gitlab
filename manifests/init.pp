@@ -428,7 +428,7 @@ class gitlab (
   Optional[Hash]                 $unicorn                       = undef,
   Optional[Hash]                 $gitlab_workhorse              = undef,
   Optional[Hash]                 $user                          = undef,
-  Optional[String]               $web_server                    = undef,
+  Optional[Hash]                 $web_server                    = undef,
   Boolean                        $backup_cron_enable            = false,
   Integer[0,59]                  $backup_cron_minute            = 0,
   Integer[0,23]                  $backup_cron_hour              = 2,

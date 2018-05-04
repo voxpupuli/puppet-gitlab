@@ -31,11 +31,7 @@ def numify(obj)
 end
 
 def decorate(v)
-  if not ['true','false'].include?(v.to_s)
-    numify(v).inspect
-  else
-    v.to_s
-  end
+  numify(v).inspect
 end
 -%>
 

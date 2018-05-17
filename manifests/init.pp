@@ -281,9 +281,10 @@
 #   Default: undef
 #   Hash of 'sidekiq_cluster' config parameters.
 #
-# [*skip_auto_migrations*]
-#   Default: undef
-#   Enable or disable auto migrations. undef keeps the current state on the system.
+# [*skip_auto_reconfigure*]
+#   Default: 'absent'
+#   String containing either 'present' or 'absent'
+#   Utilized for Zero Downtime Updates, See: https://docs.gitlab.com/omnibus/update/README.html#zero-downtime-updates
 #
 # [*store_git_keys_in_db*]
 #   Default: false
@@ -422,7 +423,7 @@ class gitlab (
   Optional[Hash]                 $shell                         = undef,
   Optional[Hash]                 $sidekiq                       = undef,
   Optional[Hash]                 $sidekiq_cluster               = undef,
-  Optional[Boolean]              $skip_auto_migrations          = undef,
+  Enum['present', 'absent']      $skip_auto_reconfigure         = 'absent',
   Optional[Stdlib::Absolutepath] $source_config_file            = undef,
   Boolean                        $store_git_keys_in_db          = false,
   Optional[Hash]                 $unicorn                       = undef,

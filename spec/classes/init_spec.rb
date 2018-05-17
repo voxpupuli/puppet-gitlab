@@ -84,10 +84,9 @@ describe 'gitlab', type: :class do
           }
         end
         describe 'skip_auto_reconfigure' do
-          let(:params) do
-            { { skip_auto_reconfigure: 'present' } }
+          let(:params) { { skip_auto_reconfigure => 'present' } }
 
-            it {
+          it {
               is_expected.to contain_file('/etc/gitlab/skip-auto-reconfigure').with({
                 'ensure' => 'present',
                 'owner' => 'root',
@@ -95,7 +94,6 @@ describe 'gitlab', type: :class do
                 'mode' => '0644',
               })
             }
-          end
         end
         describe 'secrets' do
           let(:params) do

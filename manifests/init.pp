@@ -449,6 +449,8 @@ class gitlab (
   contain gitlab::service
   contain gitlab::backup
 
+  Class['gitlab::preinstall'] -> Class['gitlab::install'] -> Class['gitlab::config'] ~> Class['gitlab::service'] -> Class['gitlab::backup']
+
   $custom_hooks.each |$name, $options| {
     gitlab::custom_hook { $name:
       * => $options,

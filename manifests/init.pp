@@ -281,9 +281,13 @@
 #   Default: undef
 #   Hash of 'sidekiq_cluster' config parameters.
 #
+# [*skip_auto_migrations*]
+#   Default: undef
+#   Deprecated if using Gitlab > 10.6.4 and < 11.0.0, unsupported by gitlab omnibus using gitlab 11+
+#   Use skip_auto_reconfigure
+#
 # [*skip_auto_reconfigure*]
-#   Default: 'absent'
-#   String containing either 'present' or 'absent'
+#   Default: undef
 #   Utilized for Zero Downtime Updates, See: https://docs.gitlab.com/omnibus/update/README.html#zero-downtime-updates
 #
 # [*store_git_keys_in_db*]
@@ -333,8 +337,8 @@
 # === Examples
 #
 #  class { 'gitlab':
-#    edition           => 'ee',
-#    external_url      => 'https://gitlab.mydomain.tld',
+#    edition                                       => 'ee',
+#    external_url                                  => 'https://gitlab.mydomain.tld',
 #    nginx             => { redirect_http_to_https => true },
 #  }
 #
@@ -424,6 +428,7 @@ class gitlab (
   Optional[Hash]                 $sidekiq                       = undef,
   Optional[Hash]                 $sidekiq_cluster               = undef,
   Enum['present', 'absent']      $skip_auto_reconfigure         = 'absent',
+  Optional                       $skip_auto_migrations          = undef,
   Optional[Stdlib::Absolutepath] $source_config_file            = undef,
   Boolean                        $store_git_keys_in_db          = false,
   Optional[Hash]                 $unicorn                       = undef,
@@ -438,11 +443,7 @@ class gitlab (
   Hash                           $global_hooks                  = {},
 ) inherits gitlab::params {
 
-  class { '::gitlab::install': }
-  -> class { '::gitlab::config': }
-  ~> class { '::gitlab::service': }
-  -> class { '::gitlab::backup': }
-
+  contain gitlab::preinstall
   contain gitlab::install
   contain gitlab::config
   contain gitlab::service

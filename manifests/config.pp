@@ -61,7 +61,6 @@ class gitlab::config {
   $shell = $::gitlab::shell
   $sidekiq = $::gitlab::sidekiq
   $sidekiq_cluster = $::gitlab::sidekiq_cluster
-  $skip_auto_reconfigure = $::gitlab::skip_auto_reconfigure
   $store_git_keys_in_db = $::gitlab::store_git_keys_in_db
   $source_config_file = $::gitlab::source_config_file
   $unicorn = $::gitlab::unicorn
@@ -140,13 +139,6 @@ class gitlab::config {
       logoutput   => true,
       tries       => 5,
     }
-  }
-
-  file { '/etc/gitlab/skip-auto-reconfigure':
-    ensure => $skip_auto_reconfigure,
-    owner  => 'root',
-    group  => 'root',
-    mode   => '0644',
   }
 
   if $store_git_keys_in_db != undef {

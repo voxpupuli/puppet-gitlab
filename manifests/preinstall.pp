@@ -1,3 +1,7 @@
+# == Class gitlab::config
+#
+# This class is for setting pre-install configurations
+#
 class gitlab::preinstall (
   $skip_auto_migrations = $gitlab::skip_auto_migrations,
   $skip_auto_reconfigure = $gitlab::skip_auto_reconfigure

@@ -197,6 +197,19 @@ gitlab_ci_runners_defaults:
   docker-image: "ubuntu:trusty"
 ```
 
+To unregister a specific runner you may use `ensure` param:  
+
+```yaml
+gitlab_ci_runners:
+  test_runner1:{}
+  test_runner2:{}
+  test_runner3:
+    url: "https://git.alternative.org/ci"
+    registration-token: "abcdef1234567890"
+    ensure: absent
+```
+
+
 ### NGINX Configuration
 
 Configuration of the embedded NGINX instance is handled by the `/etc/gitlab/gitlab.rb` file. Details on available configuration options are available at http://doc.gitlab.com/omnibus/settings/nginx.html. Options listed here can be passed in to the `nginx` parameter as a hash. For example, to enable ssh redirection:

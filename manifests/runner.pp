@@ -43,10 +43,18 @@ define gitlab::runner (
   $runner_name = $_config['name']
   $toml_file = '/etc/gitlab-runner/config.toml'
 
-  # Execute gitlab ci multirunner register
-  exec {"Register_runner_${title}":
-    command => "/usr/bin/${binary} register -n ${parameters_string}",
-    unless  => "/bin/grep ${runner_name} ${toml_file}",
-  }
+  if $_config['ensure'] == 'absent' {
+      # Execute gitlab ci multirunner unregister
+      exec {"Unregister_runner_${title}":
+        command => "/usr/bin/${binary} unregister -n ${title}",
+        onlyif  => "/bin/grep ${runner_name} ${toml_file}",
+      }
+    } else {
+      # Execute gitlab ci multirunner register
+      exec {"Register_runner_${title}":
+        command => "/usr/bin/${binary} register -n ${parameters_string}",
+        unless  => "/bin/grep ${runner_name} ${toml_file}",
+      }
+    }
 
 }

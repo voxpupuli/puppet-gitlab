@@ -222,6 +222,29 @@ class { 'gitlab':
 }
 ```
 
+### Skip Auto Reconfigure (formerly Skip Auto Migrations)
+
+In order to achieve [Zero Downtime Upgrades](https://docs.gitlab.com/omnibus/update/README.html#zero-downtime-updates)
+of your GitLab instance, GitLab will need to skip the post-install step of the omnibus package that automatically calls
+`gitlab-ctl reconfigure` for you. In GitLab < 10.5, GitLab check for the presence of a file at `/etc/gitlab/skip-auto-migrations`.
+As of GitLab `10.6`, this is deprecated, and you are warned to use `/etc/gitlab/skip-auto-reconfigure` going forward.
+
+Both of these are currently supported in this module, and you should be aware of which option is right for you
+based on the version of GitLab Omnibus you are running.  You will be presented with a deprecation notice in you
+puppet client if using the deprecated form.
+
+```puppet
+# use 'absent' or 'present' for the skip_auto_reconfigure param
+class { 'gitlab':
+  skip_auto_reconfigure => 'present'
+}
+
+# use true/false for the skip_auto_migrations param
+class { 'gitlab':
+  skip_auto_migrations => true
+}
+```
+
 ### Gitlab Custom Hooks
 
 Manage custom hook files within a GitLab project. Custom hooks can be created

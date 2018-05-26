@@ -83,6 +83,18 @@ describe 'gitlab', type: :class do
               with_content(%r{^\s*letsencrypt\['contact_emails'\] = \["test@example.com"\]$})
           }
         end
+        describe 'skip_auto_reconfigure' do
+          let(:params) { { skip_auto_reconfigure: 'present' } }
+
+          it {
+            is_expected.to contain_file('/etc/gitlab/skip-auto-reconfigure').with(
+              'ensure' => 'present',
+              'owner' => 'root',
+              'group' => 'root',
+              'mode' => '0644'
+            )
+          }
+        end
         describe 'secrets' do
           let(:params) do
             { secrets: {

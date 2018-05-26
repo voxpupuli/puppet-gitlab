@@ -61,7 +61,6 @@ class gitlab::config {
   $shell = $::gitlab::shell
   $sidekiq = $::gitlab::sidekiq
   $sidekiq_cluster = $::gitlab::sidekiq_cluster
-  $skip_auto_migrations = $::gitlab::skip_auto_migrations
   $store_git_keys_in_db = $::gitlab::store_git_keys_in_db
   $source_config_file = $::gitlab::source_config_file
   $unicorn = $::gitlab::unicorn
@@ -139,19 +138,6 @@ class gitlab::config {
       timeout     => 1800,
       logoutput   => true,
       tries       => 5,
-    }
-  }
-
-  if $skip_auto_migrations != undef {
-    $_skip_auto_migrations_ensure = $skip_auto_migrations ? {
-      true    => 'present',
-      default => 'absent',
-    }
-    file { '/etc/gitlab/skip-auto-migrations':
-      ensure => $_skip_auto_migrations_ensure,
-      owner  => 'root',
-      group  => 'root',
-      mode   => '0644',
     }
   }
 

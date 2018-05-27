@@ -54,6 +54,7 @@ These should not affect the functionality of the module.
 - data dir changes in gitlab 9 [\#137](https://github.com/voxpupuli/puppet-gitlab/issues/137)
 - add letsencrypt section to gitlab.rb [\#200](https://github.com/voxpupuli/puppet-gitlab/pull/200) ([costela](https://github.com/costela))
 - Add ha roles [\#186](https://github.com/voxpupuli/puppet-gitlab/pull/186) ([LongLiveCHIEF](https://github.com/LongLiveCHIEF))
+- Db indexing for git authorized keys [\#177](https://github.com/voxpupuli/puppet-gitlab/pull/177) ([LongLiveCHIEF](https://github.com/LongLiveCHIEF))
 - drop legacy is\_hash method, replace topscope fact with facts hash [\#107](https://github.com/voxpupuli/puppet-gitlab/pull/107) ([james-powis](https://github.com/james-powis))
 
 **Fixed bugs:**
@@ -75,7 +76,6 @@ These should not affect the functionality of the module.
 - Move backup to its own class [\#205](https://github.com/voxpupuli/puppet-gitlab/pull/205) ([baurmatt](https://github.com/baurmatt))
 - Propose small spelling change [\#185](https://github.com/voxpupuli/puppet-gitlab/pull/185) ([jeis2497052](https://github.com/jeis2497052))
 - Allow managing backup cron w/o managing the config file [\#180](https://github.com/voxpupuli/puppet-gitlab/pull/180) ([mhyzon](https://github.com/mhyzon))
-- Db indexing for git authorized keys [\#177](https://github.com/voxpupuli/puppet-gitlab/pull/177) ([LongLiveCHIEF](https://github.com/LongLiveCHIEF))
 - Remove deprecated hiera and validation functions [\#119](https://github.com/voxpupuli/puppet-gitlab/pull/119) ([jkroepke](https://github.com/jkroepke))
 
 ## [v1.16.1](https://github.com/voxpupuli/puppet-gitlab/tree/v1.16.1) (2018-02-07)

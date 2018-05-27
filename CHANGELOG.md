@@ -4,7 +4,41 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
-## [v2.0.0](https://github.com/voxpupuli/puppet-gitlab/tree/v2.0.0) (2018-04-07)
+## [v2.1.0](https://github.com/voxpupuli/puppet-gitlab/tree/v2.1.0) (2018-05-27)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-gitlab/compare/v2.0.0...v2.1.0)
+
+**Implemented enhancements:**
+
+- Added postgres upgrade tasks [\#182](https://github.com/voxpupuli/puppet-gitlab/pull/182) ([Nekototori](https://github.com/Nekototori))
+- Unregister runner [\#178](https://github.com/voxpupuli/puppet-gitlab/pull/178) ([SirUrban](https://github.com/SirUrban))
+
+**Fixed bugs:**
+
+- Wrong Type in Optional Param: user [\#220](https://github.com/voxpupuli/puppet-gitlab/issues/220)
+- $web\_server documentation differs from code [\#217](https://github.com/voxpupuli/puppet-gitlab/issues/217)
+- `decorate` method in `templates/gitlab.rb.erb` file may break some thing [\#146](https://github.com/voxpupuli/puppet-gitlab/issues/146)
+- init.pp: fix \#217 [\#219](https://github.com/voxpupuli/puppet-gitlab/pull/219) ([NiklausHofer](https://github.com/NiklausHofer))
+
+**Closed issues:**
+
+- skip-auto-migrations should be placed before gitlab::install [\#232](https://github.com/voxpupuli/puppet-gitlab/issues/232)
+- skip-auto-migrations is deprecated in favor of skip-auto-reconfigure [\#228](https://github.com/voxpupuli/puppet-gitlab/issues/228)
+- New minor release required. [\#225](https://github.com/voxpupuli/puppet-gitlab/issues/225)
+- Manage letsencrypt options [\#224](https://github.com/voxpupuli/puppet-gitlab/issues/224)
+- Bad use of method 'inspect' causes bool values not to apply. [\#222](https://github.com/voxpupuli/puppet-gitlab/issues/222)
+- Facter code still exists from Issue 131 [\#170](https://github.com/voxpupuli/puppet-gitlab/issues/170)
+- Drop Puppet 3 support. [\#118](https://github.com/voxpupuli/puppet-gitlab/issues/118)
+
+**Merged pull requests:**
+
+- Update auto migrations file [\#234](https://github.com/voxpupuli/puppet-gitlab/pull/234) ([LongLiveCHIEF](https://github.com/LongLiveCHIEF))
+- Remove docker nodesets [\#233](https://github.com/voxpupuli/puppet-gitlab/pull/233) ([bastelfreak](https://github.com/bastelfreak))
+- drop EOL OSs; fix puppet version range [\#231](https://github.com/voxpupuli/puppet-gitlab/pull/231) ([bastelfreak](https://github.com/bastelfreak))
+- fix typo in README [\#216](https://github.com/voxpupuli/puppet-gitlab/pull/216) ([catay](https://github.com/catay))
+- Add support for Ubuntu 16.04 LTS [\#214](https://github.com/voxpupuli/puppet-gitlab/pull/214) ([jkroepke](https://github.com/jkroepke))
+
+## [v2.0.0](https://github.com/voxpupuli/puppet-gitlab/tree/v2.0.0) (2018-04-09)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-gitlab/compare/v1.16.1...v2.0.0)
 
@@ -21,7 +55,6 @@ These should not affect the functionality of the module.
 - data dir changes in gitlab 9 [\#137](https://github.com/voxpupuli/puppet-gitlab/issues/137)
 - add letsencrypt section to gitlab.rb [\#200](https://github.com/voxpupuli/puppet-gitlab/pull/200) ([costela](https://github.com/costela))
 - Add ha roles [\#186](https://github.com/voxpupuli/puppet-gitlab/pull/186) ([LongLiveCHIEF](https://github.com/LongLiveCHIEF))
-- Db indexing for git authorized keys [\#177](https://github.com/voxpupuli/puppet-gitlab/pull/177) ([LongLiveCHIEF](https://github.com/LongLiveCHIEF))
 - drop legacy is\_hash method, replace topscope fact with facts hash [\#107](https://github.com/voxpupuli/puppet-gitlab/pull/107) ([james-powis](https://github.com/james-powis))
 
 **Fixed bugs:**
@@ -43,6 +76,7 @@ These should not affect the functionality of the module.
 - Move backup to its own class [\#205](https://github.com/voxpupuli/puppet-gitlab/pull/205) ([baurmatt](https://github.com/baurmatt))
 - Propose small spelling change [\#185](https://github.com/voxpupuli/puppet-gitlab/pull/185) ([jeis2497052](https://github.com/jeis2497052))
 - Allow managing backup cron w/o managing the config file [\#180](https://github.com/voxpupuli/puppet-gitlab/pull/180) ([mhyzon](https://github.com/mhyzon))
+- Db indexing for git authorized keys [\#177](https://github.com/voxpupuli/puppet-gitlab/pull/177) ([LongLiveCHIEF](https://github.com/LongLiveCHIEF))
 - Remove deprecated hiera and validation functions [\#119](https://github.com/voxpupuli/puppet-gitlab/pull/119) ([jkroepke](https://github.com/jkroepke))
 
 ## [v1.16.1](https://github.com/voxpupuli/puppet-gitlab/tree/v1.16.1) (2018-02-07)

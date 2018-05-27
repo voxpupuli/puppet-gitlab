@@ -4,7 +4,40 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
-## [v2.0.0](https://github.com/voxpupuli/puppet-gitlab/tree/v2.0.0) (2018-04-07)
+## [v2.1.0](https://github.com/voxpupuli/puppet-gitlab/tree/v2.1.0) (2018-05-27)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-gitlab/compare/v2.0.0...v2.1.0)
+
+**Implemented enhancements:**
+
+- skip-auto-migrations is deprecated in favor of skip-auto-reconfigure [\#228](https://github.com/voxpupuli/puppet-gitlab/issues/228)
+- Update auto migrations file [\#234](https://github.com/voxpupuli/puppet-gitlab/pull/234) ([LongLiveCHIEF](https://github.com/LongLiveCHIEF))
+- Added postgres upgrade tasks [\#182](https://github.com/voxpupuli/puppet-gitlab/pull/182) ([Nekototori](https://github.com/Nekototori))
+- Unregister runner [\#178](https://github.com/voxpupuli/puppet-gitlab/pull/178) ([SirUrban](https://github.com/SirUrban))
+
+**Fixed bugs:**
+
+- skip-auto-migrations should be placed before gitlab::install [\#232](https://github.com/voxpupuli/puppet-gitlab/issues/232)
+- Wrong Type in Optional Param: user [\#220](https://github.com/voxpupuli/puppet-gitlab/issues/220)
+- $web\_server documentation differs from code [\#217](https://github.com/voxpupuli/puppet-gitlab/issues/217)
+- `decorate` method in `templates/gitlab.rb.erb` file may break some thing [\#146](https://github.com/voxpupuli/puppet-gitlab/issues/146)
+- init.pp: fix \#217 [\#219](https://github.com/voxpupuli/puppet-gitlab/pull/219) ([NiklausHofer](https://github.com/NiklausHofer))
+
+**Closed issues:**
+
+- Manage letsencrypt options [\#224](https://github.com/voxpupuli/puppet-gitlab/issues/224)
+- Bad use of method 'inspect' causes bool values not to apply. [\#222](https://github.com/voxpupuli/puppet-gitlab/issues/222)
+- Facter code still exists from Issue 131 [\#170](https://github.com/voxpupuli/puppet-gitlab/issues/170)
+- Drop Puppet 3 support. [\#118](https://github.com/voxpupuli/puppet-gitlab/issues/118)
+
+**Merged pull requests:**
+
+- Remove docker nodesets [\#233](https://github.com/voxpupuli/puppet-gitlab/pull/233) ([bastelfreak](https://github.com/bastelfreak))
+- drop EOL OSs; fix puppet version range [\#231](https://github.com/voxpupuli/puppet-gitlab/pull/231) ([bastelfreak](https://github.com/bastelfreak))
+- fix typo in README [\#216](https://github.com/voxpupuli/puppet-gitlab/pull/216) ([catay](https://github.com/catay))
+- Add support for Ubuntu 16.04 LTS [\#214](https://github.com/voxpupuli/puppet-gitlab/pull/214) ([jkroepke](https://github.com/jkroepke))
+
+## [v2.0.0](https://github.com/voxpupuli/puppet-gitlab/tree/v2.0.0) (2018-04-09)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-gitlab/compare/v1.16.1...v2.0.0)
 

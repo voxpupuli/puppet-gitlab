@@ -10,11 +10,14 @@ These should not affect the functionality of the module.
 
 **Implemented enhancements:**
 
+- skip-auto-migrations is deprecated in favor of skip-auto-reconfigure [\#228](https://github.com/voxpupuli/puppet-gitlab/issues/228)
+- Update auto migrations file [\#234](https://github.com/voxpupuli/puppet-gitlab/pull/234) ([LongLiveCHIEF](https://github.com/LongLiveCHIEF))
 - Added postgres upgrade tasks [\#182](https://github.com/voxpupuli/puppet-gitlab/pull/182) ([Nekototori](https://github.com/Nekototori))
 - Unregister runner [\#178](https://github.com/voxpupuli/puppet-gitlab/pull/178) ([SirUrban](https://github.com/SirUrban))
 
 **Fixed bugs:**
 
+- skip-auto-migrations should be placed before gitlab::install [\#232](https://github.com/voxpupuli/puppet-gitlab/issues/232)
 - Wrong Type in Optional Param: user [\#220](https://github.com/voxpupuli/puppet-gitlab/issues/220)
 - $web\_server documentation differs from code [\#217](https://github.com/voxpupuli/puppet-gitlab/issues/217)
 - `decorate` method in `templates/gitlab.rb.erb` file may break some thing [\#146](https://github.com/voxpupuli/puppet-gitlab/issues/146)
@@ -22,9 +25,6 @@ These should not affect the functionality of the module.
 
 **Closed issues:**
 
-- skip-auto-migrations should be placed before gitlab::install [\#232](https://github.com/voxpupuli/puppet-gitlab/issues/232)
-- skip-auto-migrations is deprecated in favor of skip-auto-reconfigure [\#228](https://github.com/voxpupuli/puppet-gitlab/issues/228)
-- New minor release required. [\#225](https://github.com/voxpupuli/puppet-gitlab/issues/225)
 - Manage letsencrypt options [\#224](https://github.com/voxpupuli/puppet-gitlab/issues/224)
 - Bad use of method 'inspect' causes bool values not to apply. [\#222](https://github.com/voxpupuli/puppet-gitlab/issues/222)
 - Facter code still exists from Issue 131 [\#170](https://github.com/voxpupuli/puppet-gitlab/issues/170)
@@ -32,7 +32,6 @@ These should not affect the functionality of the module.
 
 **Merged pull requests:**
 
-- Update auto migrations file [\#234](https://github.com/voxpupuli/puppet-gitlab/pull/234) ([LongLiveCHIEF](https://github.com/LongLiveCHIEF))
 - Remove docker nodesets [\#233](https://github.com/voxpupuli/puppet-gitlab/pull/233) ([bastelfreak](https://github.com/bastelfreak))
 - drop EOL OSs; fix puppet version range [\#231](https://github.com/voxpupuli/puppet-gitlab/pull/231) ([bastelfreak](https://github.com/bastelfreak))
 - fix typo in README [\#216](https://github.com/voxpupuli/puppet-gitlab/pull/216) ([catay](https://github.com/catay))

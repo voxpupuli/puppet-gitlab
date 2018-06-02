@@ -8,18 +8,18 @@
 #   Provide this variable value only if the service executable path
 #   would be a subject of change in future GitLab versions for any reason.
 class gitlab::host_config (
+  $config_dir = '/etc/gitlab',
   $skip_auto_migrations = $gitlab::skip_auto_migrations,
   $skip_auto_reconfigure = $gitlab::skip_auto_reconfigure,
-  $config_dir = '/etc/gitlab',
-  $config_file = '/etc/gitlab/gitlab.rb',
-  $secrets_file = '/etc/gitlab/gitlab-secrets.json',
+  $config_file = $gitlab::config_file,
+  $secrets_file = $gitlab::secrets_file,
   $store_git_keys_in_db = $gitlab::store_git_keys_in_db,
 ) {
 
   file { $config_dir:
     ensure => 'directory',
     owner  => 'root',
-    group  => 'group',
+    group  => 'root',
     mode   => '0775',
   }
 

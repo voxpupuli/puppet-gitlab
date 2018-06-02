@@ -6,7 +6,7 @@
 class gitlab::params {
 
   # package parameters
-  $package_ensure = installed
+  $package_ensure = 'installed'
   $package_pin = false
   $manage_package_repo = true
   $manage_package = true

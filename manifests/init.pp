@@ -350,7 +350,7 @@ class gitlab (
   Boolean                        $package_pin                   = $::gitlab::params::package_pin,
   # system service configuration
   Boolean                        $service_enable                = true,
-  Enum['stopped', 'false', 'running', 'true'] $service_ensure   = true, # lint:ignore:quoted_booleans
+  Enum['stopped', 'false', 'running', 'true'] $service_ensure   = 'running', # lint:ignore:quoted_booleans
   Boolean                        $service_manage                = true,
   String                         $service_name                  = 'gitlab-runsvdir',
   String                         $service_exec                  = '/usr/bin/gitlab-ctl',

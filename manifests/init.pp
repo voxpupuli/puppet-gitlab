@@ -362,7 +362,7 @@ class gitlab (
   Optional[Hash]                 $ci_redis                      = undef,
   Optional[Hash]                 $ci_unicorn                    = undef,
   Boolean                        $config_manage                 = true,
-  Stdlib::Absolutepath           $config_file                   = '/etc/gitlab',
+  Stdlib::Absolutepath           $config_file                   = '/etc/gitlab/gitlab.rb',
   Optional[String]               $custom_hooks_dir              = undef,
   Stdlib::Httpurl                $external_url                  = $::gitlab::params::external_url,
   Optional[Integer[1, 65565]]    $external_port                 = undef,

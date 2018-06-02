@@ -95,7 +95,6 @@ class gitlab::omnibus_config (
     owner  => $service_user,
     group  => $service_group,
     mode   => '0600',
-    before => Package['gitlab-omnibus'],
   }
 
   if $config_manage {

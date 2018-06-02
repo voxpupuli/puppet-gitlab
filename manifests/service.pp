@@ -37,7 +37,7 @@ class gitlab::service (
     logoutput   => true,
     tries       => 5,
     subscribe   => Class['gitlab::omnibus_config'],
-    require     => [Service[$service_name], Package['gitlab-omnibus']],
+    require     => [Service[$service_name], Class['gitlab::install']],
   }
 
   if ($service_manage and $service_provider_restart) {

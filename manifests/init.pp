@@ -443,13 +443,12 @@ class gitlab (
   Hash                           $global_hooks                  = {},
 ) inherits gitlab::params {
 
-  contain gitlab::preinstall
+  contain gitlab::host_config
+  contain gitlab::omnibus_config
   contain gitlab::install
-  contain gitlab::config
   contain gitlab::service
-  contain gitlab::backup
 
-  Class['gitlab::preinstall'] -> Class['gitlab::install'] -> Class['gitlab::config'] ~> Class['gitlab::service'] -> Class['gitlab::backup']
+  Class['gitlab::host_config'] -> Class['gitlab::omnibus_config'] -> Class['gitlab::install'] -> Class['gitlab::service']
 
   $custom_hooks.each |$name, $options| {
     gitlab::custom_hook { $name:

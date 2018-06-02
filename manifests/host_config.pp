@@ -36,4 +36,6 @@ class gitlab::host_config (
     group  => 'root',
     mode   => '0644',
   }
+
+  include gitlab::backup
 }

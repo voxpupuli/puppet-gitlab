@@ -50,14 +50,6 @@
 #   Default: root
 #   Group of the config file.
 #
-# [*service_restart/_start/_stop/_status*]
-#   Default: /usr/bin/gitlab-ctl <command>
-#   Commands for the service definition.
-#
-# [*service_hasstatus/_hasrestart*]
-#   Default: true
-#   The gitlab service has this commands available.
-#
 # [*rake_exec*]
 #   Default: '/usr/bin/gitlab-rake'
 #   The gitlab-rake executable path.
@@ -357,19 +349,13 @@ class gitlab (
   String                         $package_ensure                = $::gitlab::params::package_ensure,
   Boolean                        $package_pin                   = $::gitlab::params::package_pin,
   # system service configuration
-  Boolean                        $service_enable                = $::gitlab::params::service_enable,
-  Enum['stopped', 'false', 'running', 'true'] $service_ensure   = $::gitlab::params::service_ensure, # lint:ignore:quoted_booleans
-  String                         $service_group                 = $::gitlab::params::service_group,
-  Boolean                        $service_hasrestart            = $::gitlab::params::service_hasrestart,
-  Boolean                        $service_hasstatus             = $::gitlab::params::service_hasstatus,
-  Boolean                        $service_manage                = $::gitlab::params::service_manage,
-  String                         $service_name                  = $::gitlab::params::service_name,
-  String                         $service_exec                  = $::gitlab::params::service_exec,
-  String                         $service_restart               = $::gitlab::params::service_restart,
-  String                         $service_start                 = $::gitlab::params::service_start,
-  String                         $service_status                = $::gitlab::params::service_status,
-  String                         $service_stop                  = $::gitlab::params::service_stop,
-  String                         $service_user                  = $::gitlab::params::service_user,
+  Boolean                        $service_enable                = true,
+  Enum['stopped', 'false', 'running', 'true'] $service_ensure   = true,
+  Boolean                        $service_manage                = true,
+  String                         $service_name                  = 'gitlab-runsvdir',
+  String                         $service_exec                  = '/usr/bin/gitlab-ctl',
+  String                         $service_user                  = 'root',
+  String                         $service_group                 = 'root',
   # gitlab specific
   String                         $rake_exec                     = $::gitlab::params::rake_exec,
   Enum['ce', 'ee']               $edition                       = 'ce',

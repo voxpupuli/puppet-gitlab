@@ -3,71 +3,70 @@
 # This class is used to configure the gitlab omnibus package on a node
 #
 class gitlab::omnibus_config (
-  $config_manage = $::gitlab::config_manage,
-  $config_file = $::gitlab::config_file
+  $config_manage = $gitlab::config_manage,
+  $config_file = $gitlab::config_file
 ){
 
   # get variables from the toplevel manifest for usage in the template
-  $ci_redis = $::gitlab::ci_redis
-  $ci_unicorn = $::gitlab::ci_unicorn
-  $external_url = $::gitlab::external_url
-  $external_port = $::gitlab::external_port
-  $geo_postgresql = $::gitlab::geo_postgresql
-  $geo_primary_role = $::gitlab::geo_primary_role
-  $geo_secondary = $::gitlab::geo_secondary
-  $geo_secondary_role = $::gitlab::geo_secondary_role
-  $git = $::gitlab::git
-  $gitaly = $::gitlab::gitaly
-  $git_data_dirs = $::gitlab::git_data_dirs
-  $gitlab_git_http_server = $::gitlab::gitlab_git_http_server
-  $gitlab_ci = $::gitlab::gitlab_ci
-  $gitlab_pages = $::gitlab::gitlab_pages
-  $gitlab_rails = $::gitlab::gitlab_rails
-  $high_availability = $::gitlab::high_availability
-  $letsencrypt = $::gitlab::letsencrypt
-  $logging = $::gitlab::logging
-  $logrotate = $::gitlab::logrotate
-  $manage_storage_directories = $::gitlab::manage_storage_directories
-  $manage_accounts = $::gitlab::manage_accounts
-  $mattermost = $::gitlab::mattermost
-  $mattermost_external_url = $::gitlab::mattermost_external_url
-  $mattermost_nginx = $::gitlab::mattermost_nginx
-  $mattermost_nginx_eq_nginx = $::gitlab::mattermost_nginx_eq_nginx
-  $nginx = $::gitlab::nginx
-  $node_exporter = $::gitlab::node_exporter
-  $redis_exporter = $::gitlab::redis_exporter
-  $postgres_exporter = $::gitlab::postgres_exporter
-  $gitlab_monitor = $::gitlab::gitlab_monitor
-  $pages_external_url = $::gitlab::pages_external_url
-  $pages_nginx = $::gitlab::pages_nginx
-  $pages_nginx_eq_nginx = $::gitlab::pages_nginx_eq_nginx
-  $postgresql = $::gitlab::postgresql
-  $prometheus = $::gitlab::prometheus
-  $prometheus_monitoring_enable = $::gitlab::prometheus_monitoring_enable
-  $redis = $::gitlab::redis
-  $redis_master_role = $::gitlab::redis_master_role
-  $redis_slave_role = $::gitlab::redis_slave_role
-  $redis_sentinel_role = $::gitlab::redis_sentinel_role
-  $registry = $::gitlab::registry
-  $registry_nginx = $::gitlab::registry_nginx
-  $registry_nginx_eq_nginx = $::gitlab::registry_nginx_eq_nginx
-  $registry_external_url = $::gitlab::registry_external_url
-  $secrets = $::gitlab::secrets
-  $secrets_file = $::gitlab::secrets_file
-  $sentinel = $::gitlab::sentinel
-  $service_group = $::gitlab::service_group
-  $service_manage = $::gitlab::service_manage
-  $service_user = $::gitlab::service_user
-  $rake_exec = $::gitlab::rake_exec
-  $shell = $::gitlab::shell
-  $sidekiq = $::gitlab::sidekiq
-  $sidekiq_cluster = $::gitlab::sidekiq_cluster
-  $source_config_file = $::gitlab::source_config_file
-  $unicorn = $::gitlab::unicorn
-  $gitlab_workhorse = $::gitlab::gitlab_workhorse
-  $user = $::gitlab::user
-  $web_server = $::gitlab::web_server
-  $roles = $::gitlab::roles
+  $ci_redis = $gitlab::ci_redis
+  $ci_unicorn = $gitlab::ci_unicorn
+  $external_url = $gitlab::external_url
+  $external_port = $gitlab::external_port
+  $geo_postgresql = $gitlab::geo_postgresql
+  $geo_primary_role = $gitlab::geo_primary_role
+  $geo_secondary = $gitlab::geo_secondary
+  $geo_secondary_role = $gitlab::geo_secondary_role
+  $git = $gitlab::git
+  $gitaly = $gitlab::gitaly
+  $git_data_dirs = $gitlab::git_data_dirs
+  $gitlab_git_http_server = $gitlab::gitlab_git_http_server
+  $gitlab_ci = $gitlab::gitlab_ci
+  $gitlab_pages = $gitlab::gitlab_pages
+  $gitlab_rails = $gitlab::gitlab_rails
+  $high_availability = $gitlab::high_availability
+  $letsencrypt = $gitlab::letsencrypt
+  $logging = $gitlab::logging
+  $logrotate = $gitlab::logrotate
+  $manage_storage_directories = $gitlab::manage_storage_directories
+  $manage_accounts = $gitlab::manage_accounts
+  $mattermost = $gitlab::mattermost
+  $mattermost_external_url = $gitlab::mattermost_external_url
+  $mattermost_nginx = $gitlab::mattermost_nginx
+  $mattermost_nginx_eq_nginx = $gitlab::mattermost_nginx_eq_nginx
+  $nginx = $gitlab::nginx
+  $node_exporter = $gitlab::node_exporter
+  $redis_exporter = $gitlab::redis_exporter
+  $postgres_exporter = $gitlab::postgres_exporter
+  $gitlab_monitor = $gitlab::gitlab_monitor
+  $pages_external_url = $gitlab::pages_external_url
+  $pages_nginx = $gitlab::pages_nginx
+  $pages_nginx_eq_nginx = $gitlab::pages_nginx_eq_nginx
+  $postgresql = $gitlab::postgresql
+  $prometheus = $gitlab::prometheus
+  $prometheus_monitoring_enable = $gitlab::prometheus_monitoring_enable
+  $redis = $gitlab::redis
+  $redis_master_role = $gitlab::redis_master_role
+  $redis_slave_role = $gitlab::redis_slave_role
+  $redis_sentinel_role = $gitlab::redis_sentinel_role
+  $registry = $gitlab::registry
+  $registry_nginx = $gitlab::registry_nginx
+  $registry_nginx_eq_nginx = $gitlab::registry_nginx_eq_nginx
+  $registry_external_url = $gitlab::registry_external_url
+  $secrets = $gitlab::secrets
+  $secrets_file = $gitlab::secrets_file
+  $sentinel = $gitlab::sentinel
+  $service_group = $gitlab::service_group
+  $service_user = $gitlab::service_user
+  $rake_exec = $gitlab::rake_exec
+  $shell = $gitlab::shell
+  $sidekiq = $gitlab::sidekiq
+  $sidekiq_cluster = $gitlab::sidekiq_cluster
+  $source_config_file = $gitlab::source_config_file
+  $unicorn = $gitlab::unicorn
+  $gitlab_workhorse = $gitlab::gitlab_workhorse
+  $user = $gitlab::user
+  $web_server = $gitlab::web_server
+  $roles = $gitlab::roles
 
   # replicate $nginx to $mattermost_nginx if $mattermost_nginx_eq_nginx true
   if $mattermost_nginx_eq_nginx {
@@ -119,26 +118,3 @@ class gitlab::omnibus_config (
         content => inline_template('<%= require \'json\'; JSON.pretty_generate(@secrets) + "\n" %>'),
     }
   }
-
-  if $service_manage {
-    # configure gitlab using the official tool
-    if $config_manage {
-      File[$config_file] {
-        notify => Exec['gitlab_reconfigure']
-      }
-    }
-    if ! empty($secrets) {
-      File[$secrets_file] {
-        notify => Exec['gitlab_reconfigure']
-      }
-    }
-    exec { 'gitlab_reconfigure':
-      command     => '/usr/bin/gitlab-ctl reconfigure',
-      refreshonly => true,
-      timeout     => 1800,
-      logoutput   => true,
-      tries       => 5,
-    }
-  }
-
-}

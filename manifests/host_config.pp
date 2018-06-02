@@ -13,7 +13,7 @@ class gitlab::host_config (
   $config_dir = '/etc/gitlab',
   $config_file = '/etc/gitlab/gitlab.rb',
   $secrets_file = '/etc/gitlab/gitlab-secrets.json',
-  $store_git_keys_in_db = $::gitlab::store_git_keys_in_db,
+  $store_git_keys_in_db = $gitlab::store_git_keys_in_db,
 ) {
 
   file { $config_dir:

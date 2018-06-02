@@ -1,8 +1,8 @@
-# == Class gitlab::config
+# == Class gitlab::omnibus_config
 #
-# This class is called from gitlab for service config.
+# This class is used to configure the gitlab omnibus package on a node
 #
-class gitlab::config {
+class gitlab::omnibus_config {
 
   # get variables from the toplevel manifest for usage in the template
   $ci_redis = $::gitlab::ci_redis

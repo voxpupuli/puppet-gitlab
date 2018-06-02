@@ -16,7 +16,7 @@ describe 'gitlab', type: :class do
         it { is_expected.to contain_exec('gitlab_reconfigure').that_subscribes_to('Class[gitlab::omnibus_config]') }
         it { is_expected.to contain_file('/etc/gitlab/gitlab.rb') }
         it { is_expected.to contain_service('gitlab-runsvdir') }
-        it { is_expected.to contain_package('omnibus-gitlab').with_ensure('installed').with_name('gitlab-ce') }
+        it { is_expected.to contain_package('gitlab-omnibus').with_ensure('installed').with_name('gitlab-ce') }
         it { is_expected.to contain_class('gitlab') }
         it { is_expected.not_to raise_error }
 
@@ -32,7 +32,7 @@ describe 'gitlab', type: :class do
         describe 'edition = ee' do
           let(:params) { { edition: 'ee' } }
 
-          it { is_expected.to contain_package('omnibus-gitlab').with_ensure('installed').with_name('gitlab-ee') }
+          it { is_expected.to contain_package('gitlab-omnibus').with_ensure('installed').with_name('gitlab-ee') }
 
           case facts[:osfamily]
           when 'Debian'
@@ -229,8 +229,8 @@ describe 'gitlab', type: :class do
         describe 'with manage_package => false' do
           let(:params) { { manage_package: false } }
 
-          it { is_expected.not_to contain_package('omnibus-gitlab') }
-          it { is_expected.not_to contain_package('omnibus-gitlab') }
+          it { is_expected.not_to contain_package('gitlab-omnibus') }
+          it { is_expected.not_to contain_package('gitlab-omnibus') }
         end
         describe 'with roles' do
           let(:params) do

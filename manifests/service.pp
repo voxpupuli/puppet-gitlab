@@ -9,15 +9,8 @@ class gitlab::service (
   $service_name   = $gitlab::service_name,
   $service_exec   = $gitlab::service_exec,
   $service_manage = $gitlab::service_manage,
+  $service_provider_restart = false,
 ){
-
-  exec { 'gitlab_reconfigure':
-    command     => '/usr/bin/gitlab-ctl reconfigure',
-    refreshonly => true,
-    timeout     => 1800,
-    logoutput   => true,
-    tries       => 5,
-  }
 
   if $service_manage {
     $restart = "${service_exec} restart"
@@ -37,4 +30,24 @@ class gitlab::service (
     }
   }
 
+  $reconfigure_attributes = {
+    command     => '/usr/bin/gitlab-ctl reconfigure',
+    refreshonly => true,
+    timeout     => 1800,
+    logoutput   => true,
+    tries       => 5,
+    subscribe   => Class['gitlab::omnibus_config'],
+    require     => [Service[$service_name], Package['gitlab-omnibus']],
+  }
+
+  if ($service_manage and $service_provider_restart) {
+    exec { 'gitlab_reconfigure':
+      notify => Service[$service_name],
+      *      => $reconfigure_attributes,
+    }
+  } else {
+    exec { 'gitlab_reconfigure':
+      * => $reconfigure_attributes,
+    }
+  }
 }

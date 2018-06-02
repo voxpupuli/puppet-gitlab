@@ -89,21 +89,24 @@ class gitlab::omnibus_config (
     $_real_registry_nginx = $registry_nginx
   }
 
+  # attributes shared by all config files used by omnibus package
+  $config_file_attributes = {
+    ensure => 'present',
+    owner  => $service_user,
+    group  => $service_group,
+    mode   => '0600',
+    before => Package['gitlab-omnibus'],
+  }
+
   if $config_manage {
     if $source_config_file {
       file { $config_file:
-        ensure => file,
-        owner  => $service_user,
-        group  => $service_group,
-        mode   => '0600',
+        *      => $config_file_attributes,
         source => $source_config_file,
       }
     } else {
       file { $config_file:
-        ensure  => file,
-        owner   => $service_user,
-        group   => $service_group,
-        mode    => '0600',
+        *       => $config_file_attributes,
         content => template('gitlab/gitlab.rb.erb');
       }
     }
@@ -111,10 +114,8 @@ class gitlab::omnibus_config (
 
   if ! empty($secrets) {
     file { $secrets_file:
-        ensure  => file,
-        owner   => $service_user,
-        group   => $service_group,
-        mode    => '0600',
-        content => inline_template('<%= require \'json\'; JSON.pretty_generate(@secrets) + "\n" %>'),
+      *       => $config_file_attributes,
+      content => inline_template('<%= require \'json\'; JSON.pretty_generate(@secrets) + "\n" %>'),
     }
   }
+}

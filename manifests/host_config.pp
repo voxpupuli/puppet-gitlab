@@ -10,7 +10,7 @@
 class gitlab::host_config (
   $skip_auto_migrations = $gitlab::skip_auto_migrations,
   $skip_auto_reconfigure = $gitlab::skip_auto_reconfigure,
-  Stdlib::Absolutepath $config_dir = '/etc/gitlab',
+  $config_dir = '/etc/gitlab',
   $config_file = '/etc/gitlab/gitlab.rb',
   $secrets_file = '/etc/gitlab/gitlab-secrets.json',
   $store_git_keys_in_db = $::gitlab::store_git_keys_in_db,
@@ -27,6 +27,11 @@ class gitlab::host_config (
   # skip_auto_migrations is deprecated and will be removed at some point after
   # GitLab 11.0 is released
   $skip_auto_migrations_deprecation_msg = "DEPRECTATION: 'skip_auto_migrations' is deprecated if using GitLab 10.6 or greater. Set skip_auto_reconfigure instead"
+  $skip_auto_reconfigure_attributes = {
+    owner => 'root',
+    group => 'root',
+    mode  => '0644'
+  }
 
   if $skip_auto_migrations != undef {
 
@@ -39,17 +44,13 @@ class gitlab::host_config (
 
     file { '/etc/gitlab/skip-auto-migrations':
       ensure => $_skip_auto_migrations_ensure,
-      owner  => 'root',
-      group  => 'root',
-      mode   => '0644',
+      *      => $skip_auto_reconfigure_attributes,
     }
   }
 
   file { '/etc/gitlab/skip-auto-reconfigure':
     ensure => $skip_auto_reconfigure,
-    owner  => 'root',
-    group  => 'root',
-    mode   => '0644',
+    *      => $skip_auto_reconfigure_attributes,
   }
 
   if $store_git_keys_in_db != undef {

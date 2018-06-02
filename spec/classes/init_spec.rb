@@ -18,6 +18,7 @@ describe 'gitlab', type: :class do
         it { is_expected.to contain_service('gitlab-runsvdir') }
         it { is_expected.to contain_package('omnibus-gitlab').with_ensure('installed').with_name('gitlab-ce') }
         it { is_expected.to contain_class('gitlab') }
+        it { is_expected.not_to raise_error }
 
         case facts[:osfamily]
         when 'Debian'

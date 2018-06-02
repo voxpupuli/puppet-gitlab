@@ -408,7 +408,7 @@ class gitlab (
   Boolean                        $registry_nginx_eq_nginx       = false,
   Optional[Array]                $roles                         = undef,
   Optional[Hash]                 $secrets                       = undef,
-  Stdlib::Absolutepath           $secrets_file                  = '/etc/gitlab/gitlab-secrets.json',
+  Optional[Stdlib::Absolutepath] $secrets_file                  = '/etc/gitlab/gitlab-secrets.json',
   Optional[Hash]                 $sentinel                      = undef,
   Optional[Hash]                 $shell                         = undef,
   Optional[Hash]                 $sidekiq                       = undef,
@@ -434,7 +434,10 @@ class gitlab (
   contain gitlab::install
   contain gitlab::service
 
-  Class['gitlab::host_config'] -> Class['gitlab::omnibus_config'] -> Class['gitlab::install'] -> Class['gitlab::service']
+  Class['gitlab::host_config']
+  -> Class['gitlab::omnibus_config']
+  -> Class['gitlab::install']
+  -> Class['gitlab::service']
 
   $custom_hooks.each |$name, $options| {
     gitlab::custom_hook { $name:

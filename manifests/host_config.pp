@@ -4,10 +4,19 @@
 #
 class gitlab::host_config (
   $skip_auto_migrations = $gitlab::skip_auto_migrations,
-  $skip_auto_reconfigure = $gitlab::skip_auto_reconfigure
+  $skip_auto_reconfigure = $gitlab::skip_auto_reconfigure,
+  Stdlib::Absolutepath $config_dir = '/etc/gitlab',
+  $config_file = '/etc/gitlab/gitlab.rb'
+  $secrets_file = '/etc/gitlab/gitlab-secrets.json'
 ) {
 
-  ####
+  file { $config_dir:
+    ensure => 'directory',
+    owner  => 'root',
+    group  => 'group',
+    mode   => '0775',
+  }
+
   # Deprecation notice:
   # skip_auto_migrations is deprecated and will be removed at some point after
   # GitLab 11.0 is released

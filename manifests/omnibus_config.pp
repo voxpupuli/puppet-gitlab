@@ -2,13 +2,14 @@
 #
 # This class is used to configure the gitlab omnibus package on a node
 #
-class gitlab::omnibus_config {
+class gitlab::omnibus_config (
+  $config_manage = $::gitlab::config_manage,
+  $config_file = $::gitlab::config_file
+){
 
   # get variables from the toplevel manifest for usage in the template
   $ci_redis = $::gitlab::ci_redis
   $ci_unicorn = $::gitlab::ci_unicorn
-  $config_manage = $::gitlab::config_manage
-  $config_file = $::gitlab::config_file
   $external_url = $::gitlab::external_url
   $external_port = $::gitlab::external_port
   $geo_postgresql = $::gitlab::geo_postgresql

@@ -9,9 +9,10 @@ describe 'gitlab', type: :class do
 
       context 'with default params' do
         it { is_expected.to contain_class('gitlab::params') }
-        it { is_expected.to contain_class('gitlab::install').that_comes_before('Class[gitlab::config]') }
-        it { is_expected.to contain_class('gitlab::config') }
-        it { is_expected.to contain_class('gitlab::service').that_subscribes_to('Class[gitlab::config]') }
+        it { is_expected.to contain_class('gitlab::host_config').that_comes_before('Class[gitlab::install]') }
+        it { is_expected.to contain_class('gitlab::omnibus_config').that_comes_before('Class[gitlab::install]') }
+        it { is_expected.to contain_class('gitlab::install').that_comes_before('Class[gitlab::service]') }
+        it { is_expected.to contain_class('gitlab::service').that_subscribes_to('Class[gitlab::omnibus_config]') }
         it { is_expected.to contain_exec('gitlab_reconfigure') }
         it { is_expected.to contain_file('/etc/gitlab/gitlab.rb') }
         it { is_expected.to contain_service('gitlab-runsvdir') }

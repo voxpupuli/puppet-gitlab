@@ -29,7 +29,7 @@ class gitlab::host_config (
   $skip_auto_reconfigure_attributes = {
     owner => 'root',
     group => 'root',
-    mode  => '0644'
+    mode  => '0644',
   }
 
   if $skip_auto_migrations != undef {

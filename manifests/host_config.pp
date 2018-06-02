@@ -1,8 +1,8 @@
-# == Class gitlab::config
+# == Class gitlab::host_config
 #
-# This class is for setting pre-install configurations
+# This class is for setting host configurations required for gitlab installation
 #
-class gitlab::preinstall (
+class gitlab::host_config (
   $skip_auto_migrations = $gitlab::skip_auto_migrations,
   $skip_auto_reconfigure = $gitlab::skip_auto_reconfigure
 ) {

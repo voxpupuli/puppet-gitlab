@@ -230,7 +230,6 @@ describe 'gitlab', type: :class do
           let(:params) { { manage_package: false } }
 
           it { is_expected.not_to contain_package('gitlab-omnibus') }
-          it { is_expected.not_to contain_package('gitlab-omnibus') }
         end
         describe 'with roles' do
           let(:params) do

@@ -4,12 +4,12 @@
 #
 class gitlab::install {
 
-  $edition             = $::gitlab::edition
-  $manage_package_repo = $::gitlab::manage_package_repo
-  $manage_package      = $::gitlab::manage_package
-  $package_ensure      = $::gitlab::package_ensure
+  $edition             = $gitlab::edition
+  $manage_package_repo = $gitlab::manage_package_repo
+  $manage_package      = $gitlab::manage_package
+  $package_ensure      = $gitlab::package_ensure
   $package_name        = "gitlab-${edition}"
-  $package_pin         = $::gitlab::package_pin
+  $package_pin         = $gitlab::package_pin
 
   # only do repo management when on a Debian-like system
   if $manage_package_repo {
@@ -32,11 +32,13 @@ class gitlab::install {
           },
         }
         if $manage_package {
-          package { $package_name:
+          package { 'gitlab-omnibus':
             ensure  => $package_ensure,
+            name    => $package_name,
             require => [
               Exec['apt_update'],
               Apt::Source["gitlab_official_${edition}"],
+              Class['gitlab::host_config', 'gitlab::omnibus_config'],
             ],
           }
         }
@@ -68,9 +70,10 @@ class gitlab::install {
         }
 
         if $manage_package {
-          package { $package_name:
+          package { 'gitlab-omnibus':
             ensure  => $package_ensure,
-            require => Yumrepo["gitlab_official_${edition}"],
+            name    => $package_name,
+            require => [Yumrepo["gitlab_official_${edition}"], Class['gitlab::host_config', 'gitlab::omnibus_config']],
           }
         }
       }
@@ -79,8 +82,10 @@ class gitlab::install {
       }
     }
   } elsif $manage_package  {
-    package { $package_name:
-      ensure => $package_ensure,
+    package { 'gitlab-omnibus':
+      ensure  => $package_ensure,
+      name    => $package_name,
+      require => Class['gitlab::host_config', 'gitlab::omnibus_config'],
     }
   }
 

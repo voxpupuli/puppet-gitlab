@@ -16,7 +16,6 @@ class gitlab::install {
     case $::osfamily {
       'debian': {
         include apt
-        ensure_packages('apt-transport-https')
 
         apt::source { "gitlab_official_${edition}":
           comment  => 'Official repository for Gitlab',

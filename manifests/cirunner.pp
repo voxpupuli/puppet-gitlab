@@ -72,7 +72,6 @@ class gitlab::cirunner (
     case $::osfamily {
       'Debian': {
         include apt
-        ensure_packages('apt-transport-https')
 
         apt::source { 'apt_gitlabci':
           comment  => 'GitlabCI Runner Repo',

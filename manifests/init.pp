@@ -326,22 +326,6 @@
 #   valid values: db, uploads, repositories, builds,
 #                 artifacts, lfs, registry, pages
 #
-# === Examples
-#
-#  class { 'gitlab':
-#    edition                                       => 'ee',
-#    external_url                                  => 'https://gitlab.mydomain.tld',
-#    nginx             => { redirect_http_to_https => true },
-#  }
-#
-# === Authors
-#
-# Tobias Brunner <tobias.brunner@vshn.ch>
-#
-# === Copyright
-#
-# Copyright 2015 Tobias Brunner, VSHN AG
-#
 class gitlab (
   # package installation handling
   Boolean                        $manage_package_repo           = $::gitlab::params::manage_package_repo,

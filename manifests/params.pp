@@ -5,12 +5,6 @@
 #
 class gitlab::params {
 
-  # package parameters
-  $package_ensure = 'installed'
-  $package_pin = false
-  $manage_package_repo = true
-  $manage_package = true
-
   $rake_exec = '/usr/bin/gitlab-rake'
 
 
@@ -22,6 +16,4 @@ class gitlab::params {
 
   # gitlab specific
   $external_url = "http://${::fqdn}"
-  $edition = 'ce'
-
 }

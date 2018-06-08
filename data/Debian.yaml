@@ -1,0 +1,8 @@
+gitlab::omnibus_package_repository::repository_resource_type: 'apt::source'
+gitlab::omnibus_package_repository::repository:
+  "gitlab_official_%{lookup('gitlab::edition')}":
+    comment: 'Official repository for GitLab Omnibus'
+    location: "https://packages.gitlab.com/gitlab/gitlab-%{lookup('gitlab::edition')}/debian"
+    key:
+      id: '1A4C919DB987D435939638B914219A96E15E78F4'
+      source: 'https://packages.gitlab.com/gpg.key'

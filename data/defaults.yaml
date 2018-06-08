@@ -1,0 +1,2 @@
+gitlab::edition: 'ce'
+gitlab::omnibus_package_repository::manage_repository: true

@@ -3,7 +3,7 @@
 # This class is called from gitlab for install.
 #
 class gitlab::install {
-
+  contain gitlab::omnibus_package_repository
   $edition             = $gitlab::edition
   $manage_package_repo = $gitlab::manage_package_repo
   $manage_package      = $gitlab::manage_package

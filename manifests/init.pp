@@ -327,11 +327,6 @@
 #                 artifacts, lfs, registry, pages
 #
 class gitlab (
-  # package installation handling
-  Boolean                        $manage_package_repo           = $::gitlab::params::manage_package_repo,
-  Boolean                        $manage_package                = $::gitlab::params::manage_package,
-  String                         $package_ensure                = $::gitlab::params::package_ensure,
-  Boolean                        $package_pin                   = $::gitlab::params::package_pin,
   # system service configuration
   Boolean                        $service_enable                = true,
   Enum['stopped', 'false', 'running', 'true'] $service_ensure   = 'running', # lint:ignore:quoted_booleans

@@ -1,0 +1,11 @@
+gitlab::omnibus_package_repository::repository_resource_type: 'yumrepo'
+gitlab::omnibus_package_repository::repository:
+  "gitlab_official_%{lookup('gitlab::edition')}":
+    ensure: 'present'
+    assumeyes: true
+    enabled: true
+    baseurl: ""
+    gpgkey: ""
+    repo_gpgcheck: true
+    sslverify: true
+

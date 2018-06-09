@@ -2,8 +2,5 @@
 gitlab::package_ensure: 'installed'
 gitlab::edition: 'ce'
 
-# omnibus_package_repository attribute defaults
-gitlab::omnibus_package_repository::manage_repository: true
-
 # install defaults
 gitlab::install::package_name: "gitlab-%{lookup('gitlab::edition')}"

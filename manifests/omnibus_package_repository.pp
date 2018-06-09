@@ -4,7 +4,7 @@
 #
 class gitlab::omnibus_package_repository (
   Hash $repository_configuration,
-  Boolean $manage_omnibus_repository,
+  Boolean $manage_omnibus_repository = true,
 ) {
   if $manage_omnibus_repository {
     $repository_configuration.each() | String $resource_type, Hash $resources | {

@@ -1,5 +1,4 @@
-gitlab::omnibus_package_repository::repository_resource_type: 'yumrepo'
-gitlab::omnibus_package_repository::repository:
+gitlab::omnibus_package_repository::repository_configuration:
   yumrepo:
     "gitlab_official_%{lookup('gitlab::edition')}":
       ensure: 'present'

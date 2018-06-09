@@ -8,17 +8,9 @@
 #   Default: installed
 #   Can be used to choose exact package version to install.
 #
-# [*package_pin*]
-#   Default: false
-#   Create an apt pin for package_ensure version.
-#
 # [*manage_package_repo*]
 #   Default: true
 #   Should the official package repository be managed?
-#
-# [*manage_package*]
-#   Default: true
-#   Should the GitLab package be managed?
 #
 # [*service_name*]
 #   Default: gitlab-runsvdir
@@ -327,6 +319,9 @@
 #                 artifacts, lfs, registry, pages
 #
 class gitlab (
+  # package configuration
+  String                         $package_ensure,
+  Enum['ce', 'ee']               $edition,
   # system service configuration
   Boolean                        $service_enable                = true,
   Enum['stopped', 'false', 'running', 'true'] $service_ensure   = 'running', # lint:ignore:quoted_booleans
@@ -337,7 +332,6 @@ class gitlab (
   String                         $service_group                 = 'root',
   # gitlab specific
   String                         $rake_exec                     = $::gitlab::params::rake_exec,
-  Enum['ce', 'ee']               $edition                       = 'ce',
   Optional[Hash]                 $ci_redis                      = undef,
   Optional[Hash]                 $ci_unicorn                    = undef,
   Boolean                        $config_manage                 = true,

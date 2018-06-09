@@ -16,7 +16,7 @@ class gitlab::install (
   if $manage_package {
     package { 'gitlab-omnibus':
       ensure => $package_ensure,
-      name   => "gitlab-${edition}"
+      name   => "gitlab-${edition}",
     }
   }
 }

@@ -9,6 +9,9 @@ class gitlab::omnibus_package_repository (
   if $manage_omnibus_repository {
     $repository_configuration.each() | String $resource_type, Hash $resources | {
       create_resources($resource_type, $resources, {tag => 'gitlab_omnibus_repository_resource'})
+
+      # ensure all repository configuration are in place before the gitlab omnibus package is installed
+      Resource[$resource_type] <| tag == 'gitlab_omnibus_repository_resource' |> -> Package['gitlab-omnibus']
     }
   }
 }

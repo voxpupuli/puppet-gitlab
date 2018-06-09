@@ -11,12 +11,11 @@ class gitlab::install (
   $edition = $gitlab::edition,
   Boolean $manage_package = true,
 ){
-  contain gitlab::omnibus_package_repository
-
   if $manage_package {
     package { 'gitlab-omnibus':
-      ensure => $package_ensure,
-      name   => "gitlab-${edition}",
+      ensure  => $package_ensure,
+      name    => "gitlab-${edition}",
+      require => Class['gitlab::omnibus_package_repository'],
     }
   }
 }

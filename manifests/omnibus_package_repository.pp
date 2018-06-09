@@ -11,7 +11,7 @@ class gitlab::omnibus_package_repository (
       create_resources($resource_type, $resources,
         {
           tag    => 'gitlab_omnibus_repository_resource',
-          before => Package['gitlab-omnibus'],
+          before => Class['gitlab::install'],
         }
       )
     }

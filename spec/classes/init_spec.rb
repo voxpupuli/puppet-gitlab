@@ -226,11 +226,6 @@ describe 'gitlab', type: :class do
               with_content(%r{^\s*mattermost\['enable'\] = true$})
           }
         end
-        describe 'with manage_package => false' do
-          let(:params) { { manage_package: false } }
-
-          it { is_expected.not_to contain_package('gitlab-omnibus') }
-        end
         describe 'with roles' do
           let(:params) do
             {

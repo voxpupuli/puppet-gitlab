@@ -11,6 +11,8 @@ class gitlab::install (
   $edition = $gitlab::edition,
   Boolean $manage_package = true,
 ){
+  include gitlab::omnibus_package_repository
+
   if $manage_package {
     package { 'gitlab-omnibus':
       ensure  => $package_ensure,

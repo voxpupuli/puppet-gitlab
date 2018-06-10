@@ -1,6 +1,2 @@
-# init parameter defaults
-gitlab::package_ensure: 'installed'
-gitlab::edition: 'ce'
-
 # install defaults
 gitlab::install::package_name: "gitlab-%{lookup('gitlab::edition')}"

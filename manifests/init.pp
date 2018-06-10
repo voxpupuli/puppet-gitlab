@@ -320,8 +320,8 @@
 #
 class gitlab (
   # package configuration
-  String                         $package_ensure,
-  Enum['ce', 'ee']               $edition,
+  String                         $package_ensure                = 'installed',
+  Enum['ce', 'ee']               $edition                       = 'ce',
   # system service configuration
   Boolean                        $service_enable                = true,
   Enum['stopped', 'false', 'running', 'true'] $service_ensure   = 'running', # lint:ignore:quoted_booleans
@@ -401,6 +401,8 @@ class gitlab (
   Hash                           $custom_hooks                  = {},
   Hash                           $global_hooks                  = {},
 ) inherits gitlab::params {
+
+  include gitlab::omnibus_package_repository
 
   contain gitlab::host_config
   contain gitlab::omnibus_config

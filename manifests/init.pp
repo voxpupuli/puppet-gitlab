@@ -48,8 +48,13 @@
 #   You should not need to change this path.
 #
 # [*edition*]
-#   Default: ce
-#   Gitlab edition to install. ce or ee.
+#   **Deprecated**: See `manage_upstream_edition`
+#   Default: undef
+#
+# [*manage_upstream_edition*]
+#   Default: 'ce'
+#   One of [ 'ce', 'ee', 'disabled' ]
+#   Manage the installation of an upstream Gitlab Omnibus edition to install.
 #
 # [*config_manage*]
 #   Default: true
@@ -321,7 +326,8 @@
 class gitlab (
   # package configuration
   String                         $package_ensure                = 'installed',
-  Enum['ce', 'ee']               $edition                       = 'ce',
+  String                         $edition                       = undef,
+  Enum['ce', 'ee', 'disabled']   $manage_upstream_edition       = 'ce',
   # system service configuration
   Boolean                        $service_enable                = true,
   Enum['stopped', 'false', 'running', 'true'] $service_ensure   = 'running', # lint:ignore:quoted_booleans

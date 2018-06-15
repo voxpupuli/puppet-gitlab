@@ -279,13 +279,14 @@ describe 'gitlab', type: :class do
   context 'on usupported os' do
     let(:facts) do
       {
-        osfamily: 'Solaris',
-        operatingsystem: 'Nexenta'
+        'os' => {
+          'family' => 'Solaris'
+        }
       }
     end
 
     describe 'gitlab class without any parameters on Solaris/Nexenta' do
-      it { is_expected.to compile.and_raise_error(%r{is not supported}) }
+      it { is_expected.not_to compile }
     end
   end
 end

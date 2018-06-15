@@ -8,7 +8,7 @@ class gitlab::params {
   $rake_exec = '/usr/bin/gitlab-rake'
 
 
-  if $::osfamily == 'RedHat' and $::operatingsystemmajrelease == '6' {
+  if $facts['os']['family'] == 'RedHat' and $facts['os']['release']['major'] == '6' {
     $service_enable = false
   } else {
     $service_enable = true

@@ -10,38 +10,40 @@ class gitlab::omnibus_package_repository (
   if $manage_omnibus_repository {
 
     if $gitlab::edition {
-      $manage_upstream_edition = $gitlab::edition
-      notify { "gitlab::edition is deprecated":
-        message => "gitlab::edition has been deprecated, use gitlab::manage_upstream_edition instead",
+      $_edition = $gitlab::edition
+      notify { 'gitlab::edition is deprecated':
+        message => 'gitlab::edition has been deprecated, use gitlab::manage_upstream_edition instead',
       }
+    } else {
+      $_edition = $manage_upstream_edition
     }
 
     # ensure the correct edition is used if upstream package repositories are being configured
-    if $manage_upstream_edition != 'disabled'{
+    if $_edition != 'disabled'{
       case $facts['os']['family'] {
         'Debian': {
           $_filtered_repository_configuration = {
             'apt::source' => {
-              "gitlab_official_${edition}" => {
-                location => "https://packages.gitlab.com/gitlab/gitlab-${edition}/debian",
-              }
-            }
+              "gitlab_official_${_edition}" => {
+                location => "https://packages.gitlab.com/gitlab/gitlab-${_edition}/debian",
+              },
+            },
           }
         }
         'RedHat': {
           $_filtered_repository_configuration = {
             'yumrepo' =>  {
-              "gitlab_official_${edition}" =>  {
-                baseurl => "https://packages.gitlab.com/gitlab/gitlab-${edition}/el/${facts.os.release.major}/$basearch"
-              }
-            }
+              "gitlab_official_${_edition}" =>  {
+                baseurl => "https://packages.gitlab.com/gitlab/gitlab-${_edition}/el/${facts['os']['release']['major']}/\$basearch",
+              },
+            },
           }
         }
         default: {
           $_filtered_repository_configuration = {}
         }
       }
-      $_repository_configuraiton = deep_merge($repository_configuration, $_filtered_repository_configuration)
+      $_repository_configuration = deep_merge($repository_configuration, $_filtered_repository_configuration)
     } else {
     # using upstream repository, so just use defaults
       $_repository_configuration = $repository_configuration
@@ -57,7 +59,7 @@ class gitlab::omnibus_package_repository (
 
     # create all the repository resources
     $_repository_configuration.each() | String $resource_type, Hash $resources | {
-      create_resources($resource_type, $_resources, $resource_defaults)
+      create_resources($resource_type, $resources, $resource_defaults)
     }
   }
 }

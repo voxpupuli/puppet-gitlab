@@ -13,6 +13,7 @@ RUN bundle install --without system_tests development release --path=${BUNDLE_PA
 
 COPY . .
 
+RUN bundle install
 RUN bundle exec rake rubocop
 RUN bundle exec rake test
 RUN bundle exec rake test_with_coveralls

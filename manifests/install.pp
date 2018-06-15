@@ -13,15 +13,32 @@
 #   Should the GitLab package be managed?
 #
 class gitlab::install (
-  Enum['gitlab-ce', 'gitlab-ee'] $package_name,
+  Optional[String] $package_name = undef,
   $package_ensure = $gitlab::package_ensure,
   Boolean $manage_package = true,
 ){
 
+
+  if $gitlab::manage_upstream_edition != 'disabled' {
+    if $gitlab::edition {
+      $_edition = $gitlab::edition
+    } else {
+      $_edition = $gitlab::manage_upstream_edition
+    }
+
+    $_package_name = "gitlab-${_edition}"
+  } else {
+    unless $package_name {
+      fail('gitlab::install::package_name required when gitlab::manage_upstream_edition is `disabled`')
+    }
+
+    $_package_name = $package_name
+  }
+
   if $manage_package {
     package { 'gitlab-omnibus':
       ensure  => $package_ensure,
-      name    => $package_name,
+      name    => $_package_name,
       require => Class['gitlab::omnibus_package_repository'],
     }
   }

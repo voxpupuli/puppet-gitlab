@@ -326,7 +326,7 @@
 class gitlab (
   # package configuration
   String                         $package_ensure                = 'installed',
-  String                         $edition                       = undef,
+  Optional[String]               $edition                       = undef,
   Enum['ce', 'ee', 'disabled']   $manage_upstream_edition       = 'ce',
   # system service configuration
   Boolean                        $service_enable                = true,

@@ -171,7 +171,7 @@ gitlab::gitlab_rails:
 
 Here is an example how to configure Gitlab CI runners using Hiera:
 
-To use the Gitlab CI runners it is required to have the [garethr/docker](https://forge.puppetlabs.com/garethr/docker) module.
+To use the Gitlab CI runners it is required to have the [puppetlabs/docker](https://forge.puppetlabs.com/puppetlabs/docker) module.
 
 `$manage_docker` can be set to false if docker is managed externally.
 
@@ -197,7 +197,7 @@ gitlab_ci_runners_defaults:
   docker-image: "ubuntu:trusty"
 ```
 
-To unregister a specific runner you may use `ensure` param:  
+To unregister a specific runner you may use `ensure` param:
 
 ```yaml
 gitlab_ci_runners:

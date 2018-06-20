@@ -2,90 +2,44 @@
 #
 # This class is called from gitlab for install.
 #
-class gitlab::install {
+# [*package_name*]
+#   Default: 'gitlab-ce'
+#   The internal packaging system's name for the package
+#   This name will automatically be changed by the gitlab::edition parameter
+#   Can be overridden for the purposes of installing custom compiled version of gitlab-omnibus
+#
+# [*manage_package*]
+#   Default: true
+#   Should the GitLab package be managed?
+#
+class gitlab::install (
+  Optional[String] $package_name = undef,
+  $package_ensure = $gitlab::package_ensure,
+  Boolean $manage_package = true,
+){
 
-  $edition             = $gitlab::edition
-  $manage_package_repo = $gitlab::manage_package_repo
-  $manage_package      = $gitlab::manage_package
-  $package_ensure      = $gitlab::package_ensure
-  $package_name        = "gitlab-${edition}"
-  $package_pin         = $gitlab::package_pin
 
-  # only do repo management when on a Debian-like system
-  if $manage_package_repo {
-    case $::osfamily {
-      'debian': {
-        include apt
-
-        apt::source { "gitlab_official_${edition}":
-          comment  => 'Official repository for Gitlab',
-          location => "https://packages.gitlab.com/gitlab/gitlab-${edition}/${::operatingsystem.downcase}/",
-          repos    => 'main',
-          key      => {
-            id     => '1A4C919DB987D435939638B914219A96E15E78F4',
-            source => 'https://packages.gitlab.com/gpg.key',
-          },
-          include  => {
-            src => true,
-            deb => true,
-          },
-        }
-        if $manage_package {
-          package { 'gitlab-omnibus':
-            ensure  => $package_ensure,
-            name    => $package_name,
-            require => [
-              Exec['apt_update'],
-              Apt::Source["gitlab_official_${edition}"],
-              Class['gitlab::host_config', 'gitlab::omnibus_config'],
-            ],
-          }
-        }
-        if $package_pin {
-          apt::pin { 'hold-gitlab':
-            packages => $package_name,
-            version  => $package_ensure,
-            priority => 1001,
-          }
-        }
-      }
-      'redhat': {
-        $gpgkey = $edition ? {
-            'ee'    => 'https://packages.gitlab.com/gitlab/gitlab-ce/gpgkey https://packages.gitlab.com/gitlab/gitlab-ee/gpgkey/gitlab-gitlab-ee-3D645A26AB9FBD22.pub.gpg',
-            'ce'    => 'https://packages.gitlab.com/gitlab/gitlab-ce/gpgkey https://packages.gitlab.com/gitlab/gitlab-ce/gpgkey/gitlab-gitlab-ce-3D645A26AB9FBD22.pub.gpg'
-        }
-
-        $releasever = $facts['os']['release']['major']
-
-        yumrepo { "gitlab_official_${edition}":
-          descr         => 'Official repository for Gitlab',
-          baseurl       => "https://packages.gitlab.com/gitlab/gitlab-${edition}/el/${releasever}/\$basearch",
-          enabled       => 1,
-          repo_gpgcheck => 1,
-          gpgcheck      => 1,
-          gpgkey        => $gpgkey,
-          sslcacert     => '/etc/pki/tls/certs/ca-bundle.crt',
-          sslverify     => 1,
-        }
-
-        if $manage_package {
-          package { 'gitlab-omnibus':
-            ensure  => $package_ensure,
-            name    => $package_name,
-            require => [Yumrepo["gitlab_official_${edition}"], Class['gitlab::host_config', 'gitlab::omnibus_config']],
-          }
-        }
-      }
-      default: {
-        fail("OS family ${::osfamily} not supported")
-      }
+  if $gitlab::manage_upstream_edition != 'disabled' {
+    if $gitlab::edition {
+      $_edition = $gitlab::edition
+    } else {
+      $_edition = $gitlab::manage_upstream_edition
     }
-  } elsif $manage_package  {
-    package { 'gitlab-omnibus':
-      ensure  => $package_ensure,
-      name    => $package_name,
-      require => Class['gitlab::host_config', 'gitlab::omnibus_config'],
+
+    $_package_name = "gitlab-${_edition}"
+  } else {
+    unless $package_name {
+      fail('gitlab::install::package_name required when gitlab::manage_upstream_edition is `disabled`')
     }
+
+    $_package_name = $package_name
   }
 
+  if $manage_package {
+    package { 'gitlab-omnibus':
+      ensure  => $package_ensure,
+      name    => $_package_name,
+      require => Class['gitlab::omnibus_package_repository'],
+    }
+  }
 }

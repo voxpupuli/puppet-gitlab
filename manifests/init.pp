@@ -8,17 +8,9 @@
 #   Default: installed
 #   Can be used to choose exact package version to install.
 #
-# [*package_pin*]
-#   Default: false
-#   Create an apt pin for package_ensure version.
-#
 # [*manage_package_repo*]
 #   Default: true
 #   Should the official package repository be managed?
-#
-# [*manage_package*]
-#   Default: true
-#   Should the GitLab package be managed?
 #
 # [*service_name*]
 #   Default: gitlab-runsvdir
@@ -56,8 +48,13 @@
 #   You should not need to change this path.
 #
 # [*edition*]
-#   Default: ce
-#   Gitlab edition to install. ce or ee.
+#   **Deprecated**: See `manage_upstream_edition`
+#   Default: undef
+#
+# [*manage_upstream_edition*]
+#   Default: 'ce'
+#   One of [ 'ce', 'ee', 'disabled' ]
+#   Manage the installation of an upstream Gitlab Omnibus edition to install.
 #
 # [*config_manage*]
 #   Default: true
@@ -327,11 +324,10 @@
 #                 artifacts, lfs, registry, pages
 #
 class gitlab (
-  # package installation handling
-  Boolean                        $manage_package_repo           = $::gitlab::params::manage_package_repo,
-  Boolean                        $manage_package                = $::gitlab::params::manage_package,
-  String                         $package_ensure                = $::gitlab::params::package_ensure,
-  Boolean                        $package_pin                   = $::gitlab::params::package_pin,
+  # package configuration
+  String                         $package_ensure                = 'installed',
+  Optional[String]               $edition                       = undef,
+  Enum['ce', 'ee', 'disabled']   $manage_upstream_edition       = 'ce',
   # system service configuration
   Boolean                        $service_enable                = true,
   Enum['stopped', 'false', 'running', 'true'] $service_ensure   = 'running', # lint:ignore:quoted_booleans
@@ -342,7 +338,6 @@ class gitlab (
   String                         $service_group                 = 'root',
   # gitlab specific
   String                         $rake_exec                     = $::gitlab::params::rake_exec,
-  Enum['ce', 'ee']               $edition                       = 'ce',
   Optional[Hash]                 $ci_redis                      = undef,
   Optional[Hash]                 $ci_unicorn                    = undef,
   Boolean                        $config_manage                 = true,
@@ -412,6 +407,8 @@ class gitlab (
   Hash                           $custom_hooks                  = {},
   Hash                           $global_hooks                  = {},
 ) inherits gitlab::params {
+
+  include gitlab::omnibus_package_repository
 
   contain gitlab::host_config
   contain gitlab::omnibus_config

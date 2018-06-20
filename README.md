@@ -41,7 +41,7 @@ than 7.11.
 ### What gitlab affects
 
 * Package repository (APT or YUM)
-* Package `gitlab-ce` or `gitlab-ee` (depending on the chosen edition)
+* Omnibus gitlab package, typically `gitlab-ce` or `gitlab-ee`
 * Configuration file `/etc/gitlab/gitlab.rb`
 * System service `gitlab-runsvdir`
 * Gitlab configuration using `gitlab-ctl reconfigure`
@@ -82,12 +82,12 @@ gitlab::sidekiq:
   shutdown_timeout: 5
 ```
 
-If one wants to install Gitlab Enterprise Edition, just define the parameter `edition` with the value `ee`:
+If one wants to install Gitlab Enterprise Edition, just define the parameter `manage_upstream_edition` with the value `ee`:
 
 ```puppet
 class { 'gitlab':
   external_url => 'http://gitlab.mydomain.tld',
-  edition      => 'ee',
+  manage_upstream_edition      => 'ee',
 }
 ```
 
@@ -95,9 +95,6 @@ class { 'gitlab':
 
 
 ## Usage
-
-To find the default values, have a look at `params.pp`. All other parameters are documented
-inside `init.pp`.
 
 The main class (`init.pp`) exposes the configuration sections from the `gitlab.rb` configuration file
 as hashes. So if there are any parameter changes in future versions of Gitlab, the module should support
@@ -121,6 +118,92 @@ class { 'gitlab':
 }
 ```
 
+### Package & Repository Configuration
+
+#### Repository Resource Configuration
+
+This module allows you a great range of options when configuring the repository and package sources on your host. By default,
+the gitlab repository will be configured to use the upstream source from [https://packages.gitlab.com][]. However, if you wish
+to use a different repository source, you can provide your own `yumrepo`, `apt` or any other package/repository configuration you wish.
+
+This module does this by iterating through configurations provided to `gitlab::omnibus_package_repository::repository_configuration`. You
+can provide any number of repository resource types and configurations you want, as long as the dependent modules are installed on your basemodulepath.
+
+This approach provides the following advantages:
+ - means any and all parameters supported by your repository manager module are inherently supported by the `gitlab` module
+ - you aren't required to use a version of a dependency we specify, supporting a wide range of versions for modules like `apt`
+ - you can easily add more required repositories and packages as needed by your infrastructure, and ensure ordering is managed
+ within the gitlab module before any gitlab related packages are installed
+
+In order to provide your own repository configurations, you are required to set `manage_upstream_edition => disabled`, and provide a hash
+of repository resource type configurations in the following format:
+
+```
+repository_resource_type: #ex... 'apt::source` or `apt::pin` or `yumrepo`
+  repository_resource_title:
+    repository_resource_attribute1: 'value'
+    repository_resource_attribute2: 'value'
+```
+
+Examples/defaults for `yumrepo` can be found at `data/RedHat.yaml`, and for `apt` at `data/Debian.yaml`.
+
+
+You could also do things like:
+ - add an additional repository at the same level as `internal_mirror_of_gitlab_official_ce` (for example if you wanted to use your own package `nginx` instead of
+ the one provided in omnibus-gitlab)
+ - add any other high level resource types from the `apt` module at the level of `apt:source`. (`apt::pin`, `apt::key`, etc...)
+
+Each unique resource provided to the `repository_configuration` setup:
+ - gets tagged with `gitlab_omnibus_package_resource`
+ - gets the `before => Class['gitlab::install']` metaparameter.
+
+You can use these tags to further customize ordering within your own catalogs.
+
+#### Selecting Version, edition, and package name
+
+The `package_ensure` parameter is used to control which version of the package installed. It expects either a version string, or one of the `ensure`
+values for the `Package` resource type. Default is `installed`. This value works with the `package_name` parameter to install the correct package.
+
+If you are using upstream package source, the package name automatically switches between `gitlab-ce` and `gitlab-ee` depending on the value you have
+provided to `manage_upstream_edition`. If `manage_upstream_edition` is set to `disabled`, you will need to provide the appropriate value to `package_name`
+yourself.
+
+This approach of package management has the following advantages:
+ - more easily adaptable if gitlab changes package naming based on editions (won't require you to install new puppet-gitlab module if you're not ready)
+ - allows you to install custom built packages for gitlab-omnibus that have different package name on your host
+
+#### Custom Repository & Package configuraiton example
+
+As an expanded example of repository and package configuration, let's assume you're:
+ - using a private mirror of the upstream gitlab package channel
+ - hosted inside your organizations firewall
+ - installing gitlab-omnibus enterprise edition
+
+```
+class { 'gitlab':
+  external_url => 'http://gitlab.mydomain.tld',
+  manage_upstream_edition => 'disabled',
+}
+
+class { 'gitlab::install':
+  package_name => 'gitlab-ee'
+}
+
+class { 'gitlab::omnibus_package_repository':
+  repository_configuration => {
+    'apt::source' => {
+      'internal_mirror_of_gitlab_official_ce' => {
+        'comment' => 'Internal mirror of upstream gitlab package repository',
+        'location' => 'https://my.internal.url/repository/packages.gitlab.com/gitlab/gitlab-ce/debian',
+        'key' => {
+          'id' => '1A4C919DB987D435939638B914219A96E15E78F4',
+          'source' => 'https://my.internal.url/repository/package.gitlab.com/gpg.key'
+        }
+      },
+    }
+  }
+}
+```
 ### Gitlab secrets
 
 To manage `/etc/gitlab/gitlab-secrets.json` the parameter `secrets` accepts a hash.

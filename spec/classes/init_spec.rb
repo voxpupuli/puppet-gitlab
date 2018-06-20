@@ -226,11 +226,6 @@ describe 'gitlab', type: :class do
               with_content(%r{^\s*mattermost\['enable'\] = true$})
           }
         end
-        describe 'with manage_package => false' do
-          let(:params) { { manage_package: false } }
-
-          it { is_expected.not_to contain_package('gitlab-omnibus') }
-        end
         describe 'with roles' do
           let(:params) do
             {
@@ -284,13 +279,14 @@ describe 'gitlab', type: :class do
   context 'on usupported os' do
     let(:facts) do
       {
-        osfamily: 'Solaris',
-        operatingsystem: 'Nexenta'
+        'os' => {
+          'family' => 'Solaris'
+        }
       }
     end
 
     describe 'gitlab class without any parameters on Solaris/Nexenta' do
-      it { is_expected.to compile.and_raise_error(%r{is not supported}) }
+      it { is_expected.not_to compile }
     end
   end
 end

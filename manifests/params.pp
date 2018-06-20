@@ -5,16 +5,10 @@
 #
 class gitlab::params {
 
-  # package parameters
-  $package_ensure = 'installed'
-  $package_pin = false
-  $manage_package_repo = true
-  $manage_package = true
-
   $rake_exec = '/usr/bin/gitlab-rake'
 
 
-  if $::osfamily == 'RedHat' and $::operatingsystemmajrelease == '6' {
+  if $facts['os']['family'] == 'RedHat' and $facts['os']['release']['major'] == '6' {
     $service_enable = false
   } else {
     $service_enable = true
@@ -22,6 +16,4 @@ class gitlab::params {
 
   # gitlab specific
   $external_url = "http://${::fqdn}"
-  $edition = 'ce'
-
 }

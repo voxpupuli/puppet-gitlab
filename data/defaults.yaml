@@ -1,2 +1,0 @@
-# install defaults
-gitlab::install::package_name: "gitlab-%{lookup('gitlab::manage_upstream_edition')}"

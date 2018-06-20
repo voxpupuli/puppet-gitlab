@@ -34,36 +34,28 @@
 # Copyright 2015 Tobias Brunner, VSHN AG
 #
 class gitlab::cirunner (
-  Optional[Integer]          $concurrent               = undef,
-  Optional[Pattern[/.*:.+/]] $metrics_server           = undef,
-  String                     $hiera_default_config_key = 'gitlab_ci_runners_defaults',
-  String                     $hiera_runners_key        = 'gitlab_ci_runners',
-  Boolean                    $manage_docker            = true,
-  Boolean                    $manage_repo              = true,
-  String                     $xz_package_name          = 'xz-utils',
-  String                     $package_ensure           = installed,
-  String                     $package_name             = 'gitlab-runner',
+  Optional[Integer]       $concurrent           = undef,
+  Optional[String]        $metrics_server       = undef,
+  Boolean                 $manage_repo          = true,
+  String                  $conf_file            = '/etc/gitlab-runner/config.toml',
+  Enum[installed, absent] $package_ensure       = installed,
+  String                  $package_name         = 'gitlab-runner',
+  Optional[String]        $default_token        = undef,
+  String                  $default_url          = 'https://gitlab.com',
+  Boolean                 $default_run_untagged = true,
+  Boolean                 $default_locked       = false,
+  Optional[Array[String]] $default_tags         = undef,
+  Hash                    $docker_runners       = {},
+  Hash                    $shell_runners        = {},
+  Hash                    $ssh_runners          = {},
+  Hash                    $docker_ssh_runners   = {},
+  Hash                    $parallels_runners    = {},
+  Hash                    $virtualbox_runners   = {},
+  Hash                    $kubernetes_runners   = {},
 ) {
 
   unless ($::osfamily == 'Debian' or $::osfamily == 'RedHat')  {
-    fail ("OS family ${::osfamily} is not supported. Only Debian and Redhat is supported.")
-  }
-
-  if $manage_docker {
-    include ::docker
-    # workaround for cirunner issue #1617
-    # https://gitlab.com/gitlab-org/gitlab-ci-multi-runner/issues/1617
-    ensure_packages($xz_package_name)
-
-    $docker_images = {
-      ubuntu_trusty => {
-        image => 'ubuntu',
-        image_tag => 'trusty',
-      },
-    }
-    class { '::docker::images':
-      images => $docker_images,
-    }
+    fail ("OS family ${::osfamily} is not supported. Only Debian and Redhat is suppported.")
   }
 
   if $manage_repo {
@@ -73,9 +65,12 @@ class gitlab::cirunner (
       'Debian': {
         include apt
 
+        $distid = downcase($::lsbdistid)
+
         apt::source { 'apt_gitlabci':
           comment  => 'GitlabCI Runner Repo',
           location => "${repo_base_url}/runner/${package_name}/${::lsbdistid.downcase}/",
+          release  => $::lsbdistcodename,
           repos    => 'main',
           key      => {
             'id'     => '1A4C919DB987D435939638B914219A96E15E78F4',
@@ -92,7 +87,7 @@ class gitlab::cirunner (
       'RedHat': {
         yumrepo { "runner_${package_name}":
           ensure        => 'present',
-          baseurl       => "${repo_base_url}/runner/${package_name}/el/\$releasever/\$basearch",
+          baseurl       => "${repo_base_url}/runner/${package_name}/el/${::operatingsystemmajrelease}/\$basearch",
           descr         => "runner_${package_name}",
           enabled       => '1',
           gpgcheck      => '0',
@@ -104,7 +99,7 @@ class gitlab::cirunner (
 
         yumrepo { "runner_${package_name}-source":
           ensure        => 'present',
-          baseurl       => "${repo_base_url}/runner/${package_name}/el/\$releasever/SRPMS",
+          baseurl       => "${repo_base_url}/runner/${package_name}/el/${::operatingsystemmajrelease}/SRPMS",
           descr         => "runner_${package_name}-source",
           enabled       => '1',
           gpgcheck      => '0',
@@ -124,9 +119,9 @@ class gitlab::cirunner (
     ensure => $package_ensure,
   }
 
-  if $concurrent != undef {
+  if $concurrent {
     file_line { 'gitlab-runner-concurrent':
-      path    => '/etc/gitlab-runner/config.toml',
+      path    => $conf_file,
       line    => "concurrent = ${concurrent}",
       match   => '^concurrent = \d+',
       require => Package[$package_name],
@@ -135,6 +130,8 @@ class gitlab::cirunner (
   }
 
   if $metrics_server {
+    validate_re($metrics_server, '.*:.+', 'metrics_server must be in the format [host]:<port>')
+
     file_line { 'gitlab-runner-metrics-server':
       path    => '/etc/gitlab-runner/config.toml',
       line    => "metrics_server = \"${metrics_server}\"",
@@ -149,15 +146,53 @@ class gitlab::cirunner (
     refreshonly => true,
     require     => Package[$package_name],
   }
-
-  $runners_hash   = lookup({'name' => $hiera_runners_key, 'value_type' => Hash, 'default_value' => {}})
-  $runners        = $runners_hash.keys
-  $default_config = lookup({'name' => $hiera_default_config_key, 'value_type' => Hash, 'default_value' => {}})
-
-  gitlab::runner { $runners:
-    binary         => $package_name,
-    default_config => $default_config,
-    runners_hash   => $runners_hash,
-    require        => Exec['gitlab-runner-restart'],
+  if ! empty($docker_runners) {
+    if defined(Class['gitlab::cirunner::docker']) {
+      warning('Class[\'gitlab::cirunner::docker\' is defined so $gitlab::cirunner::docker__runners willbe ignored')
+    } else {
+      class {'gitlab::cirunner::docker': runners => $docker_runners}
+    }
+  }
+  if ! empty($shell_runners) {
+    if defined(Class['gitlab::cirunner::shell']) {
+      warning('Class[\'gitlab::cirunner::shell\' is defined so $gitlab::cirunner::shell_runners willbe ignored')
+    } else {
+      class {'gitlab::cirunner::shell': runners => $shell_runners}
+    }
+  }
+  if ! empty($ssh_runners) {
+    if defined(Class['gitlab::cirunner::ssh']) {
+      warning('Class[\'gitlab::cirunner::ssh\' is defined so $gitlab::cirunner::ssh_runners willbe ignored')
+    } else {
+      class {'gitlab::cirunner::ssh': runners => $ssh_runners}
+    }
+  }
+  if ! empty($docker_ssh_runners) {
+    if defined(Class['gitlab::cirunner::docker_ssh']) {
+      warning('Class[\'gitlab::cirunner::docker_ssh\' is defined so $gitlab::cirunner::docker_ssh_runners willbe ignored')
+    } else {
+      lass {'gitlab::cirunner::docker_ssh': runners => $docker_ssh_runners}
+    }
+  }
+  if ! empty($parallels_runners) {
+    if defined(Class['gitlab::cirunner::parallels']) {
+      warning('Class[\'gitlab::cirunner::parallels\' is defined so $gitlab::cirunner::parallels_runners willbe ignored')
+    } else {
+      class {'gitlab::cirunner::parallels': runners => $parallels_runners}
+    }
+  }
+  if ! empty($virtualbox_runners) {
+    if defined(Class['gitlab::cirunner::virtualbox']) {
+      warning('Class[\'gitlab::cirunner::virtualbox\' is defined so $gitlab::cirunner::virtualbox_runners willbe ignored')
+    } else {
+      class {'gitlab::cirunner::virtualbox': runners => $virtualbox_runners}
+    }
+  }
+  if ! empty($kubernetes_runners) {
+    if defined(Class['gitlab::cirunner::kubernetes']) {
+      warning('Class[\'gitlab::cirunner::kubernetes\' is defined so $gitlab::cirunner::kubernetes_runners willbe ignored')
+    } else {
+      class {'gitlab::cirunner::kubernetes': runners => $kubernetes_runners}
+    }
   }
 }

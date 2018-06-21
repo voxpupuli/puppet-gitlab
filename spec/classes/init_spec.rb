@@ -97,28 +97,6 @@ describe 'gitlab', type: :class do
             )
           }
         end
-        describe 'secrets' do
-          let(:params) do
-            { secrets: {
-              'gitlab_shell' => {
-                'secret_token' => 'mysupersecrettoken1'
-              },
-              'gitlab_rails' => {
-                'secret_token' => 'mysupersecrettoken2'
-              },
-              'gitlab_ci' => {
-                'secret_token' => 'null',
-                'secret_key_base' => 'mysupersecrettoken3',
-                'db_key_base' => 'mysupersecrettoken4'
-              }
-            } }
-          end
-
-          it {
-            is_expected.to contain_file('/etc/gitlab/gitlab-secrets.json'). \
-              with_content(%r{{\n  \"gitlab_shell\": {\n    \"secret_token\": \"mysupersecrettoken1\"\n  },\n  \"gitlab_rails\": {\n    \"secret_token\": \"mysupersecrettoken2\"\n  },\n  \"gitlab_ci\": {\n    \"secret_token\": \"null\",\n    \"secret_key_base\": \"mysupersecrettoken3\",\n    \"db_key_base\": \"mysupersecrettoken4\"\n  }\n}\n}m)
-          }
-        end
         describe 'gitlab_rails with hash value' do
           let(:params) do
             { gitlab_rails: {

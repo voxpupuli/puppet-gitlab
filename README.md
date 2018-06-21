@@ -206,25 +206,10 @@ class { 'gitlab::omnibus_package_repository':
 ```
 ### Gitlab secrets
 
-To manage `/etc/gitlab/gitlab-secrets.json` the parameter `secrets` accepts a hash.
-Here is an example how to use it with Hiera:
+*Note:* `gitlab::secrets` parameter was removed in v3.0.0. See: [Issues#213 - Remove support for setting content of `gitlab-secrets.json`](https://github.com/voxpupuli/puppet-gitlab/issues/213)
 
-```yaml
-gitlab::secrets:
-  gitlab_shell:
-    secret_token: 'asecrettoken1234567890'
-  gitlab_rails:
-    secret_token: 'asecrettoken123456789010'
-  gitlab_ci:
-    secret_token: null
-    secret_key_base: 'asecrettoken123456789011'
-    db_key_base: 'asecrettoken123456789012'
-```
-
-*Hint 1*: This secret tokens can be generated f.e. using Ruby with `SecureRandom.hex(64)`, or
-taken out of an installation without having `secrets` used.
-*Hint 2*: When using the `gitlab_ci` parameter to specify the `gitlab_server`, then this parameters
-must be added also to the `secrets` hash (Omnibus overrides `gitlab-secrets.json`).
+When using HA role `application_role`, make sure to add the [appropriate shared secrets](https://docs.gitlab.com/ee/administration/high_availability/gitlab.html#extra-configuration-for-additional-gitlab-application-servers) to your `gitlab_rails` and `gitlab_shell` hashes to ensure front-end nodes
+are configured to access all backend data-sources and repositories. If you receive 500 errors on your HA setup, this is one of the primary causes.
 
 ### LDAP configuration example
 

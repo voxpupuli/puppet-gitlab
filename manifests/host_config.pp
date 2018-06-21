@@ -11,7 +11,6 @@ class gitlab::host_config (
   $config_dir = '/etc/gitlab',
   $skip_auto_migrations = $gitlab::skip_auto_migrations,
   $skip_auto_reconfigure = $gitlab::skip_auto_reconfigure,
-  $secrets_file = $gitlab::secrets_file,
   $store_git_keys_in_db = $gitlab::store_git_keys_in_db,
 ) {
 

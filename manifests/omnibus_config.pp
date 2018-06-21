@@ -52,8 +52,6 @@ class gitlab::omnibus_config (
   $registry_nginx = $gitlab::registry_nginx
   $registry_nginx_eq_nginx = $gitlab::registry_nginx_eq_nginx
   $registry_external_url = $gitlab::registry_external_url
-  $secrets = $gitlab::secrets
-  $secrets_file = $gitlab::secrets_file
   $sentinel = $gitlab::sentinel
   $service_group = $gitlab::service_group
   $service_user = $gitlab::service_user
@@ -108,13 +106,6 @@ class gitlab::omnibus_config (
         *       => $config_file_attributes,
         content => template('gitlab/gitlab.rb.erb');
       }
-    }
-  }
-
-  if ! empty($secrets) {
-    file { $secrets_file:
-      *       => $config_file_attributes,
-      content => inline_template('<%= require \'json\'; JSON.pretty_generate(@secrets) + "\n" %>'),
     }
   }
 }

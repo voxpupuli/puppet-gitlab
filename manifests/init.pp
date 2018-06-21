@@ -245,15 +245,6 @@
 #   Array of roles when using a HA or Geo enabled GitLab configuration
 #   See: https://docs.gitlab.com/omnibus/roles/README.html for acceptable values
 #
-# [*secrets*]
-#   Default: undef
-#   Hash of values which will be placed into $secrets_file (by default /etc/gitlab/gitlab-secrets.json)
-#   If this parameter is undef, the file won't be managed.
-#
-# [*secrets_file*]
-#   Default: /etc/gitlab/gitlab-secrets.json
-#   Full path to secrets JSON file.
-#
 # [*sentinel*]
 #   Default: undef
 #   Hash of 'sentinel' config parameters.
@@ -386,8 +377,6 @@ class gitlab (
   Optional[Hash]                 $registry_nginx                = undef,
   Boolean                        $registry_nginx_eq_nginx       = false,
   Optional[Array]                $roles                         = undef,
-  Optional[Hash]                 $secrets                       = undef,
-  Optional[Stdlib::Absolutepath] $secrets_file                  = '/etc/gitlab/gitlab-secrets.json',
   Optional[Hash]                 $sentinel                      = undef,
   Optional[Hash]                 $shell                         = undef,
   Optional[Hash]                 $sidekiq                       = undef,

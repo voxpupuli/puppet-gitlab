@@ -333,13 +333,13 @@ class gitlab (
   String                         $service_user                    = 'root',
   String                         $service_group                   = 'root',
   # gitlab specific
-  String                         $rake_exec                       = $::gitlab::params::rake_exec,
+  String                         $rake_exec                       = '/usr/bin/gitlab-rake',
   Optional[Hash]                 $ci_redis                        = undef,
   Optional[Hash]                 $ci_unicorn                      = undef,
   Boolean                        $config_manage                   = true,
   Stdlib::Absolutepath           $config_file                     = '/etc/gitlab/gitlab.rb',
   Optional[String]               $custom_hooks_dir                = undef,
-  Stdlib::Httpurl                $external_url                    = $::gitlab::params::external_url,
+  Stdlib::Httpurl                $external_url                    = "http://${facts['networking']['fqdn']}",
   Optional[Integer[1, 65565]]    $external_port                   = undef,
   Optional[Hash]                 $geo_postgresql                  = undef,
   Boolean                        $geo_primary_role                = false,
@@ -401,7 +401,7 @@ class gitlab (
   Array                          $backup_cron_skips               = [],
   Hash                           $custom_hooks                    = {},
   Hash                           $global_hooks                    = {},
-) inherits gitlab::params {
+) {
 
   include gitlab::omnibus_package_repository
 

@@ -8,7 +8,6 @@ describe 'gitlab', type: :class do
       end
 
       context 'with default params' do
-        it { is_expected.to contain_class('gitlab::params') }
         it { is_expected.to contain_class('gitlab::host_config').that_comes_before('Class[gitlab::install]') }
         it { is_expected.to contain_class('gitlab::omnibus_config').that_comes_before('Class[gitlab::install]') }
         it { is_expected.to contain_class('gitlab::install').that_comes_before('Class[gitlab::service]') }

@@ -10,6 +10,7 @@ class gitlab::service (
   $service_exec   = $gitlab::service_exec,
   $service_manage = $gitlab::service_manage,
   $service_provider_restart = false,
+  $skip_post_deployment_migrations = $gitlab::skip_post_deployment_migrations,
 ){
 
   if $service_manage {
@@ -40,14 +41,21 @@ class gitlab::service (
     require     => [Service[$service_name], Class['gitlab::install']],
   }
 
+  if $skip_post_deployment_migrations {
+    $_reconfigure_attributes = $reconfigure_attributes + { environment => ['SKIP_POST_DEPLOYMENT_MIGRATIONS=true'] }
+  } else {
+    $_reconfigure_attributes = $reconfigure_attributes
+  }
+
+
   if ($service_manage and $service_provider_restart) {
     exec { 'gitlab_reconfigure':
       notify => Service[$service_name],
-      *      => $reconfigure_attributes,
+      *      => $_reconfigure_attributes,
     }
   } else {
     exec { 'gitlab_reconfigure':
-      * => $reconfigure_attributes,
+      * => $_reconfigure_attributes,
     }
   }
 }

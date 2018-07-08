@@ -97,6 +97,15 @@ describe 'gitlab', type: :class do
             )
           }
         end
+        describe 'skip_post_deployment_migrations' do
+          let(:params) do
+            { skip_post_deployment_migrations: true }
+          end
+
+          it {
+            is_expected.to contain_exec('gitlab_reconfigure').with_environment(['SKIP_POST_DEPLOYMENT_MIGRATIONS=true'])
+          }
+        end
         describe 'gitlab_rails with hash value' do
           let(:params) do
             { gitlab_rails: {

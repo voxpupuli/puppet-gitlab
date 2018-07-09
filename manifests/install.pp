@@ -1,21 +1,10 @@
 # == Class gitlab::install
 #
 # This class is called from gitlab for install.
-#
-# [*package_name*]
-#   Default: 'gitlab-ce'
-#   The internal packaging system's name for the package
-#   This name will automatically be changed by the gitlab::edition parameter
-#   Can be overridden for the purposes of installing custom compiled version of gitlab-omnibus
-#
-# [*manage_package*]
-#   Default: true
-#   Should the GitLab package be managed?
-#
 class gitlab::install (
-  Optional[String] $package_name = undef,
+  $package_name = $gitlab::package_name,
   $package_ensure = $gitlab::package_ensure,
-  Boolean $manage_package = true,
+  $manage_package = $gitlab::manage_package,
 ){
 
 
@@ -29,7 +18,7 @@ class gitlab::install (
     $_package_name = "gitlab-${_edition}"
   } else {
     unless $package_name {
-      fail('gitlab::install::package_name required when gitlab::manage_upstream_edition is `disabled`')
+      fail('gitlab::package_name required when gitlab::manage_upstream_edition is `disabled`')
     }
 
     $_package_name = $package_name

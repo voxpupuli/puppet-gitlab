@@ -1,4 +1,4 @@
-gitlab::omnibus_package_repository::repository_configuration:
+gitlab::repository_configuration:
   'apt::source':
     "gitlab_official_%{lookup('gitlab::edition')}":
       comment: 'Official repository for GitLab Omnibus'

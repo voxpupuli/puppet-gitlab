@@ -1,4 +1,4 @@
-gitlab::omnibus_package_repository::repository_configuration:
+gitlab::repository_configuration:
   yumrepo:
     "gitlab_official_%{lookup('gitlab::edition')}":
       ensure: 'present'

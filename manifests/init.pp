@@ -315,11 +315,31 @@
 #   valid values: db, uploads, repositories, builds,
 #                 artifacts, lfs, registry, pages
 #
+# [*package_name*]
+#   Default: 'gitlab-ce'
+#   The internal packaging system's name for the package
+#   This name will automatically be changed by the gitlab::edition parameter
+#   Can be overridden for the purposes of installing custom compiled version of gitlab-omnibus
+#
+# [*manage_package*]
+#   Default: true
+#   Should the GitLab package be managed?
+#
+# [*repository_configuration*]
+#   A hash of repository types and attributes for configuraiton the gitlab package repositories
+#   See docs in README.md
+#
+# [*manage_omnibus_repository*]
+#   Default: true
+#   Set to false if you wish to manage gitlab without configuring the package repository
+#
 class gitlab (
+  Hash                           $repository_configuration,
   # package configuration
   String                         $package_ensure                  = 'installed',
   Optional[String]               $edition                         = undef,
   Enum['ce', 'ee', 'disabled']   $manage_upstream_edition         = 'ce',
+  Boolean                        $manage_omnibus_repository       = true,
   # system service configuration
   Boolean                        $service_enable                  = true,
   Enum['stopped', 'false', 'running', 'true'] $service_ensure     = 'running', # lint:ignore:quoted_booleans
@@ -354,6 +374,7 @@ class gitlab (
   Optional[Hash]                 $logrotate                       = undef,
   Optional[Hash]                 $manage_storage_directories      = undef,
   Optional[Hash]                 $manage_accounts                 = undef,
+  Boolean                        $manage_package                  = true,
   Optional[Hash]                 $mattermost                      = undef,
   Optional[String]               $mattermost_external_url         = undef,
   Optional[Hash]                 $mattermost_nginx                = undef,
@@ -363,6 +384,7 @@ class gitlab (
   Optional[Hash]                 $redis_exporter                  = undef,
   Optional[Hash]                 $postgres_exporter               = undef,
   Optional[Hash]                 $gitlab_monitor                  = undef,
+  Optional[String]               $package_name                    = undef,
   Optional[String]               $pages_external_url              = undef,
   Optional[Hash]                 $pages_nginx                     = undef,
   Boolean                        $pages_nginx_eq_nginx            = false,

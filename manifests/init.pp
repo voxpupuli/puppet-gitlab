@@ -8,10 +8,6 @@
 #   Default: installed
 #   Can be used to choose exact package version to install.
 #
-# [*manage_package_repo*]
-#   Default: true
-#   Should the official package repository be managed?
-#
 # [*service_name*]
 #   Default: gitlab-runsvdir
 #   Name of the system service.

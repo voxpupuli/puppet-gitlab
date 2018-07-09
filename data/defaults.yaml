@@ -1,0 +1,5 @@
+gitlab::pgpass_file_attrs:
+  ensure: 'absent'
+  path: '/home/gitlab-consul/.pgpass'
+  owner: 'gitlab-consul'
+  group: 'gitlab-consul'

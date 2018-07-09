@@ -12,6 +12,8 @@ class gitlab::host_config (
   $skip_auto_migrations = $gitlab::skip_auto_migrations,
   $skip_auto_reconfigure = $gitlab::skip_auto_reconfigure,
   $store_git_keys_in_db = $gitlab::store_git_keys_in_db,
+  $pgpass_file_attrs = $gitlab::pgpass_file_attrs,
+  $pgbouncer_password = $gitlab::pgbouncer_password,
 ) {
 
   file { $config_dir:
@@ -75,6 +77,15 @@ class gitlab::host_config (
       mode   => '0650',
       source => 'puppet:///modules/gitlab/gitlab_shell_authorized_keys',
     }
+  }
+
+  unless ($pgpass_file_attrs[ensure] == 'present' and empty($pgbouncer_password)){
+    file { "pgpass":
+      *       => $pgpass_file_attrs,
+      content => template('gitlab/.pgpass.erb'),
+    }
+  } else {
+    fail('A password must be provided to $pgbouncer_password if $pgpass_file_attrs[ensure] = "present"')
   }
 
   include gitlab::backup

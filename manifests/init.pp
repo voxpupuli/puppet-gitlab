@@ -316,6 +316,7 @@
 #                 artifacts, lfs, registry, pages
 #
 class gitlab (
+  Hash                           $pgpass_file_attrs,
   # package configuration
   String                         $package_ensure                  = 'installed',
   Optional[String]               $edition                         = undef,
@@ -361,6 +362,7 @@ class gitlab (
   Optional[Hash]                 $nginx                           = undef,
   Optional[Hash]                 $node_exporter                   = undef,
   Optional[Hash]                 $redis_exporter                  = undef,
+  Optional[String]               $pgbouncer_password              = undef,
   Optional[Hash]                 $postgres_exporter               = undef,
   Optional[Hash]                 $gitlab_monitor                  = undef,
   Optional[String]               $pages_external_url              = undef,

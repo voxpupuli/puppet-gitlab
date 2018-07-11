@@ -315,6 +315,21 @@
 #   valid values: db, uploads, repositories, builds,
 #                 artifacts, lfs, registry, pages
 #
+# [*pgpass_file_location*]
+#   Default: '/home/gitlab-consul/.pgpass'
+#   Path to location of .pgpass file used by consul to
+#   authenticate with pgbouncer database
+#
+# [*pgpass_file_ensure*]
+#   Default: 'absent'
+#   Create .pgpass file for pgbouncer authentication
+#   When set to present requires valid value for pgbouncer_password
+#
+# [*pgbouncer_password*]
+#   Default: undef
+#   Password for the gitlab-consul database user in the
+#   pgbouncer database
+#
 class gitlab (
   # package configuration
   String                         $package_ensure                  = 'installed',

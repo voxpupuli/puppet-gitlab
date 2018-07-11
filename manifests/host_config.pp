@@ -12,7 +12,8 @@ class gitlab::host_config (
   $skip_auto_migrations = $gitlab::skip_auto_migrations,
   $skip_auto_reconfigure = $gitlab::skip_auto_reconfigure,
   $store_git_keys_in_db = $gitlab::store_git_keys_in_db,
-  $pgpass_file_attrs = $gitlab::pgpass_file_attrs,
+  $pgpass_file_ensure = $gitlab::pgpass_file_ensure,
+  $pgpass_file_location = $gitlab::pgpass_file_location,
   $pgbouncer_password = $gitlab::pgbouncer_password,
 ) {
 
@@ -79,13 +80,16 @@ class gitlab::host_config (
     }
   }
 
-  unless ($pgpass_file_attrs[ensure] == 'present' and empty($pgbouncer_password)){
-    file { "pgpass":
-      *       => $pgpass_file_attrs,
+  if ($pgpass_file_ensure == 'present' and $pgbouncer_password == undef){
+    fail('A password must be provided to pgbouncer_password if pgpass_file_attrs[ensure] is \'present\'')
+  } else {
+    # owner,group params for pgpass_file should NOT be changed, as they are hardcoded into gitlab HA db schema for pgbouncer database template
+    file { $pgpass_file_location:
+      ensure  => $pgpass_file_ensure,
+      owner   => 'gitlab-consul',
+      group   => 'gitlab-consul',
       content => template('gitlab/.pgpass.erb'),
     }
-  } else {
-    fail('A password must be provided to $pgbouncer_password if $pgpass_file_attrs[ensure] = "present"')
   }
 
   include gitlab::backup

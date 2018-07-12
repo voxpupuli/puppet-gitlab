@@ -138,7 +138,7 @@ This approach provides the following advantages:
 In order to provide your own repository configurations, you are required to set `manage_upstream_edition => disabled`, and provide a hash
 of repository resource type configurations in the following format:
 
-```
+```yaml
 gitlab::repository_configuration:
   repository_resource_type: #ex... 'apt::source` or `apt::pin` or `yumrepo`
     repository_resource_title:

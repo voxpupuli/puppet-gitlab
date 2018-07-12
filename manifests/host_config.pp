@@ -82,13 +82,19 @@ class gitlab::host_config (
 
   if ($pgpass_file_ensure == 'present' and $pgbouncer_password == undef){
     fail('A password must be provided to pgbouncer_password if pgpass_file_attrs[ensure] is \'present\'')
+  } elsif ($pgpass_file_ensure == 'absent'){
+    file { $pgpass_file_location:
+      ensure => 'absent',
+    }
   } else {
     # owner,group params for pgpass_file should NOT be changed, as they are hardcoded into gitlab HA db schema for pgbouncer database template
     file { $pgpass_file_location:
       ensure  => $pgpass_file_ensure,
       owner   => 'gitlab-consul',
       group   => 'gitlab-consul',
-      content => template('gitlab/.pgpass.erb'),
+      content => epp('gitlab/.pgpass.epp', {
+        'pgbouncer_password' => $pgbouncer_password,
+      }),
     }
   }
 

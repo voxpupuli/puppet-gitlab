@@ -1,0 +1,4 @@
+<%- |
+  String $pgbouncer_password
+| -%>
+127.0.0.1:*:pgbouncer:pgbouncer:<%= $pgbouncer_password -%>

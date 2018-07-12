@@ -128,6 +128,8 @@ describe 'gitlab', type: :class do
                   'path' => '/home/gitlab-consul/.pgpass',
                   'owner' => 'gitlab-consul',
                   'group' => 'gitlab-consul'
+                ).with_content(
+                  %r{^127.0.0.1:\*:pgbouncer:pgbouncer:PAsswd}
                 )
               }
             end

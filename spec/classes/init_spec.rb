@@ -105,6 +105,36 @@ describe 'gitlab', type: :class do
             is_expected.to contain_exec('gitlab_reconfigure').with_environment(['SKIP_POST_DEPLOYMENT_MIGRATIONS=true'])
           }
         end
+        context 'managing pgpass_file' do
+          describe 'with defaults' do
+            it { is_expected.to contain_file('/home/gitlab-consul/.pgpass').with_ensure('absent') }
+          end
+          context "with pgpass_file_ensure => 'present'" do
+            let(:params) do
+              { pgpass_file_ensure: 'present' }
+            end
+
+            describe 'without a password for pgbouncer_password' do
+              it { is_expected.to raise_error(%r{A password must be provided to pgbouncer_password}) }
+            end
+            describe 'with a password for pgbouncer_password' do
+              let(:params) do
+                super().merge('pgbouncer_password' => 'PAsswd')
+              end
+
+              it {
+                is_expected.to contain_file('/home/gitlab-consul/.pgpass').with(
+                  'ensure' => 'present',
+                  'path' => '/home/gitlab-consul/.pgpass',
+                  'owner' => 'gitlab-consul',
+                  'group' => 'gitlab-consul'
+                ).with_content(
+                  %r{^127.0.0.1:\*:pgbouncer:pgbouncer:PAsswd}
+                )
+              }
+            end
+          end
+        end
         describe 'gitlab_rails with hash value' do
           let(:params) do
             { gitlab_rails: {

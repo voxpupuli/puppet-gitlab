@@ -386,6 +386,31 @@ You will need to configure the AuthorizedKeysCommand for the `git` user in sshd.
 Instructions for this are provided by GitLab at
 [Fast lookup of authorized SSH keys in the databasse](https://docs.gitlab.com/ee/administration/operations/fast_ssh_key_lookup.html)
 
+### Setting up GitLab HA
+
+#### pgbouncer Authentication
+
+For use in HA configurations, or when using postgres replication in a single-node setup, this module supports automated configuration
+of pgbouncer authentication. To set this up, set `pgpass_file_ensure => 'present'` and provide a valid value for `pgbouncer_password`.
+
+```puppet
+class {'gitlab':
+  pgpass_file_ensure => 'present',
+  pgbouncer_password => 'YourPassword'
+}
+```
+
+By default, this creates a file at `/home/gitlab-consul/.pgpass`, which gitlab uses to authenticate to the pgbouncer database as the
+`gitlab-consul` _database_ user. This _does not_ refer to the `gitlab-consul` system user. The location of the `.pgpass` file can
+be changed based on how you manage homedirs or based on your utilization of NFS. This location should be set to be the home
+directory you have configured for the `gitlab-consul` system user.
+
+```puppet
+class {'gitlab':
+  pgpass_file_location => '/homedir/for/gitlab-consul-system-user/.pgpass'
+}
+```
+
 ### Gitlab CI Runner Limitations
 
 The Gitlab CI runner installation is at the moment only tested on Ubuntu 14.04.

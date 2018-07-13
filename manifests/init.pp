@@ -332,6 +332,20 @@
 # [*manage_omnibus_repository*]
 #   Default: true
 #   Set to false if you wish to manage gitlab without configuring the package repository
+# [*pgpass_file_location*]
+#   Default: '/home/gitlab-consul/.pgpass'
+#   Path to location of .pgpass file used by consul to
+#   authenticate with pgbouncer database
+#
+# [*pgpass_file_ensure*]
+#   Default: 'absent'
+#   Create .pgpass file for pgbouncer authentication
+#   When set to present requires valid value for pgbouncer_password
+#
+# [*pgbouncer_password*]
+#   Default: undef
+#   Password for the gitlab-consul database user in the
+#   pgbouncer database
 #
 class gitlab (
   Hash                           $repository_configuration,
@@ -382,6 +396,9 @@ class gitlab (
   Optional[Hash]                 $nginx                           = undef,
   Optional[Hash]                 $node_exporter                   = undef,
   Optional[Hash]                 $redis_exporter                  = undef,
+  Optional[String]               $pgbouncer_password              = undef,
+  Enum['absent', 'present']      $pgpass_file_ensure              = 'absent',
+  Stdlib::Absolutepath           $pgpass_file_location            = '/home/gitlab-consul/.pgpass',
   Optional[Hash]                 $postgres_exporter               = undef,
   Optional[Hash]                 $gitlab_monitor                  = undef,
   Optional[String]               $package_name                    = undef,

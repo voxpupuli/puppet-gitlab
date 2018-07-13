@@ -3,8 +3,8 @@
 # This class is used to configure gitlab repositories
 #
 class gitlab::omnibus_package_repository (
-  Hash $repository_configuration,
-  Boolean $manage_omnibus_repository = true,
+  $repository_configuration = $gitlab::repository_configuration,
+  $manage_omnibus_repository = $gitlab::manage_omnibus_repository,
   $manage_upstream_edition = $gitlab::manage_upstream_edition,
 ) {
   if $manage_omnibus_repository {

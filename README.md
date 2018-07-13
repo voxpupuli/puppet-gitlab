@@ -138,11 +138,12 @@ This approach provides the following advantages:
 In order to provide your own repository configurations, you are required to set `manage_upstream_edition => disabled`, and provide a hash
 of repository resource type configurations in the following format:
 
-```
-repository_resource_type: #ex... 'apt::source` or `apt::pin` or `yumrepo`
-  repository_resource_title:
-    repository_resource_attribute1: 'value'
-    repository_resource_attribute2: 'value'
+```yaml
+gitlab::repository_configuration:
+  repository_resource_type: #ex... 'apt::source` or `apt::pin` or `yumrepo`
+    repository_resource_title:
+      repository_resource_attribute1: 'value'
+      repository_resource_attribute2: 'value'
 ```
 
 Examples/defaults for `yumrepo` can be found at `data/RedHat.yaml`, and for `apt` at `data/Debian.yaml`.
@@ -179,17 +180,11 @@ As an expanded example of repository and package configuration, let's assume you
  - hosted inside your organizations firewall
  - installing gitlab-omnibus enterprise edition
 
-```
+```puppet
 class { 'gitlab':
   external_url => 'http://gitlab.mydomain.tld',
   manage_upstream_edition => 'disabled',
-}
-
-class { 'gitlab::install':
-  package_name => 'gitlab-ee'
-}
-
-class { 'gitlab::omnibus_package_repository':
+  package_name => 'gitlab-ee',
   repository_configuration => {
     'apt::source' => {
       'internal_mirror_of_gitlab_official_ce' => {

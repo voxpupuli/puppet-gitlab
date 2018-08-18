@@ -230,49 +230,6 @@ gitlab::gitlab_rails:
       user_filter: ''
 ```
 
-### Gitlab CI Runner Config
-
-Here is an example how to configure Gitlab CI runners using Hiera:
-
-To use the Gitlab CI runners it is required to have the [puppetlabs/docker](https://forge.puppetlabs.com/puppetlabs/docker) module.
-
-`$manage_docker` can be set to false if docker is managed externally.
-
-```yaml
-classes:
-  - gitlab::cirunner
-
-gitlab::cirunner::concurrent: 4
-
-gitlab::cirunner::metrics_server: "localhost:8888"
-
-gitlab_ci_runners:
-  test_runner1:{}
-  test_runner2:{}
-  test_runner3:
-    url: "https://git.alternative.org/ci"
-    registration-token: "abcdef1234567890"
-
-gitlab_ci_runners_defaults:
-  url: "https://git.example.com/ci"
-  registration-token: "1234567890abcdef"
-  executor: "docker"
-  docker-image: "ubuntu:trusty"
-```
-
-To unregister a specific runner you may use `ensure` param:
-
-```yaml
-gitlab_ci_runners:
-  test_runner1:{}
-  test_runner2:{}
-  test_runner3:
-    url: "https://git.alternative.org/ci"
-    registration-token: "abcdef1234567890"
-    ensure: absent
-```
-
-
 ### NGINX Configuration
 
 Configuration of the embedded NGINX instance is handled by the `/etc/gitlab/gitlab.rb` file. Details on available configuration options are available at http://doc.gitlab.com/omnibus/settings/nginx.html. Options listed here can be passed in to the `nginx` parameter as a hash. For example, to enable ssh redirection:
@@ -405,10 +362,6 @@ class {'gitlab':
   pgpass_file_location => '/homedir/for/gitlab-consul-system-user/.pgpass'
 }
 ```
-
-### Gitlab CI Runner Limitations
-
-The Gitlab CI runner installation is at the moment only tested on Ubuntu 14.04.
 
 ## Tasks
 

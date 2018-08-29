@@ -60,6 +60,10 @@
 #   Default: /etc/gitlab/gitlab.rb
 #   Path of the Gitlab Omnibus config file.
 #
+# [*alertmanager*]
+#   Default: undef
+#   Hash of 'alertmanager' config parameters.
+#
 # [*ci_redis*]
 #   Default: undef
 #   Hash of 'ci_redis' config parameters.
@@ -364,6 +368,7 @@ class gitlab (
   String                         $service_group                   = 'root',
   # gitlab specific
   String                         $rake_exec                       = '/usr/bin/gitlab-rake',
+  Optional[Hash]                 $alertmanager                    = undef,
   Optional[Hash]                 $ci_redis                        = undef,
   Optional[Hash]                 $ci_unicorn                      = undef,
   Boolean                        $config_manage                   = true,

@@ -8,6 +8,7 @@ class gitlab::omnibus_config (
 ){
 
   # get variables from the toplevel manifest for usage in the template
+  $alertmanager = $gitlab::alertmanager
   $ci_redis = $gitlab::ci_redis
   $ci_unicorn = $gitlab::ci_unicorn
   $external_url = $gitlab::external_url

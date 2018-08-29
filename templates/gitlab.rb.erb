@@ -335,6 +335,15 @@ redis_exporter['<%= k -%>'] = <%= decorate(@redis_exporter[k]) %>
 <%- @postgres_exporter.keys.sort.each do |k| -%>
 postgres_exporter['<%= k -%>'] = <%= decorate(@postgres_exporter[k]) %>
 <%- end end -%>
+<%- if @alertmanager -%>
+
+################################################################################
+## Alertmanager
+##! Docs: https://prometheus.io/docs/alerting/alertmanager/
+
+<%- @alertmanager.keys.sort.each do |k| -%>
+alertmanager['<%= k -%>'] = <%= decorate(@alertmanager[k]) %>
+<%- end end -%>
 <%- if @gitlab_monitor -%>
 
 ################################################################################

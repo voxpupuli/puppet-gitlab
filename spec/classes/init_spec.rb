@@ -70,6 +70,20 @@ describe 'gitlab', type: :class do
               with_content(%r{^\s*nginx\['listen_port'\] = ('|)80('|)$})
           }
         end
+        describe 'alertmanager' do
+          let(:params) do
+            { alertmanager: {
+              'enable' => true,
+              'flags' => { 'cluster.advertise-address' => '127.0.0.1:9093' }
+            } }
+          end
+
+          it {
+            is_expected.to contain_file('/etc/gitlab/gitlab.rb'). \
+              with_content(%r{^\s*alertmanager\['enable'\] = true$}).
+              with_content(%r{^\s*alertmanager\['flags'\] = {\"cluster.advertise-address\"=>\"127.0.0.1:9093\"}$})
+          }
+        end
         describe 'letsencrypt' do
           let(:params) do
             { letsencrypt: {

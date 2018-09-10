@@ -358,9 +358,6 @@ class gitlab (
   Optional[String]               $edition                         = undef,
   Enum['ce', 'ee', 'disabled']   $manage_upstream_edition         = 'ce',
   Boolean                        $manage_omnibus_repository       = true,
-  $consul = undef,
-  $repmgr = undef,
-  $pgbouncer = undef,
   # system service configuration
   Boolean                        $service_enable                  = true,
   Enum['stopped', 'false', 'running', 'true'] $service_ensure     = 'running', # lint:ignore:quoted_booleans

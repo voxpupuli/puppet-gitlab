@@ -506,3 +506,32 @@ geo_secondary['<%= k -%>'] = <%= decorate(@geo_secondary[k]) %>
 <%- @geo_postgresql.keys.sort.each do |k| -%>
 geo_postgresql['<%= k -%>'] = <%= decorate(@geo_postgresql[k]) %>
 <%- end end -%>
+<%- if @pgbouncer -%>
+################################################################################
+# Pgbouncer (EE only)
+# See [GitLab PgBouncer documentation](http://docs.gitlab.com/omnibus/settings/database.html#enabling-pgbouncer-ee-only)
+# See the [PgBouncer page](https://pgbouncer.github.io/config.html) for details
+################################################################################
+
+
+<%- @pgbouncer.keys.sort.each do |k| -%>
+pgbouncer['<%= k -%>'] = <%= decorate(@pgbouncer[k]) %>
+<%- end end -%>
+<%- if @repmgr -%>
+################################################################################
+# repmgr (EE only)
+################################################################################
+
+
+<%- @repmgr.keys.sort.each do |k| -%>
+repmgr['<%= k -%>'] = <%= decorate(@repmgr[k]) %>
+<%- end end -%>
+<%- if @consul -%>
+################################################################################
+# consul (EEP only)
+################################################################################
+
+
+<%- @consul.keys.sort.each do |k| -%>
+consul['<%= k -%>'] = <%= decorate(@consul[k]) %>
+<%- end end -%>

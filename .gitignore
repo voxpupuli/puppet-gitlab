@@ -18,3 +18,4 @@ Puppetfile.lock
 .*.sw?
 .yardoc/
 Guardfile
+Dockerfile.override

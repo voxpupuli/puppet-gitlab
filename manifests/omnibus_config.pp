@@ -11,6 +11,7 @@ class gitlab::omnibus_config (
   $alertmanager = $gitlab::alertmanager
   $ci_redis = $gitlab::ci_redis
   $ci_unicorn = $gitlab::ci_unicorn
+  $consul = $gitlab::consul
   $external_url = $gitlab::external_url
   $external_port = $gitlab::external_port
   $geo_postgresql = $gitlab::geo_postgresql
@@ -42,6 +43,7 @@ class gitlab::omnibus_config (
   $pages_external_url = $gitlab::pages_external_url
   $pages_nginx = $gitlab::pages_nginx
   $pages_nginx_eq_nginx = $gitlab::pages_nginx_eq_nginx
+  $pgbouncer = $gitlab::pgbouncer
   $postgresql = $gitlab::postgresql
   $prometheus = $gitlab::prometheus
   $prometheus_monitoring_enable = $gitlab::prometheus_monitoring_enable
@@ -53,6 +55,7 @@ class gitlab::omnibus_config (
   $registry_nginx = $gitlab::registry_nginx
   $registry_nginx_eq_nginx = $gitlab::registry_nginx_eq_nginx
   $registry_external_url = $gitlab::registry_external_url
+  $repmgr = $gitlab::repmgr
   $sentinel = $gitlab::sentinel
   $service_group = $gitlab::service_group
   $service_user = $gitlab::service_user

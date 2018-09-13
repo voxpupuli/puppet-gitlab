@@ -21,9 +21,11 @@ describe 'gitlab', type: :class do
 
         case facts[:osfamily]
         when 'Debian'
-          it { is_expected.to contain_apt__source('gitlab_official_ce') }
+          it { is_expected.to contain_apt__source('gitlab_official_ce').with_comment(%r{.}) }
+          it { is_expected.not_to contain_apt__source('gitlab_official_') }
         when 'RedHat'
-          it { is_expected.to contain_yumrepo('gitlab_official_ce') }
+          it { is_expected.to contain_yumrepo('gitlab_official_ce').with_enabled(1) }
+          it { is_expected.not_to contain_yumrepo('gitlab_official_') }
         end
       end
 

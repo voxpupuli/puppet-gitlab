@@ -18,7 +18,31 @@ class gitlab::omnibus_package_repository (
       $_edition = $manage_upstream_edition
     }
 
-    $_repository_configuration = $repository_configuration
+    if $_edition == 'disabled' {
+      $_repository_configuration = $repository_configuration
+    } else {
+      # if we manage the repositories, adjust the ensure => present/absent
+      # attributes according to the desired edition.
+      $_repository_configuration = $repository_configuration.reduce({}) | $_memo, $_pair1 | {
+        # yumrepo =>  ...
+        [ $_rsc_type, $_repo_hash ] = $_pair1
+
+        $_mapped_repo_hash = $_repo_hash.reduce({}) | $_memo, $_pair2 | {
+          # gitlab_official_ce => ...
+          [ $_repo_name, $_repo_attrs, ] = $_pair2
+
+          if $_repo_name == "gitlab_official_${_edition}" {
+            $_ensure = 'present'
+          } else {
+            $_ensure = 'absent'
+          }
+
+          $_memo + { $_repo_name => $_repo_attrs + { ensure => $_ensure } }
+        }
+
+        $_memo + { $_rsc_type => $_mapped_repo_hash }
+      }
+    }
 
     # common attributes for all repository configuration resources
     # ensures correct ordering regardless of the number or configuration

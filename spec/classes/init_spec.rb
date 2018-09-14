@@ -21,11 +21,15 @@ describe 'gitlab', type: :class do
 
         case facts[:osfamily]
         when 'Debian'
-          it { is_expected.to contain_apt__source('gitlab_official_ce').with_comment(%r{.}) }
+          it { is_expected.to contain_apt__source('gitlab_official_ce').with_ensure('present').with_comment(%r{.}) }
+          it { is_expected.to contain_apt__source('gitlab_official_ee').with_ensure('absent') }
           it { is_expected.not_to contain_apt__source('gitlab_official_') }
+          it { is_expected.not_to contain_yumrepo('gitlab_official_ce') }
         when 'RedHat'
-          it { is_expected.to contain_yumrepo('gitlab_official_ce').with_enabled(1) }
+          it { is_expected.to contain_yumrepo('gitlab_official_ce').with_ensure('present').with_enabled(1) }
+          it { is_expected.to contain_yumrepo('gitlab_official_ee').with_ensure('absent') }
           it { is_expected.not_to contain_yumrepo('gitlab_official_') }
+          it { is_expected.not_to contain_apt__source('gitlab_official_ce') }
         end
       end
 
@@ -37,9 +41,11 @@ describe 'gitlab', type: :class do
 
           case facts[:osfamily]
           when 'Debian'
-            it { is_expected.to contain_apt__source('gitlab_official_ee') }
+            it { is_expected.to contain_apt__source('gitlab_official_ee').with_ensure('present') }
+            it { is_expected.to contain_apt__source('gitlab_official_ce').with_ensure('absent')  }
           when 'RedHat'
-            it { is_expected.to contain_yumrepo('gitlab_official_ee') }
+            it { is_expected.to contain_yumrepo('gitlab_official_ee').with_ensure('present') }
+            it { is_expected.to contain_yumrepo('gitlab_official_ce').with_ensure('absent')  }
           end
         end
         describe 'external_url' do

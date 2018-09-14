@@ -1,8 +1,14 @@
 gitlab::repository_configuration:
   'apt::source':
-    "gitlab_official_%{lookup('gitlab::edition')}":
+    "gitlab_official_ce":
       comment: 'Official repository for GitLab Omnibus'
-      location: "https://packages.gitlab.com/gitlab/gitlab-%{lookup('gitlab::edition')}/debian"
+      location: "https://packages.gitlab.com/gitlab/gitlab-ce/debian"
+      key:
+        id: '1A4C919DB987D435939638B914219A96E15E78F4'
+        source: 'https://packages.gitlab.com/gpg.key'
+    "gitlab_official_ee":
+      comment: 'Official repository for GitLab Omnibus'
+      location: "https://packages.gitlab.com/gitlab/gitlab-ee/debian"
       key:
         id: '1A4C919DB987D435939638B914219A96E15E78F4'
         source: 'https://packages.gitlab.com/gpg.key'

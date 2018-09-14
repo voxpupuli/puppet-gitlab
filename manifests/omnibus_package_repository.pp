@@ -18,36 +18,7 @@ class gitlab::omnibus_package_repository (
       $_edition = $manage_upstream_edition
     }
 
-    # ensure the correct edition is used if upstream package repositories are being configured
-    if $_edition != 'disabled'{
-      case $facts['os']['family'] {
-        'Debian': {
-          $_filtered_repository_configuration = {
-            'apt::source' => {
-              "gitlab_official_${_edition}" => {
-                location => "https://packages.gitlab.com/gitlab/gitlab-${_edition}/debian",
-              },
-            },
-          }
-        }
-        'RedHat': {
-          $_filtered_repository_configuration = {
-            'yumrepo' =>  {
-              "gitlab_official_${_edition}" =>  {
-                baseurl => "https://packages.gitlab.com/gitlab/gitlab-${_edition}/el/${facts['os']['release']['major']}/\$basearch",
-              },
-            },
-          }
-        }
-        default: {
-          $_filtered_repository_configuration = {}
-        }
-      }
-      $_repository_configuration = deep_merge($repository_configuration, $_filtered_repository_configuration)
-    } else {
-    # using upstream repository, so just use defaults
-      $_repository_configuration = $repository_configuration
-    }
+    $_repository_configuration = $repository_configuration
 
     # common attributes for all repository configuration resources
     # ensures correct ordering regardless of the number or configuration

@@ -18,35 +18,30 @@ class gitlab::omnibus_package_repository (
       $_edition = $manage_upstream_edition
     }
 
-    # ensure the correct edition is used if upstream package repositories are being configured
-    if $_edition != 'disabled'{
-      case $facts['os']['family'] {
-        'Debian': {
-          $_filtered_repository_configuration = {
-            'apt::source' => {
-              "gitlab_official_${_edition}" => {
-                location => "https://packages.gitlab.com/gitlab/gitlab-${_edition}/debian",
-              },
-            },
-          }
-        }
-        'RedHat': {
-          $_filtered_repository_configuration = {
-            'yumrepo' =>  {
-              "gitlab_official_${_edition}" =>  {
-                baseurl => "https://packages.gitlab.com/gitlab/gitlab-${_edition}/el/${facts['os']['release']['major']}/\$basearch",
-              },
-            },
-          }
-        }
-        default: {
-          $_filtered_repository_configuration = {}
-        }
-      }
-      $_repository_configuration = deep_merge($repository_configuration, $_filtered_repository_configuration)
-    } else {
-    # using upstream repository, so just use defaults
+    if $_edition == 'disabled' {
       $_repository_configuration = $repository_configuration
+    } else {
+      # if we manage the repositories, adjust the ensure => present/absent
+      # attributes according to the desired edition.
+      $_repository_configuration = $repository_configuration.reduce({}) | $_memo, $_pair1 | {
+        # yumrepo =>  ...
+        [ $_rsc_type, $_repo_hash ] = $_pair1
+
+        $_mapped_repo_hash = $_repo_hash.reduce({}) | $_memo, $_pair2 | {
+          # gitlab_official_ce => ...
+          [ $_repo_name, $_repo_attrs, ] = $_pair2
+
+          if $_repo_name == "gitlab_official_${_edition}" {
+            $_ensure = 'present'
+          } else {
+            $_ensure = 'absent'
+          }
+
+          $_memo + { $_repo_name => $_repo_attrs + { ensure => $_ensure } }
+        }
+
+        $_memo + { $_rsc_type => $_mapped_repo_hash }
+      }
     }
 
     # common attributes for all repository configuration resources

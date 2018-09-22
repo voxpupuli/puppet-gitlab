@@ -13,8 +13,8 @@ gitlab::repository_configuration:
       ensure: 'present'
       assumeyes: true
       enabled: 1
-      baseurl: "https://packages.gitlab.com/gitlab/gitlab-ee/el/%{facts.os.release.major}/$basearch"
-      gpgkey: "https://packages.gitlab.com/gpg.key"
+      baseurl: "https://packages.gitlab.com/gitlab/gitlab-%{lookup('gitlab::edition')}/el/%{facts.os.release.major}/$basearch"
+      gpgkey: "https://packages.gitlab.com/gitlab/gitlab-%{lookup('gitlab::edition')}/gpgkey https://packages.gitlab.com/gitlab/gitlab-%{lookup('gitlab::edition')}/gpgkey/gitlab-gitlab-%{lookup('gitlab::edition')}-3D645A26AB9FBD22.pub.gpg"
       gpgcheck: 1
       repo_gpgcheck: 1
       sslverify: 1

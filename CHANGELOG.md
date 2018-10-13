@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v3.0.1](https://github.com/voxpupuli/puppet-gitlab/tree/v3.0.1) (2018-10-13)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-gitlab/compare/v3.0.0...v3.0.1)
+
+**Fixed bugs:**
+
+- Use ubuntu apt repo if we are on ubuntu [\#279](https://github.com/voxpupuli/puppet-gitlab/pull/279) ([jkroepke](https://github.com/jkroepke))
+
+**Closed issues:**
+
+- DEB repo on ubuntu should not point to debian [\#277](https://github.com/voxpupuli/puppet-gitlab/issues/277)
+
 ## [v3.0.0](https://github.com/voxpupuli/puppet-gitlab/tree/v3.0.0) (2018-10-13)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-gitlab/compare/v2.1.0...v3.0.0)
@@ -11,15 +23,14 @@ These should not affect the functionality of the module.
 **Breaking changes:**
 
 - Remove support for setting content of `gitlab-secrets.json`  [\#213](https://github.com/voxpupuli/puppet-gitlab/issues/213)
-- remove gitlab-ci-runner from module [\#262](https://github.com/voxpupuli/puppet-gitlab/pull/262) ([LongLiveCHIEF](https://github.com/LongLiveCHIEF))
 - 244 refactor repository package management [\#246](https://github.com/voxpupuli/puppet-gitlab/pull/246) ([LongLiveCHIEF](https://github.com/LongLiveCHIEF))
-- Do not manage apt-transport-https. [\#243](https://github.com/voxpupuli/puppet-gitlab/pull/243) ([jkroepke](https://github.com/jkroepke))
 - Refactor resource ordering [\#241](https://github.com/voxpupuli/puppet-gitlab/pull/241) ([LongLiveCHIEF](https://github.com/LongLiveCHIEF))
+- remove gitlab-ci-runner from module [\#262](https://github.com/voxpupuli/puppet-gitlab/pull/262) ([LongLiveCHIEF](https://github.com/LongLiveCHIEF))
+- Do not manage apt-transport-https. [\#243](https://github.com/voxpupuli/puppet-gitlab/pull/243) ([jkroepke](https://github.com/jkroepke))
 
 **Implemented enhancements:**
 
 - Alertmanager support in the omnibus config [\#266](https://github.com/voxpupuli/puppet-gitlab/issues/266)
-- Refactor repository/package management to allow pulling upstream packages through a mirror \(not a proxy\) [\#244](https://github.com/voxpupuli/puppet-gitlab/issues/244)
 - Support creation of .pgpass file [\#229](https://github.com/voxpupuli/puppet-gitlab/issues/229)
 - Reformat registration options in --option=value output [\#189](https://github.com/voxpupuli/puppet-gitlab/issues/189)
 - WIP: Add `consul`, `pgbouncer` and `repmgr` keys to configuration file template [\#187](https://github.com/voxpupuli/puppet-gitlab/issues/187)
@@ -28,9 +39,10 @@ These should not affect the functionality of the module.
 - runner unregister [\#123](https://github.com/voxpupuli/puppet-gitlab/issues/123)
 - extra\_hosts settings in config.toml ? [\#121](https://github.com/voxpupuli/puppet-gitlab/issues/121)
 - CI Runner update [\#120](https://github.com/voxpupuli/puppet-gitlab/issues/120)
-- Allow configuration of the alertmanager via puppet. [\#267](https://github.com/voxpupuli/puppet-gitlab/pull/267) ([gfokkema](https://github.com/gfokkema))
+- Refactor repository/package management to allow pulling upstream packages through a mirror \(not a proxy\) [\#244](https://github.com/voxpupuli/puppet-gitlab/issues/244)
 - allow puppetlabs/apt 5.x [\#259](https://github.com/voxpupuli/puppet-gitlab/pull/259) ([bastelfreak](https://github.com/bastelfreak))
 - Add gitlab-consul auth for pgbouncer database [\#255](https://github.com/voxpupuli/puppet-gitlab/pull/255) ([LongLiveCHIEF](https://github.com/LongLiveCHIEF))
+- Allow configuration of the alertmanager via puppet. [\#267](https://github.com/voxpupuli/puppet-gitlab/pull/267) ([gfokkema](https://github.com/gfokkema))
 
 **Fixed bugs:**
 
@@ -41,7 +53,6 @@ These should not affect the functionality of the module.
 
 **Closed issues:**
 
-- Remove GitLab Runner Features from module [\#268](https://github.com/voxpupuli/puppet-gitlab/issues/268)
 - Multiple environment variables cannot be passed to gitlab-runner [\#261](https://github.com/voxpupuli/puppet-gitlab/issues/261)
 - Boolean flags to gitlab-runner cannot be passed [\#260](https://github.com/voxpupuli/puppet-gitlab/issues/260)
 - implicit cast '1' to integer 1 in ruby template [\#258](https://github.com/voxpupuli/puppet-gitlab/issues/258)
@@ -54,6 +65,7 @@ These should not affect the functionality of the module.
 - gitlab\_reconfigure should only be refreshed once per puppet run [\#227](https://github.com/voxpupuli/puppet-gitlab/issues/227)
 - Ubuntu 12.04 no longer supported by gitlab [\#136](https://github.com/voxpupuli/puppet-gitlab/issues/136)
 - is\_hash, is\_array, and is\_any are depricated [\#106](https://github.com/voxpupuli/puppet-gitlab/issues/106)
+- Remove GitLab Runner Features from module [\#268](https://github.com/voxpupuli/puppet-gitlab/issues/268)
 
 **Merged pull requests:**
 
@@ -63,11 +75,11 @@ These should not affect the functionality of the module.
 -  fix repositories missing the edition name [\#271](https://github.com/voxpupuli/puppet-gitlab/pull/271) ([tequeter](https://github.com/tequeter))
 - Add consul repmgr pgbouncer params [\#270](https://github.com/voxpupuli/puppet-gitlab/pull/270) ([LongLiveCHIEF](https://github.com/LongLiveCHIEF))
 - allow puppetlabs/stdlib 5.x [\#265](https://github.com/voxpupuli/puppet-gitlab/pull/265) ([bastelfreak](https://github.com/bastelfreak))
-- removed params.pp in accordance with module best practices design [\#252](https://github.com/voxpupuli/puppet-gitlab/pull/252) ([LongLiveCHIEF](https://github.com/LongLiveCHIEF))
 - add support for Zero Downtime Upgrades [\#251](https://github.com/voxpupuli/puppet-gitlab/pull/251) ([LongLiveCHIEF](https://github.com/LongLiveCHIEF))
-- remove secrets file management [\#249](https://github.com/voxpupuli/puppet-gitlab/pull/249) ([LongLiveCHIEF](https://github.com/LongLiveCHIEF))
 - Update docker module usage information [\#248](https://github.com/voxpupuli/puppet-gitlab/pull/248) ([LongLiveCHIEF](https://github.com/LongLiveCHIEF))
 - remove ubunutu 12 acceptance nodes [\#242](https://github.com/voxpupuli/puppet-gitlab/pull/242) ([LongLiveCHIEF](https://github.com/LongLiveCHIEF))
+- removed params.pp in accordance with module best practices design [\#252](https://github.com/voxpupuli/puppet-gitlab/pull/252) ([LongLiveCHIEF](https://github.com/LongLiveCHIEF))
+- remove secrets file management [\#249](https://github.com/voxpupuli/puppet-gitlab/pull/249) ([LongLiveCHIEF](https://github.com/LongLiveCHIEF))
 
 ## [v2.1.0](https://github.com/voxpupuli/puppet-gitlab/tree/v2.1.0) (2018-05-27)
 

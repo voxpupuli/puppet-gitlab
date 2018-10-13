@@ -4,3 +4,6 @@ fixtures:
     apt: "https://github.com/puppetlabs/puppetlabs-apt.git"
     docker: "https://github.com/garethr/garethr-docker.git"
     epel: "https://github.com/stahnma/puppet-module-epel"
+    yumrepo_core:
+      repo: https://github.com/puppetlabs/puppetlabs-yumrepo_core.git
+      puppet_version: ">= 6.0.0"

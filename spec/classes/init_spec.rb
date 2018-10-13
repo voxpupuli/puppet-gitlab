@@ -25,6 +25,14 @@ describe 'gitlab', type: :class do
           it { is_expected.to contain_apt__source('gitlab_official_ee').with_ensure('absent') }
           it { is_expected.not_to contain_apt__source('gitlab_official_') }
           it { is_expected.not_to contain_yumrepo('gitlab_official_ce') }
+          case facts[:operatingsystem]
+          when 'Ubuntu'
+            it { is_expected.to contain_apt__source('gitlab_official_ce').with_location('https://packages.gitlab.com/gitlab/gitlab-ce/ubuntu') }
+            it { is_expected.to contain_apt__source('gitlab_official_ee').with_location('https://packages.gitlab.com/gitlab/gitlab-ee/ubuntu') }
+          else
+            it { is_expected.to contain_apt__source('gitlab_official_ce').with_location('https://packages.gitlab.com/gitlab/gitlab-ce/debian') }
+            it { is_expected.to contain_apt__source('gitlab_official_ee').with_location('https://packages.gitlab.com/gitlab/gitlab-ee/debian') }
+          end
         when 'RedHat'
           it { is_expected.to contain_yumrepo('gitlab_official_ce').with_ensure('present').with_enabled(1) }
           it { is_expected.to contain_yumrepo('gitlab_official_ee').with_ensure('absent') }

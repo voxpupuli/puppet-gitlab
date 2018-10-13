@@ -12,5 +12,3 @@ fixtures:
     epel:
       repo: "https://github.com/stahnma/puppet-module-epel"
       ref: "1.2.2"
-  symlinks:
-    gitlab: "#{source_dir}"

@@ -35,6 +35,9 @@ describe 'gitlab', type: :class do
           end
         when 'RedHat'
           it { is_expected.to contain_yumrepo('gitlab_official_ce').with_ensure('present').with_enabled(1) }
+          it { is_expected.to contain_yumrepo('gitlab_official_ce').without_baseurl(%r{/gitlab-/}) }
+          it { is_expected.to contain_yumrepo('gitlab_official_ce').without_gpgkey(%r{/gitlab-/}) }
+          it { is_expected.to contain_yumrepo('gitlab_official_ce').without_gpgkey('https://packages.gitlab.com/gpg.key') }
           it { is_expected.to contain_yumrepo('gitlab_official_ee').with_ensure('absent') }
           it { is_expected.not_to contain_yumrepo('gitlab_official_') }
           it { is_expected.not_to contain_apt__source('gitlab_official_ce') }
@@ -53,7 +56,10 @@ describe 'gitlab', type: :class do
             it { is_expected.to contain_apt__source('gitlab_official_ce').with_ensure('absent')  }
           when 'RedHat'
             it { is_expected.to contain_yumrepo('gitlab_official_ee').with_ensure('present') }
-            it { is_expected.to contain_yumrepo('gitlab_official_ce').with_ensure('absent')  }
+            it { is_expected.to contain_yumrepo('gitlab_official_ee').without_baseurl(%r{/gitlab-/}) }
+            it { is_expected.to contain_yumrepo('gitlab_official_ee').without_gpgkey(%r{/gitlab-/}) }
+            it { is_expected.to contain_yumrepo('gitlab_official_ee').without_gpgkey('https://packages.gitlab.com/gpg.key') }
+            it { is_expected.to contain_yumrepo('gitlab_official_ce').with_ensure('absent') }
           end
         end
         describe 'external_url' do

@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v3.0.2](https://github.com/voxpupuli/puppet-gitlab/tree/v3.0.2) (2018-10-17)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-gitlab/compare/v3.0.1...v3.0.2)
+
+**Fixed bugs:**
+
+- fix the repositories as per \#271 and \#272 [\#281](https://github.com/voxpupuli/puppet-gitlab/pull/281) ([tequeter](https://github.com/tequeter))
+
 ## [v3.0.1](https://github.com/voxpupuli/puppet-gitlab/tree/v3.0.1) (2018-10-13)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-gitlab/compare/v3.0.0...v3.0.1)

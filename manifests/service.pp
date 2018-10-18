@@ -18,6 +18,7 @@ class gitlab::service (
     $start = "${service_exec} start"
     $stop = "${service_exec} stop"
     $status = "${service_exec} status"
+    $reconfigure_attributes_require = [Service[$service_name], Class['gitlab::install']]
 
     service { $service_name:
       ensure     => $service_ensure,
@@ -29,6 +30,8 @@ class gitlab::service (
       hasstatus  => true,
       hasrestart => true,
     }
+  } else {
+    $reconfigure_attributes_require = Class['gitlab::install']
   }
 
   $reconfigure_attributes = {
@@ -38,13 +41,12 @@ class gitlab::service (
     logoutput   => true,
     tries       => 5,
     subscribe   => Class['gitlab::omnibus_config'],
-    require     => [Service[$service_name], Class['gitlab::install']],
   }
 
   if $skip_post_deployment_migrations {
-    $_reconfigure_attributes = $reconfigure_attributes + { environment => ['SKIP_POST_DEPLOYMENT_MIGRATIONS=true'] }
+    $_reconfigure_attributes = $reconfigure_attributes + { environment => ['SKIP_POST_DEPLOYMENT_MIGRATIONS=true'], require => $reconfigure_attributes_require }
   } else {
-    $_reconfigure_attributes = $reconfigure_attributes
+    $_reconfigure_attributes = $reconfigure_attributes + { require => $reconfigure_attributes_require }
   }
 
 

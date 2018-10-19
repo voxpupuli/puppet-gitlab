@@ -12,7 +12,7 @@ describe 'gitlab', type: :class do
         it { is_expected.to contain_class('gitlab::omnibus_config').that_comes_before('Class[gitlab::install]') }
         it { is_expected.to contain_class('gitlab::install').that_comes_before('Class[gitlab::service]') }
         it { is_expected.to contain_class('gitlab::service') }
-        it { is_expected.to contain_exec('gitlab_reconfigure').that_subscribes_to('Class[gitlab::omnibus_config]') }
+        it { is_expected.to contain_exec('gitlab_reconfigure').that_subscribes_to('Class[gitlab::omnibus_config]').that_requires(['Service[gitlab-runsvdir]', 'Class[gitlab::install]']) }
         it { is_expected.to contain_file('/etc/gitlab/gitlab.rb') }
         it { is_expected.to contain_service('gitlab-runsvdir') }
         it { is_expected.to contain_package('gitlab-omnibus').with_ensure('installed').with_name('gitlab-ce') }
@@ -358,6 +358,15 @@ describe 'gitlab', type: :class do
 
           it do
             is_expected.to contain_file('/opt/gitlab-shell/authorized_keys')
+          end
+        end
+        describe 'service_manage = false' do
+          let(:params) { { service_manage: false } }
+
+          it do
+            is_expected.to contain_class('gitlab::service')
+            is_expected.not_to contain_service('gitlab-runsvdir')
+            is_expected.to contain_exec('gitlab_reconfigure').that_requires('Class[gitlab::install]')
           end
         end
       end

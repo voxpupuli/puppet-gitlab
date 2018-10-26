@@ -52,14 +52,12 @@
 #
 # Copyright 2017 Hidde Boomsma
 #
-define gitlab::global_hook(
-  $type = undef,
-  $content = undef,
-  $source = undef,
-  $custom_hooks_dir = undef
+define gitlab::global_hook (
+  Enum['post-receive', 'pre-receive', 'update'] $type,
+  Stdlib::Absolutepath                          $custom_hooks_dir,
+  Optional[String[1]]                           $content          = undef,
+  Optional[/^puppet:/]                          $source           = undef,
 ) {
-  validate_re($type, '^(post-receive|pre-receive|update)$')
-
   if $custom_hooks_dir {
     $_custom_hooks_dir = $custom_hooks_dir
   } elsif $::gitlab::custom_hooks_dir {
@@ -67,7 +65,6 @@ define gitlab::global_hook(
   } else {
     $_custom_hooks_dir = '/opt/gitlab/embedded/service/gitlab-shell/hooks'
   }
-  validate_absolute_path($_custom_hooks_dir)
 
   if ! ($content) and ! ($source) {
     fail('gitlab::custom_hook resource must specify either content or source')
@@ -75,10 +72,6 @@ define gitlab::global_hook(
 
   if ($content) and ($source) {
     fail('gitlab::custom_hook resource must specify either content or source, but not both')
-  }
-
-  if $source {
-    validate_re($source, '^puppet:')
   }
 
   $hook_path = "${_custom_hooks_dir}/${type}.d"

@@ -18,20 +18,18 @@ def sort_hash_by_key(hash, deep=true, &block)
   end
 end
 
-def numify(obj)
-  if obj.is_a?(String)
-    Integer(obj) rescue Float(obj) rescue obj
-  elsif obj.is_a?(Array)
-    obj.map { |item| numify(item) }
+def walk(obj)
+  if obj.is_a?(Array)
+    obj.map { |item| walk(item) }
   elsif obj.is_a?(Hash)
-    sort_hash_by_key(obj.merge(obj) { |_, v| numify(v) })
+    sort_hash_by_key(obj.merge(obj) { |_, v| walk(v) })
   else
     obj
   end
 end
 
 def decorate(v)
-  numify(v).inspect
+  walk(v).inspect
 end
 -%>
 

@@ -302,6 +302,22 @@ describe 'gitlab', type: :class do
               with_content(%r{^\s*mattermost_external_url 'https:\/\/mattermost\.myserver\.tld'$})
           }
         end
+        describe 'mattermost with env value' do
+          let(:params) do
+            {
+              mattermost: {
+                env: {
+                  'MM_EMAILSETTINGS_SMTPPORT' => '25'
+                }
+              }
+            }
+          end
+
+          it {
+            is_expected.to contain_file('/etc/gitlab/gitlab.rb'). \
+              with_content(%r{^mattermost\['env'\] = {"MM_EMAILSETTINGS_SMTPPORT"=>"25"}$})
+          }
+        end
         describe 'mattermost with hash value' do
           let(:params) do
             { mattermost: {

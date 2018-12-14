@@ -20,6 +20,7 @@ describe 'gitlab class' do
     end
 
     describe command('curl -s -S http://127.0.0.1:80/users/sign_in') do
+      its(:exit_status) { is_expected.to eq 0 }
       its(:stdout) { is_expected.to match %r{.*reset_password_token=.*redirected.*} }
     end
   end

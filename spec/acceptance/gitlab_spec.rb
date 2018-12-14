@@ -19,7 +19,7 @@ describe 'gitlab class' do
       it { is_expected.to be_installed }
     end
 
-    describe command('curl -s -S 0.0.0.0:80/users/sign_in') do
+    describe command('curl -s -S http://127.0.0.1:80/users/sign_in') do
       its(:stdout) { is_expected.to match %r{.*reset_password_token=.*redirected.*} }
     end
   end

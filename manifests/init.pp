@@ -361,7 +361,7 @@ class gitlab (
   # system service configuration
   Boolean                        $service_enable                  = true,
   Enum['stopped', 'false', 'running', 'true'] $service_ensure     = 'running', # lint:ignore:quoted_booleans
-  Boolean                        $service_manage                  = true,
+  Boolean                        $service_manage                  = false,
   String                         $service_name                    = 'gitlab-runsvdir',
   String                         $service_exec                    = '/usr/bin/gitlab-ctl',
   String                         $service_user                    = 'root',

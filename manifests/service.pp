@@ -38,7 +38,7 @@ class gitlab::service (
     logoutput   => true,
     tries       => 5,
     subscribe   => Class['gitlab::omnibus_config'],
-    require     => [Service[$service_name], Class['gitlab::install']],
+    require     => Class['gitlab::install'],
   }
 
   if $skip_post_deployment_migrations {

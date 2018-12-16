@@ -118,6 +118,18 @@ class { 'gitlab':
 }
 ```
 
+### Service management
+
+GitLab Omnibus is designed to manage it's own services internally. The `gitlab-runsvdir` service isn't a typical service that you would manage with puppet, it is a
+monitoring service for the other services gitlab will create based on your selected configuration. Starting, stopping and restarting the  `gitlab-runsvdir` service
+should only be done by `gitlab-ctl` commands. Service restart is also handled implicitly during installation and upgrades, and does not normally need to be triggered
+by puppet.
+
+If you find yourself needing to modify this behavior, you can set `service_manage => true` to have puppet ensure the service is running.
+
+Setting `service_provider_restart => true` will cause puppet to trigger a `gitlab-ctl restart` command to be issued following any configuration change managed by
+puppet.
+
 ### Package & Repository Configuration
 
 #### Repository Resource Configuration

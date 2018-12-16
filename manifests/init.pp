@@ -27,8 +27,12 @@
 #   Should Puppet start the service?
 #
 # [*service_manage*]
-#   Default: true
+#   Default: false
 #   Should Puppet manage the service?
+
+# [*service_provider_restart*]
+#   Default: false
+#   Should Puppet restart the gitlab systemd service?
 #
 # [*service_user*]
 #   Default: root
@@ -362,6 +366,7 @@ class gitlab (
   Boolean                        $service_enable                  = true,
   Enum['stopped', 'false', 'running', 'true'] $service_ensure     = 'running', # lint:ignore:quoted_booleans
   Boolean                        $service_manage                  = false,
+  Boolean                        $service_provider_restart        = false,
   String                         $service_name                    = 'gitlab-runsvdir',
   String                         $service_exec                    = '/usr/bin/gitlab-ctl',
   String                         $service_user                    = 'root',

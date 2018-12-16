@@ -69,12 +69,11 @@ describe 'gitlab', type: :class do
           }
         end
         describe 'service_provider_restart' do
-          let(:params)
-            { {service_manage: true,
+          let(:params) do
+            { service_manage: true,
               service_provider_restart: true
-            } }
+            }
           end
-
           it {
             is_expected.to contain_service('gitlab-runsvdir'). \
               that_notifies('Service[gitlab-runsvdir]')

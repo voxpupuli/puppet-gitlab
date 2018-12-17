@@ -40,8 +40,8 @@ If you find configurations or features in gitlab-omnibus that are not supported 
 
 Current Support Status
 
-| gitlab-omnibus version | support of gitlab.rb configurations | puppet module bug and PR support |
-| ====================== | =================================== | ================================ |
+| gitlab-omnibus version | support of gitlab.rb configurations |
+| ---------------------- | ----------------------------------- |
 | 11.x | Mostly implemented, supported configs are stable | will implement any needed enhancements |
 | 10.x | All configs implemented and stable | Will implement any enhancements that aren't deprecated or breaking for gitlab 11+ |
 

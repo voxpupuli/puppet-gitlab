@@ -75,7 +75,7 @@ describe 'gitlab', type: :class do
             }
           end
           it {
-            is_expected.to contain_service('gitlab-runsvdir'). \
+            is_expected.to contain_exec('gitlab_reconfigure'). \
               that_notifies('Service[gitlab-runsvdir]')
           }
         end

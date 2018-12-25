@@ -30,11 +30,24 @@ Chef to configure all the services.*
 
 Supported are Debian based (Ubuntu, Debian) and RedHat based (CentOS, RHEL) operating systems.
 
-Beaker acceptance tests are run in Travis for CentOS 6 and Ubuntu 12.04.
+Beaker acceptance tests are run in Travis for supported versions of CentOS and Ubuntu.
 
-As Gitlab is providing the package repo since 7.10+, this module only works with CE edition greater than 7.10.
-Also the enterprise edition package is only available since 7.11+. So the EE is supported with versions greater
-than 7.11.
+This module is designed to support the most recent versions of the gitlab-omnibus package (both ce and ee). Gitlab will support and release patches
+for the last 3 releases. This module can typically support the most recent major version, as well as the previous major version, but is currently
+only tested in the gitlab-supported versions of the module.
+
+If you find configurations or features in gitlab-omnibus that are not supported by this module, please open an issue or submit a pull request.
+
+Current Support Status
+
+| gitlab-omnibus version | support of gitlab.rb configurations |
+| ---------------------- | ----------------------------------- |
+| 11.x | Mostly implemented, supported configs are stable | will implement any needed enhancements |
+| 10.x | All configs implemented and stable | Will implement any enhancements that aren't deprecated or breaking for gitlab 11+ |
+
+For older versions of gitlab, you may find an older version of this module to work better for you, as this module changes over time to
+support the valid configuration of versions of the gitlab-omnibus supported by the gitlab engineering team. The oldest versions of this
+puppet module were designed to support gitlab-omnibus 7.10, and may be unstable even then.
 
 ## Setup
 

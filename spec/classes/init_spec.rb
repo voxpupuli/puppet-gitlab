@@ -14,7 +14,6 @@ describe 'gitlab', type: :class do
         it { is_expected.to contain_class('gitlab::service') }
         it { is_expected.to contain_exec('gitlab_reconfigure').that_subscribes_to('Class[gitlab::omnibus_config]') }
         it { is_expected.to contain_file('/etc/gitlab/gitlab.rb') }
-        it { is_expected.to contain_service('gitlab-runsvdir') }
         it { is_expected.to contain_package('gitlab-omnibus').with_ensure('installed').with_name('gitlab-ce') }
         it { is_expected.to contain_class('gitlab') }
         it { is_expected.not_to raise_error }
@@ -61,6 +60,24 @@ describe 'gitlab', type: :class do
             it { is_expected.to contain_yumrepo('gitlab_official_ee').without_gpgkey('https://packages.gitlab.com/gpg.key') }
             it { is_expected.to contain_yumrepo('gitlab_official_ce').with_ensure('absent') }
           end
+        end
+        describe 'service_manage' do
+          let(:params) { { service_manage: true } }
+
+          it {
+            is_expected.to contain_service('gitlab-runsvdir').without_notify
+          }
+        end
+        describe 'service_provider_restart' do
+          let(:params) do
+            { service_manage: true,
+              service_provider_restart: true }
+          end
+
+          it {
+            is_expected.to contain_exec('gitlab_reconfigure'). \
+              that_notifies('Service[gitlab-runsvdir]')
+          }
         end
         describe 'external_url' do
           let(:params) { { external_url: 'http://gitlab.mycompany.com/' } }

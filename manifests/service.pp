@@ -9,7 +9,7 @@ class gitlab::service (
   $service_name   = $gitlab::service_name,
   $service_exec   = $gitlab::service_exec,
   $service_manage = $gitlab::service_manage,
-  $service_provider_restart = false,
+  $service_provider_restart = $gitlab::service_provider_restart,
   $skip_post_deployment_migrations = $gitlab::skip_post_deployment_migrations,
 ){
 
@@ -38,7 +38,7 @@ class gitlab::service (
     logoutput   => true,
     tries       => 5,
     subscribe   => Class['gitlab::omnibus_config'],
-    require     => [Service[$service_name], Class['gitlab::install']],
+    require     => Class['gitlab::install'],
   }
 
   if $skip_post_deployment_migrations {

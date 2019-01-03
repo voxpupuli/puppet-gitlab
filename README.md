@@ -148,7 +148,7 @@ puppet.
 #### Repository Resource Configuration
 
 This module allows you a great range of options when configuring the repository and package sources on your host. By default,
-the gitlab repository will be configured to use the upstream source from [https://packages.gitlab.com][]. However, if you wish
+the gitlab repository will be configured to use the upstream source from https://packages.gitlab.com. However, if you wish
 to use a different repository source, you can provide your own `yumrepo`, `apt` or any other package/repository configuration you wish.
 
 This module does this by iterating through configurations provided to `gitlab::omnibus_package_repository::repository_configuration`. You

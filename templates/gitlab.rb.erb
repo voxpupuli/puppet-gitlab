@@ -393,8 +393,6 @@ mattermost['<%= k -%>'] = <%= decorate(@mattermost[k]) %>
 <%- @_real_mattermost_nginx.keys.sort.each do |k| -%>
 mattermost_nginx['<%= k -%>'] = <%= decorate(@_real_mattermost_nginx[k]) %>
 <%- end end -%>
-<%- if @pages_external_url -%>
-
 <%- if @grafana -%>
 
 ##################
@@ -405,6 +403,7 @@ mattermost_nginx['<%= k -%>'] = <%= decorate(@_real_mattermost_nginx[k]) %>
 <%- @grafana.keys.sort.each do |k| -%>
 grafana['<%= k -%>'] = <%= decorate(@grafana[k]) %>
 <%- end end -%>
+<%- if @pages_external_url -%>
 
 ####################
 # GitLab Pages

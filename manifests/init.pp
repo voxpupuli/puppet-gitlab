@@ -132,6 +132,10 @@
 #   Default: undef
 #   Hash of 'gitlab_workhorse' config parameters.
 #
+# [*grafana*]
+#   Default: undef
+#   Hash of 'grafana' config parameters.
+#
 # [*logging*]
 #   Default: undef
 #   Hash of 'logging' config parameters.
@@ -393,6 +397,7 @@ class gitlab (
   Optional[Hash]                 $gitlab_ci                       = undef,
   Optional[Hash]                 $gitlab_pages                    = undef,
   Optional[Hash]                 $gitlab_rails                    = undef,
+  Optional[Hash]                 $grafana                         = undef,
   Optional[Hash]                 $high_availability               = undef,
   Optional[Hash]                 $logging                         = undef,
   Optional[Hash]                 $letsencrypt                     = undef,

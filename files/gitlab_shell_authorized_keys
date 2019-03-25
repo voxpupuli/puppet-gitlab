@@ -1,0 +1,5 @@
+#!/bin/bash
+
+if [[ "$1" == "git" ]]; then
+  /opt/gitlab/embedded/service/gitlab-shell/bin/authorized_keys $2
+fi

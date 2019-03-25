@@ -58,17 +58,13 @@
 # Copyright 2014 Spencer Owen, unless otherwise noted.
 #
 define gitlab::custom_hook(
-  $namespace = undef,
-  $project = undef,
-  $type = undef,
-  $content = undef,
-  $source = undef,
-  $repos_path = undef,
+  String                                        $namespace,
+  String                                        $project,
+  Enum['update', 'post-receive', 'pre-receive'] $type,
+  Optional[String]                              $content = undef,
+  Optional[String]                              $source = undef,
+  Optional[Stdlib::Absolutepath]                $repos_path = undef,
 ) {
-  validate_string($namespace)
-  validate_string($project)
-  validate_re($type, '^(post-receive|pre-receive|update)$')
-
   if $repos_path {
     $_repos_path = $repos_path
   } elsif $::gitlab::git_data_dir {
@@ -76,18 +72,13 @@ define gitlab::custom_hook(
   } else {
     $_repos_path = '/var/opt/gitlab/git-data/repositories'
   }
-  validate_absolute_path($_repos_path)
 
   if ! ($content) and ! ($source) {
-    fail('gitlab::custom_hook resource must specify either content or source')
+    fail("gitlab::custom_hook[${name}]: Must specify either content or source")
   }
 
   if ($content) and ($source) {
-    fail('gitlab::custom_hook resource must specify either content or source, but not both')
-  }
-
-  if $source {
-    validate_re($source, '^puppet:')
+    fail("gitlab::custom_hook[${name}]: Must specify either content or source, but not both")
   }
 
   $hook_path = "${_repos_path}/${namespace}/${project}.git/custom_hooks"
@@ -106,7 +97,7 @@ define gitlab::custom_hook(
   }
 
   file { "${hook_path}/${type}":
-    ensure  => 'present',
+    ensure  => file,
     content => $content,
     source  => $source,
   }

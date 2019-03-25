@@ -1,12 +1,12 @@
 {
-  "name": "vshn-gitlab",
-  "version": "1.15.2",
-  "author": "vshn",
+  "name": "puppet-gitlab",
+  "version": "3.0.3-rc0",
+  "author": "Vox Pupuli",
   "summary": "Installation and configuration of Gitlab Omnibus",
   "license": "BSD-3-Clause",
-  "source": "https://github.com/vshn/puppet-gitlab",
-  "project_page": "https://github.com/vshn/puppet-gitlab",
-  "issues_url": "https://github.com/vshn/puppet-gitlab/issues",
+  "source": "https://github.com/voxpupuli/puppet-gitlab",
+  "project_page": "https://github.com/voxpupuli/puppet-gitlab",
+  "issues_url": "https://github.com/voxpupuli/puppet-gitlab/issues",
   "tags": [
     "git",
     "gitlab"
@@ -14,11 +14,11 @@
   "dependencies": [
     {
       "name": "puppetlabs/stdlib",
-      "version_requirement": "4.x"
+      "version_requirement": ">= 4.13.1 < 6.0.0"
     },
     {
       "name": "puppetlabs/apt",
-      "version_requirement": ">=2.1.0 <5.0.0"
+      "version_requirement": ">= 4.4.0 < 7.0.0"
     }
   ],
   "operatingsystem_support": [
@@ -53,22 +53,21 @@
     {
       "operatingsystem": "Debian",
       "operatingsystemrelease": [
-        "7",
         "8"
       ]
     },
     {
       "operatingsystem": "Ubuntu",
       "operatingsystemrelease": [
-        "12.04",
-        "14.04"
+        "14.04",
+        "16.04"
       ]
     }
   ],
   "requirements": [
     {
       "name": "puppet",
-      "version_requirement": ">=3.7.0 <5.0.0"
+      "version_requirement": ">= 4.10.0 < 7.0.0"
     }
   ]
 }

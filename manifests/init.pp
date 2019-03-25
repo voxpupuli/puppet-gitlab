@@ -8,18 +8,6 @@
 #   Default: installed
 #   Can be used to choose exact package version to install.
 #
-# [*package_pin*]
-#   Default: false
-#   Create an apt pin for package_ensure version.
-#
-# [*manage_package_repo*]
-#   Default: true
-#   Should the official package repository be managed?
-#
-# [*manage_package*]
-#   Default: true
-#   Should the GitLab package be managed?
-#
 # [*service_name*]
 #   Default: gitlab-runsvdir
 #   Name of the system service.
@@ -39,8 +27,12 @@
 #   Should Puppet start the service?
 #
 # [*service_manage*]
-#   Default: true
+#   Default: false
 #   Should Puppet manage the service?
+
+# [*service_provider_restart*]
+#   Default: false
+#   Should Puppet restart the gitlab systemd service?
 #
 # [*service_user*]
 #   Default: root
@@ -50,17 +42,19 @@
 #   Default: root
 #   Group of the config file.
 #
-# [*service_restart/_start/_stop/_status*]
-#   Default: /usr/bin/gitlab-ctl <command>
-#   Commands for the service definition.
-#
-# [*service_hasstatus/_hasrestart*]
-#   Default: true
-#   The gitlab service has this commands available.
+# [*rake_exec*]
+#   Default: '/usr/bin/gitlab-rake'
+#   The gitlab-rake executable path.
+#   You should not need to change this path.
 #
 # [*edition*]
-#   Default: ce
-#   Gitlab edition to install. ce or ee.
+#   **Deprecated**: See `manage_upstream_edition`
+#   Default: undef
+#
+# [*manage_upstream_edition*]
+#   Default: 'ce'
+#   One of [ 'ce', 'ee', 'disabled' ]
+#   Manage the installation of an upstream Gitlab Omnibus edition to install.
 #
 # [*config_manage*]
 #   Default: true
@@ -69,6 +63,10 @@
 # [*config_file*]
 #   Default: /etc/gitlab/gitlab.rb
 #   Path of the Gitlab Omnibus config file.
+#
+# [*alertmanager*]
+#   Default: undef
+#   Hash of 'alertmanager' config parameters.
 #
 # [*ci_redis*]
 #   Default: undef
@@ -110,9 +108,9 @@
 #   Default: undef
 #   Hash of 'Gitaly' config parameters.
 #
-# [*git_data_dir*]
+# [*git_data_dirs*]
 #   Default: undef
-#   Git data dir
+#   Hash of git data directories
 #
 # [*gitlab_git_http_server*]
 #   Default: undef
@@ -137,6 +135,10 @@
 # [*logging*]
 #   Default: undef
 #   Hash of 'logging' config parameters.
+#
+# [*letsencrypt*]
+#   Default: undef
+#   Hash of 'letsencrypt' config parameters.
 #
 # [*logrotate*]
 #   Default: undef
@@ -242,14 +244,10 @@
 #   Default: false
 #   Replicate the registry Nginx config from the Gitlab Nginx config.
 #
-# [*secrets*]
+# [*roles*]
 #   Default: undef
-#   Hash of values which will be placed into $secrets_file (by default /etc/gitlab/gitlab-secrets.json)
-#   If this parameter is undef, the file won't be managed.
-#
-# [*secrets_file*]
-#   Default: /etc/gitlab/gitlab-secrets.json
-#   Full path to secrets JSON file.
+#   Array of roles when using a HA or Geo enabled GitLab configuration
+#   See: https://docs.gitlab.com/omnibus/roles/README.html for acceptable values
 #
 # [*sentinel*]
 #   Default: undef
@@ -269,7 +267,23 @@
 #
 # [*skip_auto_migrations*]
 #   Default: undef
-#   Enable or disable auto migrations. undef keeps the current state on the system.
+#   Deprecated if using Gitlab > 10.6.4 and < 11.0.0, unsupported by gitlab omnibus using gitlab 11+
+#   Use skip_auto_reconfigure
+#
+# [*skip_auto_reconfigure*]
+#   Default: undef
+#   Utilized for Zero Downtime Updates, See: https://docs.gitlab.com/omnibus/update/README.html#zero-downtime-updates
+#
+# [*skip_post_deployment_migrations*]
+#   Default: false
+#   Adds SKIP_POST_DEPLOYMENT_MIGRATIONS=true to the execution of gitlab-ctl reconfigure
+#   Used for zero-downtime updates
+#
+# [*store_git_keys_in_db*]
+#   Default: false
+#   Enable or disable Fast Lookup of authorized SSH keys in the database
+#   See: https://docs.gitlab.com/ee/administration/operations/fast_ssh_key_lookup.html
+#
 #
 # [*source_config_file*]
 #   Default: undef
@@ -291,176 +305,173 @@
 #   Default: undef
 #   Hash of 'high_availability' config parameters.
 #
-# === Examples
+# [*backup_cron_enable*]
+#   Default: false
+#   Boolean to enable the daily backup cron job
 #
-#  class { 'gitlab':
-#    edition           => 'ee',
-#    external_url      => 'https://gitlab.mydomain.tld',
-#    nginx             => { redirect_http_to_https => true },
-#  }
+# [*backup_cron_minute*]
+#   Default: 0
+#   The minute when to run the daily backup cron job
 #
-# === Authors
+# [*backup_cron_hour*]
+#   Default: 2
+#   The hour when to run the daily backup cron job
 #
-# Tobias Brunner <tobias.brunner@vshn.ch>
+# [*backup_cron_skips*]
+#   Default: []
+#   Array of items to skip
+#   valid values: db, uploads, repositories, builds,
+#                 artifacts, lfs, registry, pages
 #
-# === Copyright
+# [*package_name*]
+#   Default: 'gitlab-ce'
+#   The internal packaging system's name for the package
+#   This name will automatically be changed by the gitlab::edition parameter
+#   Can be overridden for the purposes of installing custom compiled version of gitlab-omnibus
 #
-# Copyright 2015 Tobias Brunner, VSHN AG
+# [*manage_package*]
+#   Default: true
+#   Should the GitLab package be managed?
+#
+# [*repository_configuration*]
+#   A hash of repository types and attributes for configuraiton the gitlab package repositories
+#   See docs in README.md
+#
+# [*manage_omnibus_repository*]
+#   Default: true
+#   Set to false if you wish to manage gitlab without configuring the package repository
+# [*pgpass_file_location*]
+#   Default: '/home/gitlab-consul/.pgpass'
+#   Path to location of .pgpass file used by consul to
+#   authenticate with pgbouncer database
+#
+# [*pgpass_file_ensure*]
+#   Default: 'absent'
+#   Create .pgpass file for pgbouncer authentication
+#   When set to present requires valid value for pgbouncer_password
+#
+# [*pgbouncer_password*]
+#   Default: undef
+#   Password for the gitlab-consul database user in the
+#   pgbouncer database
 #
 class gitlab (
-  # package installation handling
-  $manage_package_repo = $::gitlab::params::manage_package_repo,
-  $manage_package = $::gitlab::params::manage_package,
-  $package_ensure = $::gitlab::params::package_ensure,
-  $package_pin = $::gitlab::params::package_pin,
+  Hash                           $repository_configuration,
+  # package configuration
+  String                         $package_ensure                  = 'installed',
+  Optional[String]               $edition                         = undef,
+  Enum['ce', 'ee', 'disabled']   $manage_upstream_edition         = 'ce',
+  Boolean                        $manage_omnibus_repository       = true,
   # system service configuration
-  $service_enable = $::gitlab::params::service_enable,
-  $service_ensure = $::gitlab::params::service_ensure,
-  $service_group = $::gitlab::params::service_group,
-  $service_hasrestart = $::gitlab::params::service_hasrestart,
-  $service_hasstatus = $::gitlab::params::service_hasstatus,
-  $service_manage = $::gitlab::params::service_manage,
-  $service_name = $::gitlab::params::service_name,
-  $service_exec = $::gitlab::params::service_exec,
-  $service_restart = $::gitlab::params::service_restart,
-  $service_start = $::gitlab::params::service_start,
-  $service_status = $::gitlab::params::service_status,
-  $service_stop = $::gitlab::params::service_stop,
-  $service_user = $::gitlab::params::service_user,
+  Boolean                        $service_enable                  = true,
+  Enum['stopped', 'false', 'running', 'true'] $service_ensure     = 'running', # lint:ignore:quoted_booleans
+  Boolean                        $service_manage                  = false,
+  Boolean                        $service_provider_restart        = false,
+  String                         $service_name                    = 'gitlab-runsvdir',
+  String                         $service_exec                    = '/usr/bin/gitlab-ctl',
+  String                         $service_user                    = 'root',
+  String                         $service_group                   = 'root',
   # gitlab specific
-  $edition = 'ce',
-  $ci_redis = undef,
-  $ci_unicorn = undef,
-  $config_manage = $::gitlab::params::config_manage,
-  $config_file = $::gitlab::params::config_file,
-  $external_url = $::gitlab::params::external_url,
-  $external_port = undef,
-  $geo_postgresql = undef,
-  $geo_primary_role = false,
-  $geo_secondary = undef,
-  $geo_secondary_role = false,
-  $git = undef,
-  $gitaly = undef,
-  $git_data_dir = undef,
-  $git_data_dirs = undef,
-  $gitlab_git_http_server = undef,
-  $gitlab_ci = undef,
-  $gitlab_pages = undef,
-  $gitlab_rails = undef,
-  $high_availability = undef,
-  $logging = undef,
-  $logrotate = undef,
-  $manage_storage_directories = undef,
-  $manage_accounts = undef,
-  $mattermost = undef,
-  $mattermost_external_url = undef,
-  $mattermost_nginx = undef,
-  $mattermost_nginx_eq_nginx = false,
-  $nginx = undef,
-  $node_exporter = undef,
-  $redis_exporter = undef,
-  $postgres_exporter = undef,
-  $gitlab_monitor = undef,
-  $pages_external_url = undef,
-  $pages_nginx = undef,
-  $pages_nginx_eq_nginx = false,
-  $postgresql = undef,
-  $prometheus = undef,
-  $prometheus_monitoring_enable = undef,
-  $redis = undef,
-  $redis_master_role = undef,
-  $redis_slave_role = undef,
-  $redis_sentinel_role = undef,
-  $registry = undef,
-  $registry_external_url = undef,
-  $registry_nginx = undef,
-  $registry_nginx_eq_nginx = false,
-  $secrets = undef,
-  $secrets_file = $::gitlab::params::secrets_file,
-  $sentinel = undef,
-  $shell = undef,
-  $sidekiq = undef,
-  $sidekiq_cluster = undef,
-  $skip_auto_migrations = undef,
-  $source_config_file = undef,
-  $unicorn = undef,
-  $gitlab_workhorse = undef,
-  $user = undef,
-  $web_server = undef,
-  $custom_hooks = {},
-) inherits ::gitlab::params {
+  String                         $rake_exec                       = '/usr/bin/gitlab-rake',
+  Optional[Hash]                 $alertmanager                    = undef,
+  Optional[Hash]                 $ci_redis                        = undef,
+  Optional[Hash]                 $ci_unicorn                      = undef,
+  Boolean                        $config_manage                   = true,
+  Stdlib::Absolutepath           $config_file                     = '/etc/gitlab/gitlab.rb',
+  Optional[Hash]                 $consul                          = undef,
+  Optional[String]               $custom_hooks_dir                = undef,
+  Stdlib::Httpurl                $external_url                    = "http://${facts['networking']['fqdn']}",
+  Optional[Integer[1, 65565]]    $external_port                   = undef,
+  Optional[Hash]                 $geo_postgresql                  = undef,
+  Boolean                        $geo_primary_role                = false,
+  Optional[Hash]                 $geo_secondary                   = undef,
+  Boolean                        $geo_secondary_role              = false,
+  Optional[Hash]                 $git                             = undef,
+  Optional[Hash]                 $gitaly                          = undef,
+  Optional[Hash]                 $git_data_dirs                   = undef,
+  Optional[Hash]                 $gitlab_git_http_server          = undef,
+  Optional[Hash]                 $gitlab_ci                       = undef,
+  Optional[Hash]                 $gitlab_pages                    = undef,
+  Optional[Hash]                 $gitlab_rails                    = undef,
+  Optional[Hash]                 $high_availability               = undef,
+  Optional[Hash]                 $logging                         = undef,
+  Optional[Hash]                 $letsencrypt                     = undef,
+  Optional[Hash]                 $logrotate                       = undef,
+  Optional[Hash]                 $manage_storage_directories      = undef,
+  Optional[Hash]                 $manage_accounts                 = undef,
+  Boolean                        $manage_package                  = true,
+  Optional[Hash]                 $mattermost                      = undef,
+  Optional[String]               $mattermost_external_url         = undef,
+  Optional[Hash]                 $mattermost_nginx                = undef,
+  Boolean                        $mattermost_nginx_eq_nginx       = false,
+  Optional[Hash]                 $nginx                           = undef,
+  Optional[Hash]                 $node_exporter                   = undef,
+  Optional[Hash]                 $redis_exporter                  = undef,
+  Optional[String]               $pgbouncer_password              = undef,
+  Enum['absent', 'present']      $pgpass_file_ensure              = 'absent',
+  Stdlib::Absolutepath           $pgpass_file_location            = '/home/gitlab-consul/.pgpass',
+  Optional[Hash]                 $postgres_exporter               = undef,
+  Optional[Hash]                 $gitlab_monitor                  = undef,
+  Optional[String]               $package_name                    = undef,
+  Optional[String]               $pages_external_url              = undef,
+  Optional[Hash]                 $pages_nginx                     = undef,
+  Boolean                        $pages_nginx_eq_nginx            = false,
+  Optional[Hash]                 $pgbouncer                       = undef,
+  Optional[Hash]                 $postgresql                      = undef,
+  Optional[Hash]                 $prometheus                      = undef,
+  Optional[Boolean]              $prometheus_monitoring_enable    = undef,
+  Optional[Hash]                 $redis                           = undef,
+  Optional[Boolean]              $redis_master_role               = undef,
+  Optional[Boolean]              $redis_slave_role                = undef,
+  Optional[Boolean]              $redis_sentinel_role             = undef,
+  Optional[Hash]                 $registry                        = undef,
+  Optional[String]               $registry_external_url           = undef,
+  Optional[Hash]                 $registry_nginx                  = undef,
+  Boolean                        $registry_nginx_eq_nginx         = false,
+  Optional[Hash]                 $repmgr                          = undef,
+  Optional[Array]                $roles                           = undef,
+  Optional[Hash]                 $sentinel                        = undef,
+  Boolean                        $skip_post_deployment_migrations = false,
+  Optional[Hash]                 $shell                           = undef,
+  Optional[Hash]                 $sidekiq                         = undef,
+  Optional[Hash]                 $sidekiq_cluster                 = undef,
+  Enum['present', 'absent']      $skip_auto_reconfigure           = 'absent',
+  Optional                       $skip_auto_migrations            = undef,
+  Optional[Stdlib::Absolutepath] $source_config_file              = undef,
+  Boolean                        $store_git_keys_in_db            = false,
+  Optional[Hash]                 $unicorn                         = undef,
+  Optional[Hash]                 $gitlab_workhorse                = undef,
+  Optional[Hash]                 $user                            = undef,
+  Optional[Hash]                 $web_server                      = undef,
+  Boolean                        $backup_cron_enable              = false,
+  Integer[0,59]                  $backup_cron_minute              = 0,
+  Integer[0,23]                  $backup_cron_hour                = 2,
+  Array                          $backup_cron_skips               = [],
+  Hash                           $custom_hooks                    = {},
+  Hash                           $global_hooks                    = {},
+) {
 
-  # package installation handling
-  validate_bool($manage_package_repo)
-  validate_bool($manage_package)
-  # system service configuration
-  validate_string($service_name)
-  validate_bool($service_enable)
-  validate_re($service_ensure, '^stopped|false|running|true$')
-  validate_bool($service_manage)
-  validate_string($service_user)
-  validate_string($service_group)
-  # gitlab specific
-  validate_re($edition, [ '^ee$', '^ce$' ])
-  validate_bool($config_manage)
-  validate_absolute_path($config_file)
-  if $geo_postgresql { validate_hash($geo_postgresql) }
-  validate_bool($geo_primary_role)
-  if $geo_secondary { validate_hash($geo_secondary) }
-  validate_bool($geo_secondary_role)
-  if $ci_redis { validate_hash($ci_redis) }
-  if $ci_unicorn { validate_hash($ci_unicorn) }
-  validate_string($external_url)
-  if $git  { validate_hash($git) }
-  if $gitaly  { validate_hash($gitaly) }
-  if $git_data_dir { validate_absolute_path($git_data_dir) }
-  if $git_data_dirs { validate_hash($git_data_dirs) }
-  if $gitlab_git_http_server { validate_hash($gitlab_git_http_server) }
-  if $gitlab_pages { validate_hash($gitlab_pages) }
-  if $gitlab_workhorse { validate_hash($gitlab_workhorse) }
-  if $gitlab_ci { validate_hash($gitlab_ci) }
-  if $gitlab_rails { validate_hash($gitlab_rails) }
-  if $logging { validate_hash($logging) }
-  if $logrotate { validate_hash($logrotate) }
-  if $manage_storage_directories { validate_hash($manage_storage_directories) }
-  if $nginx { validate_hash($nginx) }
-  if $mattermost { validate_hash($mattermost) }
-  if $mattermost_external_url { validate_string($mattermost_external_url) }
-  if $mattermost_nginx { validate_hash($mattermost_nginx) }
-  validate_string($pages_external_url)
-  if $pages_nginx { validate_hash($pages_nginx) }
-  validate_bool($pages_nginx_eq_nginx)
-  if $postgresql { validate_hash($postgresql) }
-  if $prometheus_monitoring_enable != undef { validate_bool($prometheus_monitoring_enable) }
-  if $redis { validate_hash($redis) }
-  if $redis_master_role { validate_bool($redis_master_role) }
-  if $redis_slave_role { validate_bool($redis_slave_role) }
-  if $redis_sentinel_role { validate_bool($redis_sentinel_role) }
-  if $registry { validate_hash($registry) }
-  if $registry_nginx { validate_hash($registry_nginx) }
-  validate_bool($registry_nginx_eq_nginx)
-  if $registry_external_url { validate_string($registry_external_url) }
-  if $secrets { validate_hash($secrets) }
-  if $sentinel { validate_hash($sentinel) }
-  if $shell { validate_hash($shell) }
-  if $sidekiq { validate_hash($sidekiq) }
-  if $sidekiq_cluster { validate_hash($sidekiq_cluster) }
-  if $skip_auto_migrations != undef { validate_bool($skip_auto_migrations) }
-  if $unicorn { validate_hash($unicorn) }
-  if $user { validate_hash($user) }
-  if $web_server { validate_hash($web_server) }
-  if $high_availability { validate_hash($high_availability) }
-  if $manage_accounts { validate_hash($manage_accounts) }
-  validate_hash($custom_hooks)
+  include gitlab::omnibus_package_repository
 
-  class { '::gitlab::install': } ->
-  class { '::gitlab::config': } ~>
-  class { '::gitlab::service': }
-
+  contain gitlab::host_config
+  contain gitlab::omnibus_config
   contain gitlab::install
-  contain gitlab::config
   contain gitlab::service
 
-  create_resources(gitlab::custom_hook, $custom_hooks)
+  Class['gitlab::host_config']
+  -> Class['gitlab::omnibus_config']
+  -> Class['gitlab::install']
+  -> Class['gitlab::service']
 
+  $custom_hooks.each |$name, $options| {
+    gitlab::custom_hook { $name:
+      * => $options,
+    }
+  }
+
+  $global_hooks.each |$name, $options| {
+    gitlab::global_hook { $name:
+      * => $options,
+    }
+  }
 }

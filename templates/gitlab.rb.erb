@@ -42,11 +42,17 @@ external_url '<%= @external_url %>'
 <%- if @external_port -%>
 external_port '<%= @external_port %>'
 <%- end -%>
-<%- if @git_data_dir -%>
-## For setting up different data storing directory
-## see https://gitlab.com/gitlab-org/omnibus-gitlab/blob/629def0a7a26e7c2326566f0758d4a27857b52a3/README.md#storing-git-data-in-an-alternative-directory
-## If you want to use a single non-default directory to store git data use:
-git_data_dir "<%= @git_data_dir %>"
+
+<%- if @roles -%>
+
+## Roles for multi-instance GitLab
+##! The default is to have no roles enabled, which results in GitLab running as an all-in-one instance.
+##! Options:
+##!   redis_sentinel_role redis_master_role redis_slave_role geo_primary_role geo_secondary_role
+##! For more deatils on each role, see:
+##! https://docs.gitlab.com/omnibus/roles/README.html#roles
+
+roles <%= decorate(@roles) %>
 <%- end -%>
 <%- if @git_data_dirs -%>
 
@@ -193,6 +199,16 @@ nginx['<%= k -%>'] = <%= decorate(@nginx[k]) %>
 <%- @gitlab_workhorse.keys.sort.each do |k| -%>
 gitlab_workhorse['<%= k -%>'] = <%= decorate(@gitlab_workhorse[k]) %>
 <%- end end -%>
+<%- if @letsencrypt -%>
+
+######################
+# GitLab Letsencrypt #
+######################
+## see: https://docs.gitlab.com/omnibus/settings/ssl.html#let-39-s-encrypt-integration
+
+<%- @letsencrypt.keys.sort.each do |k| -%>
+letsencrypt['<%= k -%>'] = <%= decorate(@letsencrypt[k]) %>
+<%- end end -%>
 <%- if @logging -%>
 
 ##################
@@ -318,6 +334,15 @@ redis_exporter['<%= k -%>'] = <%= decorate(@redis_exporter[k]) %>
 
 <%- @postgres_exporter.keys.sort.each do |k| -%>
 postgres_exporter['<%= k -%>'] = <%= decorate(@postgres_exporter[k]) %>
+<%- end end -%>
+<%- if @alertmanager -%>
+
+################################################################################
+## Alertmanager
+##! Docs: https://prometheus.io/docs/alerting/alertmanager/
+
+<%- @alertmanager.keys.sort.each do |k| -%>
+alertmanager['<%= k -%>'] = <%= decorate(@alertmanager[k]) %>
 <%- end end -%>
 <%- if @gitlab_monitor -%>
 
@@ -480,4 +505,33 @@ geo_secondary['<%= k -%>'] = <%= decorate(@geo_secondary[k]) %>
 
 <%- @geo_postgresql.keys.sort.each do |k| -%>
 geo_postgresql['<%= k -%>'] = <%= decorate(@geo_postgresql[k]) %>
+<%- end end -%>
+<%- if @pgbouncer -%>
+################################################################################
+# Pgbouncer (EE only)
+# See [GitLab PgBouncer documentation](http://docs.gitlab.com/omnibus/settings/database.html#enabling-pgbouncer-ee-only)
+# See the [PgBouncer page](https://pgbouncer.github.io/config.html) for details
+################################################################################
+
+
+<%- @pgbouncer.keys.sort.each do |k| -%>
+pgbouncer['<%= k -%>'] = <%= decorate(@pgbouncer[k]) %>
+<%- end end -%>
+<%- if @repmgr -%>
+################################################################################
+# repmgr (EE only)
+################################################################################
+
+
+<%- @repmgr.keys.sort.each do |k| -%>
+repmgr['<%= k -%>'] = <%= decorate(@repmgr[k]) %>
+<%- end end -%>
+<%- if @consul -%>
+################################################################################
+# consul (EEP only)
+################################################################################
+
+
+<%- @consul.keys.sort.each do |k| -%>
+consul['<%= k -%>'] = <%= decorate(@consul[k]) %>
 <%- end end -%>

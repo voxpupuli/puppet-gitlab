@@ -1,16 +1,9 @@
 fixtures:
   repositories:
-    stdlib:
-      repo: "https://github.com/puppetlabs/puppetlabs-stdlib.git"
-      ref: "4.12.0"
-    apt:
-      repo: "https://github.com/puppetlabs/puppetlabs-apt.git"
-      ref: "2.2.0"
-    docker:
-      repo: "https://github.com/garethr/garethr-docker.git"
-      ref: "v4.1.1"
-    epel:
-      repo: "https://github.com/stahnma/puppet-module-epel"
-      ref: "1.2.2"
-  symlinks:
-    gitlab: "#{source_dir}"
+    stdlib: "https://github.com/puppetlabs/puppetlabs-stdlib.git"
+    apt: "https://github.com/puppetlabs/puppetlabs-apt.git"
+    docker: "https://github.com/garethr/garethr-docker.git"
+    epel: "https://github.com/stahnma/puppet-module-epel"
+    yumrepo_core:
+      repo: https://github.com/puppetlabs/puppetlabs-yumrepo_core.git
+      puppet_version: ">= 6.0.0"

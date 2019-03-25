@@ -1,24 +1,38 @@
-require 'beaker-rspec/spec_helper'
-require 'beaker-rspec/helpers/serverspec'
+require 'beaker-rspec'
+require 'beaker-puppet'
 require 'beaker/puppet_install_helper'
+require 'beaker/module_install_helper'
 
 run_puppet_install_helper unless ENV['BEAKER_provision'] == 'no'
+install_module
+install_module_dependencies
 
 RSpec.configure do |c|
-  # Project root
-  proj_root = File.expand_path(File.join(File.dirname(__FILE__), '..'))
-
-  # Readable test descriptions
-  c.formatter = :documentation
-
-  # Configure all nodes in nodeset
+  # Configure all nodes
   c.before :suite do
-    # Install module and dependencies
-    puppet_module_install(:source => proj_root, :module_name => 'gitlab')
-    hosts.each do |host|
-      on host, puppet('module', 'install', 'puppetlabs-stdlib'), { :acceptable_exit_codes => [0] }
-      on host, puppet('module', 'install', 'puppetlabs-apt'), { :acceptable_exit_codes => [0] }
-      on host, puppet('module', 'install', 'garethr-docker'), { :acceptable_exit_codes => [0] }
-    end
+    # The omnibus installer use the following algorithm to know what to do.
+    # https://gitlab.com/gitlab-org/omnibus-gitlab/blob/master/files/gitlab-cookbooks/runit/recipes/default.rb
+    # If this peace of code trigger docker case, the installer hang indefinitly.
+    pp = %(
+      file {'/.dockerenv':
+        ensure => absent,
+      }
+      package { ['curl']:
+        ensure => present,
+      }
+    )
+
+    apply_manifest(pp, catch_failures: true)
+
+    # https://gitlab.com/gitlab-org/omnibus-gitlab/issues/2229
+    # There is no /usr/share/zoneinfo in latest Docker image for ubuntu 16.04
+    # Gitlab installer fail without this file
+    tzdata = %(
+      package { ['tzdata']:
+        ensure => present,
+      }
+    )
+
+    apply_manifest(tzdata, catch_failures: true) if fact('os.release.major') == '16.04'
   end
 end

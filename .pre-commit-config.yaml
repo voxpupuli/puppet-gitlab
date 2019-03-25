@@ -1,5 +1,0 @@
-- repo: git@git.vshn.net:vshn-puppet/githooks.git
-  sha: HEAD
-  hooks:
-    - id: puppet
-

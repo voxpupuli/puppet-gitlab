@@ -395,16 +395,16 @@ mattermost_nginx['<%= k -%>'] = <%= decorate(@_real_mattermost_nginx[k]) %>
 <%- end end -%>
 <%- if @pages_external_url -%>
 
+<%- if @grafana -%>
+
 ##################
 # GitLab Grafana #
 ##################
 ## see: https://docs.gitlab.com/omnibus/settings/grafana/
 
-<%- if @grafana -%>
 <%- @grafana.keys.sort.each do |k| -%>
 grafana['<%= k -%>'] = <%= decorate(@grafana[k]) %>
 <%- end end -%>
-<%- end -%>
 
 ####################
 # GitLab Pages

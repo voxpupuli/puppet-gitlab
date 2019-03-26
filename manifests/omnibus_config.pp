@@ -25,6 +25,7 @@ class gitlab::omnibus_config (
   $gitlab_ci = $gitlab::gitlab_ci
   $gitlab_pages = $gitlab::gitlab_pages
   $gitlab_rails = $gitlab::gitlab_rails
+  $grafana = $gitlab::grafana
   $high_availability = $gitlab::high_availability
   $letsencrypt = $gitlab::letsencrypt
   $logging = $gitlab::logging

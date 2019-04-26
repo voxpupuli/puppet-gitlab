@@ -1,3 +1,11 @@
+# gitlab
+
+[![Build Status](https://travis-ci.org/voxpupuli/puppet-gitlab.png?branch=master)](https://travis-ci.org/voxpupuli/puppet-gitlab)
+[![Puppet Forge](https://img.shields.io/puppetforge/v/puppet/gitlab.svg)](https://forge.puppetlabs.com/puppet/gitlab)
+[![Puppet Forge - downloads](https://img.shields.io/puppetforge/dt/puppet/gitlab.svg)](https://forge.puppetlabs.com/puppet/gitlab)
+[![Puppet Forge - endorsement](https://img.shields.io/puppetforge/e/puppet/gitlab.svg)](https://forge.puppetlabs.com/puppet/gitlab)
+[![Puppet Forge - scores](https://img.shields.io/puppetforge/f/puppet/gitlab.svg)](https://forge.puppetlabs.com/puppet/gitlab)
+
 #### Table of Contents
 
 1. [Overview](#overview)
@@ -15,9 +23,6 @@
 
 This Puppet module installs and manages [Gitlab](https://about.gitlab.com/).
 It makes use of the provided [Omnibus](https://gitlab.com/gitlab-org/omnibus-gitlab/blob/master/README.md) packages and the [packagecloud package repositories](https://packages.gitlab.com/gitlab).
-
-[![Build Status](https://api.travis-ci.org/voxpupuli/puppet-gitlab.svg?branch=master)](https://travis-ci.org/voxpupuli/puppet-gitlab)
-[![puppet-gitlab](https://img.shields.io/puppetforge/v/puppet/gitlab.svg)](https://forge.puppetlabs.com/puppet/gitlab)
 
 Please note: The module [vshn/gitlab](https://forge.puppet.com/vshn/gitlab) has been deprecated
 and is now available under Vox Pupuli [puppet/gitlab](https://forge.puppet.com/puppet/gitlab).

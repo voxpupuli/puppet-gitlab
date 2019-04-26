@@ -33,6 +33,6 @@ RSpec.configure do |c|
       }
     )
 
-    apply_manifest(tzdata, catch_failures: true) if fact('os.release.major') == '16.04'
+    apply_manifest(tzdata, catch_failures: true) if fact('os.release.major') =~ %r{(16.04|18.04)}
   end
 end

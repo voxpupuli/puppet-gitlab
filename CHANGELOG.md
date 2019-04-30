@@ -4,6 +4,40 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v4.0.0](https://github.com/voxpupuli/puppet-gitlab/tree/v4.0.0) (2019-04-29)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-gitlab/compare/v3.0.2...v4.0.0)
+
+**Breaking changes:**
+
+- modulesync 2.7.0 and drop puppet 4 [\#305](https://github.com/voxpupuli/puppet-gitlab/pull/305) ([bastelfreak](https://github.com/bastelfreak))
+- Remove service dependency cycle by dropping management of the gitlab-runsvdir service [\#293](https://github.com/voxpupuli/puppet-gitlab/pull/293) ([LongLiveCHIEF](https://github.com/LongLiveCHIEF))
+
+**Implemented enhancements:**
+
+- Add support for Debian 9 and Ubuntu 18.04 [\#308](https://github.com/voxpupuli/puppet-gitlab/pull/308) ([dhoppe](https://github.com/dhoppe))
+- Allow puppetlabs/apt 7.x [\#307](https://github.com/voxpupuli/puppet-gitlab/pull/307) ([dhoppe](https://github.com/dhoppe))
+- Add support for Grafana dashboard [\#303](https://github.com/voxpupuli/puppet-gitlab/pull/303) ([minorOffense](https://github.com/minorOffense))
+
+**Fixed bugs:**
+
+- Dependency error when gitlab::service::service\_manage is set to false [\#284](https://github.com/voxpupuli/puppet-gitlab/issues/284)
+
+**Closed issues:**
+
+- Add support for Grafana dashboard [\#302](https://github.com/voxpupuli/puppet-gitlab/issues/302)
+- Need to know how to set the root password via this module [\#301](https://github.com/voxpupuli/puppet-gitlab/issues/301)
+- typo in .github/issue template [\#296](https://github.com/voxpupuli/puppet-gitlab/issues/296)
+- Mattermost SMTP port cannot be configured by the module [\#289](https://github.com/voxpupuli/puppet-gitlab/issues/289)
+
+**Merged pull requests:**
+
+- Update README.md [\#295](https://github.com/voxpupuli/puppet-gitlab/pull/295) ([jjasghar](https://github.com/jjasghar))
+- updating module descr and support info [\#294](https://github.com/voxpupuli/puppet-gitlab/pull/294) ([LongLiveCHIEF](https://github.com/LongLiveCHIEF))
+- Fix Continuous Integration [\#292](https://github.com/voxpupuli/puppet-gitlab/pull/292) ([smortex](https://github.com/smortex))
+- enable beaker acceptance tests [\#287](https://github.com/voxpupuli/puppet-gitlab/pull/287) ([Dan33l](https://github.com/Dan33l))
+- Replace deprecated validate\_\* functions [\#286](https://github.com/voxpupuli/puppet-gitlab/pull/286) ([baurmatt](https://github.com/baurmatt))
+
 ## [v3.0.2](https://github.com/voxpupuli/puppet-gitlab/tree/v3.0.2) (2018-10-17)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-gitlab/compare/v3.0.1...v3.0.2)

@@ -56,12 +56,12 @@ define gitlab::global_hook (
   Enum['post-receive', 'pre-receive', 'update'] $type,
   Stdlib::Absolutepath                          $custom_hooks_dir,
   Optional[String[1]]                           $content          = undef,
-  Optional[/^puppet:/]                          $source           = undef,
+  Optional[Pattern[/^puppet:/]]                 $source           = undef,
 ) {
   if $custom_hooks_dir {
     $_custom_hooks_dir = $custom_hooks_dir
-  } elsif $::gitlab::custom_hooks_dir {
-    $_custom_hooks_dir = $::gitlab::custom_hooks_dir
+  } elsif $gitlab::custom_hooks_dir {
+    $_custom_hooks_dir = $gitlab::custom_hooks_dir
   } else {
     $_custom_hooks_dir = '/opt/gitlab/embedded/service/gitlab-shell/hooks'
   }
@@ -77,8 +77,8 @@ define gitlab::global_hook (
   $hook_path = "${_custom_hooks_dir}/${type}.d"
 
   File {
-    owner => $::gitlab::service_user,
-    group => $::gitlab::service_group,
+    owner => $gitlab::service_user,
+    group => $gitlab::service_group,
     mode  => '0755',
   }
 

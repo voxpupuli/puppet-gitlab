@@ -4,7 +4,15 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
-## [v4.0.0](https://github.com/voxpupuli/puppet-gitlab/tree/v4.0.0) (2019-04-29)
+## [v4.0.1](https://github.com/voxpupuli/puppet-gitlab/tree/v4.0.1) (2019-05-02)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-gitlab/compare/v4.0.0...v4.0.1)
+
+**Fixed bugs:**
+
+- Fix broken data type definition [\#312](https://github.com/voxpupuli/puppet-gitlab/pull/312) ([baurmatt](https://github.com/baurmatt))
+
+## [v4.0.0](https://github.com/voxpupuli/puppet-gitlab/tree/v4.0.0) (2019-04-30)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-gitlab/compare/v3.0.2...v4.0.0)
 

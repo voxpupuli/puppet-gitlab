@@ -67,8 +67,8 @@ define gitlab::custom_hook(
 ) {
   if $repos_path {
     $_repos_path = $repos_path
-  } elsif $::gitlab::git_data_dir {
-    $_repos_path = "${::gitlab::git_data_dir}/repositories"
+  } elsif $::gitlab::git_data_dirs {
+    $_repos_path = "${::gitlab::git_data_dirs}/repositories"
   } else {
     $_repos_path = '/var/opt/gitlab/git-data/repositories'
   }

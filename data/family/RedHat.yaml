@@ -2,6 +2,7 @@ gitlab::repository_configuration:
   yumrepo:
     "gitlab_official_ce":
       ensure: 'present'
+      descr: "gitlab_official_ce"
       assumeyes: true
       enabled: 1
       baseurl: "https://packages.gitlab.com/gitlab/gitlab-ce/el/%{facts.os.release.major}/$basearch"
@@ -11,6 +12,7 @@ gitlab::repository_configuration:
       sslverify: 1
     "gitlab_official_ee":
       ensure: 'present'
+      descr: "gitlab_official_ee"
       assumeyes: true
       enabled: 1
       baseurl: "https://packages.gitlab.com/gitlab/gitlab-ee/el/%{facts.os.release.major}/$basearch"

@@ -67,8 +67,8 @@ define gitlab::custom_hook(
 ) {
   if $repos_path {
     $_repos_path = $repos_path
-  } elsif $::gitlab::git_data_dir {
-    $_repos_path = "${::gitlab::git_data_dir}/repositories"
+  } elsif $gitlab::git_data_dir {
+    $_repos_path = "${gitlab::git_data_dir}/repositories"
   } else {
     $_repos_path = '/var/opt/gitlab/git-data/repositories'
   }
@@ -84,8 +84,8 @@ define gitlab::custom_hook(
   $hook_path = "${_repos_path}/${namespace}/${project}.git/custom_hooks"
 
   File {
-    owner => $::gitlab::service_user,
-    group => $::gitlab::service_group,
+    owner => $gitlab::service_user,
+    group => $gitlab::service_group,
     mode  => '0755',
   }
 

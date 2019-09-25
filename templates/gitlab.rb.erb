@@ -353,6 +353,15 @@ alertmanager['<%= k -%>'] = <%= decorate(@alertmanager[k]) %>
 <%- @gitlab_monitor.keys.sort.each do |k| -%>
 gitlab_monitor['<%= k -%>'] = <%= decorate(@gitlab_monitor[k]) %>
 <%- end end -%>
+<%- if @gitlab_exporter -%>
+
+################################################################################
+## Prometheus Gitlab exporter
+##! Docs: https://docs.gitlab.com/ce/administration/monitoring/prometheus/gitlab_exporter.html
+
+<%- @gitlab_exporter.keys.sort.each do |k| -%>
+gitlab_exporter['<%= k -%>'] = <%= decorate(@gitlab_exporter[k]) %>
+<%- end end -%>
 <%- if @high_availability -%>
 
 

@@ -377,6 +377,33 @@ describe 'gitlab', type: :class do
             is_expected.to contain_file('/opt/gitlab-shell/authorized_keys')
           end
         end
+        describe 'gitlab_monitor' do
+          let(:params) do
+            { gitlab_monitor: {
+              'enable' => true
+            } }
+          end
+
+          it {
+            is_expected.to contain_file('/etc/gitlab/gitlab.rb'). \
+              with_content(%r{^\s*gitlab_monitor\['enable'\] = true$})
+          }
+          it {
+            is_expected.to contain_notify("DEPRECTATION: 'gitlab_monitor' is deprecated if using GitLab 12.3 or greater. Set 'gitlab_exporter' instead")
+          }
+        end
+        describe 'gitlab_exporter' do
+          let(:params) do
+            { gitlab_exporter: {
+              'enable' => true
+            } }
+          end
+
+          it {
+            is_expected.to contain_file('/etc/gitlab/gitlab.rb'). \
+              with_content(%r{^\s*gitlab_exporter\['enable'\] = true$})
+          }
+        end
       end
     end
   end

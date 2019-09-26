@@ -41,6 +41,7 @@ class gitlab::omnibus_config (
   $redis_exporter = $gitlab::redis_exporter
   $postgres_exporter = $gitlab::postgres_exporter
   $gitlab_monitor = $gitlab::gitlab_monitor
+  $gitlab_exporter = $gitlab::gitlab_exporter
   $pages_external_url = $gitlab::pages_external_url
   $pages_nginx = $gitlab::pages_nginx
   $pages_nginx_eq_nginx = $gitlab::pages_nginx_eq_nginx
@@ -90,6 +91,11 @@ class gitlab::omnibus_config (
     $_real_registry_nginx = $nginx
   } else {
     $_real_registry_nginx = $registry_nginx
+  }
+
+  # Throw deprecation warning if gitlab_monitor is used
+  if $gitlab_monitor {
+    notify { "DEPRECTATION: 'gitlab_monitor' is deprecated if using GitLab 12.3 or greater. Set 'gitlab_exporter' instead": }
   }
 
   # attributes shared by all config files used by omnibus package

@@ -190,7 +190,12 @@
 #
 # [*gitlab_monitor*]
 #   Default: undef
+#   Deprecated if using Gitlab > 12.3 and < 13.0, unsupported by gitlab omnibus using Gitlab 13+
 #   Hash of 'gitlab_monitor' config parameters.
+#
+# [*gitlab_exporter*]
+#   Default: undef
+#   Hash of 'gitlab_exporter' config parameters.
 #
 # [*pages_external_url*]
 #   Default: undef
@@ -417,6 +422,7 @@ class gitlab (
   Stdlib::Absolutepath           $pgpass_file_location            = '/home/gitlab-consul/.pgpass',
   Optional[Hash]                 $postgres_exporter               = undef,
   Optional[Hash]                 $gitlab_monitor                  = undef,
+  Optional[Hash]                 $gitlab_exporter                 = undef,
   Optional[String]               $package_name                    = undef,
   Optional[String]               $pages_external_url              = undef,
   Optional[Hash]                 $pages_nginx                     = undef,

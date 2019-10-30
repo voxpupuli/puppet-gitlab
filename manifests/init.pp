@@ -217,7 +217,7 @@
 #   Default: undef
 #   Hash of 'prometheus' config parameters.
 #
-# [*prometheus_monitoring_enable*]
+# [*prometheus_monitoring*]
 #   Default: undef
 #   Enable/disable prometheus support.
 #
@@ -430,7 +430,7 @@ class gitlab (
   Optional[Hash]                 $pgbouncer                       = undef,
   Optional[Hash]                 $postgresql                      = undef,
   Optional[Hash]                 $prometheus                      = undef,
-  Optional[Boolean]              $prometheus_monitoring_enable    = undef,
+  Optional[Boolean]              $prometheus_monitoring           = undef,
   Optional[Hash]                 $redis                           = undef,
   Optional[Boolean]              $redis_master_role               = undef,
   Optional[Boolean]              $redis_slave_role                = undef,

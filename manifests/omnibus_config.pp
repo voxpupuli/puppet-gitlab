@@ -48,7 +48,7 @@ class gitlab::omnibus_config (
   $pgbouncer = $gitlab::pgbouncer
   $postgresql = $gitlab::postgresql
   $prometheus = $gitlab::prometheus
-  $prometheus_monitoring_enable = $gitlab::prometheus_monitoring_enable
+  $prometheus_monitoring = $gitlab::prometheus_monitoring
   $redis = $gitlab::redis
   $redis_master_role = $gitlab::redis_master_role
   $redis_slave_role = $gitlab::redis_slave_role

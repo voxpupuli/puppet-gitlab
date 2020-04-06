@@ -221,7 +221,7 @@ class { 'gitlab':
         'comment' => 'Internal mirror of upstream gitlab package repository',
         'location' => 'https://my.internal.url/repository/packages.gitlab.com/gitlab/gitlab-ce/debian',
         'key' => {
-          'id' => '1A4C919DB987D435939638B914219A96E15E78F4',
+          'id' => 'F6403F6544A38863DAA0B6E03F01618A51312F3F',
           'source' => 'https://my.internal.url/repository/package.gitlab.com/gpg.key'
         }
       },

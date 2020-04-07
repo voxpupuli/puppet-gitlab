@@ -1,3 +1,4 @@
+# From: https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/config_file.repo?os=centos&dist=7&source=script
 gitlab::repository_configuration:
   yumrepo:
     "gitlab_official_ce":

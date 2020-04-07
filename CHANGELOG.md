@@ -4,6 +4,32 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v5.0.0](https://github.com/voxpupuli/puppet-gitlab/tree/v5.0.0) (2020-04-07)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-gitlab/compare/v4.0.1...v5.0.0)
+
+**Breaking changes:**
+
+- Support puppetlabs/stdlib 6.x [\#320](https://github.com/voxpupuli/puppet-gitlab/pull/320) ([pillarsdotnet](https://github.com/pillarsdotnet))
+
+**Implemented enhancements:**
+
+- Support Debian 10 [\#332](https://github.com/voxpupuli/puppet-gitlab/pull/332) ([antondollmaier](https://github.com/antondollmaier))
+- Use new gitlab gpg keys for package management [\#331](https://github.com/voxpupuli/puppet-gitlab/pull/331) ([jkroepke](https://github.com/jkroepke))
+
+**Fixed bugs:**
+
+- Fix typo in configuration file comments [\#314](https://github.com/voxpupuli/puppet-gitlab/pull/314) ([cpeetersburg](https://github.com/cpeetersburg))
+
+**Closed issues:**
+
+- gitlab\_monitor got renamed to gitlab\_exporter in 12.3 [\#323](https://github.com/voxpupuli/puppet-gitlab/issues/323)
+- access to repo [\#321](https://github.com/voxpupuli/puppet-gitlab/issues/321)
+
+**Merged pull requests:**
+
+- Deprecate gitlab\_monitor in favour of gitlab\_exporter [\#324](https://github.com/voxpupuli/puppet-gitlab/pull/324) ([baurmatt](https://github.com/baurmatt))
+
 ## [v4.0.1](https://github.com/voxpupuli/puppet-gitlab/tree/v4.0.1) (2019-05-02)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-gitlab/compare/v4.0.0...v4.0.1)

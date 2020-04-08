@@ -67,6 +67,7 @@ class gitlab::omnibus_config (
   $sidekiq_cluster = $gitlab::sidekiq_cluster
   $source_config_file = $gitlab::source_config_file
   $unicorn = $gitlab::unicorn
+  $puma = $gitlab::puma
   $gitlab_workhorse = $gitlab::gitlab_workhorse
   $user = $gitlab::user
   $web_server = $gitlab::web_server

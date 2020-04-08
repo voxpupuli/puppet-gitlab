@@ -302,6 +302,10 @@
 #   Default: undef
 #   Hash of 'unicorn' config parameters.
 #
+# [*puma*]
+#   Default: undef
+#   Hash of 'puma' config parameters.
+#
 # [*user*]
 #   Default: undef
 #   Hash of 'user' config parameters.
@@ -451,6 +455,7 @@ class gitlab (
   Optional[Stdlib::Absolutepath] $source_config_file              = undef,
   Boolean                        $store_git_keys_in_db            = false,
   Optional[Hash]                 $unicorn                         = undef,
+  Optional[Hash]                 $puma                            = undef,
   Optional[Hash]                 $gitlab_workhorse                = undef,
   Optional[Hash]                 $user                            = undef,
   Optional[Hash]                 $web_server                      = undef,

@@ -404,6 +404,22 @@ describe 'gitlab', type: :class do
               with_content(%r{^\s*gitlab_exporter\['enable'\] = true$})
           }
         end
+        describe 'puma' do
+          let(:params) do
+            { puma: {
+              'enable' => true,
+              'worker_processes' => 3,
+              'worker_timeout' => 60
+            } }
+          end
+
+          it {
+            is_expected.to contain_file('/etc/gitlab/gitlab.rb').
+              with_content(%r{^\s*puma\['enable'\] = true$}).
+              with_content(%r{^\s*puma\['worker_processes'\] = 3$}).
+              with_content(%r{^\s*puma\['worker_timeout'\] = 60$})
+          }
+        end
       end
     end
   end

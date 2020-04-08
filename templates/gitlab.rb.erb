@@ -93,6 +93,15 @@ user['<%= k -%>'] = <%= decorate(@user[k]) %>
 <%- @unicorn.keys.sort.each do |k| -%>
 unicorn['<%= k -%>'] = <%= decorate(@unicorn[k]) %>
 <%- end end -%>
+<%- if @puma -%>
+
+##################
+# GitLab Puma #
+##################
+
+<%- @puma.keys.sort.each do |k| -%>
+puma['<%= k -%>'] = <%= decorate(@puma[k]) %>
+<%- end end -%>
 <%- if @sidekiq -%>
 
 ##################

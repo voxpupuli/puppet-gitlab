@@ -303,14 +303,14 @@ ci_unicorn['<%= k -%>'] = <%= decorate(@ci_unicorn[k]) %>
 <%- @ci_redis.keys.sort.each do |k| -%>
 ci_redis['<%= k -%>'] = <%= decorate(@ci_redis[k]) %>
 <%- end end -%>
-<%- if @prometheus or defined?(@prometheus_monitoring_enable) -%>
+<%- if @prometheus or defined?(@prometheus_monitoring) -%>
 
 ##############
 # Prometheus #
 ##############
 ##! Docs: https://docs.gitlab.com/ce/administration/monitoring/performance/prometheus.html
 
-<%- if defined?(@prometheus_monitoring_enable) -%>prometheus_monitoring['enable'] = <%= @prometheus_monitoring_enable %>
+<%- if defined?(@prometheus_monitoring) -%>prometheus_monitoring['enable'] = <%= @prometheus_monitoring %>
 <%- end -%>
 <%- if @prometheus %>
 <%- @prometheus.keys.sort.each do |k| -%>

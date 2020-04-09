@@ -1,7 +1,4 @@
-# == Class gitlab::backup
-#
-# This class is called from gitlab for backup config.
-#
+# @summary This class is called from gitlab for backup config.
 class gitlab::backup {
   $rake_exec = $gitlab::rake_exec
   $backup_cron_enable = $gitlab::backup_cron_enable

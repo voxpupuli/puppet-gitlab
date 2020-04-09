@@ -1,7 +1,8 @@
-# == Class gitlab::repos
+# @summary This class is used to configure gitlab repositories
 #
-# This class is used to configure gitlab repositories
-#
+# @param repository_configuration A hash of repository types and attributes for configuraiton the gitlab package repositories. See docs in README.md
+# @param manage_omnibus_repository Set to false if you wish to manage gitlab without configuring the package repository
+# @param manage_upstream_edition One of [ 'ce', 'ee', 'disabled' ]. Manage the installation of an upstream Gitlab Omnibus edition to install.
 class gitlab::omnibus_package_repository (
   $repository_configuration = $gitlab::repository_configuration,
   $manage_omnibus_repository = $gitlab::manage_omnibus_repository,

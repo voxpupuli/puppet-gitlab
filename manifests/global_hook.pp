@@ -1,57 +1,15 @@
-# == Define: gitlab::global_hook
+# @summary Manage global chain loaded hook files for all GitLab projects. Hooks can be created as a pre-receive, post-receive, or update hook. It's possible to create  multipe hooks per type as long as their names are unique. Support for chained (global) hooks is introduced in GitLab Shell 4.1.0 and GitLab 8.15.
 #
-# Manage global chain loaded hook files for all GitLab projects. Hooks can be created
-# as a pre-receive, post-receive, or update hook. It's possible to create
-# multipe hooks per type as long as their names are unique.
-#
-# Support for chained (global) hooks is introduced in GitLab Shell 4.1.0 and GitLab 8.15.
-#
-# === Parameters
-#
-# [*namevar*]
-#   The namevar is used as chail file name and should be unique. Supply a descriptive
-#   namevar of your choosing.
-#
-# [*type*]
-#   The custom hook type. Should be one of pre-receive, post-receive, or update.
-#
-# [*content*]
-#   Specify the custom hook contents either as a string or using the template
-#   function. If this paramter is specified source parameter must not be
-#   present.
-#
-# [*source*]
-#   Specify a file source path to populate the custom hook contents. If this
-#   paramter is specified content parameter must not be present.
-#
-# [*custom_hooks_dir*]
-#   The GitLab shell repos path. This defaults to
-#   '/opt/gitlab/embedded/service/gitlab-shell/hooks' if not present.
-#
-# [*git_username*]
-#   The git user name. Defaults to 'git' if not present.
-#
-# [*git_groupname*]
-#   The git group name. Defaults to 'git' if not present.
-#
-#
-# === Examples
-#
+# @example Global hook usage
 #   gitlab::custom_hook { 'my_custom_hook':
 #     type            => 'post-receive',
 #     source          => 'puppet:///modules/my_module/post-receive',
 #   }
 #
-# === Authors
-# Hidde Boomsma <hboomsma@hostnet.nl>
-#
-# Inspired by the custom_hook module by:
-# Drew A. Blessing <drew.blessing@mac.com>
-#
-# === Copyright
-#
-# Copyright 2017 Hidde Boomsma
-#
+# @param type The custom hook type. Should be one of pre-receive, post-receive, or update.
+# @param custom_hooks_dir The GitLab shell repos path. This defaults to '/opt/gitlab/embedded/service/gitlab-shell/hooks' if not present.
+# @param content Specify the custom hook contents either as a string or using the template function. If this paramter is specified source parameter must not be present.
+# @param source Specify a file source path to populate the custom hook contents. If this paramter is specified content parameter must not be present.
 define gitlab::global_hook (
   Enum['post-receive', 'pre-receive', 'update'] $type,
   Stdlib::Absolutepath                          $custom_hooks_dir,

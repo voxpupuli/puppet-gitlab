@@ -1,7 +1,7 @@
-# == Class gitlab::omnibus_config
+# @summary This class is used to configure the gitlab omnibus package on a node
 #
-# This class is used to configure the gitlab omnibus package on a node
-#
+# @param config_manage Should Puppet manage the config?
+# @param config_file Path of the Gitlab Omnibus config file.
 class gitlab::omnibus_config (
   $config_manage = $gitlab::config_manage,
   $config_file = $gitlab::config_file

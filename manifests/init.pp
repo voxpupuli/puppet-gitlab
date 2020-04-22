@@ -1,373 +1,92 @@
-# == Class: gitlab
-#
-# This module installs and configures Gitlab with the Omnibus package.
-#
-# === Parameters
-#
-# [*package_ensure*]
-#   Default: installed
-#   Can be used to choose exact package version to install.
-#
-# [*service_name*]
-#   Default: gitlab-runsvdir
-#   Name of the system service.
-#
-# [*service_enable*]
-#   Default: true
-#   Run the system service on boot.
-#
-# [*service_exec*]
-#   Default: '/usr/bin/gitlab-ctl'
-#   The service executable path.
-#   Provide this variable value only if the service executable path
-#   would be a subject of change in future GitLab versions for any reason.
-#
-# [*service_ensure*]
-#   Default: running
-#   Should Puppet start the service?
-#
-# [*service_manage*]
-#   Default: false
-#   Should Puppet manage the service?
-
-# [*service_provider_restart*]
-#   Default: false
-#   Should Puppet restart the gitlab systemd service?
-#
-# [*service_user*]
-#   Default: root
-#   Owner of the config file.
-#
-# [*service_group*]
-#   Default: root
-#   Group of the config file.
-#
-# [*rake_exec*]
-#   Default: '/usr/bin/gitlab-rake'
-#   The gitlab-rake executable path.
-#   You should not need to change this path.
-#
-# [*edition*]
-#   **Deprecated**: See `manage_upstream_edition`
-#   Default: undef
-#
-# [*manage_upstream_edition*]
-#   Default: 'ce'
-#   One of [ 'ce', 'ee', 'disabled' ]
-#   Manage the installation of an upstream Gitlab Omnibus edition to install.
-#
-# [*config_manage*]
-#   Default: true
-#   Should Puppet manage the config?
-#
-# [*config_file*]
-#   Default: /etc/gitlab/gitlab.rb
-#   Path of the Gitlab Omnibus config file.
-#
-# [*alertmanager*]
-#   Default: undef
-#   Hash of 'alertmanager' config parameters.
-#
-# [*ci_redis*]
-#   Default: undef
-#   Hash of 'ci_redis' config parameters.
-#
-# [*ci_unicorn*]
-#   Default: undef
-#   Hash of 'ci_unicorn' config parameters.
-#
-# [*external_url*]
-#   Default: http://$fqdn
-#   External URL of Gitlab.
-#
-# [*external_port*]
-#   Default: undef
-#   External PORT of Gitlab.
-#
-# [*geo_postgresql*]
-#   Default: undef
-#   Hash of 'geo_postgresql' config parameters.
-#
-# [*geo_primary_role*]
-#   Default: false
-#   Boolean to enable Geo primary role
-#
-# [*geo_secondary*]
-#   Default: undef
-#   Hash of 'geo_secondary' config parameters.
-#
-# [*geo_secondary_role*]
-#   Default: false
-#   Boolean to enable Geo secondary role
-#
-# [*git*]
-#   Default: undef
-#   Hash of 'omnibus_gitconfig' config parameters.
-#
-# [*gitaly*]
-#   Default: undef
-#   Hash of 'Gitaly' config parameters.
-#
-# [*git_data_dirs*]
-#   Default: undef
-#   Hash of git data directories
-#
-# [*gitlab_git_http_server*]
-#   Default: undef
-#   Hash of 'gitlab_git_http_server' config parameters.
-#
-# [*gitlab_ci*]
-#   Default: undef
-#   Hash of 'gitlab_ci' config parameters.
-#
-# [*gitlab_pages*]
-#   Default: undef
-#   Hash of 'gitlab_pages' config parameters.
-#
-# [*gitlab_rails*]
-#   Default: undef
-#   Hash of 'gitlab_rails' config parameters.
-#
-# [*gitlab_workhorse*]
-#   Default: undef
-#   Hash of 'gitlab_workhorse' config parameters.
-#
-# [*grafana*]
-#   Default: undef
-#   Hash of 'grafana' config parameters.
-#
-# [*logging*]
-#   Default: undef
-#   Hash of 'logging' config parameters.
-#
-# [*letsencrypt*]
-#   Default: undef
-#   Hash of 'letsencrypt' config parameters.
-#
-# [*logrotate*]
-#   Default: undef
-#   Hash of 'logrotate' config parameters.
-#
-# [*manage_storage_directories*]
-#   Default: undef
-#   Hash of 'manage_storage_directories' config parameters.
-#
-# [*manage_accounts*]
-#   Default: undef
-#   Hash of 'manage_accounts' config parameters.
-#
-# [*mattermost_external_url*]
-#   Default: undef
-#   External URL of Mattermost.
-#
-# [*mattermost*]
-#   Default: undef
-#   Hash of 'mattmost' config parameters.
-#
-# [*mattermost_nginx*]
-#   Default: undef
-#   Hash of 'mattmost_nginx' config parameters.
-#
-# [*mattermost_nginx_eq_nginx*]
-#   Default: false
-#   Replicate the Mattermost Nginx config from the Gitlab Nginx config.
-#
-# [*nginx*]
-#   Default: undef
-#   Hash of 'nginx' config parameters.
-#
-# [*node_exporter*]
-#   Default: undef
-#   Hash of 'node_exporter' config parameters.
-#
-# [*redis_exporter*]
-#   Default: undef
-#   Hash of 'redis_exporter' config parameters.
-#
-# [*postgres_exporter*]
-#   Default: undef
-#   Hash of 'postgres_exporter' config parameters.
-#
-# [*gitlab_monitor*]
-#   Default: undef
-#   Deprecated if using Gitlab > 12.3 and < 13.0, unsupported by gitlab omnibus using Gitlab 13+
-#   Hash of 'gitlab_monitor' config parameters.
-#
-# [*gitlab_exporter*]
-#   Default: undef
-#   Hash of 'gitlab_exporter' config parameters.
-#
-# [*pages_external_url*]
-#   Default: undef
-#   External URL of Gitlab Pages.
-#
-# [*pages_nginx*]
-#   Default: undef
-#   Hash of 'pages_nginx' config parameters.
-#
-# [*pages_nginx_eq_nginx*]
-#   Default: false
-#   Replicate the Pages Nginx config from the Gitlab Nginx config.
-#
-# [*postgresql*]
-#   Default: undef
-#   Hash of 'postgresql' config parameters.
-#
-# [*prometheus*]
-#   Default: undef
-#   Hash of 'prometheus' config parameters.
-#
-# [*prometheus_monitoring_enable*]
-#   Default: undef
-#   Enable/disable prometheus support.
-#
-# [*redis*]
-#   Default: undef
-#   Hash of 'redis' config parameters.
-#
-# [*redis_master_role*]
-#   Default: undef
-#   To enable Redis master role for the node.
-#
-# [*redis_slave_role*]
-#   Default: undef
-#   To enable Redis slave role for the node.
-#
-# [*redis_sentinel_role*]
-#   Default: undef
-#   To enable sentinel role for the node.
-#
-# [*registry*]
-#   Default: undef
-#   Hash of 'registry' config parameters.
-#
-# [*registry_external_url*]
-#  Default: undef
-#  External URL of Registry
-#
-# [*registry_nginx*]
-#  Default: undef
-#  Hash of 'registry_nginx' config parameters.
-#
-# [*registry_nginx_eq_nginx*]
-#   Default: false
-#   Replicate the registry Nginx config from the Gitlab Nginx config.
-#
-# [*roles*]
-#   Default: undef
-#   Array of roles when using a HA or Geo enabled GitLab configuration
-#   See: https://docs.gitlab.com/omnibus/roles/README.html for acceptable values
-#
-# [*sentinel*]
-#   Default: undef
-#   Hash of 'sentinel' config parameters.
-#
-# [*shell*]
-#   Default: undef
-#   Hash of 'gitlab_shell' config parameters.
-#
-# [*sidekiq*]
-#   Default: undef
-#   Hash of 'sidekiq' config parameters.
-#
-# [*sidekiq_cluster*]
-#   Default: undef
-#   Hash of 'sidekiq_cluster' config parameters.
-#
-# [*skip_auto_migrations*]
-#   Default: undef
-#   Deprecated if using Gitlab > 10.6.4 and < 11.0.0, unsupported by gitlab omnibus using gitlab 11+
-#   Use skip_auto_reconfigure
-#
-# [*skip_auto_reconfigure*]
-#   Default: undef
-#   Utilized for Zero Downtime Updates, See: https://docs.gitlab.com/omnibus/update/README.html#zero-downtime-updates
-#
-# [*skip_post_deployment_migrations*]
-#   Default: false
-#   Adds SKIP_POST_DEPLOYMENT_MIGRATIONS=true to the execution of gitlab-ctl reconfigure
-#   Used for zero-downtime updates
-#
-# [*store_git_keys_in_db*]
-#   Default: false
-#   Enable or disable Fast Lookup of authorized SSH keys in the database
-#   See: https://docs.gitlab.com/ee/administration/operations/fast_ssh_key_lookup.html
-#
-#
-# [*source_config_file*]
-#   Default: undef
-#   Override Hiera config with path to gitlab.rb config file.
-#
-# [*unicorn*]
-#   Default: undef
-#   Hash of 'unicorn' config parameters.
-#
-# [*puma*]
-#   Default: undef
-#   Hash of 'puma' config parameters.
-#
-# [*user*]
-#   Default: undef
-#   Hash of 'user' config parameters.
-#
-# [*web_server*]
-#   Default: undef
-#   Hash of 'web_server' config parameters.
-#
-# [*high_availability*]
-#   Default: undef
-#   Hash of 'high_availability' config parameters.
-#
-# [*backup_cron_enable*]
-#   Default: false
-#   Boolean to enable the daily backup cron job
-#
-# [*backup_cron_minute*]
-#   Default: 0
-#   The minute when to run the daily backup cron job
-#
-# [*backup_cron_hour*]
-#   Default: 2
-#   The hour when to run the daily backup cron job
-#
-# [*backup_cron_skips*]
-#   Default: []
-#   Array of items to skip
-#   valid values: db, uploads, repositories, builds,
-#                 artifacts, lfs, registry, pages
-#
-# [*package_name*]
-#   Default: 'gitlab-ce'
-#   The internal packaging system's name for the package
-#   This name will automatically be changed by the gitlab::edition parameter
-#   Can be overridden for the purposes of installing custom compiled version of gitlab-omnibus
-#
-# [*manage_package*]
-#   Default: true
-#   Should the GitLab package be managed?
-#
-# [*repository_configuration*]
-#   A hash of repository types and attributes for configuraiton the gitlab package repositories
-#   See docs in README.md
-#
-# [*manage_omnibus_repository*]
-#   Default: true
-#   Set to false if you wish to manage gitlab without configuring the package repository
-# [*pgpass_file_location*]
-#   Default: '/home/gitlab-consul/.pgpass'
-#   Path to location of .pgpass file used by consul to
-#   authenticate with pgbouncer database
-#
-# [*pgpass_file_ensure*]
-#   Default: 'absent'
-#   Create .pgpass file for pgbouncer authentication
-#   When set to present requires valid value for pgbouncer_password
-#
-# [*pgbouncer_password*]
-#   Default: undef
-#   Password for the gitlab-consul database user in the
-#   pgbouncer database
-#
+# @summary This module installs and configures Gitlab with the Omnibus package.
+#
+# @param package_ensure Can be used to choose exact package version to install.
+# @param service_name Name of the system service.
+# @param service_enable Run the system service on boot.
+# @param service_exec The service executable path. Provide this variable value only if the service executable path would be a subject of change in future GitLab versions for any reason.
+# @param service_ensure Should Puppet start the service?
+# @param service_manage Should Puppet manage the service?
+# @param service_provider_restart Should Puppet restart the gitlab systemd service?
+# @param service_user Owner of the config file.
+# @param service_group Group of the config file.
+# @param rake_exec The gitlab-rake executable path. You should not need to change this path.
+# @param edition **Deprecated**: See `manage_upstream_edition`
+# @param manage_upstream_edition One of [ 'ce', 'ee', 'disabled' ]. Manage the installation of an upstream Gitlab Omnibus edition to install.
+# @param config_manage Should Puppet manage the config?
+# @param config_file Path of the Gitlab Omnibus config file.
+# @param alertmanager Hash of 'alertmanager' config parameters.
+# @param ci_redis Hash of 'ci_redis' config parameters.
+# @param ci_unicorn Hash of 'ci_unicorn' config parameters.
+# @param external_url External URL of Gitlab.
+# @param external_port External PORT of Gitlab.
+# @param geo_postgresql Hash of 'geo_postgresql' config parameters.
+# @param geo_primary_role Boolean to enable Geo primary role
+# @param geo_secondary Hash of 'geo_secondary' config parameters.
+# @param geo_secondary_role Boolean to enable Geo secondary role
+# @param git Hash of 'omnibus_gitconfig' config parameters.
+# @param gitaly Hash of 'omnibus_gitconfig' config parameters.
+# @param git_data_dirs Hash of git data directories
+# @param gitlab_git_http_server Hash of 'gitlab_git_http_server' config parameters.
+# @param gitlab_ci Hash of 'gitlab_ci' config parameters.
+# @param gitlab_pages Hash of 'gitlab_pages' config parameters.
+# @param gitlab_rails Hash of 'gitlab_pages' config parameters.
+# @param gitlab_workhorse Hash of 'gitlab_workhorse' config parameters.
+# @param grafana Hash of 'grafana' config parameters.
+# @param logging Hash of 'logging' config parameters.
+# @param letsencrypt Hash of 'letsencrypt' config parameters.
+# @param logrotate Hash of 'logrotate' config parameters.
+# @param manage_storage_directories Hash of 'manage_storage_directories' config parameters.
+# @param manage_accounts Hash of 'manage_accounts' config parameters.
+# @param mattermost_external_url External URL of Mattermost.
+# @param mattermost Hash of 'mattmost' config parameters.
+# @param mattermost_nginx Hash of 'mattmost_nginx' config parameters.
+# @param mattermost_nginx_eq_nginx Replicate the Mattermost Nginx config from the Gitlab Nginx config.
+# @param nginx Hash of 'nginx' config parameters.
+# @param node_exporter Hash of 'node_exporter' config parameters.
+# @param redis_exporter Hash of 'redis_exporter' config parameters.
+# @param postgres_exporter Hash of 'postgres_exporter' config parameters.
+# @param gitlab_monitor Deprecated if using Gitlab > 12.3 and < 13.0, unsupported by gitlab omnibus using Gitlab 13+. Hash of 'gitlab_monitor' config parameters.
+# @param gitlab_exporter Hash of 'gitlab_exporter' config parameters.
+# @param pages_external_url External URL of Gitlab Pages.
+# @param pages_nginx Hash of 'pages_nginx' config parameters.
+# @param pages_nginx_eq_nginx Replicate the Pages Nginx config from the Gitlab Nginx config.
+# @param postgresql Hash of 'postgresql' config parameters.
+# @param prometheus Hash of 'prometheus' config parameters.
+# @param prometheus_monitoring_enable Enable/disable prometheus support.
+# @param redis Hash of 'redis' config parameters.
+# @param redis_master_role To enable Redis master role for the node.
+# @param redis_slave_role To enable Redis slave role for the node.
+# @param redis_sentinel_role To enable sentinel role for the node.
+# @param registry Hash of 'registry' config parameters.
+# @param registry_external_url External URL of Registry
+# @param registry_nginx Hash of 'registry_nginx' config parameters.
+# @param registry_nginx_eq_nginx Replicate the registry Nginx config from the Gitlab Nginx config.
+# @param roles Array of roles when using a HA or Geo enabled GitLab configuration. See: https://docs.gitlab.com/omnibus/roles/README.html for acceptable values
+# @param sentinel Hash of 'sentinel' config parameters.
+# @param shell Hash of 'gitlab_shell' config parameters.
+# @param sidekiq Hash of 'sidekiq' config parameters
+# @param sidekiq_cluster Hash of 'sidekiq_cluster' config parameters.
+# @param skip_auto_migrations Deprecated if using Gitlab > 10.6.4 and < 11.0.0, unsupported by gitlab omnibus using gitlab 11+. Use skip_auto_reconfigure
+# @param skip_auto_reconfigure Utilized for Zero Downtime Updates, See: https://docs.gitlab.com/omnibus/update/README.html#zero-downtime-updates
+# @param skip_post_deployment_migrations Adds SKIP_POST_DEPLOYMENT_MIGRATIONS=true to the execution of gitlab-ctl reconfigure. Used for zero-downtime updates
+# @param store_git_keys_in_db Enable or disable Fast Lookup of authorized SSH keys in the database. See: https://docs.gitlab.com/ee/administration/operations/fast_ssh_key_lookup.html
+# @param source_config_file Override Hiera config with path to gitlab.rb config file
+# @param unicorn Hash of 'unicorn' config parameters.
+# @param puma Hash of 'puma' config parameters.
+# @param user Hash of 'user' config parameters.
+# @param web_server Hash of 'web_server' config parameters.
+# @param high_availability Hash of 'high_availability' config parameters.
+# @param backup_cron_enable Boolean to enable the daily backup cron job
+# @param backup_cron_minute The minute when to run the daily backup cron job
+# @param backup_cron_hour The hour when to run the daily backup cron job
+# @param backup_cron_skips Array of items to skip valid values: db, uploads, repositories, builds, artifacts, lfs, registry, pages
+# @param package_name The internal packaging system's name for the package. This name will automatically be changed by the gitlab::edition parameter. Can be overridden for the purposes of installing custom compiled version of gitlab-omnibus.
+# @param manage_package Should the GitLab package be managed?
+# @param repository_configuration A hash of repository types and attributes for configuraiton the gitlab package repositories. See docs in README.md
+# @param manage_omnibus_repository Set to false if you wish to manage gitlab without configuring the package repository
+# @param pgpass_file_location Path to location of .pgpass file used by consul to authenticate with pgbouncer database
+# @param pgpass_file_ensure Create .pgpass file for pgbouncer authentication. When set to present requires valid value for pgbouncer_password.
+# @param pgbouncer_password Password for the gitlab-consul database user in the pgbouncer database
 class gitlab (
   Hash                           $repository_configuration,
   # package configuration

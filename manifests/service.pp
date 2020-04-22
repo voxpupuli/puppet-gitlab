@@ -1,8 +1,12 @@
-# == Class gitlab::service
+# @summary This class is meant to be called from gitlab. It ensure the service is running.
 #
-# This class is meant to be called from gitlab.
-# It ensure the service is running.
-#
+# @param service_ensure Should Puppet start the service?
+# @param service_enable Run the system service on boot.
+# @param service_name Name of the system service.
+# @param service_exec The service executable path. Provide this variable value only if the service executable path would be a subject of change in future GitLab versions for any reason.
+# @param service_manage Should Puppet manage the service?
+# @param service_provider_restart Should Puppet restart the gitlab systemd service?
+# @param skip_post_deployment_migrations Adds SKIP_POST_DEPLOYMENT_MIGRATIONS=true to the execution of gitlab-ctl reconfigure. Used for zero-downtime updates
 class gitlab::service (
   $service_ensure = $gitlab::service_ensure,
   $service_enable = $gitlab::service_enable,

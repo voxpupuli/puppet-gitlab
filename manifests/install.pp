@@ -1,6 +1,4 @@
-# == Class gitlab::install
-#
-# This class is called from gitlab for install.
+# @summary This class is called from gitlab for install.
 class gitlab::install (
   $package_name   = $gitlab::package_name,
   $package_ensure = $gitlab::package_ensure,

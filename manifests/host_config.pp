@@ -1,12 +1,12 @@
-# == Class gitlab::host_config
+# @summary This class is for setting host configurations required for gitlab installation.
 #
-# This class is for setting host configurations required for gitlab installation
-#
-# [*config_dir*]
-#   Default: '/etc/gitlab'
-#   The service executable path.
-#   Provide this variable value only if the service executable path
-#   would be a subject of change in future GitLab versions for any reason.
+# @param config_dir The service executable path. Provide this variable value only if the service executable path would be a subject of change in future GitLab versions for any reason.
+# @param skip_auto_migrations Deprecated if using Gitlab > 10.6.4 and < 11.0.0, unsupported by gitlab omnibus using gitlab 11+. Use skip_auto_reconfigure
+# @param skip_auto_reconfigure Utilized for Zero Downtime Updates, See: https://docs.gitlab.com/omnibus/update/README.html#zero-downtime-updates
+# @param store_git_keys_in_db Enable or disable Fast Lookup of authorized SSH keys in the database. See: https://docs.gitlab.com/ee/administration/operations/fast_ssh_key_lookup.html
+# @param pgpass_file_ensure Create .pgpass file for pgbouncer authentication. When set to present requires valid value for pgbouncer_password.
+# @param pgpass_file_location Path to location of .pgpass file used by consul to authenticate with pgbouncer database
+# @param pgbouncer_password Password for the gitlab-consul database user in the pgbouncer database
 class gitlab::host_config (
   $config_dir = '/etc/gitlab',
   $skip_auto_migrations = $gitlab::skip_auto_migrations,

@@ -1,4 +1,4 @@
-# gitlab
+# GitLab module for Puppet
 
 [![Build Status](https://travis-ci.org/voxpupuli/puppet-gitlab.png?branch=master)](https://travis-ci.org/voxpupuli/puppet-gitlab)
 [![Puppet Forge](https://img.shields.io/puppetforge/v/puppet/gitlab.svg)](https://forge.puppetlabs.com/puppet/gitlab)
@@ -6,80 +6,90 @@
 [![Puppet Forge - endorsement](https://img.shields.io/puppetforge/e/puppet/gitlab.svg)](https://forge.puppetlabs.com/puppet/gitlab)
 [![Puppet Forge - scores](https://img.shields.io/puppetforge/f/puppet/gitlab.svg)](https://forge.puppetlabs.com/puppet/gitlab)
 
-#### Table of Contents
+## Table of Contents
 
 1. [Overview](#overview)
-2. [Module Description - What the module does and why it is useful](#module-description)
-3. [Setup - The basics of getting started with gitlab](#setup)
-    * [What gitlab affects](#what-gitlab-affects)
+1. [Module Description - What the module does and why it is useful](#module-description)
+1. [Setup - The basics of getting started with GitLab](#setup)
+    * [What GitLab affects](#what-gitlab-affects)
     * [Setup requirements](#setup-requirements)
-    * [Beginning with gitlab](#beginning-with-gitlab)
-4. [Usage - Configuration options and additional functionality](#usage)
-5. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
-5. [Limitations - OS compatibility, etc.](#limitations)
-6. [Development - Guide for contributing to the module](#development)
+    * [Beginning with GitLab](#beginning-with-gitlab)
+1. [Usage - Configuration options and additional functionality](#usage)
+1. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
+1. [Limitations - OS compatibility, etc.](#limitations)
+1. [Development - Guide for contributing to the module](#development)
 
 ## Overview
 
-This Puppet module installs and manages [Gitlab](https://about.gitlab.com/).
-It makes use of the provided [Omnibus](https://gitlab.com/gitlab-org/omnibus-gitlab/blob/master/README.md) packages and the [packagecloud package repositories](https://packages.gitlab.com/gitlab).
+This Puppet module installs and manages [GitLab][1]. It makes use of the
+provided [Omnibus][2] packages and the [packagecloud][3] package repositories.
 
-Please note: The module [vshn/gitlab](https://forge.puppet.com/vshn/gitlab) has been deprecated
-and is now available under Vox Pupuli [puppet/gitlab](https://forge.puppet.com/puppet/gitlab).
+Please note: The module [vshn/gitlab][4] has been deprecated and is now
+available under Vox Pupuli [puppet/gitlab][5].
 
 ## Module Description
 
-The module installs the Gitlab package from the provided repositories and creates the configuration file
-which is then used by `gitlab-ctl reconfigure` to configure all the services. *Fun fact: This really uses
-Chef to configure all the services.*
+The module installs the GitLab package from the provided repositories and
+creates the configuration file which is then used by `gitlab-ctl reconfigure` to
+configure all the services. *Fun fact: This really uses Chef to configure all
+the services.*
 
-Supported are Debian based (Ubuntu, Debian) and RedHat based (CentOS, RHEL) operating systems.
+Supported are Debian based (Ubuntu, Debian) and RedHat based (CentOS, RHEL)
+operating systems.
 
-Beaker acceptance tests are run in Travis for supported versions of CentOS and Ubuntu.
+Beaker acceptance tests are run in Travis for supported versions of CentOS and
+Ubuntu.
 
-This module is designed to support the most recent versions of the gitlab-omnibus package (both ce and ee). Gitlab will support and release patches
-for the last 3 releases. This module can typically support the most recent major version, as well as the previous major version, but is currently
-only tested in the gitlab-supported versions of the module.
+This module is designed to support the most recent versions of the
+gitlab-omnibus package (both ce and ee). GitLab will support and release patches
+for the last 3 releases. This module can typically support the most recent major
+version, as well as the previous major version, but is currently only tested in
+the gitlab-supported versions of the module.
 
-If you find configurations or features in gitlab-omnibus that are not supported by this module, please open an issue or submit a pull request.
+If you find configurations or features in gitlab-omnibus that are not supported
+by this module, please open an issue or submit a pull request.
 
 Current Support Status
 
 | gitlab-omnibus version | support of gitlab.rb configurations |
-| ---------------------- | ----------------------------------- |
+| --- | --- |
 | 11.x | Mostly implemented, supported configs are stable | will implement any needed enhancements |
 | 10.x | All configs implemented and stable | Will implement any enhancements that aren't deprecated or breaking for gitlab 11+ |
 
-For older versions of gitlab, you may find an older version of this module to work better for you, as this module changes over time to
-support the valid configuration of versions of the gitlab-omnibus supported by the gitlab engineering team. The oldest versions of this
-puppet module were designed to support gitlab-omnibus 7.10, and may be unstable even then.
+For older versions of GitLab, you may find an older version of this module to
+work better for you, as this module changes over time to support the valid
+configuration of versions of the gitlab-omnibus supported by the gitlab
+engineering team. The oldest versions of this puppet module were designed to
+support gitlab-omnibus 7.10, and may be unstable even then.
 
 ## Setup
 
-### What gitlab affects
+### What GitLab affects
 
 * Package repository (APT or YUM)
 * Omnibus gitlab package, typically `gitlab-ce` or `gitlab-ee`
 * Configuration file `/etc/gitlab/gitlab.rb`
 * System service `gitlab-runsvdir`
-* Gitlab configuration using `gitlab-ctl reconfigure`
+* GitLab configuration using `gitlab-ctl reconfigure`
 
 ### Setup Requirements
 
-Have a look at the official [download page](https://about.gitlab.com/downloads/) for the required
-prerequisits (f.e. Postfix). This module doesn't handle them, that's the job
-of the specific modules.
+Have a look at the official [download page][6] for the required prerequisits
+(f.e. Postfix). This module doesn't handle them, that's the job of the specific
+modules.
 
-It requires only the [puppetlabs-apt](https://forge.puppetlabs.com/puppetlabs/apt) module when using it under
-a Debian based OS and the parameter `manage_package_repo` is not false. Furthermore the `stdlib` module is required.
+It requires only the [puppetlabs/apt][7] module when using it under a Debian
+based OS and the parameter `manage_package_repo` is not false. Furthermore the
+`stdlib` module is required.
 
-At least on RedHat based OS versions, it's required that Puppet is configured with
-the [`stringify_facts`](https://docs.puppetlabs.com/references/3.stable/configuration.html#stringifyfacts) setting set to `false` (Puppet < 4.0), otherwise
+At least on RedHat based OS versions, it's required that Puppet is configured
+with the [`stringify_facts`][8] setting set to `false` (Puppet < 4.0), otherwise
 the `$::os` fact used in `install.pp` doesn't work as expected.
 
-### Beginning with Gitlab
+### Beginning with GitLab
 
-Just include the class and specify at least `external_url`. If `external_url` is not specified it will default to the FQDN fact of the system.
+Just include the class and specify at least `external_url`. If `external_url` is
+not specified it will default to the FQDN fact of the system.
 
 ```puppet
 class { 'gitlab':
@@ -95,12 +105,13 @@ gitlab::gitlab_rails:
   time_zone: 'UTC'
   gitlab_email_enabled: false
   gitlab_default_theme: 4
-  gitlab_email_display_name: 'Gitlab'
+  gitlab_email_display_name: 'GitLab'
 gitlab::sidekiq:
   shutdown_timeout: 5
 ```
 
-If one wants to install Gitlab Enterprise Edition, just define the parameter `manage_upstream_edition` with the value `ee`:
+If one wants to install GitLab Enterprise Edition, just define the parameter
+`manage_upstream_edition` with the value `ee`:
 
 ```puppet
 class { 'gitlab':
@@ -109,17 +120,19 @@ class { 'gitlab':
 }
 ```
 
-*Note*: This works only for Gitlab version 7.11 and greater. See this blog entry: [GitLab 7.11 released with Two-factor Authentication and a publicly viewable Enterprise Edition](https://about.gitlab.com/2015/05/22/gitlab-7-11-released/)
-
+*Note*: This works only for GitLab version 7.11 and greater. See this blog
+entry: [GitLab 7.11 released with Two-factor Authentication and a publicly
+viewable Enterprise Edition][9]
 
 ## Usage
 
-The main class (`init.pp`) exposes the configuration sections from the `gitlab.rb` configuration file
-as hashes. So if there are any parameter changes in future versions of Gitlab, the module should support
-them right out of the box. Only if there would be bigger changes to sections, the module would need
+The main class (`init.pp`) exposes the configuration sections from the
+`gitlab.rb` configuration file as hashes. So if there are any parameter changes
+in future versions of GitLab, the module should support them right out of the
+box. Only if there would be bigger changes to sections, the module would need
 some updates.
 
-All possible parameters for `gitlab.rb` can be found here: [gitlab.rb.template](https://gitlab.com/gitlab-org/omnibus-gitlab/blob/master/files/gitlab-config-template/gitlab.rb.template)
+All possible parameters for `gitlab.rb` can be found here: [gitlab.rb.template][10]
 
 Some examples:
 
@@ -138,35 +151,49 @@ class { 'gitlab':
 
 ### Service management
 
-GitLab Omnibus is designed to manage it's own services internally. The `gitlab-runsvdir` service isn't a typical service that you would manage with puppet, it is a
-monitoring service for the other services gitlab will create based on your selected configuration. Starting, stopping and restarting the  `gitlab-runsvdir` service
-should only be done by `gitlab-ctl` commands. Service restart is also handled implicitly during installation and upgrades, and does not normally need to be triggered
-by puppet.
+GitLab Omnibus is designed to manage it's own services internally. The
+`gitlab-runsvdir` service isn't a typical service that you would manage with
+puppet, it is a monitoring service for the other services gitlab will create
+based on your selected configuration. Starting, stopping and restarting the
+`gitlab-runsvdir` service should only be done by `gitlab-ctl` commands. Service
+restart is also handled implicitly during installation and upgrades, and does
+not normally need to be triggered by puppet.
 
-If you find yourself needing to modify this behavior, you can set `service_manage => true` to have puppet ensure the service is running.
+If you find yourself needing to modify this behavior, you can set
+`service_manage => true` to have puppet ensure the service is running.
 
-Setting `service_provider_restart => true` will cause puppet to trigger a `gitlab-ctl restart` command to be issued following any configuration change managed by
-puppet.
+Setting `service_provider_restart => true` will cause puppet to trigger a
+`gitlab-ctl restart` command to be issued following any configuration change
+managed by puppet.
 
 ### Package & Repository Configuration
 
 #### Repository Resource Configuration
 
-This module allows you a great range of options when configuring the repository and package sources on your host. By default,
-the gitlab repository will be configured to use the upstream source from https://packages.gitlab.com. However, if you wish
-to use a different repository source, you can provide your own `yumrepo`, `apt` or any other package/repository configuration you wish.
+This module allows you a great range of options when configuring the repository
+and package sources on your host. By default, the gitlab repository will be
+configured to use the upstream source from [packagecloud][3]. However, if you
+wish to use a different repository source, you can provide your own `yumrepo`,
+`apt` or any other package/repository configuration you wish.
 
-This module does this by iterating through configurations provided to `gitlab::omnibus_package_repository::repository_configuration`. You
-can provide any number of repository resource types and configurations you want, as long as the dependent modules are installed on your basemodulepath.
+This module does this by iterating through configurations provided to
+`gitlab::omnibus_package_repository::repository_configuration`. You can provide
+any number of repository resource types and configurations you want, as long as
+the dependent modules are installed on your basemodulepath.
 
 This approach provides the following advantages:
- - means any and all parameters supported by your repository manager module are inherently supported by the `gitlab` module
- - you aren't required to use a version of a dependency we specify, supporting a wide range of versions for modules like `apt`
- - you can easily add more required repositories and packages as needed by your infrastructure, and ensure ordering is managed
- within the gitlab module before any gitlab related packages are installed
 
-In order to provide your own repository configurations, you are required to set `manage_upstream_edition => disabled`, and provide a hash
-of repository resource type configurations in the following format:
+* means any and all parameters supported by your repository manager module are
+  inherently supported by the `gitlab` module
+* you aren't required to use a version of a dependency we specify, supporting a
+  wide range of versions for modules like `apt`
+* you can easily add more required repositories and packages as needed by your
+  infrastructure, and ensure ordering is managed within the `gitlab` module
+  before any GitLab related packages are installed
+
+In order to provide your own repository configurations, you are required to set
+`manage_upstream_edition => disabled`, and provide a hash of repository resource
+type configurations in the following format:
 
 ```yaml
 gitlab::repository_configuration:
@@ -176,39 +203,51 @@ gitlab::repository_configuration:
       repository_resource_attribute2: 'value'
 ```
 
-Examples/defaults for `yumrepo` can be found at `data/RedHat.yaml`, and for `apt` at `data/Debian.yaml`.
-
+Examples/defaults for `yumrepo` can be found at `data/RedHat.yaml`, and for
+`apt` at `data/Debian.yaml`.
 
 You could also do things like:
- - add an additional repository at the same level as `internal_mirror_of_gitlab_official_ce` (for example if you wanted to use your own package `nginx` instead of
- the one provided in omnibus-gitlab)
- - add any other high level resource types from the `apt` module at the level of `apt:source`. (`apt::pin`, `apt::key`, etc...)
+
+* add an additional repository at the same level as
+  `internal_mirror_of_gitlab_official_ce` (for example if you wanted to use your
+  own package `nginx` instead of the one provided in omnibus-gitlab)
+* add any other high level resource types from the `apt` module at the level of
+  `apt:source`. (`apt::pin`, `apt::key`, etc...)
 
 Each unique resource provided to the `repository_configuration` setup:
- - gets tagged with `gitlab_omnibus_package_resource`
- - gets the `before => Class['gitlab::install']` metaparameter.
+
+* gets tagged with `gitlab_omnibus_package_resource`
+* gets the `before => Class['gitlab::install']` metaparameter.
 
 You can use these tags to further customize ordering within your own catalogs.
 
 #### Selecting Version, edition, and package name
 
-The `package_ensure` parameter is used to control which version of the package installed. It expects either a version string, or one of the `ensure`
-values for the `Package` resource type. Default is `installed`. This value works with the `package_name` parameter to install the correct package.
+The `package_ensure` parameter is used to control which version of the package
+installed. It expects either a version string, or one of the `ensure` values for
+the `Package` resource type. Default is `installed`. This value works with the
+`package_name` parameter to install the correct package.
 
-If you are using upstream package source, the package name automatically switches between `gitlab-ce` and `gitlab-ee` depending on the value you have
-provided to `manage_upstream_edition`. If `manage_upstream_edition` is set to `disabled`, you will need to provide the appropriate value to `package_name`
+If you are using upstream package source, the package name automatically
+switches between `gitlab-ce` and `gitlab-ee` depending on the value you have
+provided to `manage_upstream_edition`. If `manage_upstream_edition` is set to
+`disabled`, you will need to provide the appropriate value to `package_name`
 yourself.
 
 This approach of package management has the following advantages:
- - more easily adaptable if gitlab changes package naming based on editions (won't require you to install new puppet-gitlab module if you're not ready)
- - allows you to install custom built packages for gitlab-omnibus that have different package name on your host
+
+* more easily adaptable if GitLab changes package naming based on editions
+  (won't require you to install new puppet-gitlab module if you're not ready)
+* allows you to install custom built packages for gitlab-omnibus that have
+  different package name on your host
 
 #### Custom Repository & Package configuraiton example
 
 As an expanded example of repository and package configuration, let's assume you're:
- - using a private mirror of the upstream gitlab package channel
- - hosted inside your organizations firewall
- - installing gitlab-omnibus enterprise edition
+
+* using a private mirror of the upstream GitLab‚ package channel
+* hosted inside your organizations firewall
+* installing gitlab-omnibus enterprise edition
 
 ```puppet
 class { 'gitlab':
@@ -218,7 +257,7 @@ class { 'gitlab':
   repository_configuration => {
     'apt::source' => {
       'internal_mirror_of_gitlab_official_ce' => {
-        'comment' => 'Internal mirror of upstream gitlab package repository',
+        'comment' => 'Internal mirror of upstream GitLab package repository',
         'location' => 'https://my.internal.url/repository/packages.gitlab.com/gitlab/gitlab-ce/debian',
         'key' => {
           'id' => 'F6403F6544A38863DAA0B6E03F01618A51312F3F',
@@ -229,12 +268,17 @@ class { 'gitlab':
   }
 }
 ```
-### Gitlab secrets
 
-*Note:* `gitlab::secrets` parameter was removed in v3.0.0. See: [Issues#213 - Remove support for setting content of `gitlab-secrets.json`](https://github.com/voxpupuli/puppet-gitlab/issues/213)
+### GitLab secrets
 
-When using HA role `application_role`, make sure to add the [appropriate shared secrets](https://docs.gitlab.com/ee/administration/high_availability/gitlab.html#extra-configuration-for-additional-gitlab-application-servers) to your `gitlab_rails` and `gitlab_shell` hashes to ensure front-end nodes
-are configured to access all backend data-sources and repositories. If you receive 500 errors on your HA setup, this is one of the primary causes.
+*Note:* `gitlab::secrets` parameter was removed in v3.0.0. See: [Issues#213 -
+Remove support for setting content of `gitlab-secrets.json`][11]
+
+When using HA role `application_role`, make sure to add the [appropriate shared
+secrets][12] to your `gitlab_rails` and `gitlab_shell` hashes to ensure
+front-end nodes are configured to access all backend data-sources and
+repositories. If you receive 500 errors on your HA setup, this is one of the
+primary causes.
 
 ### LDAP configuration example
 
@@ -262,7 +306,10 @@ gitlab::gitlab_rails:
 
 ### NGINX Configuration
 
-Configuration of the embedded NGINX instance is handled by the `/etc/gitlab/gitlab.rb` file. Details on available configuration options are available at http://doc.gitlab.com/omnibus/settings/nginx.html. Options listed here can be passed in to the `nginx` parameter as a hash. For example, to enable ssh redirection:
+Configuration of the embedded NGINX instance is handled by the
+`/etc/gitlab/gitlab.rb` file. Details on available configuration options are
+available at [Fixme][NGINX settings]. Options listed here can be passed in to
+the `nginx` parameter as a hash. For example, to enable ssh redirection:
 
 ```puppet
 class { 'gitlab':
@@ -287,14 +334,17 @@ class { 'gitlab':
 
 ### Skip Auto Reconfigure (formerly Skip Auto Migrations)
 
-In order to achieve [Zero Downtime Upgrades](https://docs.gitlab.com/omnibus/update/README.html#zero-downtime-updates)
-of your GitLab instance, GitLab will need to skip the post-install step of the omnibus package that automatically calls
-`gitlab-ctl reconfigure` for you. In GitLab < 10.5, GitLab check for the presence of a file at `/etc/gitlab/skip-auto-migrations`.
-As of GitLab `10.6`, this is deprecated, and you are warned to use `/etc/gitlab/skip-auto-reconfigure` going forward.
+In order to achieve [Zero Downtime Upgrades][14] of your GitLab instance, GitLab
+will need to skip the post-install step of the omnibus package that
+automatically calls `gitlab-ctl reconfigure` for you. In GitLab < 10.5, GitLab
+check for the presence of a file at `/etc/gitlab/skip-auto-migrations`. As of
+GitLab `10.6`, this is deprecated, and you are warned to use
+`/etc/gitlab/skip-auto-reconfigure` going forward.
 
-Both of these are currently supported in this module, and you should be aware of which option is right for you
-based on the version of GitLab Omnibus you are running.  You will be presented with a deprecation notice in you
-puppet client if using the deprecated form.
+Both of these are currently supported in this module, and you should be aware of
+which option is right for you based on the version of GitLab Omnibus you are
+running.  You will be presented with a deprecation notice in you puppet client
+if using the deprecated form.
 
 ```puppet
 # use 'absent' or 'present' for the skip_auto_reconfigure param
@@ -308,12 +358,12 @@ class { 'gitlab':
 }
 ```
 
-### Gitlab Custom Hooks
+### GitLab Custom Hooks
 
-Manage custom hook files within a GitLab project. Custom hooks can be created
-as a pre-receive, post-receive, or update hook. It's possible to create
-different custom hook types for the same project - one each for pre-receive,
-post-receive and update.
+Manage custom hook files within a GitLab project. Custom hooks can be created as
+a pre-receive, post-receive, or update hook. It's possible to create different
+custom hook types for the same project - one each for pre-receive, post-receive
+and update.
 
 ```puppet
 gitlab::custom_hook { 'my_custom_hook':
@@ -357,23 +407,26 @@ gitlab::global_hooks:
 
 ### Fast Lookup of SSH keys
 
-GitLab instances with a large number of users may notice slowdowns when making initial connections for ssh operations.
-GitLab has created a feature that allows authorized ssh keys to be stored in the db (instead of the `authorized_keys`
+GitLab instances with a large number of users may notice slowdowns when making
+initial connections for ssh operations. GitLab has created a feature that allows
+authorized ssh keys to be stored in the db (instead of the `authorized_keys`
 file for the `git` user)
 
 You can enable this feature in GitLab using the `store_git_keys_in_db` parameter.
 
-Please note, managing the sshd service and openssh is outside the scope of this module.
-You will need to configure the AuthorizedKeysCommand for the `git` user in sshd.server yourself.
-Instructions for this are provided by GitLab at
-[Fast lookup of authorized SSH keys in the databasse](https://docs.gitlab.com/ee/administration/operations/fast_ssh_key_lookup.html)
+Please note, managing the sshd service and openssh is outside the scope of this
+module. You will need to configure the AuthorizedKeysCommand for the `git` user
+in sshd.server yourself. Instructions for this are provided by GitLab at [Fast
+lookup of authorized SSH keys in the databasse][15]
 
 ### Setting up GitLab HA
 
 #### pgbouncer Authentication
 
-For use in HA configurations, or when using postgres replication in a single-node setup, this module supports automated configuration
-of pgbouncer authentication. To set this up, set `pgpass_file_ensure => 'present'` and provide a valid value for `pgbouncer_password`.
+For use in HA configurations, or when using postgres replication in a
+single-node setup, this module supports automated configuration of pgbouncer
+authentication. To set this up, set `pgpass_file_ensure => 'present'` and
+provide a valid value for `pgbouncer_password`.
 
 ```puppet
 class {'gitlab':
@@ -382,10 +435,12 @@ class {'gitlab':
 }
 ```
 
-By default, this creates a file at `/home/gitlab-consul/.pgpass`, which gitlab uses to authenticate to the pgbouncer database as the
-`gitlab-consul` _database_ user. This _does not_ refer to the `gitlab-consul` system user. The location of the `.pgpass` file can
-be changed based on how you manage homedirs or based on your utilization of NFS. This location should be set to be the home
-directory you have configured for the `gitlab-consul` system user.
+By default, this creates a file at `/home/gitlab-consul/.pgpass`, which gitlab
+uses to authenticate to the pgbouncer database as the `gitlab-consul` _database_
+user. This _does not_ refer to the `gitlab-consul` system user. The location of
+the `.pgpass` file can be changed based on how you manage homedirs or based on
+your utilization of NFS. This location should be set to be the home directory
+you have configured for the `gitlab-consul` system user.
 
 ```puppet
 class {'gitlab':
@@ -395,23 +450,49 @@ class {'gitlab':
 
 ## Tasks
 
-The Gitlab module has a task that allows a user to upgrade the pgsql database Gitlab uses if upgrading from version 9.2.18, which is required to upgrade Gitlab past 10.  When running the tasks on the command line, you will need to use the `--sudo`, `--run-as-root`, and `--tty` flags to execute the commands as needed for your environment.
+The GitLab module has a task that allows a user to upgrade the pgsql database
+GitLab uses if upgrading from version 9.2.18, which is required to upgrade
+GitLab past 10.  When running the tasks on the command line, you will need to
+use the `--sudo`, `--run-as-root`, and `--tty` flags to execute the commands as
+needed for your environment.
 
-
-Please refer to to the [PE documentation](https://puppet.com/docs/pe/2017.3/orchestrator/running_tasks.html) or [Bolt documentation](https://puppet.com/docs/bolt/latest/bolt.html) on how to execute a task.
+Please refer to to the [PE documentation][16] or [Bolt documentation][17] on how
+to execute a task.
 
 ## Development
 
-1. Fork it (https://github.com/voxpupuli/puppet-gitlab/fork)
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create a new Pull Request
+1. Fork on [Github][18]
+1. Create your feature branch (`git checkout -b my-new-feature`)
+1. Commit your changes (`git commit -am 'Add some feature'`)
+1. Push to the branch (`git push origin my-new-feature`)
+1. Create a new Pull Request
 
 Make sure your PR passes the Rspec tests.
 
 ## Contributors
 
-Have a look at [Github contributors](https://github.com/voxpupuli/puppet-gitlab/graphs/contributors) to see a list of all the awesome contributors to this Puppet module. <3
-This module was created and maintained by [VSHN AG](https://vshn.ch/) until the end of 2017. It was then donated
-to Voxpupuli so that a broader community is able to maintain the module.
+Have a look at [Github contributors][19] to see a list of all the awesome
+contributors to this Puppet module. <3 This module was created and maintained by
+[VSHN AG][20] until the end of 2017. It was then donated to Voxpupuli so that a
+broader community is able to maintain the module.‚
+
+[1]: https://about.gitlab.com
+[2]: https://gitlab.com/gitlab-org/omnibus-gitlab/blob/master/README.md
+[3]: https://packages.gitlab.com/gitlab
+[4]: https://forge.puppet.com/vshn/gitlab
+[5]: https://forge.puppet.com/puppet/gitlab
+[6]: https://about.gitlab.com/downloads
+[7]: https://forge.puppetlabs.com/puppetlabs/apt
+[8]: https://docs.puppetlabs.com/references/3.stable/configuration.html#stringifyfacts
+[9]: https://about.gitlab.com/2015/05/22/gitlab-7-11-released
+[10]: https://gitlab.com/gitlab-org/omnibus-gitlab/blob/master/files/gitlab-config-template/gitlab.rb.template
+[11]: https://github.com/voxpupuli/puppet-gitlab/issues/213
+[12]: https://docs.gitlab.com/ee/administration/high_availability/gitlab.html#extra-configuration-for-additional-gitlab-application-servers
+[13]: https://docs.gitlab.com/omnibus/settings/nginx.html
+[14]: https://docs.gitlab.com/omnibus/update/README.html#zero-downtime-updates
+[15]: https://docs.gitlab.com/ee/administration/operations/fast_ssh_key_lookup.html
+[16]: https://puppet.com/docs/pe/2017.3/orchestrator/running_tasks.html
+[17]: https://puppet.com/docs/bolt/latest/bolt.html
+[18]: https://github.com/voxpupuli/puppet-gitlab/fork
+[19]: https://github.com/voxpupuli/puppet-gitlab/graphs/contributors
+[20]: https://vshn.ch

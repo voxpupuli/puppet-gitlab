@@ -393,6 +393,14 @@ Hash of 'postgres_exporter' config parameters.
 
 Default value: `undef`
 
+##### `pgbouncer_exporter`
+
+Data type: `Optional[Hash]`
+
+Hash of 'pgbouncer_exporter' config parameters.
+
+Default value: `undef`
+
 ##### `gitlab_monitor`
 
 Data type: `Optional[Hash]`

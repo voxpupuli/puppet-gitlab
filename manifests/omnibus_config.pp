@@ -40,6 +40,7 @@ class gitlab::omnibus_config (
   $node_exporter = $gitlab::node_exporter
   $redis_exporter = $gitlab::redis_exporter
   $postgres_exporter = $gitlab::postgres_exporter
+  $pgbouncer_exporter = $gitlab::pgbouncer_exporter
   $gitlab_monitor = $gitlab::gitlab_monitor
   $gitlab_exporter = $gitlab::gitlab_exporter
   $pages_external_url = $gitlab::pages_external_url

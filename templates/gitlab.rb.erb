@@ -344,6 +344,15 @@ redis_exporter['<%= k -%>'] = <%= decorate(@redis_exporter[k]) %>
 <%- @postgres_exporter.keys.sort.each do |k| -%>
 postgres_exporter['<%= k -%>'] = <%= decorate(@postgres_exporter[k]) %>
 <%- end end -%>
+<%- if @pgbouncer_exporter -%>
+
+################################################################################
+## Prometheus PgBouncer exporter (EE only)
+##! Docs: https://docs.gitlab.com/ee/administration/monitoring/prometheus/pgbouncer_exporter.html
+
+<%- @pgbouncer_exporter.keys.sort.each do |k| -%>
+pgbouncer_exporter['<%= k -%>'] = <%= decorate(@pgbouncer_exporter[k]) %>
+<%- end end -%>
 <%- if @alertmanager -%>
 
 ################################################################################

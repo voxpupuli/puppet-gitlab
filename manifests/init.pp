@@ -45,6 +45,7 @@
 # @param node_exporter Hash of 'node_exporter' config parameters.
 # @param redis_exporter Hash of 'redis_exporter' config parameters.
 # @param postgres_exporter Hash of 'postgres_exporter' config parameters.
+# @param pgbouncer_exporter Hash of 'pgbouncer_exporter' config parameters.
 # @param gitlab_monitor Deprecated if using Gitlab > 12.3 and < 13.0, unsupported by gitlab omnibus using Gitlab 13+. Hash of 'gitlab_monitor' config parameters.
 # @param gitlab_exporter Hash of 'gitlab_exporter' config parameters.
 # @param pages_external_url External URL of Gitlab Pages.
@@ -144,6 +145,7 @@ class gitlab (
   Enum['absent', 'present']      $pgpass_file_ensure              = 'absent',
   Stdlib::Absolutepath           $pgpass_file_location            = '/home/gitlab-consul/.pgpass',
   Optional[Hash]                 $postgres_exporter               = undef,
+  Optional[Hash]                 $pgbouncer_exporter              = undef,
   Optional[Hash]                 $gitlab_monitor                  = undef,
   Optional[Hash]                 $gitlab_exporter                 = undef,
   Optional[String]               $package_name                    = undef,

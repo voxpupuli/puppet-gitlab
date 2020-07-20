@@ -4,6 +4,29 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v5.1.0](https://github.com/voxpupuli/puppet-gitlab/tree/v5.1.0) (2020-07-20)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-gitlab/compare/v5.0.0...v5.1.0)
+
+**Implemented enhancements:**
+
+- Add pgbouncer\_exporter parameter [\#345](https://github.com/voxpupuli/puppet-gitlab/pull/345) ([liger1978](https://github.com/liger1978))
+- Add support for running Gitlab with puma [\#338](https://github.com/voxpupuli/puppet-gitlab/pull/338) ([baurmatt](https://github.com/baurmatt))
+
+**Closed issues:**
+
+- Hiera not parsing gitlab.rb and ::gitlab\_rails: [\#343](https://github.com/voxpupuli/puppet-gitlab/issues/343)
+- Convert dokumentation to puppet-strings [\#339](https://github.com/voxpupuli/puppet-gitlab/issues/339)
+- Support puma [\#337](https://github.com/voxpupuli/puppet-gitlab/issues/337)
+- New GitLab GPG Keys [\#333](https://github.com/voxpupuli/puppet-gitlab/issues/333)
+- module has no parameter named `external_url` puppet error [\#330](https://github.com/voxpupuli/puppet-gitlab/issues/330)
+
+**Merged pull requests:**
+
+- Fix several markdown lint issues [\#341](https://github.com/voxpupuli/puppet-gitlab/pull/341) ([dhoppe](https://github.com/dhoppe))
+- Move documentation to puppet-strings [\#340](https://github.com/voxpupuli/puppet-gitlab/pull/340) ([baurmatt](https://github.com/baurmatt))
+- Use voxpupuli-acceptance [\#335](https://github.com/voxpupuli/puppet-gitlab/pull/335) ([ekohl](https://github.com/ekohl))
+
 ## [v5.0.0](https://github.com/voxpupuli/puppet-gitlab/tree/v5.0.0) (2020-04-07)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-gitlab/compare/v4.0.1...v5.0.0)

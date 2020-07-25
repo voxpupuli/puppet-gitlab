@@ -5,8 +5,7 @@
 class gitlab::omnibus_config (
   $config_manage = $gitlab::config_manage,
   $config_file = $gitlab::config_file
-){
-
+) {
   # get variables from the toplevel manifest for usage in the template
   $alertmanager = $gitlab::alertmanager
   $ci_redis = $gitlab::ci_redis

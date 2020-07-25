@@ -48,7 +48,7 @@ define gitlab::global_hook (
   }
 
   file { "${hook_path}/${name}":
-    ensure  => 'present',
+    ensure  => 'file',
     content => $content,
     source  => $source,
   }

@@ -187,7 +187,6 @@ class gitlab (
   Hash                           $custom_hooks                    = {},
   Hash                           $global_hooks                    = {},
 ) {
-
   include gitlab::omnibus_package_repository
 
   contain gitlab::host_config

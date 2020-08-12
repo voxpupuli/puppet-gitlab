@@ -13,7 +13,7 @@ class gitlab::backup {
 
   if $backup_cron_enable {
     cron { 'gitlab backup':
-      command => "${rake_exec} gitlab:backup:create CRON=1 ${backup_cron_skips}",
+      command => "${rake_exec} gitlab:backup:create CRON=1 ${backup_cron_skips} 2>&1",
       hour    => $backup_cron_hour,
       minute  => $backup_cron_minute,
     }

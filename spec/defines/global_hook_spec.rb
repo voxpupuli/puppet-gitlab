@@ -31,7 +31,7 @@ describe 'gitlab::global_hook' do
 
       it do
         is_expected.to contain_file("/custom/hooks/dir/#{type}.d/#{title}").
-          with_ensure('present').
+          with_ensure('file').
           with_source(source)
       end
     end
@@ -55,7 +55,7 @@ describe 'gitlab::global_hook' do
 
       it do
         is_expected.to contain_file("/custom/hooks/dir/#{type}.d/#{title}").
-          with_ensure('present').
+          with_ensure('file').
           with_content(content)
       end
     end

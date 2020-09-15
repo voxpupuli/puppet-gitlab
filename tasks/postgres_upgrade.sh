@@ -6,8 +6,8 @@ echo "version is ${CMD##* }"
 #9.2.18
 if [[ ${CMD##* } == "9.2.18" ]]; then
   echo 'Version is below required for Gitlab 10+, checking...'
-  DB_SIZE=$(du -shk /var/opt/gitlab/postgresql/data | awk '{print $1}')
-  FREE=$(df -hk /var/opt/gitlab/postgresql/data/ | tail -1 | awk '{print $4}')
+  DB_SIZE=$(du -sk /var/opt/gitlab/postgresql/data | awk '{print $1}')
+  FREE=$(df -k /var/opt/gitlab/postgresql/data/ | tail -1 | awk '{print $4}')
   echo "Database size is: $DB_SIZE kb and freespace is $FREE kb"
   if (( DB_SIZE < FREE )); then
     echo 'Enough freespace available to proceed.'

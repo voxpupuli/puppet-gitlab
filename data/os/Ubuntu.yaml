@@ -1,3 +1,5 @@
+---
+
 gitlab::repository_configuration:
   'apt::source':
     "gitlab_official_ce":

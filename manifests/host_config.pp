@@ -16,7 +16,6 @@ class gitlab::host_config (
   $pgpass_file_location = $gitlab::pgpass_file_location,
   $pgbouncer_password = $gitlab::pgbouncer_password,
 ) {
-
   file { $config_dir:
     ensure => 'directory',
     owner  => 'root',
@@ -35,7 +34,6 @@ class gitlab::host_config (
   }
 
   if $skip_auto_migrations != undef {
-
     notify { $skip_auto_migrations_deprecation_msg: }
 
     $_skip_auto_migrations_ensure = $skip_auto_migrations ? {
@@ -65,7 +63,7 @@ class gitlab::host_config (
       default => 'absent'
     }
 
-    file {'/opt/gitlab-shell':
+    file { '/opt/gitlab-shell':
       ensure => $opt_gitlab_shell_dir,
       owner  => 'root',
       group  => 'git',
@@ -80,9 +78,9 @@ class gitlab::host_config (
     }
   }
 
-  if ($pgpass_file_ensure == 'present' and $pgbouncer_password == undef){
+  if ($pgpass_file_ensure == 'present' and $pgbouncer_password == undef) {
     fail('A password must be provided to pgbouncer_password if pgpass_file_attrs[ensure] is \'present\'')
-  } elsif ($pgpass_file_ensure == 'absent'){
+  } elsif ($pgpass_file_ensure == 'absent') {
     file { $pgpass_file_location:
       ensure => 'absent',
     }
@@ -93,7 +91,7 @@ class gitlab::host_config (
       owner   => 'gitlab-consul',
       group   => 'gitlab-consul',
       content => epp('gitlab/.pgpass.epp', {
-        'pgbouncer_password' => $pgbouncer_password,
+          'pgbouncer_password' => $pgbouncer_password,
       }),
     }
   }

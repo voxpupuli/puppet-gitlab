@@ -14,7 +14,7 @@
 # @param content Specify the custom hook contents either as a string or using the template function. If this paramter is specified source parameter must not be present.
 # @param source Specify a file source path to populate the custom hook contents. If this paramter is specified content parameter must not be present.
 # @param repos_path The GitLab shell repos path. This defaults to '/var/opt/gitlab/git-data/repositories' if not present.
-define gitlab::custom_hook(
+define gitlab::custom_hook (
   String                                        $namespace,
   String                                        $project,
   Enum['update', 'post-receive', 'pre-receive'] $type,

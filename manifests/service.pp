@@ -15,8 +15,7 @@ class gitlab::service (
   $service_manage = $gitlab::service_manage,
   $service_provider_restart = $gitlab::service_provider_restart,
   $skip_post_deployment_migrations = $gitlab::skip_post_deployment_migrations,
-){
-
+) {
   if $service_manage {
     $restart = "${service_exec} restart"
     $start = "${service_exec} start"
@@ -50,7 +49,6 @@ class gitlab::service (
   } else {
     $_reconfigure_attributes = $reconfigure_attributes
   }
-
 
   if ($service_manage and $service_provider_restart) {
     exec { 'gitlab_reconfigure':

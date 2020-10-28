@@ -420,6 +420,18 @@ describe 'gitlab', type: :class do
               with_content(%r{^\s*puma\['worker_timeout'\] = 60$})
           }
         end
+        describe 'pgbouncer_exporter' do
+          let(:params) do
+            { pgbouncer_exporter: {
+              'enable' => true
+            } }
+          end
+
+          it {
+            is_expected.to contain_file('/etc/gitlab/gitlab.rb'). \
+              with_content(%r{^\s*pgbouncer_exporter\['enable'\] = true$})
+          }
+        end
       end
     end
   end

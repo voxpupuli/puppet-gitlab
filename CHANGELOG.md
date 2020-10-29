@@ -4,6 +4,30 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v6.0.0](https://github.com/voxpupuli/puppet-gitlab/tree/v6.0.0) (2020-10-29)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-gitlab/compare/v5.1.0...v6.0.0)
+
+**Breaking changes:**
+
+- Drop support for Debian 8, because it is EOL since 2020-06-06 [\#361](https://github.com/voxpupuli/puppet-gitlab/pull/361) ([dhoppe](https://github.com/dhoppe))
+
+**Implemented enhancements:**
+
+- Add support for CentOS 8 [\#342](https://github.com/voxpupuli/puppet-gitlab/pull/342) ([dhoppe](https://github.com/dhoppe))
+
+**Closed issues:**
+
+- invalid yaml [\#358](https://github.com/voxpupuli/puppet-gitlab/issues/358)
+- shellcheck validation of tasks/postgres\_upgrade.sh fails [\#356](https://github.com/voxpupuli/puppet-gitlab/issues/356)
+
+**Merged pull requests:**
+
+- OS data: YAML linting cleanups [\#359](https://github.com/voxpupuli/puppet-gitlab/pull/359) ([kenyon](https://github.com/kenyon))
+- tasks/postgres\_upgrade.sh: shellcheck and related fixes [\#357](https://github.com/voxpupuli/puppet-gitlab/pull/357) ([kenyon](https://github.com/kenyon))
+- Fix CI: Fix puppet-lint error \(lint\_fix\) [\#352](https://github.com/voxpupuli/puppet-gitlab/pull/352) ([baurmatt](https://github.com/baurmatt))
+- Redirect stderr for backup cron to stdout [\#351](https://github.com/voxpupuli/puppet-gitlab/pull/351) ([baurmatt](https://github.com/baurmatt))
+
 ## [v5.1.0](https://github.com/voxpupuli/puppet-gitlab/tree/v5.1.0) (2020-07-20)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-gitlab/compare/v5.0.0...v5.1.0)

@@ -9,7 +9,12 @@ describe 'gitlab class' do
       }
       EOS
 
-      apply_manifest(pp, catch_failures: true)
+      result = apply_manifest(pp, catch_failures: true)
+
+      # gitlab-ctl reconfigure emits a warning if the LD_LIBRARY_PATH
+      # is set, even if it is empty.
+      expect(result.stdout).not_to match(%r{LD_LIBRARY_PATH was found})
+
       apply_manifest(pp, catch_changes: true)
 
       shell('sleep 15') # give it some time to start up

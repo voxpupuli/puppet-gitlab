@@ -35,7 +35,7 @@ class gitlab::service (
   }
 
   $reconfigure_attributes = {
-    command     => '/usr/bin/gitlab-ctl reconfigure',
+    command     => '/bin/sh -c "unset LD_LIBRARY_PATH; /usr/bin/gitlab-ctl reconfigure"',
     refreshonly => true,
     timeout     => 1800,
     logoutput   => true,

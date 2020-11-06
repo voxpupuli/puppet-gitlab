@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v6.0.1](https://github.com/voxpupuli/puppet-gitlab/tree/v6.0.1) (2020-11-05)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-gitlab/compare/v6.0.0...v6.0.1)
+
+**Fixed bugs:**
+
+- Fix gitlab-ctl reconfigure LD\_LIBRARY\_PATH warning [\#364](https://github.com/voxpupuli/puppet-gitlab/pull/364) ([lnemsick-simp](https://github.com/lnemsick-simp))
+
 ## [v6.0.0](https://github.com/voxpupuli/puppet-gitlab/tree/v6.0.0) (2020-10-29)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-gitlab/compare/v5.1.0...v6.0.0)

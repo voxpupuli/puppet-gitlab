@@ -270,7 +270,7 @@ Default value: ``undef``
 
 Data type: `Optional[Hash]`
 
-Hash of 'gitlab_pages' config parameters.
+Hash of 'gitlab_rails' config parameters.
 
 Default value: ``undef``
 

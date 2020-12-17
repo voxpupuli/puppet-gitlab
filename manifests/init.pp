@@ -52,6 +52,7 @@
 # @param pages_nginx Hash of 'pages_nginx' config parameters.
 # @param pages_nginx_eq_nginx Replicate the Pages Nginx config from the Gitlab Nginx config.
 # @param postgresql Hash of 'postgresql' config parameters.
+# @param praefect Hash of 'praefect' config parameters.
 # @param prometheus Hash of 'prometheus' config parameters.
 # @param prometheus_monitoring_enable Enable/disable prometheus support.
 # @param redis Hash of 'redis' config parameters.
@@ -154,6 +155,7 @@ class gitlab (
   Boolean                        $pages_nginx_eq_nginx            = false,
   Optional[Hash]                 $pgbouncer                       = undef,
   Optional[Hash]                 $postgresql                      = undef,
+  Optional[Hash]                 $praefect                        = undef,
   Optional[Hash]                 $prometheus                      = undef,
   Optional[Boolean]              $prometheus_monitoring_enable    = undef,
   Optional[Hash]                 $redis                           = undef,

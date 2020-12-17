@@ -450,6 +450,14 @@ Hash of 'postgresql' config parameters.
 
 Default value: ``undef``
 
+##### `praefect`
+
+Data type: `Optional[Hash]`
+
+Hash of 'praefect' config parameters.
+
+Default value: ``undef``
+
 ##### `prometheus`
 
 Data type: `Optional[Hash]`

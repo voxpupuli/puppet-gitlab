@@ -161,6 +161,34 @@ describe 'gitlab', type: :class do
               with_content(%r{^\s*pgbouncer\['enable'\] = true$})
           }
         end
+        describe 'praefect' do
+          let(:params) do
+            {
+              praefect: {
+                'enable' => true,
+                'listen_addr' => '0.0.0.0:2305',
+                'virtual_storage' => {
+                  'default' => {
+                    'host01' => {'address' => 'tcp://host01:8075', 'token' => 'xxx-xxx-xxx'},
+                    'host02' => {'address' => 'tcp://host02:8075', 'token' => 'xxx-xxx-xxx'},
+                  }
+                }
+              }
+            }
+          end
+          it {
+            is_expected.to contain_file('/etc/gitlab/gitlab.rb'). \
+              with_content(%r{^\s*praefect\['enable'\] = true$})
+          }
+          it {
+            is_expected.to contain_file('/etc/gitlab/gitlab.rb'). \
+              with_content(%r{^\s*praefect\['listen_addr'\] = "0\.0\.0\.0:2305"$})
+          }
+          it {
+            is_expected.to contain_file('/etc/gitlab/gitlab.rb'). \
+              with_content(%r{^\s*praefect\['virtual_storage'\] = \{"default"=>\{"host01"=>\{"address"=>"tcp://host01:8075", "token"=>"xxx-xxx-xxx"\}, "host02"=>\{"address"=>"tcp://host02:8075", "token"=>"xxx-xxx-xxx"\}\}\}$})
+          }
+        end
         describe 'repmgr' do
           let(:params) do
             { repmgr: {

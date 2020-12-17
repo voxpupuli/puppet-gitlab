@@ -572,3 +572,12 @@ repmgr['<%= k -%>'] = <%= decorate(@repmgr[k]) %>
 <%- @consul.keys.sort.each do |k| -%>
 consul['<%= k -%>'] = <%= decorate(@consul[k]) %>
 <%- end end -%>
+<%- if @praefect -%>
+################################################################################
+# Praefect
+################################################################################
+# See [Gitlab Praefect documentation](https://docs.gitlab.com/ee/administration/gitaly/praefect.html)
+
+<%- @praefect.keys.sort.each do |k| -%>
+praefect['<%= k -%>'] = <%= decorate(@praefect[k]) %>
+<%- end end -%>

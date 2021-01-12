@@ -137,6 +137,20 @@ describe 'gitlab', type: :class do
               with_content(%r{^\s*letsencrypt\['contact_emails'\] = \["test@example.com"\]$})
           }
         end
+        describe 'package' do
+          let(:params) do
+            { package: {
+              'systemd_after' => 'foo.target',
+              'systemd_wanted_by' => 'bar.target',
+            } }
+          end
+
+          it {
+            is_expected.to contain_file('/etc/gitlab/gitlab.rb'). \
+              with_content(%r{^\s*package\['systemd_after'\] = "foo.target"$}).
+              with_content(%r{^\s*package\['systemd_wanted_by'\] = "bar.target"$})
+          }
+        end
         describe 'consul' do
           let(:params) do
             { consul: {

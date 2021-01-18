@@ -218,7 +218,18 @@ gitlab_workhorse['<%= k -%>'] = <%= decorate(@gitlab_workhorse[k]) %>
 <%- @letsencrypt.keys.sort.each do |k| -%>
 letsencrypt['<%= k -%>'] = <%= decorate(@letsencrypt[k]) %>
 <%- end end -%>
+<%- if @package -%>
+
+##################
+# GitLab Package #
+##################
+## see: https://docs.gitlab.com/omnibus/common_installation_problems/#gitlab-ctl-reconfigure-hangs-while-using-aws-cloudformation
+
+<%- @package.keys.sort.each do |k| -%>
+package['<%= k -%>'] = <%= decorate(@package[k]) %>
+<%- end end -%>
 <%- if @logging -%>
+
 
 ##################
 # GitLab Logging #

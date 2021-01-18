@@ -27,6 +27,7 @@ class gitlab::omnibus_config (
   $grafana = $gitlab::grafana
   $high_availability = $gitlab::high_availability
   $letsencrypt = $gitlab::letsencrypt
+  $package = $gitlab::package
   $logging = $gitlab::logging
   $logrotate = $gitlab::logrotate
   $manage_storage_directories = $gitlab::manage_storage_directories

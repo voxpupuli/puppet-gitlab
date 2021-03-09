@@ -308,8 +308,9 @@ gitlab::gitlab_rails:
 
 Configuration of the embedded NGINX instance is handled by the
 `/etc/gitlab/gitlab.rb` file. Details on available configuration options are
-available at [Fixme][NGINX settings]. Options listed here can be passed in to
-the `nginx` parameter as a hash. For example, to enable ssh redirection:
+available at [https://docs.gitlab.com/omnibus/settings/nginx.html][NGINX settings].
+Options listed there can be passed in to the `nginx` parameter as a hash.
+For example, to enable redirection from HTTP to HTTPS:
 
 ```puppet
 class { 'gitlab':

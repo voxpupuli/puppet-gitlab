@@ -241,7 +241,7 @@ This approach of package management has the following advantages:
 * allows you to install custom built packages for gitlab-omnibus that have
   different package name on your host
 
-#### Custom Repository & Package configuraiton example
+#### Custom Repository & Package configuration example
 
 As an expanded example of repository and package configuration, let's assume you're:
 

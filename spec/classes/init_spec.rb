@@ -446,6 +446,18 @@ describe 'gitlab', type: :class do
               with_content(%r{^\s*pgbouncer_exporter\['enable'\] = true$})
           }
         end
+        describe 'geo_logcursor' do
+          let(:params) do
+            { geo_logcursor: {
+              'enable' => true
+            } }
+          end
+
+          it {
+            is_expected.to contain_file('/etc/gitlab/gitlab.rb'). \
+              with_content(%r{^\s*geo_logcursor\['enable'\] = true$})
+          }
+        end
       end
     end
   end

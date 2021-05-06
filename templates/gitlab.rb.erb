@@ -554,6 +554,18 @@ geo_secondary['<%= k -%>'] = <%= decorate(@geo_secondary[k]) %>
 <%- @geo_postgresql.keys.sort.each do |k| -%>
 geo_postgresql['<%= k -%>'] = <%= decorate(@geo_postgresql[k]) %>
 <%- end end -%>
+<%- if @geo_logcursor -%>
+
+########################
+# Gitlab Geo Log Cursor#
+########################
+## To configure GitLab Geo Log Cursor.
+## https://docs.gitlab.com/ee/development/geo.html#geo-log-cursor-daemon
+## https://docs.gitlab.com/ee/administration/geo/replication/multiple_servers.html#step-3-configure-the-tracking-database-on-the-secondary-node
+
+<%- @geo_logcursor.keys.sort.each do |k| -%>
+geo_logcursor['<%= k -%>'] = <%= decorate(@geo_logcursor[k]) %>
+<%- end end -%>
 <%- if @pgbouncer -%>
 ################################################################################
 # Pgbouncer (EE only)

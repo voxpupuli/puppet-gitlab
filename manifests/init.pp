@@ -20,6 +20,7 @@
 # @param external_url External URL of Gitlab.
 # @param external_port External PORT of Gitlab.
 # @param geo_postgresql Hash of 'geo_postgresql' config parameters.
+# @param geo_logcursor Hash of 'geo_logcursor' config parameters.
 # @param geo_primary_role Boolean to enable Geo primary role
 # @param geo_secondary Hash of 'geo_secondary' config parameters.
 # @param geo_secondary_role Boolean to enable Geo secondary role
@@ -117,6 +118,7 @@ class gitlab (
   Stdlib::Httpurl                   $external_url                    = "http://${facts['networking']['fqdn']}",
   Optional[Integer[1, 65565]]       $external_port                   = undef,
   Optional[Hash]                    $geo_postgresql                  = undef,
+  Optional[Hash]                    $geo_logcursor                   = undef,
   Boolean                           $geo_primary_role                = false,
   Optional[Hash]                    $geo_secondary                   = undef,
   Boolean                           $geo_secondary_role              = false,

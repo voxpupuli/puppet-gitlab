@@ -14,6 +14,7 @@ class gitlab::omnibus_config (
   $external_url = $gitlab::external_url
   $external_port = $gitlab::external_port
   $geo_postgresql = $gitlab::geo_postgresql
+  $geo_logcursor = $gitlab::geo_logcursor
   $geo_primary_role = $gitlab::geo_primary_role
   $geo_secondary = $gitlab::geo_secondary
   $geo_secondary_role = $gitlab::geo_secondary_role

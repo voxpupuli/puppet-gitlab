@@ -11,11 +11,11 @@ describe 'gitlab::system_hook' do
     MANIFEST
   end
 
-  context "with type => #{type} and source" do
+  context "with source" do
     let(:source) { 'puppet:///modules/my_module/file-hook' }
     let(:params) do
       {
-        custom_hooks_dir: '/custom/hooks/dir',
+        system_hooks_dir: '/custom/hooks/dir',
         source: source
       }
     end
@@ -34,16 +34,16 @@ describe 'gitlab::system_hook' do
     end
   end
 
-  context "with type => #{type} and content" do
+  context "with source" do
     let(:content) { "#!/usr/bin/env bash\ntest 0" }
     let(:params) do
       {
-        custom_hooks_dir: '/custom/hooks/dir',
+        system_hooks_dir: '/custom/hooks/dir',
         content: content
       }
     end
 
-    it { is_expected.to compile }
+    it { is_expected.to compile.with_all_deps }
 
     it do
       is_expected.to contain_file("/custom/hooks/dir").

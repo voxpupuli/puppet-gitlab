@@ -14,16 +14,10 @@
 # @param content Specify the system hook contents either as a string or using the template function. If this paramter is specified source parameter must not be present.
 # @param source Specify a file source path to populate the system hook contents. If this paramter is specified content parameter must not be present.
 define gitlab::system_hook (
-  Stdlib::Absolutepath                          $system_hooks_dir,
+  Stdlib::Absolutepath                          $system_hooks_dir = $gitlab::system_hooks_dir,
   Optional[String[1]]                           $content          = undef,
   Optional[Pattern[/^puppet:/]]                 $source           = undef,
 ) {
-  if $system_hooks_dir {
-    $hook_path = $system_hooks_dir
-  } else {
-    $hook_path = $gitlab::system_hooks_dir
-  }
-
   if ! ($content) and ! ($source) {
     fail('gitlab::system_hook resource must specify either content or source')
   }
@@ -39,13 +33,13 @@ define gitlab::system_hook (
   }
 
   # Create the hook chain directory for this project, if it doesn't exist
-  if !defined(File[$hook_path]) {
-    file { $hook_path:
+  if !defined(File[$system_hooks_dir]) {
+    file { $system_hooks_dir:
       ensure => directory,
     }
   }
 
-  file { "${hook_path}/${name}":
+  file { "${system_hooks_dir}/${name}":
     ensure  => 'file',
     content => $content,
     source  => $source,

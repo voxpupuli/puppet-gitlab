@@ -12,16 +12,10 @@
 # @param source Specify a file source path to populate the custom hook contents. If this paramter is specified content parameter must not be present.
 define gitlab::global_hook (
   Enum['post-receive', 'pre-receive', 'update'] $type,
-  Stdlib::Absolutepath                          $custom_hooks_dir,
+  Stdlib::Absolutepath                          $custom_hooks_dir = $gitlab::custom_hooks_dir,
   Optional[String[1]]                           $content          = undef,
   Optional[Pattern[/^puppet:/]]                 $source           = undef,
 ) {
-  if $custom_hooks_dir {
-    $_custom_hooks_dir = $custom_hooks_dir
-  } else {
-    $_custom_hooks_dir = $gitlab::custom_hooks_dir
-  }
-
   if ! ($content) and ! ($source) {
     fail('gitlab::custom_hook resource must specify either content or source')
   }
@@ -30,7 +24,7 @@ define gitlab::global_hook (
     fail('gitlab::custom_hook resource must specify either content or source, but not both')
   }
 
-  $hook_path = "${_custom_hooks_dir}/${type}.d"
+  $hook_path = "${custom_hooks_dir}/${type}.d"
 
   File {
     owner => $gitlab::service_user,

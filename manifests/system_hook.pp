@@ -20,10 +20,8 @@ define gitlab::system_hook (
 ) {
   if $system_hooks_dir {
     $hook_path = $system_hooks_dir
-  } elsif $gitlab::system_hooks_dir {
-    $hook_path = $gitlab::system_hooks_dir
   } else {
-    $hook_path = '/opt/gitlab/embedded/service/gitlab-rails/file_hooks'
+    $hook_path = $gitlab::system_hooks_dir
   }
 
   if ! ($content) and ! ($source) {

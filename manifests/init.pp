@@ -191,7 +191,7 @@ class gitlab (
   Array                             $backup_cron_skips               = [],
   Hash                              $custom_hooks                    = {},
   Hash                              $global_hooks                    = {},
-  Hash                              $system_hooks                    = {},
+  Hash[String[1],Hash[String[1],String[,]] $system_hooks             = {},
 ) {
   include gitlab::omnibus_package_repository
 

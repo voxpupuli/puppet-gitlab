@@ -13,7 +13,7 @@
 # @param system_hooks_dir The GitLab shell repos path. This defaults to '/opt/gitlab/embedded/service/gitlab-rails/file_hooks' if not present.
 # @param content Specify the system hook contents either as a string or using the template function. If this paramter is specified source parameter must not be present.
 # @param source Specify a file source path to populate the system hook contents. If this paramter is specified content parameter must not be present.
-define gitlab::global_hook (
+define gitlab::system_hook (
   Stdlib::Absolutepath                          $system_hooks_dir,
   Optional[String[1]]                           $content          = undef,
   Optional[Pattern[/^puppet:/]]                 $source           = undef,

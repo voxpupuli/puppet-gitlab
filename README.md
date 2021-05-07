@@ -406,6 +406,27 @@ gitlab::global_hooks:
     source: 'puppet:///modules/my_module/post-receive'
 ```
 
+### Gitlab System Hooks
+
+A [file hook][22] will run on each event so it's up to you to filter events or
+projects within a file hook code. You can have as many file hooks as you want.
+Each file hook will be triggered by GitLab asynchronously in case of an event.
+For a list of events see the [system hooks documentation][21].
+
+```puppet
+gitlab::system_hook { 'my_custom_hook':
+  source          => 'puppet:///modules/my_module/file-hook',
+}
+```
+
+or via hiera
+
+```yaml
+gitlab::system_hooks:
+  my_custom_hook:
+    source: 'puppet:///modules/my_module/file-hook'
+```
+
 ### Fast Lookup of SSH keys
 
 GitLab instances with a large number of users may notice slowdowns when making
@@ -497,3 +518,5 @@ broader community is able to maintain the module.‚
 [18]: https://github.com/voxpupuli/puppet-gitlab/fork
 [19]: https://github.com/voxpupuli/puppet-gitlab/graphs/contributors
 [20]: https://vshn.ch
+[21]: https://docs.gitlab.com/ee/system_hooks/system_hooks.html
+[22]: https://docs.gitlab.com/ee/administration/file_hooks.html

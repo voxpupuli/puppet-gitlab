@@ -115,6 +115,7 @@ class gitlab (
   Stdlib::Absolutepath              $config_file                     = '/etc/gitlab/gitlab.rb',
   Optional[Hash]                    $consul                          = undef,
   Optional[String]                  $custom_hooks_dir                = undef,
+  Optional[String]                  $system_hooks_dir                = undef,
   Stdlib::Httpurl                   $external_url                    = "http://${facts['networking']['fqdn']}",
   Optional[Integer[1, 65565]]       $external_port                   = undef,
   Optional[Hash]                    $geo_postgresql                  = undef,
@@ -190,6 +191,7 @@ class gitlab (
   Array                             $backup_cron_skips               = [],
   Hash                              $custom_hooks                    = {},
   Hash                              $global_hooks                    = {},
+  Hash                              $system_hooks                    = {},
 ) {
   include gitlab::omnibus_package_repository
 
@@ -211,6 +213,12 @@ class gitlab (
 
   $global_hooks.each |$name, $options| {
     gitlab::global_hook { $name:
+      * => $options,
+    }
+  }
+
+  $system_hooks.each |$name, $options| {
+    gitlab::system_hook { $name:
       * => $options,
     }
   }

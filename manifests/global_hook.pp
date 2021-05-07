@@ -18,10 +18,8 @@ define gitlab::global_hook (
 ) {
   if $custom_hooks_dir {
     $_custom_hooks_dir = $custom_hooks_dir
-  } elsif $gitlab::custom_hooks_dir {
-    $_custom_hooks_dir = $gitlab::custom_hooks_dir
   } else {
-    $_custom_hooks_dir = '/opt/gitlab/embedded/service/gitlab-shell/hooks'
+    $_custom_hooks_dir = $gitlab::custom_hooks_dir
   }
 
   if ! ($content) and ! ($source) {

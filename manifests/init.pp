@@ -114,7 +114,7 @@ class gitlab (
   Boolean                           $config_manage                   = true,
   Stdlib::Absolutepath              $config_file                     = '/etc/gitlab/gitlab.rb',
   Optional[Hash]                    $consul                          = undef,
-  Optional[String]                  $custom_hooks_dir                = undef,
+  Optional[String]                  $custom_hooks_dir                = '/opt/gitlab/embedded/service/gitlab-shell/hooks',
   Optional[Stdlib::Absolutepath]    $system_hooks_dir                = '/opt/gitlab/embedded/service/gitlab-rails/file_hooks',
   Stdlib::Httpurl                   $external_url                    = "http://${facts['networking']['fqdn']}",
   Optional[Integer[1, 65565]]       $external_port                   = undef,

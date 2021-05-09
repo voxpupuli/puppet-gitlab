@@ -11,7 +11,7 @@ describe 'gitlab::system_hook' do
     MANIFEST
   end
 
-  context "with source" do
+  context 'with source' do
     let(:source) { 'puppet:///modules/my_module/file-hook' }
     let(:params) do
       {
@@ -23,7 +23,7 @@ describe 'gitlab::system_hook' do
     it { is_expected.to compile.with_all_deps }
 
     it do
-      is_expected.to contain_file("/custom/hooks/dir").
+      is_expected.to contain_file('/custom/hooks/dir').
         with_ensure('directory')
     end
 
@@ -34,7 +34,7 @@ describe 'gitlab::system_hook' do
     end
   end
 
-  context "with source" do
+  context 'with source' do
     let(:content) { "#!/usr/bin/env bash\ntest 0" }
     let(:params) do
       {
@@ -46,7 +46,7 @@ describe 'gitlab::system_hook' do
     it { is_expected.to compile.with_all_deps }
 
     it do
-      is_expected.to contain_file("/custom/hooks/dir").
+      is_expected.to contain_file('/custom/hooks/dir').
         with_ensure('directory')
     end
 

@@ -293,6 +293,16 @@ registry['<%= k -%>'] = <%= decorate(@registry[k]) %>
 <%- @gitlab_ci.keys.sort.each do |k| -%>
 gitlab_ci['<%= k -%>'] = <%= decorate(@gitlab_ci[k]) %>
 <%- end end -%>
+<%- if @grafana -%>
+
+##############
+# GitLab KAS #
+##############
+## see: gitlab kubernetes-agent settings
+
+<%- @gitlab_kas.keys.sort.each do |k| -%>
+gitlab_kas['<%= k -%>'] = <%= decorate(@gitlab_kas[k]) %>
+<%- end end -%>
 <%- if @ci_unicorn -%>
 
 #####################

@@ -293,7 +293,7 @@ registry['<%= k -%>'] = <%= decorate(@registry[k]) %>
 <%- @gitlab_ci.keys.sort.each do |k| -%>
 gitlab_ci['<%= k -%>'] = <%= decorate(@gitlab_ci[k]) %>
 <%- end end -%>
-<%- if @grafana -%>
+<%- if @gitlab_kas -%>
 
 ##############
 # GitLab KAS #

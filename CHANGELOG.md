@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v7.1.0](https://github.com/voxpupuli/puppet-gitlab/tree/v7.1.0) (2021-06-05)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-gitlab/compare/v7.0.0...v7.1.0)
+
+**Implemented enhancements:**
+
+- Add support for the gitlab\_kas configuration hash. [\#385](https://github.com/voxpupuli/puppet-gitlab/pull/385) ([Rabie-Zamane](https://github.com/Rabie-Zamane))
+
 ## [v7.0.0](https://github.com/voxpupuli/puppet-gitlab/tree/v7.0.0) (2021-05-09)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-gitlab/compare/v6.0.1...v7.0.0)

@@ -258,6 +258,14 @@ Hash of 'gitlab_ci' config parameters.
 
 Default value: ``undef``
 
+
+##### `gitlab_kas`
+
+Data type: `Optional[Hash]`
+
+Hash of 'gitlab_kas' config parameters.
+
+Default value: ``undef``
 ##### `gitlab_pages`
 
 Data type: `Optional[Hash]`

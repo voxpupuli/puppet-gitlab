@@ -23,6 +23,7 @@ class gitlab::omnibus_config (
   $git_data_dirs = $gitlab::git_data_dirs
   $gitlab_git_http_server = $gitlab::gitlab_git_http_server
   $gitlab_ci = $gitlab::gitlab_ci
+  $gitlab_kas = $gitlab::gitlab_kas
   $gitlab_pages = $gitlab::gitlab_pages
   $gitlab_rails = $gitlab::gitlab_rails
   $grafana = $gitlab::grafana

@@ -29,6 +29,7 @@
 # @param git_data_dirs Hash of git data directories
 # @param gitlab_git_http_server Hash of 'gitlab_git_http_server' config parameters.
 # @param gitlab_ci Hash of 'gitlab_ci' config parameters.
+# @param gitlab_kas Hash of 'gitlab_kas' config parameters.
 # @param gitlab_pages Hash of 'gitlab_pages' config parameters.
 # @param gitlab_rails Hash of 'gitlab_pages' config parameters.
 # @param gitlab_workhorse Hash of 'gitlab_workhorse' config parameters.
@@ -128,6 +129,7 @@ class gitlab (
   Optional[Hash]                      $git_data_dirs                   = undef,
   Optional[Hash]                      $gitlab_git_http_server          = undef,
   Optional[Hash]                      $gitlab_ci                       = undef,
+  Optional[Hash]                      $gitlab_kas                      = undef,
   Optional[Hash]                      $gitlab_pages                    = undef,
   Optional[Hash]                      $gitlab_rails                    = undef,
   Optional[Hash]                      $grafana                         = undef,

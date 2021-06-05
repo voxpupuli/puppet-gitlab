@@ -18,6 +18,7 @@
 
 * [`gitlab::custom_hook`](#gitlabcustom_hook): Manage custom hook files within a GitLab project. Custom hooks can be created as a pre-receive, post-receive, or update hook. It's possible to create different custom hook types for the same project - one each for pre-receive, post-receive and update.
 * [`gitlab::global_hook`](#gitlabglobal_hook): Manage global chain loaded hook files for all GitLab projects. Hooks can be created as a pre-receive, post-receive, or update hook. It's possible to create  multipe hooks per type as long as their names are unique. Support for chained (global) hooks is introduced in GitLab Shell 4.1.0 and GitLab 8.15.
+* [`gitlab::system_hook`](#gitlabsystem_hook): A file hook will run on each event so it's up to you to filter events or projects
 
 ### Tasks
 
@@ -26,15 +27,115 @@
 
 ## Classes
 
-### `gitlab`
+### <a name="gitlab"></a>`gitlab`
 
 This module installs and configures Gitlab with the Omnibus package.
 
 #### Parameters
 
-The following parameters are available in the `gitlab` class.
+The following parameters are available in the `gitlab` class:
 
-##### `package_ensure`
+* [`package_ensure`](#package_ensure)
+* [`service_name`](#service_name)
+* [`service_enable`](#service_enable)
+* [`service_exec`](#service_exec)
+* [`service_ensure`](#service_ensure)
+* [`service_manage`](#service_manage)
+* [`service_provider_restart`](#service_provider_restart)
+* [`service_user`](#service_user)
+* [`service_group`](#service_group)
+* [`rake_exec`](#rake_exec)
+* [`edition`](#edition)
+* [`manage_upstream_edition`](#manage_upstream_edition)
+* [`config_manage`](#config_manage)
+* [`config_file`](#config_file)
+* [`alertmanager`](#alertmanager)
+* [`ci_redis`](#ci_redis)
+* [`ci_unicorn`](#ci_unicorn)
+* [`external_url`](#external_url)
+* [`external_port`](#external_port)
+* [`geo_postgresql`](#geo_postgresql)
+* [`geo_logcursor`](#geo_logcursor)
+* [`geo_primary_role`](#geo_primary_role)
+* [`geo_secondary`](#geo_secondary)
+* [`geo_secondary_role`](#geo_secondary_role)
+* [`git`](#git)
+* [`gitaly`](#gitaly)
+* [`git_data_dirs`](#git_data_dirs)
+* [`gitlab_git_http_server`](#gitlab_git_http_server)
+* [`gitlab_ci`](#gitlab_ci)
+* [`gitlab_kas`](#gitlab_kas)
+* [`gitlab_pages`](#gitlab_pages)
+* [`gitlab_rails`](#gitlab_rails)
+* [`gitlab_workhorse`](#gitlab_workhorse)
+* [`grafana`](#grafana)
+* [`logging`](#logging)
+* [`letsencrypt`](#letsencrypt)
+* [`package`](#package)
+* [`logrotate`](#logrotate)
+* [`manage_storage_directories`](#manage_storage_directories)
+* [`manage_accounts`](#manage_accounts)
+* [`mattermost_external_url`](#mattermost_external_url)
+* [`mattermost`](#mattermost)
+* [`mattermost_nginx`](#mattermost_nginx)
+* [`mattermost_nginx_eq_nginx`](#mattermost_nginx_eq_nginx)
+* [`nginx`](#nginx)
+* [`node_exporter`](#node_exporter)
+* [`redis_exporter`](#redis_exporter)
+* [`postgres_exporter`](#postgres_exporter)
+* [`pgbouncer_exporter`](#pgbouncer_exporter)
+* [`gitlab_monitor`](#gitlab_monitor)
+* [`gitlab_exporter`](#gitlab_exporter)
+* [`pages_external_url`](#pages_external_url)
+* [`pages_nginx`](#pages_nginx)
+* [`pages_nginx_eq_nginx`](#pages_nginx_eq_nginx)
+* [`postgresql`](#postgresql)
+* [`prometheus`](#prometheus)
+* [`prometheus_monitoring_enable`](#prometheus_monitoring_enable)
+* [`redis`](#redis)
+* [`redis_master_role`](#redis_master_role)
+* [`redis_slave_role`](#redis_slave_role)
+* [`redis_sentinel_role`](#redis_sentinel_role)
+* [`registry`](#registry)
+* [`registry_external_url`](#registry_external_url)
+* [`registry_nginx`](#registry_nginx)
+* [`registry_nginx_eq_nginx`](#registry_nginx_eq_nginx)
+* [`roles`](#roles)
+* [`sentinel`](#sentinel)
+* [`shell`](#shell)
+* [`sidekiq`](#sidekiq)
+* [`sidekiq_cluster`](#sidekiq_cluster)
+* [`skip_auto_migrations`](#skip_auto_migrations)
+* [`skip_auto_reconfigure`](#skip_auto_reconfigure)
+* [`skip_post_deployment_migrations`](#skip_post_deployment_migrations)
+* [`store_git_keys_in_db`](#store_git_keys_in_db)
+* [`source_config_file`](#source_config_file)
+* [`unicorn`](#unicorn)
+* [`puma`](#puma)
+* [`user`](#user)
+* [`web_server`](#web_server)
+* [`high_availability`](#high_availability)
+* [`backup_cron_enable`](#backup_cron_enable)
+* [`backup_cron_minute`](#backup_cron_minute)
+* [`backup_cron_hour`](#backup_cron_hour)
+* [`backup_cron_skips`](#backup_cron_skips)
+* [`package_name`](#package_name)
+* [`manage_package`](#manage_package)
+* [`repository_configuration`](#repository_configuration)
+* [`manage_omnibus_repository`](#manage_omnibus_repository)
+* [`pgpass_file_location`](#pgpass_file_location)
+* [`pgpass_file_ensure`](#pgpass_file_ensure)
+* [`pgbouncer_password`](#pgbouncer_password)
+* [`consul`](#consul)
+* [`custom_hooks_dir`](#custom_hooks_dir)
+* [`system_hooks_dir`](#system_hooks_dir)
+* [`pgbouncer`](#pgbouncer)
+* [`repmgr`](#repmgr)
+* [`custom_hooks`](#custom_hooks)
+* [`global_hooks`](#global_hooks)
+* [`system_hooks`](#system_hooks)
+
+##### <a name="package_ensure"></a>`package_ensure`
 
 Data type: `String`
 
@@ -42,7 +143,7 @@ Can be used to choose exact package version to install.
 
 Default value: `'installed'`
 
-##### `service_name`
+##### <a name="service_name"></a>`service_name`
 
 Data type: `String`
 
@@ -50,7 +151,7 @@ Name of the system service.
 
 Default value: `'gitlab-runsvdir'`
 
-##### `service_enable`
+##### <a name="service_enable"></a>`service_enable`
 
 Data type: `Boolean`
 
@@ -58,7 +159,7 @@ Run the system service on boot.
 
 Default value: ``true``
 
-##### `service_exec`
+##### <a name="service_exec"></a>`service_exec`
 
 Data type: `String`
 
@@ -66,7 +167,7 @@ The service executable path. Provide this variable value only if the service exe
 
 Default value: `'/usr/bin/gitlab-ctl'`
 
-##### `service_ensure`
+##### <a name="service_ensure"></a>`service_ensure`
 
 Data type: `Enum['stopped', 'false', 'running', 'true']`
 
@@ -74,7 +175,7 @@ Should Puppet start the service?
 
 Default value: `'running'`
 
-##### `service_manage`
+##### <a name="service_manage"></a>`service_manage`
 
 Data type: `Boolean`
 
@@ -82,7 +183,7 @@ Should Puppet manage the service?
 
 Default value: ``false``
 
-##### `service_provider_restart`
+##### <a name="service_provider_restart"></a>`service_provider_restart`
 
 Data type: `Boolean`
 
@@ -90,7 +191,7 @@ Should Puppet restart the gitlab systemd service?
 
 Default value: ``false``
 
-##### `service_user`
+##### <a name="service_user"></a>`service_user`
 
 Data type: `String`
 
@@ -98,7 +199,7 @@ Owner of the config file.
 
 Default value: `'root'`
 
-##### `service_group`
+##### <a name="service_group"></a>`service_group`
 
 Data type: `String`
 
@@ -106,7 +207,7 @@ Group of the config file.
 
 Default value: `'root'`
 
-##### `rake_exec`
+##### <a name="rake_exec"></a>`rake_exec`
 
 Data type: `String`
 
@@ -114,7 +215,7 @@ The gitlab-rake executable path. You should not need to change this path.
 
 Default value: `'/usr/bin/gitlab-rake'`
 
-##### `edition`
+##### <a name="edition"></a>`edition`
 
 Data type: `Optional[String]`
 
@@ -122,7 +223,7 @@ Data type: `Optional[String]`
 
 Default value: ``undef``
 
-##### `manage_upstream_edition`
+##### <a name="manage_upstream_edition"></a>`manage_upstream_edition`
 
 Data type: `Enum['ce', 'ee', 'disabled']`
 
@@ -130,7 +231,7 @@ One of [ 'ce', 'ee', 'disabled' ]. Manage the installation of an upstream Gitlab
 
 Default value: `'ce'`
 
-##### `config_manage`
+##### <a name="config_manage"></a>`config_manage`
 
 Data type: `Boolean`
 
@@ -138,7 +239,7 @@ Should Puppet manage the config?
 
 Default value: ``true``
 
-##### `config_file`
+##### <a name="config_file"></a>`config_file`
 
 Data type: `Stdlib::Absolutepath`
 
@@ -146,7 +247,7 @@ Path of the Gitlab Omnibus config file.
 
 Default value: `'/etc/gitlab/gitlab.rb'`
 
-##### `alertmanager`
+##### <a name="alertmanager"></a>`alertmanager`
 
 Data type: `Optional[Hash]`
 
@@ -154,7 +255,7 @@ Hash of 'alertmanager' config parameters.
 
 Default value: ``undef``
 
-##### `ci_redis`
+##### <a name="ci_redis"></a>`ci_redis`
 
 Data type: `Optional[Hash]`
 
@@ -162,7 +263,7 @@ Hash of 'ci_redis' config parameters.
 
 Default value: ``undef``
 
-##### `ci_unicorn`
+##### <a name="ci_unicorn"></a>`ci_unicorn`
 
 Data type: `Optional[Hash]`
 
@@ -170,7 +271,7 @@ Hash of 'ci_unicorn' config parameters.
 
 Default value: ``undef``
 
-##### `external_url`
+##### <a name="external_url"></a>`external_url`
 
 Data type: `Stdlib::Httpurl`
 
@@ -178,7 +279,7 @@ External URL of Gitlab.
 
 Default value: `"http://${facts['networking']['fqdn']}"`
 
-##### `external_port`
+##### <a name="external_port"></a>`external_port`
 
 Data type: `Optional[Integer[1, 65565]]`
 
@@ -186,7 +287,7 @@ External PORT of Gitlab.
 
 Default value: ``undef``
 
-##### `geo_postgresql`
+##### <a name="geo_postgresql"></a>`geo_postgresql`
 
 Data type: `Optional[Hash]`
 
@@ -194,7 +295,15 @@ Hash of 'geo_postgresql' config parameters.
 
 Default value: ``undef``
 
-##### `geo_primary_role`
+##### <a name="geo_logcursor"></a>`geo_logcursor`
+
+Data type: `Optional[Hash]`
+
+Hash of 'geo_logcursor' config parameters.
+
+Default value: ``undef``
+
+##### <a name="geo_primary_role"></a>`geo_primary_role`
 
 Data type: `Boolean`
 
@@ -202,7 +311,7 @@ Boolean to enable Geo primary role
 
 Default value: ``false``
 
-##### `geo_secondary`
+##### <a name="geo_secondary"></a>`geo_secondary`
 
 Data type: `Optional[Hash]`
 
@@ -210,7 +319,7 @@ Hash of 'geo_secondary' config parameters.
 
 Default value: ``undef``
 
-##### `geo_secondary_role`
+##### <a name="geo_secondary_role"></a>`geo_secondary_role`
 
 Data type: `Boolean`
 
@@ -218,7 +327,7 @@ Boolean to enable Geo secondary role
 
 Default value: ``false``
 
-##### `git`
+##### <a name="git"></a>`git`
 
 Data type: `Optional[Hash]`
 
@@ -226,7 +335,7 @@ Hash of 'omnibus_gitconfig' config parameters.
 
 Default value: ``undef``
 
-##### `gitaly`
+##### <a name="gitaly"></a>`gitaly`
 
 Data type: `Optional[Hash]`
 
@@ -234,7 +343,7 @@ Hash of 'omnibus_gitconfig' config parameters.
 
 Default value: ``undef``
 
-##### `git_data_dirs`
+##### <a name="git_data_dirs"></a>`git_data_dirs`
 
 Data type: `Optional[Hash]`
 
@@ -242,7 +351,7 @@ Hash of git data directories
 
 Default value: ``undef``
 
-##### `gitlab_git_http_server`
+##### <a name="gitlab_git_http_server"></a>`gitlab_git_http_server`
 
 Data type: `Optional[Hash]`
 
@@ -250,7 +359,7 @@ Hash of 'gitlab_git_http_server' config parameters.
 
 Default value: ``undef``
 
-##### `gitlab_ci`
+##### <a name="gitlab_ci"></a>`gitlab_ci`
 
 Data type: `Optional[Hash]`
 
@@ -258,15 +367,15 @@ Hash of 'gitlab_ci' config parameters.
 
 Default value: ``undef``
 
-
-##### `gitlab_kas`
+##### <a name="gitlab_kas"></a>`gitlab_kas`
 
 Data type: `Optional[Hash]`
 
 Hash of 'gitlab_kas' config parameters.
 
 Default value: ``undef``
-##### `gitlab_pages`
+
+##### <a name="gitlab_pages"></a>`gitlab_pages`
 
 Data type: `Optional[Hash]`
 
@@ -274,15 +383,15 @@ Hash of 'gitlab_pages' config parameters.
 
 Default value: ``undef``
 
-##### `gitlab_rails`
+##### <a name="gitlab_rails"></a>`gitlab_rails`
 
 Data type: `Optional[Hash]`
 
-Hash of 'gitlab_rails' config parameters.
+Hash of 'gitlab_pages' config parameters.
 
 Default value: ``undef``
 
-##### `gitlab_workhorse`
+##### <a name="gitlab_workhorse"></a>`gitlab_workhorse`
 
 Data type: `Optional[Hash]`
 
@@ -290,7 +399,7 @@ Hash of 'gitlab_workhorse' config parameters.
 
 Default value: ``undef``
 
-##### `grafana`
+##### <a name="grafana"></a>`grafana`
 
 Data type: `Optional[Hash]`
 
@@ -298,7 +407,7 @@ Hash of 'grafana' config parameters.
 
 Default value: ``undef``
 
-##### `logging`
+##### <a name="logging"></a>`logging`
 
 Data type: `Optional[Hash]`
 
@@ -306,7 +415,7 @@ Hash of 'logging' config parameters.
 
 Default value: ``undef``
 
-##### `letsencrypt`
+##### <a name="letsencrypt"></a>`letsencrypt`
 
 Data type: `Optional[Hash]`
 
@@ -314,7 +423,15 @@ Hash of 'letsencrypt' config parameters.
 
 Default value: ``undef``
 
-##### `logrotate`
+##### <a name="package"></a>`package`
+
+Data type: `Optional[Hash[String[1], Scalar]]`
+
+Hash of 'package' config parameters.
+
+Default value: ``undef``
+
+##### <a name="logrotate"></a>`logrotate`
 
 Data type: `Optional[Hash]`
 
@@ -322,7 +439,7 @@ Hash of 'logrotate' config parameters.
 
 Default value: ``undef``
 
-##### `manage_storage_directories`
+##### <a name="manage_storage_directories"></a>`manage_storage_directories`
 
 Data type: `Optional[Hash]`
 
@@ -330,7 +447,7 @@ Hash of 'manage_storage_directories' config parameters.
 
 Default value: ``undef``
 
-##### `manage_accounts`
+##### <a name="manage_accounts"></a>`manage_accounts`
 
 Data type: `Optional[Hash]`
 
@@ -338,7 +455,7 @@ Hash of 'manage_accounts' config parameters.
 
 Default value: ``undef``
 
-##### `mattermost_external_url`
+##### <a name="mattermost_external_url"></a>`mattermost_external_url`
 
 Data type: `Optional[String]`
 
@@ -346,7 +463,7 @@ External URL of Mattermost.
 
 Default value: ``undef``
 
-##### `mattermost`
+##### <a name="mattermost"></a>`mattermost`
 
 Data type: `Optional[Hash]`
 
@@ -354,7 +471,7 @@ Hash of 'mattmost' config parameters.
 
 Default value: ``undef``
 
-##### `mattermost_nginx`
+##### <a name="mattermost_nginx"></a>`mattermost_nginx`
 
 Data type: `Optional[Hash]`
 
@@ -362,7 +479,7 @@ Hash of 'mattmost_nginx' config parameters.
 
 Default value: ``undef``
 
-##### `mattermost_nginx_eq_nginx`
+##### <a name="mattermost_nginx_eq_nginx"></a>`mattermost_nginx_eq_nginx`
 
 Data type: `Boolean`
 
@@ -370,7 +487,7 @@ Replicate the Mattermost Nginx config from the Gitlab Nginx config.
 
 Default value: ``false``
 
-##### `nginx`
+##### <a name="nginx"></a>`nginx`
 
 Data type: `Optional[Hash]`
 
@@ -378,7 +495,7 @@ Hash of 'nginx' config parameters.
 
 Default value: ``undef``
 
-##### `node_exporter`
+##### <a name="node_exporter"></a>`node_exporter`
 
 Data type: `Optional[Hash]`
 
@@ -386,7 +503,7 @@ Hash of 'node_exporter' config parameters.
 
 Default value: ``undef``
 
-##### `redis_exporter`
+##### <a name="redis_exporter"></a>`redis_exporter`
 
 Data type: `Optional[Hash]`
 
@@ -394,7 +511,7 @@ Hash of 'redis_exporter' config parameters.
 
 Default value: ``undef``
 
-##### `postgres_exporter`
+##### <a name="postgres_exporter"></a>`postgres_exporter`
 
 Data type: `Optional[Hash]`
 
@@ -402,7 +519,7 @@ Hash of 'postgres_exporter' config parameters.
 
 Default value: ``undef``
 
-##### `pgbouncer_exporter`
+##### <a name="pgbouncer_exporter"></a>`pgbouncer_exporter`
 
 Data type: `Optional[Hash]`
 
@@ -410,7 +527,7 @@ Hash of 'pgbouncer_exporter' config parameters.
 
 Default value: ``undef``
 
-##### `gitlab_monitor`
+##### <a name="gitlab_monitor"></a>`gitlab_monitor`
 
 Data type: `Optional[Hash]`
 
@@ -418,7 +535,7 @@ Deprecated if using Gitlab > 12.3 and < 13.0, unsupported by gitlab omnibus usin
 
 Default value: ``undef``
 
-##### `gitlab_exporter`
+##### <a name="gitlab_exporter"></a>`gitlab_exporter`
 
 Data type: `Optional[Hash]`
 
@@ -426,7 +543,7 @@ Hash of 'gitlab_exporter' config parameters.
 
 Default value: ``undef``
 
-##### `pages_external_url`
+##### <a name="pages_external_url"></a>`pages_external_url`
 
 Data type: `Optional[String]`
 
@@ -434,7 +551,7 @@ External URL of Gitlab Pages.
 
 Default value: ``undef``
 
-##### `pages_nginx`
+##### <a name="pages_nginx"></a>`pages_nginx`
 
 Data type: `Optional[Hash]`
 
@@ -442,7 +559,7 @@ Hash of 'pages_nginx' config parameters.
 
 Default value: ``undef``
 
-##### `pages_nginx_eq_nginx`
+##### <a name="pages_nginx_eq_nginx"></a>`pages_nginx_eq_nginx`
 
 Data type: `Boolean`
 
@@ -450,7 +567,7 @@ Replicate the Pages Nginx config from the Gitlab Nginx config.
 
 Default value: ``false``
 
-##### `postgresql`
+##### <a name="postgresql"></a>`postgresql`
 
 Data type: `Optional[Hash]`
 
@@ -458,7 +575,7 @@ Hash of 'postgresql' config parameters.
 
 Default value: ``undef``
 
-##### `prometheus`
+##### <a name="prometheus"></a>`prometheus`
 
 Data type: `Optional[Hash]`
 
@@ -466,7 +583,7 @@ Hash of 'prometheus' config parameters.
 
 Default value: ``undef``
 
-##### `prometheus_monitoring_enable`
+##### <a name="prometheus_monitoring_enable"></a>`prometheus_monitoring_enable`
 
 Data type: `Optional[Boolean]`
 
@@ -474,7 +591,7 @@ Enable/disable prometheus support.
 
 Default value: ``undef``
 
-##### `redis`
+##### <a name="redis"></a>`redis`
 
 Data type: `Optional[Hash]`
 
@@ -482,7 +599,7 @@ Hash of 'redis' config parameters.
 
 Default value: ``undef``
 
-##### `redis_master_role`
+##### <a name="redis_master_role"></a>`redis_master_role`
 
 Data type: `Optional[Boolean]`
 
@@ -490,7 +607,7 @@ To enable Redis master role for the node.
 
 Default value: ``undef``
 
-##### `redis_slave_role`
+##### <a name="redis_slave_role"></a>`redis_slave_role`
 
 Data type: `Optional[Boolean]`
 
@@ -498,7 +615,7 @@ To enable Redis slave role for the node.
 
 Default value: ``undef``
 
-##### `redis_sentinel_role`
+##### <a name="redis_sentinel_role"></a>`redis_sentinel_role`
 
 Data type: `Optional[Boolean]`
 
@@ -506,7 +623,7 @@ To enable sentinel role for the node.
 
 Default value: ``undef``
 
-##### `registry`
+##### <a name="registry"></a>`registry`
 
 Data type: `Optional[Hash]`
 
@@ -514,7 +631,7 @@ Hash of 'registry' config parameters.
 
 Default value: ``undef``
 
-##### `registry_external_url`
+##### <a name="registry_external_url"></a>`registry_external_url`
 
 Data type: `Optional[String]`
 
@@ -522,7 +639,7 @@ External URL of Registry
 
 Default value: ``undef``
 
-##### `registry_nginx`
+##### <a name="registry_nginx"></a>`registry_nginx`
 
 Data type: `Optional[Hash]`
 
@@ -530,7 +647,7 @@ Hash of 'registry_nginx' config parameters.
 
 Default value: ``undef``
 
-##### `registry_nginx_eq_nginx`
+##### <a name="registry_nginx_eq_nginx"></a>`registry_nginx_eq_nginx`
 
 Data type: `Boolean`
 
@@ -538,7 +655,7 @@ Replicate the registry Nginx config from the Gitlab Nginx config.
 
 Default value: ``false``
 
-##### `roles`
+##### <a name="roles"></a>`roles`
 
 Data type: `Optional[Array]`
 
@@ -546,7 +663,7 @@ Array of roles when using a HA or Geo enabled GitLab configuration. See: https:/
 
 Default value: ``undef``
 
-##### `sentinel`
+##### <a name="sentinel"></a>`sentinel`
 
 Data type: `Optional[Hash]`
 
@@ -554,7 +671,7 @@ Hash of 'sentinel' config parameters.
 
 Default value: ``undef``
 
-##### `shell`
+##### <a name="shell"></a>`shell`
 
 Data type: `Optional[Hash]`
 
@@ -562,7 +679,7 @@ Hash of 'gitlab_shell' config parameters.
 
 Default value: ``undef``
 
-##### `sidekiq`
+##### <a name="sidekiq"></a>`sidekiq`
 
 Data type: `Optional[Hash]`
 
@@ -570,7 +687,7 @@ Hash of 'sidekiq' config parameters
 
 Default value: ``undef``
 
-##### `sidekiq_cluster`
+##### <a name="sidekiq_cluster"></a>`sidekiq_cluster`
 
 Data type: `Optional[Hash]`
 
@@ -578,7 +695,7 @@ Hash of 'sidekiq_cluster' config parameters.
 
 Default value: ``undef``
 
-##### `skip_auto_migrations`
+##### <a name="skip_auto_migrations"></a>`skip_auto_migrations`
 
 Data type: `Optional`
 
@@ -586,7 +703,7 @@ Deprecated if using Gitlab > 10.6.4 and < 11.0.0, unsupported by gitlab omnibus 
 
 Default value: ``undef``
 
-##### `skip_auto_reconfigure`
+##### <a name="skip_auto_reconfigure"></a>`skip_auto_reconfigure`
 
 Data type: `Enum['present', 'absent']`
 
@@ -594,7 +711,7 @@ Utilized for Zero Downtime Updates, See: https://docs.gitlab.com/omnibus/update/
 
 Default value: `'absent'`
 
-##### `skip_post_deployment_migrations`
+##### <a name="skip_post_deployment_migrations"></a>`skip_post_deployment_migrations`
 
 Data type: `Boolean`
 
@@ -602,7 +719,7 @@ Adds SKIP_POST_DEPLOYMENT_MIGRATIONS=true to the execution of gitlab-ctl reconfi
 
 Default value: ``false``
 
-##### `store_git_keys_in_db`
+##### <a name="store_git_keys_in_db"></a>`store_git_keys_in_db`
 
 Data type: `Boolean`
 
@@ -610,7 +727,7 @@ Enable or disable Fast Lookup of authorized SSH keys in the database. See: https
 
 Default value: ``false``
 
-##### `source_config_file`
+##### <a name="source_config_file"></a>`source_config_file`
 
 Data type: `Optional[Stdlib::Absolutepath]`
 
@@ -618,7 +735,7 @@ Override Hiera config with path to gitlab.rb config file
 
 Default value: ``undef``
 
-##### `unicorn`
+##### <a name="unicorn"></a>`unicorn`
 
 Data type: `Optional[Hash]`
 
@@ -626,7 +743,7 @@ Hash of 'unicorn' config parameters.
 
 Default value: ``undef``
 
-##### `puma`
+##### <a name="puma"></a>`puma`
 
 Data type: `Optional[Hash]`
 
@@ -634,7 +751,7 @@ Hash of 'puma' config parameters.
 
 Default value: ``undef``
 
-##### `user`
+##### <a name="user"></a>`user`
 
 Data type: `Optional[Hash]`
 
@@ -642,7 +759,7 @@ Hash of 'user' config parameters.
 
 Default value: ``undef``
 
-##### `web_server`
+##### <a name="web_server"></a>`web_server`
 
 Data type: `Optional[Hash]`
 
@@ -650,7 +767,7 @@ Hash of 'web_server' config parameters.
 
 Default value: ``undef``
 
-##### `high_availability`
+##### <a name="high_availability"></a>`high_availability`
 
 Data type: `Optional[Hash]`
 
@@ -658,7 +775,7 @@ Hash of 'high_availability' config parameters.
 
 Default value: ``undef``
 
-##### `backup_cron_enable`
+##### <a name="backup_cron_enable"></a>`backup_cron_enable`
 
 Data type: `Boolean`
 
@@ -666,7 +783,7 @@ Boolean to enable the daily backup cron job
 
 Default value: ``false``
 
-##### `backup_cron_minute`
+##### <a name="backup_cron_minute"></a>`backup_cron_minute`
 
 Data type: `Integer[0,59]`
 
@@ -674,7 +791,7 @@ The minute when to run the daily backup cron job
 
 Default value: `0`
 
-##### `backup_cron_hour`
+##### <a name="backup_cron_hour"></a>`backup_cron_hour`
 
 Data type: `Integer[0,23]`
 
@@ -682,7 +799,7 @@ The hour when to run the daily backup cron job
 
 Default value: `2`
 
-##### `backup_cron_skips`
+##### <a name="backup_cron_skips"></a>`backup_cron_skips`
 
 Data type: `Array`
 
@@ -690,7 +807,7 @@ Array of items to skip valid values: db, uploads, repositories, builds, artifact
 
 Default value: `[]`
 
-##### `package_name`
+##### <a name="package_name"></a>`package_name`
 
 Data type: `Optional[String]`
 
@@ -698,7 +815,7 @@ The internal packaging system's name for the package. This name will automatical
 
 Default value: ``undef``
 
-##### `manage_package`
+##### <a name="manage_package"></a>`manage_package`
 
 Data type: `Boolean`
 
@@ -706,13 +823,13 @@ Should the GitLab package be managed?
 
 Default value: ``true``
 
-##### `repository_configuration`
+##### <a name="repository_configuration"></a>`repository_configuration`
 
 Data type: `Hash`
 
 A hash of repository types and attributes for configuraiton the gitlab package repositories. See docs in README.md
 
-##### `manage_omnibus_repository`
+##### <a name="manage_omnibus_repository"></a>`manage_omnibus_repository`
 
 Data type: `Boolean`
 
@@ -720,7 +837,7 @@ Set to false if you wish to manage gitlab without configuring the package reposi
 
 Default value: ``true``
 
-##### `pgpass_file_location`
+##### <a name="pgpass_file_location"></a>`pgpass_file_location`
 
 Data type: `Stdlib::Absolutepath`
 
@@ -728,7 +845,7 @@ Path to location of .pgpass file used by consul to authenticate with pgbouncer d
 
 Default value: `'/home/gitlab-consul/.pgpass'`
 
-##### `pgpass_file_ensure`
+##### <a name="pgpass_file_ensure"></a>`pgpass_file_ensure`
 
 Data type: `Enum['absent', 'present']`
 
@@ -736,7 +853,7 @@ Create .pgpass file for pgbouncer authentication. When set to present requires v
 
 Default value: `'absent'`
 
-##### `pgbouncer_password`
+##### <a name="pgbouncer_password"></a>`pgbouncer_password`
 
 Data type: `Optional[String]`
 
@@ -744,7 +861,7 @@ Password for the gitlab-consul database user in the pgbouncer database
 
 Default value: ``undef``
 
-##### `consul`
+##### <a name="consul"></a>`consul`
 
 Data type: `Optional[Hash]`
 
@@ -752,15 +869,23 @@ Data type: `Optional[Hash]`
 
 Default value: ``undef``
 
-##### `custom_hooks_dir`
+##### <a name="custom_hooks_dir"></a>`custom_hooks_dir`
 
-Data type: `Optional[String]`
+Data type: `Stdlib::Absolutepath`
 
 
 
-Default value: ``undef``
+Default value: `'/opt/gitlab/embedded/service/gitlab-shell/hooks'`
 
-##### `pgbouncer`
+##### <a name="system_hooks_dir"></a>`system_hooks_dir`
+
+Data type: `Stdlib::Absolutepath`
+
+
+
+Default value: `'/opt/gitlab/embedded/service/gitlab-rails/file_hooks'`
+
+##### <a name="pgbouncer"></a>`pgbouncer`
 
 Data type: `Optional[Hash]`
 
@@ -768,7 +893,7 @@ Data type: `Optional[Hash]`
 
 Default value: ``undef``
 
-##### `repmgr`
+##### <a name="repmgr"></a>`repmgr`
 
 Data type: `Optional[Hash]`
 
@@ -776,7 +901,7 @@ Data type: `Optional[Hash]`
 
 Default value: ``undef``
 
-##### `custom_hooks`
+##### <a name="custom_hooks"></a>`custom_hooks`
 
 Data type: `Hash`
 
@@ -784,7 +909,7 @@ Data type: `Hash`
 
 Default value: `{}`
 
-##### `global_hooks`
+##### <a name="global_hooks"></a>`global_hooks`
 
 Data type: `Hash`
 
@@ -792,19 +917,35 @@ Data type: `Hash`
 
 Default value: `{}`
 
-### `gitlab::backup`
+##### <a name="system_hooks"></a>`system_hooks`
+
+Data type: `Hash[String[1],Hash[String[1],Any]]`
+
+
+
+Default value: `{}`
+
+### <a name="gitlabbackup"></a>`gitlab::backup`
 
 This class is called from gitlab for backup config.
 
-### `gitlab::host_config`
+### <a name="gitlabhost_config"></a>`gitlab::host_config`
 
 This class is for setting host configurations required for gitlab installation.
 
 #### Parameters
 
-The following parameters are available in the `gitlab::host_config` class.
+The following parameters are available in the `gitlab::host_config` class:
 
-##### `config_dir`
+* [`config_dir`](#config_dir)
+* [`skip_auto_migrations`](#skip_auto_migrations)
+* [`skip_auto_reconfigure`](#skip_auto_reconfigure)
+* [`store_git_keys_in_db`](#store_git_keys_in_db)
+* [`pgpass_file_ensure`](#pgpass_file_ensure)
+* [`pgpass_file_location`](#pgpass_file_location)
+* [`pgbouncer_password`](#pgbouncer_password)
+
+##### <a name="config_dir"></a>`config_dir`
 
 Data type: `Any`
 
@@ -812,7 +953,7 @@ The service executable path. Provide this variable value only if the service exe
 
 Default value: `'/etc/gitlab'`
 
-##### `skip_auto_migrations`
+##### <a name="skip_auto_migrations"></a>`skip_auto_migrations`
 
 Data type: `Any`
 
@@ -820,7 +961,7 @@ Deprecated if using Gitlab > 10.6.4 and < 11.0.0, unsupported by gitlab omnibus 
 
 Default value: `$gitlab::skip_auto_migrations`
 
-##### `skip_auto_reconfigure`
+##### <a name="skip_auto_reconfigure"></a>`skip_auto_reconfigure`
 
 Data type: `Any`
 
@@ -828,7 +969,7 @@ Utilized for Zero Downtime Updates, See: https://docs.gitlab.com/omnibus/update/
 
 Default value: `$gitlab::skip_auto_reconfigure`
 
-##### `store_git_keys_in_db`
+##### <a name="store_git_keys_in_db"></a>`store_git_keys_in_db`
 
 Data type: `Any`
 
@@ -836,7 +977,7 @@ Enable or disable Fast Lookup of authorized SSH keys in the database. See: https
 
 Default value: `$gitlab::store_git_keys_in_db`
 
-##### `pgpass_file_ensure`
+##### <a name="pgpass_file_ensure"></a>`pgpass_file_ensure`
 
 Data type: `Any`
 
@@ -844,7 +985,7 @@ Create .pgpass file for pgbouncer authentication. When set to present requires v
 
 Default value: `$gitlab::pgpass_file_ensure`
 
-##### `pgpass_file_location`
+##### <a name="pgpass_file_location"></a>`pgpass_file_location`
 
 Data type: `Any`
 
@@ -852,7 +993,7 @@ Path to location of .pgpass file used by consul to authenticate with pgbouncer d
 
 Default value: `$gitlab::pgpass_file_location`
 
-##### `pgbouncer_password`
+##### <a name="pgbouncer_password"></a>`pgbouncer_password`
 
 Data type: `Any`
 
@@ -860,15 +1001,19 @@ Password for the gitlab-consul database user in the pgbouncer database
 
 Default value: `$gitlab::pgbouncer_password`
 
-### `gitlab::install`
+### <a name="gitlabinstall"></a>`gitlab::install`
 
 This class is called from gitlab for install.
 
 #### Parameters
 
-The following parameters are available in the `gitlab::install` class.
+The following parameters are available in the `gitlab::install` class:
 
-##### `package_name`
+* [`package_name`](#package_name)
+* [`package_ensure`](#package_ensure)
+* [`manage_package`](#manage_package)
+
+##### <a name="package_name"></a>`package_name`
 
 Data type: `Any`
 
@@ -876,7 +1021,7 @@ Data type: `Any`
 
 Default value: `$gitlab::package_name`
 
-##### `package_ensure`
+##### <a name="package_ensure"></a>`package_ensure`
 
 Data type: `Any`
 
@@ -884,7 +1029,7 @@ Data type: `Any`
 
 Default value: `$gitlab::package_ensure`
 
-##### `manage_package`
+##### <a name="manage_package"></a>`manage_package`
 
 Data type: `Any`
 
@@ -892,15 +1037,18 @@ Data type: `Any`
 
 Default value: `$gitlab::manage_package`
 
-### `gitlab::omnibus_config`
+### <a name="gitlabomnibus_config"></a>`gitlab::omnibus_config`
 
 This class is used to configure the gitlab omnibus package on a node
 
 #### Parameters
 
-The following parameters are available in the `gitlab::omnibus_config` class.
+The following parameters are available in the `gitlab::omnibus_config` class:
 
-##### `config_manage`
+* [`config_manage`](#config_manage)
+* [`config_file`](#config_file)
+
+##### <a name="config_manage"></a>`config_manage`
 
 Data type: `Any`
 
@@ -908,7 +1056,7 @@ Should Puppet manage the config?
 
 Default value: `$gitlab::config_manage`
 
-##### `config_file`
+##### <a name="config_file"></a>`config_file`
 
 Data type: `Any`
 
@@ -916,15 +1064,19 @@ Path of the Gitlab Omnibus config file.
 
 Default value: `$gitlab::config_file`
 
-### `gitlab::omnibus_package_repository`
+### <a name="gitlabomnibus_package_repository"></a>`gitlab::omnibus_package_repository`
 
 This class is used to configure gitlab repositories
 
 #### Parameters
 
-The following parameters are available in the `gitlab::omnibus_package_repository` class.
+The following parameters are available in the `gitlab::omnibus_package_repository` class:
 
-##### `repository_configuration`
+* [`repository_configuration`](#repository_configuration)
+* [`manage_omnibus_repository`](#manage_omnibus_repository)
+* [`manage_upstream_edition`](#manage_upstream_edition)
+
+##### <a name="repository_configuration"></a>`repository_configuration`
 
 Data type: `Any`
 
@@ -932,7 +1084,7 @@ A hash of repository types and attributes for configuraiton the gitlab package r
 
 Default value: `$gitlab::repository_configuration`
 
-##### `manage_omnibus_repository`
+##### <a name="manage_omnibus_repository"></a>`manage_omnibus_repository`
 
 Data type: `Any`
 
@@ -940,7 +1092,7 @@ Set to false if you wish to manage gitlab without configuring the package reposi
 
 Default value: `$gitlab::manage_omnibus_repository`
 
-##### `manage_upstream_edition`
+##### <a name="manage_upstream_edition"></a>`manage_upstream_edition`
 
 Data type: `Any`
 
@@ -948,15 +1100,23 @@ One of [ 'ce', 'ee', 'disabled' ]. Manage the installation of an upstream Gitlab
 
 Default value: `$gitlab::manage_upstream_edition`
 
-### `gitlab::service`
+### <a name="gitlabservice"></a>`gitlab::service`
 
 This class is meant to be called from gitlab. It ensure the service is running.
 
 #### Parameters
 
-The following parameters are available in the `gitlab::service` class.
+The following parameters are available in the `gitlab::service` class:
 
-##### `service_ensure`
+* [`service_ensure`](#service_ensure)
+* [`service_enable`](#service_enable)
+* [`service_name`](#service_name)
+* [`service_exec`](#service_exec)
+* [`service_manage`](#service_manage)
+* [`service_provider_restart`](#service_provider_restart)
+* [`skip_post_deployment_migrations`](#skip_post_deployment_migrations)
+
+##### <a name="service_ensure"></a>`service_ensure`
 
 Data type: `Any`
 
@@ -964,7 +1124,7 @@ Should Puppet start the service?
 
 Default value: `$gitlab::service_ensure`
 
-##### `service_enable`
+##### <a name="service_enable"></a>`service_enable`
 
 Data type: `Any`
 
@@ -972,7 +1132,7 @@ Run the system service on boot.
 
 Default value: `$gitlab::service_enable`
 
-##### `service_name`
+##### <a name="service_name"></a>`service_name`
 
 Data type: `Any`
 
@@ -980,7 +1140,7 @@ Name of the system service.
 
 Default value: `$gitlab::service_name`
 
-##### `service_exec`
+##### <a name="service_exec"></a>`service_exec`
 
 Data type: `Any`
 
@@ -988,7 +1148,7 @@ The service executable path. Provide this variable value only if the service exe
 
 Default value: `$gitlab::service_exec`
 
-##### `service_manage`
+##### <a name="service_manage"></a>`service_manage`
 
 Data type: `Any`
 
@@ -996,7 +1156,7 @@ Should Puppet manage the service?
 
 Default value: `$gitlab::service_manage`
 
-##### `service_provider_restart`
+##### <a name="service_provider_restart"></a>`service_provider_restart`
 
 Data type: `Any`
 
@@ -1004,7 +1164,7 @@ Should Puppet restart the gitlab systemd service?
 
 Default value: `$gitlab::service_provider_restart`
 
-##### `skip_post_deployment_migrations`
+##### <a name="skip_post_deployment_migrations"></a>`skip_post_deployment_migrations`
 
 Data type: `Any`
 
@@ -1014,7 +1174,7 @@ Default value: `$gitlab::skip_post_deployment_migrations`
 
 ## Defined types
 
-### `gitlab::custom_hook`
+### <a name="gitlabcustom_hook"></a>`gitlab::custom_hook`
 
 Manage custom hook files within a GitLab project. Custom hooks can be created as a pre-receive, post-receive, or update hook. It's possible to create different custom hook types for the same project - one each for pre-receive, post-receive and update.
 
@@ -1033,27 +1193,34 @@ gitlab::custom_hook { 'my_custom_hook':
 
 #### Parameters
 
-The following parameters are available in the `gitlab::custom_hook` defined type.
+The following parameters are available in the `gitlab::custom_hook` defined type:
 
-##### `namespace`
+* [`namespace`](#namespace)
+* [`project`](#project)
+* [`type`](#type)
+* [`content`](#content)
+* [`source`](#source)
+* [`repos_path`](#repos_path)
+
+##### <a name="namespace"></a>`namespace`
 
 Data type: `String`
 
 The GitLab group namespace for the project.
 
-##### `project`
+##### <a name="project"></a>`project`
 
 Data type: `String`
 
 The GitLab project name.
 
-##### `type`
+##### <a name="type"></a>`type`
 
 Data type: `Enum['update', 'post-receive', 'pre-receive']`
 
 The custom hook type. Should be one of pre-receive, post-receive, or update.
 
-##### `content`
+##### <a name="content"></a>`content`
 
 Data type: `Optional[String]`
 
@@ -1061,7 +1228,7 @@ Specify the custom hook contents either as a string or using the template functi
 
 Default value: ``undef``
 
-##### `source`
+##### <a name="source"></a>`source`
 
 Data type: `Optional[String]`
 
@@ -1069,7 +1236,7 @@ Specify a file source path to populate the custom hook contents. If this paramte
 
 Default value: ``undef``
 
-##### `repos_path`
+##### <a name="repos_path"></a>`repos_path`
 
 Data type: `Optional[Stdlib::Absolutepath]`
 
@@ -1077,7 +1244,7 @@ The GitLab shell repos path. This defaults to '/var/opt/gitlab/git-data/reposito
 
 Default value: ``undef``
 
-### `gitlab::global_hook`
+### <a name="gitlabglobal_hook"></a>`gitlab::global_hook`
 
 Manage global chain loaded hook files for all GitLab projects. Hooks can be created as a pre-receive, post-receive, or update hook. It's possible to create  multipe hooks per type as long as their names are unique. Support for chained (global) hooks is introduced in GitLab Shell 4.1.0 and GitLab 8.15.
 
@@ -1094,21 +1261,28 @@ gitlab::custom_hook { 'my_custom_hook':
 
 #### Parameters
 
-The following parameters are available in the `gitlab::global_hook` defined type.
+The following parameters are available in the `gitlab::global_hook` defined type:
 
-##### `type`
+* [`type`](#type)
+* [`custom_hooks_dir`](#custom_hooks_dir)
+* [`content`](#content)
+* [`source`](#source)
+
+##### <a name="type"></a>`type`
 
 Data type: `Enum['post-receive', 'pre-receive', 'update']`
 
 The custom hook type. Should be one of pre-receive, post-receive, or update.
 
-##### `custom_hooks_dir`
+##### <a name="custom_hooks_dir"></a>`custom_hooks_dir`
 
 Data type: `Stdlib::Absolutepath`
 
 The GitLab shell repos path. This defaults to '/opt/gitlab/embedded/service/gitlab-shell/hooks' if not present.
 
-##### `content`
+Default value: `$gitlab::custom_hooks_dir`
+
+##### <a name="content"></a>`content`
 
 Data type: `Optional[String[1]]`
 
@@ -1116,7 +1290,7 @@ Specify the custom hook contents either as a string or using the template functi
 
 Default value: ``undef``
 
-##### `source`
+##### <a name="source"></a>`source`
 
 Data type: `Optional[Pattern[/^puppet:/]]`
 
@@ -1124,15 +1298,64 @@ Specify a file source path to populate the custom hook contents. If this paramte
 
 Default value: ``undef``
 
+### <a name="gitlabsystem_hook"></a>`gitlab::system_hook`
+
+within a file hook code. You can have as many file hooks as you want. Each file hook will
+be triggered by GitLab asynchronously in case of an event. For a list of events
+see the system hooks documentation.
+
+#### Examples
+
+##### System hook usage
+
+```puppet
+gitlab::system_hook { 'my_system_hook':
+  type            => 'post-receive',
+  source          => 'puppet:///modules/my_module/post-receive',
+}
+```
+
+#### Parameters
+
+The following parameters are available in the `gitlab::system_hook` defined type:
+
+* [`system_hooks_dir`](#system_hooks_dir)
+* [`content`](#content)
+* [`source`](#source)
+
+##### <a name="system_hooks_dir"></a>`system_hooks_dir`
+
+Data type: `Stdlib::Absolutepath`
+
+The GitLab shell repos path. This defaults to '/opt/gitlab/embedded/service/gitlab-rails/file_hooks' if not present.
+
+Default value: `$gitlab::system_hooks_dir`
+
+##### <a name="content"></a>`content`
+
+Data type: `Optional[String[1]]`
+
+Specify the system hook contents either as a string or using the template function. If this paramter is specified source parameter must not be present.
+
+Default value: ``undef``
+
+##### <a name="source"></a>`source`
+
+Data type: `Optional[Pattern[/^puppet:/]]`
+
+Specify a file source path to populate the system hook contents. If this paramter is specified content parameter must not be present.
+
+Default value: ``undef``
+
 ## Tasks
 
-### `post_upgrade`
+### <a name="post_upgrade"></a>`post_upgrade`
 
 Cleans up old postgres database after upgrade
 
 **Supports noop?** false
 
-### `postgres_upgrade`
+### <a name="postgres_upgrade"></a>`postgres_upgrade`
 
 Upgrades the postgres database if needed
 

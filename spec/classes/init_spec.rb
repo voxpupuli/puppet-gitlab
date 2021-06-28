@@ -22,6 +22,7 @@ describe 'gitlab', type: :class do
         when 'Debian'
           it { is_expected.to contain_apt__source('gitlab_official_ce').with_ensure('present').with_comment(%r{.}) }
           it { is_expected.to contain_apt__source('gitlab_official_ee').with_ensure('absent') }
+          it { is_expected.to contain_class('apt::update').that_comes_before('Class[gitlab::install]') }
           it { is_expected.not_to contain_apt__source('gitlab_official_') }
           it { is_expected.not_to contain_yumrepo('gitlab_official_ce') }
           case facts[:operatingsystem]
@@ -40,6 +41,7 @@ describe 'gitlab', type: :class do
           it { is_expected.to contain_yumrepo('gitlab_official_ee').with_ensure('absent') }
           it { is_expected.not_to contain_yumrepo('gitlab_official_') }
           it { is_expected.not_to contain_apt__source('gitlab_official_ce') }
+          it { is_expected.not_to contain_class('apt::update').that_comes_before('Class[gitlab::install]') }
         end
       end
 
@@ -53,6 +55,7 @@ describe 'gitlab', type: :class do
           when 'Debian'
             it { is_expected.to contain_apt__source('gitlab_official_ee').with_ensure('present') }
             it { is_expected.to contain_apt__source('gitlab_official_ce').with_ensure('absent')  }
+            it { is_expected.to contain_class('apt::update').that_comes_before('Class[gitlab::install]') }
           when 'RedHat'
             it { is_expected.to contain_yumrepo('gitlab_official_ee').with_ensure('present') }
             it { is_expected.to contain_yumrepo('gitlab_official_ee').without_baseurl(%r{/gitlab-/}) }

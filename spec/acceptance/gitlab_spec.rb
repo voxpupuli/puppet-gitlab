@@ -24,9 +24,14 @@ describe 'gitlab class' do
       it { is_expected.to be_installed }
     end
 
+    describe file('/etc/gitlab/initial_root_password') do
+      it { is_expected.to be_file }
+      its(:content) { is_expected.to match %r{^Password: ...................} }
+    end
+
     describe command('curl -s -S http://127.0.0.1:80/users/sign_in') do
       its(:exit_status) { is_expected.to eq 0 }
-      its(:stdout) { is_expected.to match %r{.*reset_password_token=.*redirected.*} }
+      its(:stdout) { is_expected.to match %r{.*<div id="signin-container">.*} }
     end
   end
 end

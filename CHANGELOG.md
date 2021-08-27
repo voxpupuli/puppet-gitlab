@@ -4,6 +4,22 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v8.0.0](https://github.com/voxpupuli/puppet-gitlab/tree/v8.0.0) (2021-08-27)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-gitlab/compare/v7.1.0...v8.0.0)
+
+**Breaking changes:**
+
+- Drop support of Ubuntu 16.04 \(EOL\) [\#390](https://github.com/voxpupuli/puppet-gitlab/pull/390) ([smortex](https://github.com/smortex))
+
+**Implemented enhancements:**
+
+- Add support for Ubuntu 20.04 [\#391](https://github.com/voxpupuli/puppet-gitlab/pull/391) ([smortex](https://github.com/smortex))
+
+**Merged pull requests:**
+
+- Allow stdlib 8.0.0 [\#389](https://github.com/voxpupuli/puppet-gitlab/pull/389) ([smortex](https://github.com/smortex))
+
 ## [v7.1.0](https://github.com/voxpupuli/puppet-gitlab/tree/v7.1.0) (2021-06-05)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-gitlab/compare/v7.0.0...v7.1.0)

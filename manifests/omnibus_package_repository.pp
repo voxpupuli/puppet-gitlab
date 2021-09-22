@@ -54,6 +54,9 @@ class gitlab::omnibus_package_repository (
 
     # create all the repository resources
     $_repository_configuration.each() | String $resource_type, Hash $resources | {
+      if downcase($resource_type) == 'apt::source' {
+        Class['Apt::Update'] -> Class['gitlab::install']
+      }
       create_resources($resource_type, $resources, $resource_defaults)
     }
   }

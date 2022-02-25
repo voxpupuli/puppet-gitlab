@@ -532,28 +532,34 @@ gitaly['<%= k -%>'] = <%= decorate(@gitaly[k]) %>
 <%- end end -%>
 <%- if @geo_primary_role -%>
 
-#####################
-# Gitlab Geo Primary#
-#####################
-## To configure Gitlab Geo, refer below section.
-## https://gitlab.com/gitlab-org/omnibus-gitlab/blob/master/files/gitlab-config-template/gitlab.rb.template#L1459
-
+########################################
+# GitLab Geo Primary Role (deprecated) #
+########################################
+## geo_primary_role['enable'] is deprecated
+## Geo roles 'geo_primary_role' and 'geo_secondary_role' are set above with
+## other roles. For more information, see: https://docs.gitlab.com/omnibus/roles/README.html#roles
 geo_primary_role['enable'] = true
 <%- end -%>
 <%- if @geo_secondary_role -%>
+
+##########################################
+# GitLab Geo Secondary Role (deprecated) #
+##########################################
+## geo_secondary_role['enable'] is deprecated
+## Geo roles 'geo_primary_role' and 'geo_secondary_role' are set above with
+## other roles. For more information, see: https://docs.gitlab.com/omnibus/roles/README.html#roles
+geo_secondary_role['enable'] =  true
+<%- end -%>
+<%- if @geo_secondary -%>
 
 #######################
 # Gitlab Geo Secondary#
 #######################
 ## To configure Gitlab Geo, refer below section.
 ## https://gitlab.com/gitlab-org/omnibus-gitlab/blob/master/files/gitlab-config-template/gitlab.rb.template#1463-L1481
-
-geo_secondary_role['enable'] =  true
-<%- if @geo_secondary -%>
 <%- @geo_secondary.keys.sort.each do |k| -%>
 geo_secondary['<%= k -%>'] = <%= decorate(@geo_secondary[k]) %>
 <%- end end -%>
-<%- end -%>
 <%- if @geo_postgresql -%>
 
 ########################

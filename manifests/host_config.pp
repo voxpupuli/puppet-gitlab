@@ -15,6 +15,7 @@ class gitlab::host_config (
   $pgpass_file_ensure = $gitlab::pgpass_file_ensure,
   $pgpass_file_location = $gitlab::pgpass_file_location,
   $pgbouncer_password = $gitlab::pgbouncer_password,
+  $config_show_diff = $gitlab::config_show_diff,
 ) {
   file { $config_dir:
     ensure => 'directory',
@@ -87,10 +88,11 @@ class gitlab::host_config (
   } else {
     # owner,group params for pgpass_file should NOT be changed, as they are hardcoded into gitlab HA db schema for pgbouncer database template
     file { $pgpass_file_location:
-      ensure  => $pgpass_file_ensure,
-      owner   => 'gitlab-consul',
-      group   => 'gitlab-consul',
-      content => epp('gitlab/.pgpass.epp', {
+      ensure    => $pgpass_file_ensure,
+      owner     => 'gitlab-consul',
+      group     => 'gitlab-consul',
+      show_diff => $config_show_diff,
+      content   => epp('gitlab/.pgpass.epp', {
           'pgbouncer_password' => $pgbouncer_password,
       }),
     }

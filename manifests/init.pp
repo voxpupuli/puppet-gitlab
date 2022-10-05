@@ -14,6 +14,7 @@
 # @param manage_upstream_edition One of [ 'ce', 'ee', 'disabled' ]. Manage the installation of an upstream Gitlab Omnibus edition to install.
 # @param config_manage Should Puppet manage the config?
 # @param config_file Path of the Gitlab Omnibus config file.
+# @param config_show_diff Whether show the diff in the log or not.
 # @param alertmanager Hash of 'alertmanager' config parameters.
 # @param ci_redis Hash of 'ci_redis' config parameters.
 # @param ci_unicorn Hash of 'ci_unicorn' config parameters.
@@ -114,6 +115,7 @@ class gitlab (
   Optional[Hash]                      $ci_unicorn                      = undef,
   Boolean                             $config_manage                   = true,
   Stdlib::Absolutepath                $config_file                     = '/etc/gitlab/gitlab.rb',
+  Boolean                             $config_show_diff                = true,
   Optional[Hash]                      $consul                          = undef,
   Stdlib::Absolutepath                $custom_hooks_dir                = '/opt/gitlab/embedded/service/gitlab-shell/hooks',
   Stdlib::Absolutepath                $system_hooks_dir                = '/opt/gitlab/embedded/service/gitlab-rails/file_hooks',

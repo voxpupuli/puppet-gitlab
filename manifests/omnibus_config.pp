@@ -4,7 +4,8 @@
 # @param config_file Path of the Gitlab Omnibus config file.
 class gitlab::omnibus_config (
   $config_manage = $gitlab::config_manage,
-  $config_file = $gitlab::config_file
+  $config_file = $gitlab::config_file,
+  $config_show_diff = $gitlab::config_show_diff,
 ) {
   # get variables from the toplevel manifest for usage in the template
   $alertmanager = $gitlab::alertmanager
@@ -104,10 +105,11 @@ class gitlab::omnibus_config (
 
   # attributes shared by all config files used by omnibus package
   $config_file_attributes = {
-    ensure => 'present',
-    owner  => $service_user,
-    group  => $service_group,
-    mode   => '0600',
+    ensure    => 'present',
+    owner     => $service_user,
+    group     => $service_group,
+    mode      => '0600',
+    show_diff => $config_show_diff,
   }
 
   if $config_manage {

@@ -190,6 +190,17 @@ describe 'gitlab', type: :class do
               with_content(%r{^\s*repmgr\['enable'\] = true$})
           }
         end
+        describe 'config_show_diff' do
+          let(:params) do
+            { config_show_diff: false }
+          end
+
+          it {
+            is_expected.to contain_file('/etc/gitlab/gitlab.rb').with(
+              'show_diff' => false
+            )
+          }
+        end
         describe 'skip_auto_reconfigure' do
           let(:params) { { skip_auto_reconfigure: 'present' } }
 
@@ -238,6 +249,29 @@ describe 'gitlab', type: :class do
                   %r{^127.0.0.1:\*:pgbouncer:pgbouncer:PAsswd}
                 )
               }
+            end
+            context 'with config_show_diff to false' do
+              let(:params) do
+                super().merge('config_show_diff' => false)
+              end
+
+              describe 'with a password for pgbouncer_password' do
+                let(:params) do
+                  super().merge('pgbouncer_password' => 'PAsswd')
+                end
+
+                it {
+                  is_expected.to contain_file('/home/gitlab-consul/.pgpass').with(
+                    'ensure' => 'present',
+                    'path' => '/home/gitlab-consul/.pgpass',
+                    'owner' => 'gitlab-consul',
+                    'group' => 'gitlab-consul',
+                    'show_diff' => false
+                  ).with_content(
+                    %r{^127.0.0.1:\*:pgbouncer:pgbouncer:PAsswd}
+                  )
+                }
+              end
             end
           end
         end

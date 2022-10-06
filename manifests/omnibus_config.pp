@@ -2,6 +2,7 @@
 #
 # @param config_manage Should Puppet manage the config?
 # @param config_file Path of the Gitlab Omnibus config file.
+# @param config_show_diff Whether to display diff in the puppet log or not
 class gitlab::omnibus_config (
   $config_manage = $gitlab::config_manage,
   $config_file = $gitlab::config_file,

@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v8.1.0](https://github.com/voxpupuli/puppet-gitlab/tree/v8.1.0) (2022-12-13)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-gitlab/compare/v8.0.0...v8.1.0)
+
+**Implemented enhancements:**
+
+- Allow up-to-date dependencies [\#402](https://github.com/voxpupuli/puppet-gitlab/pull/402) ([smortex](https://github.com/smortex))
+
+**Fixed bugs:**
+
+- Ensure apt::update is run before installing Gitlab [\#388](https://github.com/voxpupuli/puppet-gitlab/pull/388) ([baurmatt](https://github.com/baurmatt))
+
 ## [v8.0.0](https://github.com/voxpupuli/puppet-gitlab/tree/v8.0.0) (2021-08-27)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-gitlab/compare/v7.1.0...v8.0.0)
@@ -637,7 +649,7 @@ These should not affect the functionality of the module.
 
 **Merged pull requests:**
 
-- Add 'manage\_package' parameter [\#40](https://github.com/voxpupuli/puppet-gitlab/pull/40) ([iamjamestl](https://github.com/iamjamestl))
+- Add 'manage\_package' parameter [\#40](https://github.com/voxpupuli/puppet-gitlab/pull/40) ([jameslikeslinux](https://github.com/jameslikeslinux))
 - Gitlab CI Runner [\#39](https://github.com/voxpupuli/puppet-gitlab/pull/39) ([maetthu-indermuehle](https://github.com/maetthu-indermuehle))
 
 ## [v1.6.0](https://github.com/voxpupuli/puppet-gitlab/tree/v1.6.0) (2015-11-06)

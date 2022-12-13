@@ -23,11 +23,11 @@ class gitlab::omnibus_package_repository (
     } else {
       # if we manage the repositories, adjust the ensure => present/absent
       # attributes according to the desired edition.
-      $_repository_configuration = $repository_configuration.reduce( {}) | $_memo, $_pair1 | {
+      $_repository_configuration = $repository_configuration.reduce ({}) | $_memo, $_pair1 | {
         # yumrepo =>  ...
         [$_rsc_type, $_repo_hash] = $_pair1
 
-        $_mapped_repo_hash = $_repo_hash.reduce( {}) | $_memo, $_pair2 | {
+        $_mapped_repo_hash = $_repo_hash.reduce ({}) | $_memo, $_pair2 | {
           # gitlab_official_ce => ...
           [$_repo_name, $_repo_attrs,] = $_pair2
 

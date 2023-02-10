@@ -115,7 +115,7 @@ class gitlab (
   Optional[Hash]                      $ci_unicorn                      = undef,
   Boolean                             $config_manage                   = true,
   Stdlib::Absolutepath                $config_file                     = '/etc/gitlab/gitlab.rb',
-  Boolean                             $config_show_diff                = true,
+  Boolean                             $config_show_diff                = false,
   Optional[Hash]                      $consul                          = undef,
   Stdlib::Absolutepath                $custom_hooks_dir                = '/opt/gitlab/embedded/service/gitlab-shell/hooks',
   Stdlib::Absolutepath                $system_hooks_dir                = '/opt/gitlab/embedded/service/gitlab-rails/file_hooks',

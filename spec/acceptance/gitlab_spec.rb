@@ -5,7 +5,7 @@ describe 'gitlab class' do
     it 'idempotently with no errors' do
       pp = <<-EOS
       class { 'gitlab':
-        external_url => "http://${::fqdn}",
+        external_url => "http://${facts['networking']['fqdn']}",
       }
       EOS
 

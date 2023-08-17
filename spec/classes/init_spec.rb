@@ -273,7 +273,7 @@ describe 'gitlab', type: :class do
           end
           let(:expected_content) do
             {
-              gitlab_rb__ldap_servers: %(gitlab_rails['ldap_servers'] = {\"main\"=>{\"active_directory\"=>true, \"allow_username_or_email_login\"=>false, \"base\"=>\"\", \"bind_dn\"=>\"_the_full_dn_of_the_user_you_will_bind_with\", \"block_auto_created_users\"=>false, \"host\"=>\"_your_ldap_server\", \"label\"=>\"LDAP\", \"method\"=>\"plain\", \"password\"=>\"_the_password_of_the_bind_user\", \"port\"=>389, \"uid\"=>\"sAMAccountName\", \"user_filter\"=>\"\"}}\n)
+              gitlab_rb__ldap_servers: %(gitlab_rails['ldap_servers'] = {"main"=>{"active_directory"=>true, "allow_username_or_email_login"=>false, "base"=>"", "bind_dn"=>"_the_full_dn_of_the_user_you_will_bind_with", "block_auto_created_users"=>false, "host"=>"_your_ldap_server", "label"=>"LDAP", "method"=>"plain", "password"=>"_the_password_of_the_bind_user", "port"=>389, "uid"=>"sAMAccountName", "user_filter"=>""}}\n)
             }
           end
 
@@ -357,7 +357,7 @@ describe 'gitlab', type: :class do
 
           let(:expected_content) do
             {
-              roles: %(roles [\"redis_sentinel_role\", \"redis_master_role\"])
+              roles: %(roles ["redis_sentinel_role", "redis_master_role"])
             }
           end
 
@@ -378,7 +378,7 @@ describe 'gitlab', type: :class do
           end
           let(:expected_content) do
             {
-              datadirs: %(git_data_dirs({\"default\"=>{\"path\"=>\"/git-data/data\"}})\n)
+              datadirs: %(git_data_dirs({"default"=>{"path"=>"/git-data/data"}})\n)
             }
           end
 

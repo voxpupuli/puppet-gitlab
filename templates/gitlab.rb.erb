@@ -129,6 +129,15 @@ sidekiq_cluster['<%= k -%>'] = <%= decorate(@sidekiq_cluster[k]) %>
 <%- @shell.keys.sort.each do |k| -%>
 gitlab_shell['<%= k -%>'] = <%= decorate(@shell[k]) %>
 <%- end end -%>
+<%- if @gitlab_sshd -%>
+
+###############
+# gitlab-sshd #
+###############
+
+<%- @gitlab_sshd.keys.sort.each do |k| -%>
+gitlab_sshd['<%= k -%>'] = <%= decorate(@gitlab_sshd[k]) %>
+<%- end end -%>
 <%- if @postgresql -%>
 
 #####################

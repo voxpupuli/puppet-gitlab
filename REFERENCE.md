@@ -67,6 +67,7 @@ The following parameters are available in the `gitlab` class:
 * [`gitlab_kas`](#-gitlab--gitlab_kas)
 * [`gitlab_pages`](#-gitlab--gitlab_pages)
 * [`gitlab_rails`](#-gitlab--gitlab_rails)
+* [`gitlab_sshd`](#-gitlab--gitlab_sshd)
 * [`gitlab_workhorse`](#-gitlab--gitlab_workhorse)
 * [`grafana`](#-gitlab--grafana)
 * [`logging`](#-gitlab--logging)
@@ -388,6 +389,14 @@ Default value: `undef`
 Data type: `Optional[Hash]`
 
 Hash of 'gitlab_pages' config parameters.
+
+Default value: `undef`
+
+##### <a name="-gitlab--gitlab_sshd"></a>`gitlab_sshd`
+
+Data type: `Optional[Hash]`
+
+Hash of 'gitlab_sshd' config parameters.
 
 Default value: `undef`
 

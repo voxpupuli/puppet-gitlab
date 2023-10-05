@@ -26,6 +26,7 @@ class gitlab::omnibus_config (
   $gitlab_kas = $gitlab::gitlab_kas
   $gitlab_pages = $gitlab::gitlab_pages
   $gitlab_rails = $gitlab::gitlab_rails
+  $gitlab_sshd = $gitlab::gitlab_sshd
   $grafana = $gitlab::grafana
   $high_availability = $gitlab::high_availability
   $letsencrypt = $gitlab::letsencrypt

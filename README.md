@@ -434,12 +434,14 @@ initial connections for ssh operations. GitLab has created a feature that allows
 authorized ssh keys to be stored in the db (instead of the `authorized_keys`
 file for the `git` user)
 
-You can enable this feature in GitLab using the `store_git_keys_in_db` parameter.
+You can enable this feature in GitLab using the `store_git_keys_in_db` parameter,
+or by enabling `gitlab-sshd` as it is configured to use fast lookup automatically.
 
-Please note, managing the sshd service and openssh is outside the scope of this
-module. You will need to configure the AuthorizedKeysCommand for the `git` user
-in sshd.server yourself. Instructions for this are provided by GitLab at [Fast
-lookup of authorized SSH keys in the databasse][15]
+Please note, while you can manage [gitlab-sshd][23] (Gitlab's standalone SSH server)
+with this module, you can not manage openssh and the sshd service as it is outside
+the scope of the module. You will need to configure the AuthorizedKeysCommand
+for the `git` user in sshd.server yourself. Instructions for this are provided by
+GitLab at [Fast lookup of authorized SSH keys in the databasse][15]
 
 ### Setting up GitLab HA
 
@@ -520,3 +522,4 @@ broader community is able to maintain the module.‚
 [20]: https://vshn.ch
 [21]: https://docs.gitlab.com/ee/system_hooks/system_hooks.html
 [22]: https://docs.gitlab.com/ee/administration/file_hooks.html
+[23]: https://docs.gitlab.com/ee/administration/operations/gitlab_sshd.html

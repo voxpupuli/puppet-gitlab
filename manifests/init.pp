@@ -32,6 +32,7 @@
 # @param gitlab_kas Hash of 'gitlab_kas' config parameters.
 # @param gitlab_pages Hash of 'gitlab_pages' config parameters.
 # @param gitlab_rails Hash of 'gitlab_pages' config parameters.
+# @param gitlab_sshd Hash of 'gitlab_sshd' config parameters.
 # @param gitlab_workhorse Hash of 'gitlab_workhorse' config parameters.
 # @param grafana Hash of 'grafana' config parameters.
 # @param logging Hash of 'logging' config parameters.
@@ -132,6 +133,7 @@ class gitlab (
   Optional[Hash]                      $gitlab_kas                      = undef,
   Optional[Hash]                      $gitlab_pages                    = undef,
   Optional[Hash]                      $gitlab_rails                    = undef,
+  Optional[Hash]                      $gitlab_sshd                     = undef,
   Optional[Hash]                      $grafana                         = undef,
   Optional[Hash]                      $high_availability               = undef,
   Optional[Hash]                      $logging                         = undef,

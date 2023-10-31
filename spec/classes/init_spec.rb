@@ -461,6 +461,18 @@ describe 'gitlab', type: :class do
               with_content(%r{^\s*geo_logcursor\['enable'\] = true$})
           }
         end
+        describe 'gitlab_sshd' do
+          let(:params) do
+            { gitlab_sshd: {
+              'enable' => true
+            } }
+          end
+
+          it {
+            is_expected.to contain_file('/etc/gitlab/gitlab.rb'). \
+              with_content(%r{^\s*gitlab_sshd\['enable'\] = true$})
+          }
+        end
       end
     end
   end

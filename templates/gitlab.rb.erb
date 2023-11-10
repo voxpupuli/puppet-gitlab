@@ -147,6 +147,16 @@ gitlab_sshd['<%= k -%>'] = <%= decorate(@gitlab_sshd[k]) %>
 <%- @postgresql.keys.sort.each do |k| -%>
 postgresql['<%= k -%>'] = <%= decorate(@postgresql[k]) %>
 <%- end end -%>
+<%- if @praefect -%>
+
+################################################################################
+# Praefect
+################################################################################
+# See [Gitlab Praefect documentation](https://docs.gitlab.com/ee/administration/gitaly/praefect.html)
+
+<%- @praefect.keys.sort.each do |k| -%>
+praefect['<%= k -%>'] = <%= decorate(@praefect[k]) %>
+<%- end end -%>
 <%- if @redis -%>
 
 ################

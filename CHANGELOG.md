@@ -112,7 +112,7 @@ These should not affect the functionality of the module.
 
 **Closed issues:**
 
-- Hiera not parsing gitlab.rb and ::gitlab\_rails: [\#343](https://github.com/voxpupuli/puppet-gitlab/issues/343)
+- Hiera not parsing gitlab.rb and gitlab\_rails: [\#343](https://github.com/voxpupuli/puppet-gitlab/issues/343)
 - Convert dokumentation to puppet-strings [\#339](https://github.com/voxpupuli/puppet-gitlab/issues/339)
 - Support puma [\#337](https://github.com/voxpupuli/puppet-gitlab/issues/337)
 - New GitLab GPG Keys [\#333](https://github.com/voxpupuli/puppet-gitlab/issues/333)

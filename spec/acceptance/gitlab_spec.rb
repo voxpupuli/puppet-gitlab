@@ -31,7 +31,7 @@ describe 'gitlab class' do
 
     describe command('curl -s -S http://127.0.0.1:80/users/sign_in') do
       its(:exit_status) { is_expected.to eq 0 }
-      its(:stdout) { is_expected.to match %r{.*<div id="signin-container">.*} }
+      its(:stdout) { is_expected.to match %r{<div class="js-non-oauth-login">} }
     end
   end
 end

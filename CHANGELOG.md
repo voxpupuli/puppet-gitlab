@@ -4,6 +4,30 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v9.0.0](https://github.com/voxpupuli/puppet-gitlab/tree/v9.0.0) (2024-01-24)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-gitlab/compare/v8.1.0...v9.0.0)
+
+**Breaking changes:**
+
+- Remove Debian 9 \(EOL\) [\#408](https://github.com/voxpupuli/puppet-gitlab/pull/408) ([smortex](https://github.com/smortex))
+- Drop Puppet 6 support [\#407](https://github.com/voxpupuli/puppet-gitlab/pull/407) ([bastelfreak](https://github.com/bastelfreak))
+
+**Implemented enhancements:**
+
+- Adding support for the gitlab\_sshd configuration hash [\#421](https://github.com/voxpupuli/puppet-gitlab/pull/421) ([lodzo](https://github.com/lodzo))
+- Add Puppet 8 support [\#416](https://github.com/voxpupuli/puppet-gitlab/pull/416) ([bastelfreak](https://github.com/bastelfreak))
+- puppetlabs/stdlib: Allow 9.x [\#415](https://github.com/voxpupuli/puppet-gitlab/pull/415) ([bastelfreak](https://github.com/bastelfreak))
+- Add Debian 11 \(stable\) [\#412](https://github.com/voxpupuli/puppet-gitlab/pull/412) ([smortex](https://github.com/smortex))
+
+**Closed issues:**
+
+- gitlab\_sshd support in the omnibus config [\#417](https://github.com/voxpupuli/puppet-gitlab/issues/417)
+
+**Merged pull requests:**
+
+- Use hiera\_config in .sync.yml [\#349](https://github.com/voxpupuli/puppet-gitlab/pull/349) ([ekohl](https://github.com/ekohl))
+
 ## [v8.1.0](https://github.com/voxpupuli/puppet-gitlab/tree/v8.1.0) (2022-12-13)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-gitlab/compare/v8.0.0...v8.1.0)
@@ -112,7 +136,6 @@ These should not affect the functionality of the module.
 
 **Closed issues:**
 
-- Hiera not parsing gitlab.rb and ::gitlab\_rails: [\#343](https://github.com/voxpupuli/puppet-gitlab/issues/343)
 - Convert dokumentation to puppet-strings [\#339](https://github.com/voxpupuli/puppet-gitlab/issues/339)
 - Support puma [\#337](https://github.com/voxpupuli/puppet-gitlab/issues/337)
 - New GitLab GPG Keys [\#333](https://github.com/voxpupuli/puppet-gitlab/issues/333)

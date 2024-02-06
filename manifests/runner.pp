@@ -52,6 +52,7 @@ define gitlab::runner (
   exec {"Register_runner_${title}":
     command => "/usr/bin/${binary} register -n ${parameters_string}",
     unless  => "/bin/grep ${runner_name} ${toml_file}",
+    require => Package['gitlab-runner'],
   }
 
 }

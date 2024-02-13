@@ -1,4 +1,8 @@
-# @summary Manage custom hook files within a GitLab project. Custom hooks can be created as a pre-receive, post-receive, or update hook. It's possible to create different custom hook types for the same project - one each for pre-receive, post-receive and update.
+# @summary
+#     Manage custom hook files within a GitLab project.
+#
+# Custom hooks can be created as a pre-receive, post-receive, or update hook.
+# It is possible to create different custom hook types for the same project - one each for pre-receive, post-receive and update.
 #
 # @example Custom hook usage
 #   gitlab::custom_hook { 'my_custom_hook':
@@ -19,10 +23,13 @@
 # @param project The GitLab project name, or the hashed directory name or project ID number
 # @param namespace The GitLab group namespace for the project.
 # @param type The custom hook type. Should be one of pre-receive, post-receive, or update.
-# @param content Specify the custom hook contents either as a string or using the template function. If this paramter is specified source parameter must not be present.
-# @param source Specify a file source path to populate the custom hook contents. If this paramter is specified content parameter must not be present.
+# @param content Specify the custom hook contents either as a string or using the template function. If this paramter is specified source
+#        parameter must not be present.
+# @param source Specify a file source path to populate the custom hook contents. If this paramter is specified content parameter must not
+#        be present.
 # @param repos_path The GitLab shell repos path. This defaults to '/var/opt/gitlab/git-data/repositories' if not present.
 # @param hashed_storage Whether to treat the project name as a hashed storage directory name or ID number
+#
 define gitlab::custom_hook (
   Variant[String,Integer]                       $project,
   Enum['update', 'post-receive', 'pre-receive'] $type,
@@ -30,7 +37,7 @@ define gitlab::custom_hook (
   Optional[String]                              $content = undef,
   Optional[String]                              $source = undef,
   Optional[Stdlib::Absolutepath]                $repos_path = undef,
-  Optional[Boolean]                             $hashed_storage = false,
+  Boolean                                       $hashed_storage = false,
 ) {
   if $repos_path {
     $_repos_path = $repos_path

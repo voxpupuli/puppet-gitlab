@@ -1,32 +1,27 @@
-# @summary
-#     Manage custom hook files within a GitLab project.
-#
-# Custom hooks can be created as a pre-receive, post-receive, or update hook.
-# It is possible to create different custom hook types for the same project - one each for pre-receive, post-receive and update.
+# @summary Manage custom hook files within a GitLab project. Custom hooks can be created as a pre-receive, post-receive, or update hook. Only one of each is currently supported by this module.
 #
 # @example Custom hook usage
 #   gitlab::custom_hook { 'my_custom_hook':
-#     namespace       => 'my_group',
-#     project         => 'my_project',
-#     type            => 'post-receive',
-#     source          => 'puppet:///modules/my_module/post-receive',
+#     namespace      => 'my_group',
+#     project        => 'my_project',
+#     type           => 'post-receive',
+#     source         => 'puppet:///modules/my_module/post-receive',
 #   }
 #
 # @example Calculate hashed storage path
 #   gitlab::custom_hook { 'my_custom_hook':
-#     project         => 93,
-#     type            => 'post-receive',
-#     source          => 'puppet:///modules/my_module/post-receive',
+#     project        => 93,
+#     hashed_storage => true,
+#     type           => 'post-receive',
+#     source         => 'puppet:///modules/my_module/post-receive',
 #   }
 #   # Hook path will be `@hashed/6e/40/6e4001871c0cf27c7634ef1dc478408f642410fd3a444e2a88e301f5c4a35a4d`
 #
 # @param project The GitLab project name, or the hashed directory name or project ID number
 # @param namespace The GitLab group namespace for the project.
 # @param type The custom hook type. Should be one of pre-receive, post-receive, or update.
-# @param content Specify the custom hook contents either as a string or using the template function. If this paramter is specified source
-#        parameter must not be present.
-# @param source Specify a file source path to populate the custom hook contents. If this paramter is specified content parameter must not
-#        be present.
+# @param content Specify the custom hook contents either as a string or using the template function. If this paramter is specified source parameter must not be present.
+# @param source Specify a file source path to populate the custom hook contents. If this paramter is specified content parameter must not be present.
 # @param repos_path The GitLab shell repos path. This defaults to '/var/opt/gitlab/git-data/repositories' if not present.
 # @param hashed_storage Whether to treat the project name as a hashed storage directory name or ID number
 #

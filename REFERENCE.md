@@ -16,8 +16,8 @@
 
 ### Defined types
 
-* [`gitlab::custom_hook`](#gitlab--custom_hook): Manage custom hook files within a GitLab project.
-* [`gitlab::global_hook`](#gitlab--global_hook): Manage global chain loaded hook files for all GitLab projects.
+* [`gitlab::custom_hook`](#gitlab--custom_hook): Manage custom hook files within a GitLab project. Custom hooks can be created as a pre-receive, post-receive, or update hook. Only one of each is currently supported by this module.
+* [`gitlab::global_hook`](#gitlab--global_hook): Manage global chain loaded hook files for all GitLab projects. Hooks can be created as a pre-receive, post-receive, or update hook. It's possible to create  multipe hooks per type as long as their names are unique. Support for chained (global) hooks is introduced in GitLab Shell 4.1.0 and GitLab 8.15.
 * [`gitlab::system_hook`](#gitlab--system_hook): A file hook will run on each event so it's up to you to filter events or projects
 
 ### Tasks
@@ -1185,8 +1185,7 @@ Default value: `$gitlab::skip_post_deployment_migrations`
 
 ### <a name="gitlab--custom_hook"></a>`gitlab::custom_hook`
 
-Custom hooks can be created as a pre-receive, post-receive, or update hook.
-It is possible to create different custom hook types for the same project - one each for pre-receive, post-receive and update.
+Manage custom hook files within a GitLab project. Custom hooks can be created as a pre-receive, post-receive, or update hook. Only one of each is currently supported by this module.
 
 #### Examples
 
@@ -1194,10 +1193,10 @@ It is possible to create different custom hook types for the same project - one 
 
 ```puppet
 gitlab::custom_hook { 'my_custom_hook':
-  namespace       => 'my_group',
-  project         => 'my_project',
-  type            => 'post-receive',
-  source          => 'puppet:///modules/my_module/post-receive',
+  namespace      => 'my_group',
+  project        => 'my_project',
+  type           => 'post-receive',
+  source         => 'puppet:///modules/my_module/post-receive',
 }
 ```
 
@@ -1205,9 +1204,10 @@ gitlab::custom_hook { 'my_custom_hook':
 
 ```puppet
 gitlab::custom_hook { 'my_custom_hook':
-  project         => 93,
-  type            => 'post-receive',
-  source          => 'puppet:///modules/my_module/post-receive',
+  project        => 93,
+  hashed_storage => true,
+  type           => 'post-receive',
+  source         => 'puppet:///modules/my_module/post-receive',
 }
 # Hook path will be `@hashed/6e/40/6e4001871c0cf27c7634ef1dc478408f642410fd3a444e2a88e301f5c4a35a4d`
 ```
@@ -1248,8 +1248,7 @@ The custom hook type. Should be one of pre-receive, post-receive, or update.
 
 Data type: `Optional[String]`
 
-Specify the custom hook contents either as a string or using the template function. If this paramter is specified source
-parameter must not be present.
+Specify the custom hook contents either as a string or using the template function. If this paramter is specified source parameter must not be present.
 
 Default value: `undef`
 
@@ -1257,8 +1256,7 @@ Default value: `undef`
 
 Data type: `Optional[String]`
 
-Specify a file source path to populate the custom hook contents. If this paramter is specified content parameter must not
-be present.
+Specify a file source path to populate the custom hook contents. If this paramter is specified content parameter must not be present.
 
 Default value: `undef`
 
@@ -1280,9 +1278,7 @@ Default value: `false`
 
 ### <a name="gitlab--global_hook"></a>`gitlab::global_hook`
 
-Hooks can be created as a pre-receive, post-receive, or update hook.
-It's possible to create  multipe hooks per type as long as their names are unique.
-Support for chained (global) hooks is introduced in GitLab Shell 4.1.0 and GitLab 8.15.
+Manage global chain loaded hook files for all GitLab projects. Hooks can be created as a pre-receive, post-receive, or update hook. It's possible to create  multipe hooks per type as long as their names are unique. Support for chained (global) hooks is introduced in GitLab Shell 4.1.0 and GitLab 8.15.
 
 #### Examples
 
@@ -1322,8 +1318,7 @@ Default value: `$gitlab::custom_hooks_dir`
 
 Data type: `Optional[String[1]]`
 
-Specify the custom hook contents either as a string or using the template function. If this paramter is specified source
-parameter must not be present.
+Specify the custom hook contents either as a string or using the template function. If this paramter is specified source parameter must not be present.
 
 Default value: `undef`
 
@@ -1331,8 +1326,7 @@ Default value: `undef`
 
 Data type: `Optional[Pattern[/^puppet:/]]`
 
-Specify a file source path to populate the custom hook contents. If this paramter is specified content parameter must not
-be present.
+Specify a file source path to populate the custom hook contents. If this paramter is specified content parameter must not be present.
 
 Default value: `undef`
 

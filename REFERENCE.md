@@ -16,7 +16,7 @@
 
 ### Defined types
 
-* [`gitlab::custom_hook`](#gitlab--custom_hook): Manage custom hook files within a GitLab project. Custom hooks can be created as a pre-receive, post-receive, or update hook. It's possible to create different custom hook types for the same project - one each for pre-receive, post-receive and update.
+* [`gitlab::custom_hook`](#gitlab--custom_hook): Manage custom hook files within a GitLab project. Custom hooks can be created as a pre-receive, post-receive, or update hook. Only one of each is currently supported by this module.
 * [`gitlab::global_hook`](#gitlab--global_hook): Manage global chain loaded hook files for all GitLab projects. Hooks can be created as a pre-receive, post-receive, or update hook. It's possible to create  multipe hooks per type as long as their names are unique. Support for chained (global) hooks is introduced in GitLab Shell 4.1.0 and GitLab 8.15.
 * [`gitlab::system_hook`](#gitlab--system_hook): A file hook will run on each event so it's up to you to filter events or projects
 
@@ -1185,7 +1185,7 @@ Default value: `$gitlab::skip_post_deployment_migrations`
 
 ### <a name="gitlab--custom_hook"></a>`gitlab::custom_hook`
 
-Manage custom hook files within a GitLab project. Custom hooks can be created as a pre-receive, post-receive, or update hook. It's possible to create different custom hook types for the same project - one each for pre-receive, post-receive and update.
+Manage custom hook files within a GitLab project. Custom hooks can be created as a pre-receive, post-receive, or update hook. Only one of each is currently supported by this module.
 
 #### Examples
 
@@ -1193,35 +1193,50 @@ Manage custom hook files within a GitLab project. Custom hooks can be created as
 
 ```puppet
 gitlab::custom_hook { 'my_custom_hook':
-  namespace       => 'my_group',
-  project         => 'my_project',
-  type            => 'post-receive',
-  source          => 'puppet:///modules/my_module/post-receive',
+  namespace      => 'my_group',
+  project        => 'my_project',
+  type           => 'post-receive',
+  source         => 'puppet:///modules/my_module/post-receive',
 }
+```
+
+##### Calculate hashed storage path
+
+```puppet
+gitlab::custom_hook { 'my_custom_hook':
+  project        => 93,
+  hashed_storage => true,
+  type           => 'post-receive',
+  source         => 'puppet:///modules/my_module/post-receive',
+}
+# Hook path will be `@hashed/6e/40/6e4001871c0cf27c7634ef1dc478408f642410fd3a444e2a88e301f5c4a35a4d`
 ```
 
 #### Parameters
 
 The following parameters are available in the `gitlab::custom_hook` defined type:
 
-* [`namespace`](#-gitlab--custom_hook--namespace)
 * [`project`](#-gitlab--custom_hook--project)
+* [`namespace`](#-gitlab--custom_hook--namespace)
 * [`type`](#-gitlab--custom_hook--type)
 * [`content`](#-gitlab--custom_hook--content)
 * [`source`](#-gitlab--custom_hook--source)
 * [`repos_path`](#-gitlab--custom_hook--repos_path)
-
-##### <a name="-gitlab--custom_hook--namespace"></a>`namespace`
-
-Data type: `String`
-
-The GitLab group namespace for the project.
+* [`hashed_storage`](#-gitlab--custom_hook--hashed_storage)
 
 ##### <a name="-gitlab--custom_hook--project"></a>`project`
 
-Data type: `String`
+Data type: `Variant[String,Integer]`
 
-The GitLab project name.
+The GitLab project name, or the hashed directory name or project ID number
+
+##### <a name="-gitlab--custom_hook--namespace"></a>`namespace`
+
+Data type: `Optional[String]`
+
+The GitLab group namespace for the project.
+
+Default value: `undef`
 
 ##### <a name="-gitlab--custom_hook--type"></a>`type`
 
@@ -1252,6 +1267,14 @@ Data type: `Optional[Stdlib::Absolutepath]`
 The GitLab shell repos path. This defaults to '/var/opt/gitlab/git-data/repositories' if not present.
 
 Default value: `undef`
+
+##### <a name="-gitlab--custom_hook--hashed_storage"></a>`hashed_storage`
+
+Data type: `Boolean`
+
+Whether to treat the project name as a hashed storage directory name or ID number
+
+Default value: `false`
 
 ### <a name="gitlab--global_hook"></a>`gitlab::global_hook`
 

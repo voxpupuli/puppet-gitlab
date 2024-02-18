@@ -1,6 +1,7 @@
 # GitLab module for Puppet
 
-[![Build Status](https://travis-ci.org/voxpupuli/puppet-gitlab.png?branch=master)](https://travis-ci.org/voxpupuli/puppet-gitlab)
+[![Build Status](https://github.com/voxpupuli/puppet-gitlab/actions/workflows/ci.yml/badge.svg)](https://github.com/voxpupuli/puppet-gitlab/actions/workflows/ci.yml)
+[![Release](https://github.com/voxpupuli/puppet-gitlab/actions/workflows/release.yml/badge.svg)](https://github.com/voxpupuli/puppet-gitlab/actions/workflows/release.yml)
 [![Puppet Forge](https://img.shields.io/puppetforge/v/puppet/gitlab.svg)](https://forge.puppetlabs.com/puppet/gitlab)
 [![Puppet Forge - downloads](https://img.shields.io/puppetforge/dt/puppet/gitlab.svg)](https://forge.puppetlabs.com/puppet/gitlab)
 [![Puppet Forge - endorsement](https://img.shields.io/puppetforge/e/puppet/gitlab.svg)](https://forge.puppetlabs.com/puppet/gitlab)

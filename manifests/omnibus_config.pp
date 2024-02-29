@@ -50,6 +50,7 @@ class gitlab::omnibus_config (
   $pages_nginx = $gitlab::pages_nginx
   $pages_nginx_eq_nginx = $gitlab::pages_nginx_eq_nginx
   $pgbouncer = $gitlab::pgbouncer
+  $praefect = $gitlab::praefect
   $postgresql = $gitlab::postgresql
   $prometheus = $gitlab::prometheus
   $prometheus_monitoring_enable = $gitlab::prometheus_monitoring_enable

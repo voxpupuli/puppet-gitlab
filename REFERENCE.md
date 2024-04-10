@@ -90,6 +90,7 @@ The following parameters are available in the `gitlab` class:
 * [`pages_external_url`](#-gitlab--pages_external_url)
 * [`pages_nginx`](#-gitlab--pages_nginx)
 * [`pages_nginx_eq_nginx`](#-gitlab--pages_nginx_eq_nginx)
+* [`praefect`](#-gitlab--praefect)
 * [`postgresql`](#-gitlab--postgresql)
 * [`prometheus`](#-gitlab--prometheus)
 * [`prometheus_monitoring_enable`](#-gitlab--prometheus_monitoring_enable)
@@ -575,6 +576,14 @@ Data type: `Boolean`
 Replicate the Pages Nginx config from the Gitlab Nginx config.
 
 Default value: `false`
+
+##### <a name="-gitlab--praefect"></a>`praefect`
+
+Data type: `Optional[Hash]`
+
+Hash of 'praefect' config parameters.
+
+Default value: `undef`
 
 ##### <a name="-gitlab--postgresql"></a>`postgresql`
 

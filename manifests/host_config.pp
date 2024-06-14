@@ -7,6 +7,7 @@
 # @param pgpass_file_ensure Create .pgpass file for pgbouncer authentication. When set to present requires valid value for pgbouncer_password.
 # @param pgpass_file_location Path to location of .pgpass file used by consul to authenticate with pgbouncer database
 # @param pgbouncer_password Password for the gitlab-consul database user in the pgbouncer database
+# @param config_show_diff Whether to display diff in the puppet log or not
 class gitlab::host_config (
   $config_dir = '/etc/gitlab',
   $skip_auto_migrations = $gitlab::skip_auto_migrations,
@@ -15,6 +16,7 @@ class gitlab::host_config (
   $pgpass_file_ensure = $gitlab::pgpass_file_ensure,
   $pgpass_file_location = $gitlab::pgpass_file_location,
   $pgbouncer_password = $gitlab::pgbouncer_password,
+  $config_show_diff = $gitlab::config_show_diff,
 ) {
   file { $config_dir:
     ensure => 'directory',
@@ -87,10 +89,11 @@ class gitlab::host_config (
   } else {
     # owner,group params for pgpass_file should NOT be changed, as they are hardcoded into gitlab HA db schema for pgbouncer database template
     file { $pgpass_file_location:
-      ensure  => $pgpass_file_ensure,
-      owner   => 'gitlab-consul',
-      group   => 'gitlab-consul',
-      content => epp('gitlab/.pgpass.epp', {
+      ensure    => $pgpass_file_ensure,
+      owner     => 'gitlab-consul',
+      group     => 'gitlab-consul',
+      show_diff => $config_show_diff,
+      content   => epp('gitlab/.pgpass.epp', {
           'pgbouncer_password' => $pgbouncer_password,
       }),
     }

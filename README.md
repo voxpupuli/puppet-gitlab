@@ -222,7 +222,7 @@ Each unique resource provided to the `repository_configuration` setup:
 
 You can use these tags to further customize ordering within your own catalogs.
 
-#### Selecting Version, edition, and package name
+#### Selecting Version, edition, package name and holding
 
 The `package_ensure` parameter is used to control which version of the package
 installed. It expects either a version string, or one of the `ensure` values for
@@ -241,6 +241,13 @@ This approach of package management has the following advantages:
   (won't require you to install new puppet-gitlab module if you're not ready)
 * allows you to install custom built packages for gitlab-omnibus that have
   different package name on your host
+
+The `package_hold` parameter allows you to hold the package version in the APT
+package manager. This is useful when you intend to update the host with
+'apt upgrade' (or the bolt task `apt action=upgrade` from puppetlabs-apt) and
+keep your gitlab instance at the intended version. This prevents unintended
+upgrading gitlab and perhaps skipping important upgrade path steps.
+To learn more about gitlab upgrading please visit the [upgrade path page.](https://gitlab-com.gitlab.io/support/toolbox/upgrade-path/)
 
 #### Custom Repository & Package configuration example
 

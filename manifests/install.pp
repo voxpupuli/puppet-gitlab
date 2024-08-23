@@ -2,6 +2,7 @@
 class gitlab::install (
   $package_name   = $gitlab::package_name,
   $package_ensure = $gitlab::package_ensure,
+  $package_hold   = $gitlab::package_hold,
   $manage_package = $gitlab::manage_package,
 ) {
   assert_private()
@@ -26,6 +27,7 @@ class gitlab::install (
     package { 'gitlab-omnibus':
       ensure  => $package_ensure,
       name    => $_package_name,
+      mark    => $package_hold,
       require => Class['gitlab::omnibus_package_repository'],
     }
   }

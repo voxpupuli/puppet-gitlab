@@ -1,3 +1,0 @@
----
-
-gitlab::service_enable: false

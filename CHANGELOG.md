@@ -4,7 +4,32 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
-## [v9.0.0](https://github.com/voxpupuli/puppet-gitlab/tree/v9.0.0) (2024-01-24)
+## [v10.0.0](https://github.com/voxpupuli/puppet-gitlab/tree/v10.0.0) (2024-09-20)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-gitlab/compare/v9.0.0...v10.0.0)
+
+**Breaking changes:**
+
+- Drop EoL CentOS 8 [\#448](https://github.com/voxpupuli/puppet-gitlab/pull/448) ([bastelfreak](https://github.com/bastelfreak))
+- Drop EoL Debian 10 & 11 [\#447](https://github.com/voxpupuli/puppet-gitlab/pull/447) ([bastelfreak](https://github.com/bastelfreak))
+- Drop EoL Ubuntu 18.04 [\#444](https://github.com/voxpupuli/puppet-gitlab/pull/444) ([bastelfreak](https://github.com/bastelfreak))
+- Drop EoL EL7 support [\#442](https://github.com/voxpupuli/puppet-gitlab/pull/442) ([bastelfreak](https://github.com/bastelfreak))
+
+**Implemented enhancements:**
+
+- Add AlmaLinux 8 & 9 support [\#446](https://github.com/voxpupuli/puppet-gitlab/pull/446) ([bastelfreak](https://github.com/bastelfreak))
+- Add CentOS 9 support [\#445](https://github.com/voxpupuli/puppet-gitlab/pull/445) ([bastelfreak](https://github.com/bastelfreak))
+- Add Ubuntu 24.04 support [\#443](https://github.com/voxpupuli/puppet-gitlab/pull/443) ([bastelfreak](https://github.com/bastelfreak))
+- Add EL9, Debian 12, Ubuntu 22.04 support [\#430](https://github.com/voxpupuli/puppet-gitlab/pull/430) ([yakatz](https://github.com/yakatz))
+- Improve support for hooks in `@hashed` storage [\#429](https://github.com/voxpupuli/puppet-gitlab/pull/429) ([yakatz](https://github.com/yakatz))
+
+**Merged pull requests:**
+
+- Update to support Praefect [\#433](https://github.com/voxpupuli/puppet-gitlab/pull/433) ([talseth](https://github.com/talseth))
+- fix apt-key deprecation [\#432](https://github.com/voxpupuli/puppet-gitlab/pull/432) ([0xbilko](https://github.com/0xbilko))
+- Updated CI badges [\#431](https://github.com/voxpupuli/puppet-gitlab/pull/431) ([yakatz](https://github.com/yakatz))
+
+## [v9.0.0](https://github.com/voxpupuli/puppet-gitlab/tree/v9.0.0) (2024-01-25)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-gitlab/compare/v8.1.0...v9.0.0)
 
@@ -74,7 +99,7 @@ These should not affect the functionality of the module.
 
 **Implemented enhancements:**
 
-- Add system hooks management [\#380](https://github.com/voxpupuli/puppet-gitlab/pull/380) ([carlosduelo](https://github.com/carlosduelo))
+- Add system hooks management [\#380](https://github.com/voxpupuli/puppet-gitlab/pull/380) ([cduelo](https://github.com/cduelo))
 - Add support for geo\_logcursor options in gitlab.rb [\#379](https://github.com/voxpupuli/puppet-gitlab/pull/379) ([liger1978](https://github.com/liger1978))
 
 **Closed issues:**

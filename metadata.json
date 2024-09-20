@@ -44,6 +44,13 @@
       ]
     },
     {
+      "operatingsystem": "AlmaLinux",
+      "operatingsystemrelease": [
+        "8",
+        "9"
+      ]
+    },
+    {
       "operatingsystem": "Rocky",
       "operatingsystemrelease": [
         "8",

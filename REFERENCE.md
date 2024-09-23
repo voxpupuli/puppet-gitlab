@@ -121,6 +121,7 @@ The following parameters are available in the `gitlab` class:
 * [`backup_cron_minute`](#-gitlab--backup_cron_minute)
 * [`backup_cron_hour`](#-gitlab--backup_cron_hour)
 * [`backup_cron_skips`](#-gitlab--backup_cron_skips)
+* [`package_hold`](#-gitlab--package_hold)
 * [`package_name`](#-gitlab--package_name)
 * [`manage_package`](#-gitlab--manage_package)
 * [`repository_configuration`](#-gitlab--repository_configuration)
@@ -825,6 +826,14 @@ Array of items to skip valid values: db, uploads, repositories, builds, artifact
 
 Default value: `[]`
 
+##### <a name="-gitlab--package_hold"></a>`package_hold`
+
+Data type: `Enum['hold', 'none']`
+
+Wether to hold the specified package version. Available options are 'hold' or 'none'. Defaults to 'none'. Available only for Debian/Solaris package managers.
+
+Default value: `'none'`
+
 ##### <a name="-gitlab--package_name"></a>`package_name`
 
 Data type: `Optional[String]`
@@ -1029,6 +1038,7 @@ The following parameters are available in the `gitlab::install` class:
 
 * [`package_name`](#-gitlab--install--package_name)
 * [`package_ensure`](#-gitlab--install--package_ensure)
+* [`package_hold`](#-gitlab--install--package_hold)
 * [`manage_package`](#-gitlab--install--manage_package)
 
 ##### <a name="-gitlab--install--package_name"></a>`package_name`
@@ -1046,6 +1056,14 @@ Data type: `Any`
 
 
 Default value: `$gitlab::package_ensure`
+
+##### <a name="-gitlab--install--package_hold"></a>`package_hold`
+
+Data type: `Any`
+
+
+
+Default value: `$gitlab::package_hold`
 
 ##### <a name="-gitlab--install--manage_package"></a>`manage_package`
 

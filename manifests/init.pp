@@ -86,6 +86,7 @@
 # @param backup_cron_minute The minute when to run the daily backup cron job
 # @param backup_cron_hour The hour when to run the daily backup cron job
 # @param backup_cron_skips Array of items to skip valid values: db, uploads, repositories, builds, artifacts, lfs, registry, pages
+# @param package_hold Wether to hold the specified package version. Available options are 'hold' or 'none'. Defaults to 'none'. Available only for Debian/Solaris package managers. 
 # @param package_name The internal packaging system's name for the package. This name will automatically be changed by the gitlab::edition parameter. Can be overridden for the purposes of installing custom compiled version of gitlab-omnibus.
 # @param manage_package Should the GitLab package be managed?
 # @param repository_configuration A hash of repository types and attributes for configuraiton the gitlab package repositories. See docs in README.md
@@ -158,6 +159,7 @@ class gitlab (
   Optional[Hash]                      $pgbouncer_exporter              = undef,
   Optional[Hash]                      $gitlab_monitor                  = undef,
   Optional[Hash]                      $gitlab_exporter                 = undef,
+  Enum['hold', 'none']                $package_hold                    = 'none',
   Optional[String]                    $package_name                    = undef,
   Optional[String]                    $pages_external_url              = undef,
   Optional[Hash]                      $pages_nginx                     = undef,

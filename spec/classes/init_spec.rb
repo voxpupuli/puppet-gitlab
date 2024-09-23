@@ -502,6 +502,15 @@ describe 'gitlab', type: :class do
               with_content(%r{^\s*gitlab_sshd\['enable'\] = true$})
           }
         end
+        describe 'package_hold' do
+          let(:params) do
+            { package_ensure: '16.10.3-ce.0', package_hold: 'hold' }
+          end
+
+          it {
+            is_expected.to contain_package('gitlab-omnibus').with('ensure' => '16.10.3-ce.0', 'name' => 'gitlab-ce', 'mark' => 'hold')
+          }
+        end
       end
     end
   end

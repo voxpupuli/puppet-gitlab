@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v10.1.0](https://github.com/voxpupuli/puppet-gitlab/tree/v10.1.0) (2024-11-04)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-gitlab/compare/v10.0.0...v10.1.0)
+
+**Implemented enhancements:**
+
+- Debian: Add support for holding a package [\#440](https://github.com/voxpupuli/puppet-gitlab/pull/440) ([NeatNerdPrime](https://github.com/NeatNerdPrime))
+
 ## [v10.0.0](https://github.com/voxpupuli/puppet-gitlab/tree/v10.0.0) (2024-09-20)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-gitlab/compare/v9.0.0...v10.0.0)
@@ -26,7 +34,7 @@ These should not affect the functionality of the module.
 **Merged pull requests:**
 
 - Update to support Praefect [\#433](https://github.com/voxpupuli/puppet-gitlab/pull/433) ([talseth](https://github.com/talseth))
-- fix apt-key deprecation [\#432](https://github.com/voxpupuli/puppet-gitlab/pull/432) ([0xbilko](https://github.com/0xbilko))
+- fix apt-key deprecation [\#432](https://github.com/voxpupuli/puppet-gitlab/pull/432) ([b17k0](https://github.com/b17k0))
 - Updated CI badges [\#431](https://github.com/voxpupuli/puppet-gitlab/pull/431) ([yakatz](https://github.com/yakatz))
 
 ## [v9.0.0](https://github.com/voxpupuli/puppet-gitlab/tree/v9.0.0) (2024-01-25)

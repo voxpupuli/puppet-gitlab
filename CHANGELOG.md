@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v10.2.0](https://github.com/voxpupuli/puppet-gitlab/tree/v10.2.0) (2025-02-11)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-gitlab/compare/v10.1.0...v10.2.0)
+
+**Closed issues:**
+
+- Add support for Content Security Policy \(CSP\) settings [\#450](https://github.com/voxpupuli/puppet-gitlab/issues/450)
+
+**Merged pull requests:**
+
+- puppetlabs/apt: Allow 10.x [\#455](https://github.com/voxpupuli/puppet-gitlab/pull/455) ([bastelfreak](https://github.com/bastelfreak))
+- Fix apt-key deprecation on Ubuntu [\#453](https://github.com/voxpupuli/puppet-gitlab/pull/453) ([saz](https://github.com/saz))
+
 ## [v10.1.0](https://github.com/voxpupuli/puppet-gitlab/tree/v10.1.0) (2024-11-04)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-gitlab/compare/v10.0.0...v10.1.0)

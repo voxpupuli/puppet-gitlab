@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v10.3.0](https://github.com/voxpupuli/puppet-gitlab/tree/v10.3.0) (2025-04-24)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-gitlab/compare/v10.2.0...v10.3.0)
+
+**Implemented enhancements:**
+
+- Add new gpg key for RHEL repos [\#460](https://github.com/voxpupuli/puppet-gitlab/pull/460) ([tuxmea](https://github.com/tuxmea))
+- metadata.json: Add OpenVox [\#458](https://github.com/voxpupuli/puppet-gitlab/pull/458) ([jstraw](https://github.com/jstraw))
+
+**Merged pull requests:**
+
+- Increase puppetlabs-apt minimum version to 9.2.0 [\#462](https://github.com/voxpupuli/puppet-gitlab/pull/462) ([kenyon](https://github.com/kenyon))
+
 ## [v10.2.0](https://github.com/voxpupuli/puppet-gitlab/tree/v10.2.0) (2025-02-11)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-gitlab/compare/v10.1.0...v10.2.0)

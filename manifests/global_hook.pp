@@ -1,4 +1,7 @@
-# @summary Manage global chain loaded hook files for all GitLab projects. Hooks can be created as a pre-receive, post-receive, or update hook. It's possible to create  multipe hooks per type as long as their names are unique. Support for chained (global) hooks is introduced in GitLab Shell 4.1.0 and GitLab 8.15.
+# @summary Manage global chain loaded hook files for all GitLab projects.
+# Hooks can be created as a pre-receive, post-receive, or update hook.
+# It's possible to create multipe hooks per type as long as their names are unique.
+# Support for chained (global) hooks is introduced in GitLab Shell 4.1.0 and GitLab 8.15.
 #
 # @example Global hook usage
 #   gitlab::custom_hook { 'my_custom_hook':

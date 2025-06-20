@@ -1,4 +1,6 @@
-# @summary Manage custom hook files within a GitLab project. Custom hooks can be created as a pre-receive, post-receive, or update hook. Only one of each is currently supported by this module.
+# @summary Manage custom hook files within a GitLab project.
+# Custom hooks can be created as a pre-receive, post-receive, or update hook.
+# Only one of each is currently supported by this module.
 #
 # @example Custom hook usage
 #   gitlab::custom_hook { 'my_custom_hook':

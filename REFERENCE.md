@@ -16,8 +16,8 @@
 
 ### Defined types
 
-* [`gitlab::custom_hook`](#gitlab--custom_hook): Manage custom hook files within a GitLab project. Custom hooks can be created as a pre-receive, post-receive, or update hook. Only one of each is currently supported by this module.
-* [`gitlab::global_hook`](#gitlab--global_hook): Manage global chain loaded hook files for all GitLab projects. Hooks can be created as a pre-receive, post-receive, or update hook. It's possible to create  multipe hooks per type as long as their names are unique. Support for chained (global) hooks is introduced in GitLab Shell 4.1.0 and GitLab 8.15.
+* [`gitlab::custom_hook`](#gitlab--custom_hook): Manage custom hook files within a GitLab project.
+* [`gitlab::global_hook`](#gitlab--global_hook): Manage global chain loaded hook files for all GitLab projects.
 * [`gitlab::system_hook`](#gitlab--system_hook): A file hook will run on each event so it's up to you to filter events or projects
 
 ### Tasks
@@ -351,6 +351,7 @@ Default value: `undef`
 Data type: `Optional[Hash]`
 
 Hash of git data directories
+
 **Deprecated**: This option was removed in Gitlab 18.
 
 To configure the storage location for a Gitaly node:
@@ -1242,7 +1243,8 @@ Default value: `$gitlab::skip_post_deployment_migrations`
 
 ### <a name="gitlab--custom_hook"></a>`gitlab::custom_hook`
 
-Manage custom hook files within a GitLab project. Custom hooks can be created as a pre-receive, post-receive, or update hook. Only one of each is currently supported by this module.
+Custom hooks can be created as a pre-receive, post-receive, or update hook.
+Only one of each is currently supported by this module.
 
 #### Examples
 
@@ -1335,7 +1337,9 @@ Default value: `false`
 
 ### <a name="gitlab--global_hook"></a>`gitlab::global_hook`
 
-Manage global chain loaded hook files for all GitLab projects. Hooks can be created as a pre-receive, post-receive, or update hook. It's possible to create  multipe hooks per type as long as their names are unique. Support for chained (global) hooks is introduced in GitLab Shell 4.1.0 and GitLab 8.15.
+Hooks can be created as a pre-receive, post-receive, or update hook.
+It's possible to create multipe hooks per type as long as their names are unique.
+Support for chained (global) hooks is introduced in GitLab Shell 4.1.0 and GitLab 8.15.
 
 #### Examples
 

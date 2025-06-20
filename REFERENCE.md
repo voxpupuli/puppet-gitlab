@@ -351,6 +351,36 @@ Default value: `undef`
 Data type: `Optional[Hash]`
 
 Hash of git data directories
+**Deprecated**: This option was removed in Gitlab 18.
+
+To configure the storage location for a Gitaly node:
+```patch
+-        git_data_dirs           => {
+-            'default' => { 'path' => '/mnt/example/git-data'},
+-        },
++        gitaly                  => {
++            configuration => {
++                'storage' => [
++                    {
++                        'name' => 'default',
++                        'path' => '/mnt/example/git-data/repositories',
++                    },
++                ],
++            },
++        },
+```
+
+To configure the storage location for other nodes:
+```patch
+-        git_data_dirs           => {
+-            'default' => { 'gitaly_address' => 'tcp://gitaly1.internal:8075'},
+-        },
++        gitlab_rails            => {
++            repositories_storages => {
++                'default' => { 'gitaly_address' => 'tcp://gitaly1.internal:8075'},
++            },
++        },
+```
 
 Default value: `undef`
 

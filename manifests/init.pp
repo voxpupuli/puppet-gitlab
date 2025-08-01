@@ -117,7 +117,7 @@
 # @param backup_cron_minute The minute when to run the daily backup cron job
 # @param backup_cron_hour The hour when to run the daily backup cron job
 # @param backup_cron_skips Array of items to skip valid values: db, uploads, repositories, builds, artifacts, lfs, registry, pages
-# @param package_hold Wether to hold the specified package version. Available options are 'hold' or 'none'. Defaults to 'none'. Available only for Debian/Solaris package managers. 
+# @param package_hold Wether to hold the specified package version. Available options are 'hold' or 'none'. Defaults to 'none'. Available only for Debian/Solaris package managers.
 # @param package_name The internal packaging system's name for the package. This name will automatically be changed by the gitlab::edition parameter. Can be overridden for the purposes of installing custom compiled version of gitlab-omnibus.
 # @param manage_package Should the GitLab package be managed?
 # @param repository_configuration A hash of repository types and attributes for configuraiton the gitlab package repositories. See docs in README.md
@@ -125,6 +125,9 @@
 # @param pgpass_file_location Path to location of .pgpass file used by consul to authenticate with pgbouncer database
 # @param pgpass_file_ensure Create .pgpass file for pgbouncer authentication. When set to present requires valid value for pgbouncer_password.
 # @param pgbouncer_password Password for the gitlab-consul database user in the pgbouncer database
+# @param create_initial_root_token Whether to create an initial root token. If set to true and initial_root_token is undef, a random token string will be generated.
+# @param initial_root_token Preset a root token to allow API usage immediately.
+# @param initial_root_token_ttl_minutes Initial root token time to live (in minutes).
 class gitlab (
   Hash                                $repository_configuration,
   # package configuration
@@ -224,6 +227,9 @@ class gitlab (
   Optional[Hash]                      $gitlab_workhorse                = undef,
   Optional[Hash]                      $user                            = undef,
   Optional[Hash]                      $web_server                      = undef,
+  Boolean                             $create_initial_root_token       = false,
+  Optional[Sensitive[String[1]]]      $initial_root_token              = undef,
+  Integer[0]                          $initial_root_token_ttl_minutes  = 60,
   Boolean                             $backup_cron_enable              = false,
   Integer[0,59]                       $backup_cron_minute              = 0,
   Integer[0,23]                       $backup_cron_hour                = 2,
@@ -238,11 +244,13 @@ class gitlab (
   contain gitlab::omnibus_config
   contain gitlab::install
   contain gitlab::service
+  contain gitlab::initial_root_token
 
   Class['gitlab::host_config']
   -> Class['gitlab::omnibus_config']
   -> Class['gitlab::install']
   -> Class['gitlab::service']
+  -> Class['gitlab::initial_root_token']
 
   $custom_hooks.each |$name, $options| {
     gitlab::custom_hook { $name:

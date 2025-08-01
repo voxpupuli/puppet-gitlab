@@ -11,7 +11,10 @@ describe 'gitlab', type: :class do
         it { is_expected.to contain_class('gitlab::host_config').that_comes_before('Class[gitlab::install]') }
         it { is_expected.to contain_class('gitlab::omnibus_config').that_comes_before('Class[gitlab::install]') }
         it { is_expected.to contain_class('gitlab::install').that_comes_before('Class[gitlab::service]') }
-        it { is_expected.to contain_class('gitlab::service') }
+        it { is_expected.to contain_class('gitlab::service').that_comes_before('Class[gitlab::initial_root_token]') }
+        it { is_expected.to contain_class('gitlab::initial_root_token') }
+        it { is_expected.to contain_file('/etc/gitlab/create_initial_root_token.rb').with_ensure('absent') }
+        it { is_expected.not_to contain_exec('create_initial_root_token') }
         it { is_expected.to contain_exec('gitlab_reconfigure').that_subscribes_to('Class[gitlab::omnibus_config]') }
         it { is_expected.to contain_file('/etc/gitlab/gitlab.rb') }
         it { is_expected.to contain_package('gitlab-omnibus').with_ensure('installed').with_name('gitlab-ce') }
@@ -510,6 +513,29 @@ describe 'gitlab', type: :class do
           it {
             is_expected.to contain_package('gitlab-omnibus').with('ensure' => '16.10.3-ce.0', 'name' => 'gitlab-ce', 'mark' => 'hold')
           }
+        end
+        describe 'create_intial_root_token' do
+          let(:params) { { create_initial_root_token: true } }
+
+          it do
+            is_expected.to contain_file('/etc/gitlab/create_initial_root_token.rb').
+              with_content(%r{^token_value = 'glpat-' \+ SecureRandom.alphanumeric\(20\)$}).
+              with_content(%r{^token_ttl_minutes = 60$}).
+              with_content(%r{^token_file_path = '/etc/gitlab/initial_root_token'$})
+          end
+          it { is_expected.to contain_exec('create_initial_root_token').with_creates('/etc/gitlab/initial_root_token') }
+
+          describe 'initial_root_token' do
+            let(:params) { super().merge(initial_root_token: sensitive('foobarbaz')) }
+
+            it { is_expected.to contain_file('/etc/gitlab/create_initial_root_token.rb').with_content(%r{^token_value = 'foobarbaz'$}) }
+          end
+
+          describe 'initial_root_token_ttl_minutes' do
+            let(:params) { super().merge(initial_root_token_ttl_minutes: 123) }
+
+            it { is_expected.to contain_file('/etc/gitlab/create_initial_root_token.rb').with_content(%r{^token_ttl_minutes = 123$}) }
+          end
         end
       end
     end

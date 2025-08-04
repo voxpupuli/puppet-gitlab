@@ -32,6 +32,11 @@ class gitlab::initial_root_token {
   } else {
     $script_ensure = 'absent'
     $script_content = undef
+
+    # Ensure there is no token file left if it was created before
+    file { $token_file_path:
+      ensure => 'absent',
+    }
   }
 
   file { $script_path:

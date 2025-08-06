@@ -5,29 +5,29 @@ require 'json'
 require 'time'
 require 'uri'
 require 'tempfile'
-require 'fileutils'
 
-class GitlabTokenRenever
+class GitlabApiTokenRenewer
   def initialize
     @api_url = ENV.fetch('GITLAB_API_URL', 'http://localhost')
-    @token_file = '/var/opt/gitlab/.tokens/puppet_token'
-    @expiry_threshold_days = 7
+    @token_file = ENV.fetch('GITLAB_API_TOKEN_FILE', '/var/opt/gitlab/.tokens/puppet_token')
+    @token_renew_days = ENV.fetch('GITLAB_API_TOKEN_RENEW_DAYS', '7').to_i
+    @new_token_ttl_days = ENV.fetch('GITLAB_API_NEW_TOKEN_TTL_DAYS', '30').to_i
     @token = File.read(@token_file).strip
+
+    uri = URI(@api_url)
+    @http = Net::HTTP.new(uri.host, uri.port)
+    @http.use_ssl = uri.scheme == 'https'
   end
 
-  def write_token(token, target_path)
-    f = Tempfile.create('.tkn', File.dirname(path))
+  def write_token
+    f = Tempfile.create('.tkn', File.dirname(@token_file))
     f.write(token)
     f.flush
     f.close
-    File.rename(f, path)
+    File.rename(f, @token_file)
   end
 
   def api_request(method, endpoint, body = nil)
-    uri = URI("#{@api_url}/#{endpoint}")
-    http = Net::HTTP.new(uri.host, uri.port)
-    http.use_ssl = uri.scheme == 'https'
-
     request_class = case method.downcase
                     when :get    then Net::HTTP::Get
                     when :post   then Net::HTTP::Post
@@ -39,11 +39,10 @@ class GitlabTokenRenever
     request['Content-Type'] = 'application/json' if body
     request.body = body.to_json if body
 
-    http.request(request)
+    @http.request(request)
   end
 
-  # === Get current token info via /self ===
-  def get_self_token_info
+  def get_current_token_info
     response = api_request(:get, 'personal_access_tokens/self')
 
     case response
@@ -56,8 +55,7 @@ class GitlabTokenRenever
     end
   end
 
-  # === Rotate the current token ===
-  def rotate_self_token(new_expiry = nil)
+  def rotate_current_token(new_expiry = nil)
     payload = {}
     payload[:expires_at] = new_expiry if new_expiry
 
@@ -65,7 +63,7 @@ class GitlabTokenRenever
 
     case response
     when Net::HTTPSuccess
-      JSON.parse(response.body)['token']
+      @token = JSON.parse(response.body)['token']
     when Net::HTTPUnauthorized
       abort "Token cannot be rotated (revoked, expired, or invalid)."
     when Net::HTTPForbidden
@@ -75,16 +73,15 @@ class GitlabTokenRenever
     end
   end
 
-  # === Main logic ===
   def run
-    info = get_self_token_info(old_token)
+    info = get_current_token_info
     expires_at_str = info['expires_at']
 
     if expires_at_str.nil?
       warn "Token has no expiration."
     else
       expires_at = Time.parse(expires_at_str).utc
-      threshold = Time.now.utc + (@expiry_threshold_days * 86400)
+      threshold = Time.now.utc + (@token_renew_days * 86400)
       if expires_at > threshold
         puts "Token expires on #{expires_at}, still valid. No rotation needed."
         exit 0
@@ -93,16 +90,16 @@ class GitlabTokenRenever
     end
 
     new_expiry = (Time.now + 30 * 24 * 60 * 60).strftime('%Y-%m-%d')
-    new_token = rotate_self_token(old_token, new_expiry)
+    rotate_current_token(new_expiry)
     puts "Token rotated in GitLab."
 
-    write_token(new_token, TOKEN_FILE)
-    puts "New token written to #{TOKEN_FILE}."
+    write_token
+    puts "New token written to #{@token_file}."
 
     puts "Rotation complete."
   end
 end
 
 if __FILE__ == $0
-  GitlabTokenRenever.new.run
+  GitlabApiTokenRenewer.new.run
 end

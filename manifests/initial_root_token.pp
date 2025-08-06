@@ -12,7 +12,7 @@
 #
 # @api private
 class gitlab::initial_root_token {
-  $token_file_path = '/etc/gitlab/initial_root_token'
+  $api_token_file = $gitlab::api_token_file
   $script_path = '/etc/gitlab/create_initial_root_token.rb'
 
   if $gitlab::create_initial_root_token {

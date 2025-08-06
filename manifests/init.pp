@@ -125,9 +125,9 @@
 # @param pgpass_file_location Path to location of .pgpass file used by consul to authenticate with pgbouncer database
 # @param pgpass_file_ensure Create .pgpass file for pgbouncer authentication. When set to present requires valid value for pgbouncer_password.
 # @param pgbouncer_password Password for the gitlab-consul database user in the pgbouncer database
-# @param create_initial_root_token Whether to create an initial root token. If set to true and initial_root_token is undef, a random token string will be generated.
-# @param initial_root_token Preset a root token to allow API usage immediately.
-# @param initial_root_token_ttl_minutes Initial root token time to live (in minutes).
+# @param manage_api_token Whether to manage the API token. This token belongs to the root Gitlab user.
+# @param api_token_dir Where to store the API token generated.
+# @param api_token_ttl_days API token time to live in days.
 class gitlab (
   Hash                                $repository_configuration,
   # package configuration
@@ -227,9 +227,9 @@ class gitlab (
   Optional[Hash]                      $gitlab_workhorse                = undef,
   Optional[Hash]                      $user                            = undef,
   Optional[Hash]                      $web_server                      = undef,
-  Boolean                             $create_initial_root_token       = false,
-  Optional[Sensitive[String[1]]]      $initial_root_token              = undef,
-  Integer[0]                          $initial_root_token_ttl_minutes  = 60,
+  Boolean                             $manage_api_token                = false,
+  Stdlib::Absolutepath                $api_token_file                  = '/var/opt/gitlab/.tokens/puppet_token',
+  Integer[0]                          $api_token_ttl_days              = 30,
   Boolean                             $backup_cron_enable              = false,
   Integer[0,59]                       $backup_cron_minute              = 0,
   Integer[0,23]                       $backup_cron_hour                = 2,

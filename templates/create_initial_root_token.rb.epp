@@ -1,0 +1,24 @@
+<%-|
+  Optional[Sensitive[String[1]]] $token,
+  Integer[0] $token_ttl_minutes,
+  Stdlib::AbsolutePath $token_file_path,
+|-%>
+# This script should be executed with 'gitlab-rails runner' command.
+#
+# This scripts creates an initial root token and stores it to the
+# <%= $token_file_path %> file.
+token = <%= $token.then |$x| { "'${$x.unwrap}'" }.lest || { nil } %>
+token_ttl_minutes = <%= $token_ttl_minutes %>
+token_file_path = '<%= $token_file_path %>'
+
+require 'securerandom'
+token_value = token || 'glpat-' + SecureRandom.alphanumeric(20)
+
+t = User.find(1).personal_access_tokens.create(
+  scopes: [:api],
+  name: 'Gitlab Puppet module initial root token',
+  expires_at: token_ttl_minutes.minutes.from_now,
+)
+t.set_token(token_value)
+t.save!
+File.write(token_file_path, token_value, perm: 0600)

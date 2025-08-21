@@ -6,6 +6,8 @@
 
 ### Classes
 
+#### Public Classes
+
 * [`gitlab`](#gitlab): This module installs and configures Gitlab with the Omnibus package.
 * [`gitlab::backup`](#gitlab--backup): This class is called from gitlab for backup config.
 * [`gitlab::host_config`](#gitlab--host_config): This class is for setting host configurations required for gitlab installation.
@@ -13,6 +15,10 @@
 * [`gitlab::omnibus_config`](#gitlab--omnibus_config): This class is used to configure the gitlab omnibus package on a node
 * [`gitlab::omnibus_package_repository`](#gitlab--omnibus_package_repository): This class is used to configure gitlab repositories
 * [`gitlab::service`](#gitlab--service): This class is meant to be called from gitlab. It ensure the service is running.
+
+#### Private Classes
+
+* `gitlab::initial_root_token`: Manages initial root token
 
 ### Defined types
 
@@ -129,6 +135,9 @@ The following parameters are available in the `gitlab` class:
 * [`pgpass_file_location`](#-gitlab--pgpass_file_location)
 * [`pgpass_file_ensure`](#-gitlab--pgpass_file_ensure)
 * [`pgbouncer_password`](#-gitlab--pgbouncer_password)
+* [`create_initial_root_token`](#-gitlab--create_initial_root_token)
+* [`initial_root_token`](#-gitlab--initial_root_token)
+* [`initial_root_token_ttl_minutes`](#-gitlab--initial_root_token_ttl_minutes)
 * [`consul`](#-gitlab--consul)
 * [`custom_hooks_dir`](#-gitlab--custom_hooks_dir)
 * [`system_hooks_dir`](#-gitlab--system_hooks_dir)
@@ -918,6 +927,30 @@ Data type: `Optional[String]`
 Password for the gitlab-consul database user in the pgbouncer database
 
 Default value: `undef`
+
+##### <a name="-gitlab--create_initial_root_token"></a>`create_initial_root_token`
+
+Data type: `Boolean`
+
+Whether to create an initial root token. If set to true and initial_root_token is undef, a random token string will be generated.
+
+Default value: `false`
+
+##### <a name="-gitlab--initial_root_token"></a>`initial_root_token`
+
+Data type: `Optional[Sensitive[String[1]]]`
+
+Preset a root token to allow API usage immediately.
+
+Default value: `undef`
+
+##### <a name="-gitlab--initial_root_token_ttl_minutes"></a>`initial_root_token_ttl_minutes`
+
+Data type: `Integer[0]`
+
+Initial root token time to live (in minutes).
+
+Default value: `60`
 
 ##### <a name="-gitlab--consul"></a>`consul`
 

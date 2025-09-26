@@ -91,7 +91,7 @@ class gitlab::host_config (
       owner   => 'gitlab-consul',
       group   => 'gitlab-consul',
       content => epp('gitlab/.pgpass.epp', {
-          'pgbouncer_password' => $pgbouncer_password,
+        'pgbouncer_password' => $pgbouncer_password,
       }),
     }
   }

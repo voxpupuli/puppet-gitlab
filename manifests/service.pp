@@ -51,13 +51,17 @@ class gitlab::service (
   }
 
   if ($service_manage and $service_provider_restart) {
+    #lint:ignore:exec_idempotency
     exec { 'gitlab_reconfigure':
       notify => Service[$service_name],
       *      => $_reconfigure_attributes,
     }
+    #lint:endignore
   } else {
+    #lint:ignore:exec_idempotency
     exec { 'gitlab_reconfigure':
       * => $_reconfigure_attributes,
     }
+    #lint:endignore
   }
 }

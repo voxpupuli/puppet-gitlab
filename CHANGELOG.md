@@ -4,6 +4,25 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v11.0.0](https://github.com/voxpupuli/puppet-gitlab/tree/v11.0.0) (2025-12-05)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-gitlab/compare/v10.3.0...v11.0.0)
+
+**Breaking changes:**
+
+- drop EOL ubuntu-20.04 [\#477](https://github.com/voxpupuli/puppet-gitlab/pull/477) ([marcusdots](https://github.com/marcusdots))
+- Drop puppet, update openvox minimum version to 8.19 [\#471](https://github.com/voxpupuli/puppet-gitlab/pull/471) ([TheMeier](https://github.com/TheMeier))
+
+**Implemented enhancements:**
+
+- enhancement Debian-13 support [\#479](https://github.com/voxpupuli/puppet-gitlab/pull/479) ([marcusdots](https://github.com/marcusdots))
+- enhancement: add el10 support [\#478](https://github.com/voxpupuli/puppet-gitlab/pull/478) ([marcusdots](https://github.com/marcusdots))
+- allow puppetlabs/apt 11.x [\#475](https://github.com/voxpupuli/puppet-gitlab/pull/475) ([marcusdots](https://github.com/marcusdots))
+
+**Merged pull requests:**
+
+- Add documentation for git\_data\_dir change in Gitlab 18 [\#467](https://github.com/voxpupuli/puppet-gitlab/pull/467) ([yakatz](https://github.com/yakatz))
+
 ## [v10.3.0](https://github.com/voxpupuli/puppet-gitlab/tree/v10.3.0) (2025-04-24)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-gitlab/compare/v10.2.0...v10.3.0)
@@ -60,7 +79,7 @@ These should not affect the functionality of the module.
 **Merged pull requests:**
 
 - Update to support Praefect [\#433](https://github.com/voxpupuli/puppet-gitlab/pull/433) ([talseth](https://github.com/talseth))
-- fix apt-key deprecation [\#432](https://github.com/voxpupuli/puppet-gitlab/pull/432) ([b17k0](https://github.com/b17k0))
+- fix apt-key deprecation [\#432](https://github.com/voxpupuli/puppet-gitlab/pull/432) ([bilkoua](https://github.com/bilkoua))
 - Updated CI badges [\#431](https://github.com/voxpupuli/puppet-gitlab/pull/431) ([yakatz](https://github.com/yakatz))
 
 ## [v9.0.0](https://github.com/voxpupuli/puppet-gitlab/tree/v9.0.0) (2024-01-25)
@@ -731,7 +750,7 @@ These should not affect the functionality of the module.
 
 **Merged pull requests:**
 
-- Add 'manage\_package' parameter [\#40](https://github.com/voxpupuli/puppet-gitlab/pull/40) ([jameslikeslinux](https://github.com/jameslikeslinux))
+- Add 'manage\_package' parameter [\#40](https://github.com/voxpupuli/puppet-gitlab/pull/40) ([puppetjoy](https://github.com/puppetjoy))
 - Gitlab CI Runner [\#39](https://github.com/voxpupuli/puppet-gitlab/pull/39) ([maetthu-indermuehle](https://github.com/maetthu-indermuehle))
 
 ## [v1.6.0](https://github.com/voxpupuli/puppet-gitlab/tree/v1.6.0) (2015-11-06)

@@ -1,0 +1,99 @@
+# frozen_string_literal: true
+
+require 'puppet/resource_api'
+
+Puppet::ResourceApi.register_type(
+  name: 'gitlab_application_settings',
+  docs: <<~EOS,
+    @summary Manage Gitlab settings
+
+    This resource type provides Puppet with the capabilities to manage Gitlab
+    settings via REST API. The only allowed resource title is 'gitlab'. It'll
+    throw an error if any other title is specified.
+
+    Gitlab API URL and token are required to use this type. There are two options:
+
+    1. Export those as GITLAB_BASE_URL and GITLAB_TOKEN environment variables.
+
+    2. Store those in a JSON file (see below) and export its location as
+    GITLAB_PROVIDER_CONFIG_PATH environment variable.
+
+    If none of above is made, it'll try to load configuration from
+    `/etc/puppetlabs/gitlab_provider.json` file.
+
+    If still no luck, it'll throw an exception.
+
+    Configuration file format is as follows:
+    ```json
+    {
+      "base_url": "http://<your_gitlab_hostname>/api/v4",
+      "token": "<your_gitlab_token>"
+    }
+    ```
+
+    **NOTES**
+
+    * Changes to the application settings are subject to caching (60s default).
+
+    * This resource type doesn't auto-require the Gitlab class. This allows one
+      to manage a Gitlab instance, that is installed in a different way. Ensure
+      you require `Class['gitlab']` if your Gitlab is installed with this module.
+
+    * At the moment there is no way to acquire a token from a freshly installed
+      Gitlab instance. So there is no way to install Gitlab and manage its
+      settings immediately (in a sane looking way at least). One should get a
+      token via UI first.
+
+    @example Manage Gitlab settings
+      gitlab_application_settings { 'gitlab':
+        signup_enabled => false,
+        usage_ping_enabled => false,
+        version_check_enabled => false,
+      }
+
+    @example Manage Gitlab and its settings
+      include gitlab
+
+      $gitlab_provider_config_file = '/etc/puppetlabs/gitlab_provider.json'
+      $gitlab_provider_config = {
+        base_url => "http://gitlab.example.com/api/v4",
+        token => "glpat-abcdefghijklmn",
+      }
+
+      file { $gitlab_provider_config_file:
+        ensure => 'file',
+        owner => 'root',
+        group => 'root',
+        content => $gitlab_provider_config.stdlib::to_json,
+      }
+
+      gitlab_application_settings { 'gitlab':
+        signup_enabled => false,
+        usage_ping_enabled => false,
+        version_check_enabled => false,
+        # The config file should be placed first
+        require => [
+          File[$gitlab_provider_config_file],
+          Class['gitlab'],
+        ]
+      }
+
+    @see https://docs.gitlab.com/api/settings/
+  EOS
+  features: ['supports_noop'],
+  # rubocop:disable Style/StringLiterals, Metrics/CollectionLiteralLength
+  attributes: {
+    name: {
+      type: "Enum['gitlab']",
+      desc: "Unused, must be 'gitlab' if set",
+      behaviour: :namevar,
+    },
+<% attributes.each do |attribute, details| -%>
+    <%= attribute %>: {
+      type: <%= details[:type].to_json %>,
+      desc: <%= details[:desc].to_json %>,
+    },
+<% end -%>
+  }
+  # rubocop:enable Style/StringLiterals, Metrics/CollectionLiteralLength
+)

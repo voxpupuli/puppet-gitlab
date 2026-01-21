@@ -1,0 +1,121 @@
+---
+## Merge settings below
+merge:
+  asciidoc_max_includes:
+    type: Optional[Integer[0, 64]]
+  custom_http_clone_url_root:
+    type: Optional[Stdlib::HTTPUrl]
+  default_group_visibility:
+    type: Optional[Enum['private', 'internal', 'public']]
+  default_project_creation:
+    type: Optional[Integer[0, 4]]
+  default_project_visibility:
+    type: Optional[Enum['private', 'internal', 'public']]
+  default_snippet_visibility:
+    type: Optional[Enum['private', 'internal', 'public']]
+  deletion_adjourned_period:
+    type: Optional[Integer[1, 90]]
+  dsa_key_restriction:
+    type: Optional[Integer[-1]]
+  ecdsa_key_restriction:
+    type: Optional[Integer[-1]]
+  ecdsa_sk_key_restriction:
+    type: Optional[Integer[-1]]
+  ed25519_key_restriction:
+    type: Optional[Integer[-1]]
+  ed25519_sk_key_restriction:
+    type: Optional[Integer[-1]]
+  elasticsearch_password:
+    type: Optional[Variant[Sensitive[String[1]], String[1]]]
+  # FIXME: this should be a Pattern
+  # Custom prefix for Elasticsearch index names. Defaults to `gitlab`. Must be
+  # 1-100 characters, contain only lowercase alphanumeric characters, hyphens,
+  # and underscores, and cannot start or end with a hyphen or underscore
+  elasticsearch_prefix:
+    type: Optional[String[1, 100]]
+  email_confirmation_setting:
+    type: Optional[Enum['off', 'soft', 'hard']]
+  email_restrictions:
+    type: Optional[Variant[String, Regexp]]
+  enabled_git_access_protocol:
+    type: Optional[Enum['ssh', 'http', 'all']]
+  # FIXME: How to deal with it?
+  # Private key for the certificate when authentication is required for the external authorization service, this is encrypted when stored.
+  external_auth_client_key:
+    type: Optional[Variant[Sensitive[String[1]], String[1]]]
+  # FIXME: How to deal with it?
+  # Passphrase to use for the private key when authenticating with the external service this is encrypted when stored.
+  external_auth_client_key_pass:
+    type: Optional[Variant[Sensitive[String[1]], String[1]]]
+  external_authorization_service_timeout:
+    type: Optional[Float[0.001, 10]]
+  first_day_of_week:
+    type: Optional[Variant[Integer[0, 1], Integer[6]]]
+  # TODO: find a way to use Array[Stdlib::IP::Address] here
+  # Comma-separated list of IPs and CIDRs of allowed secondary nodes. For example, `1.1.1.1, 2.2.2.0/24`.
+  geo_node_allowed_ips:
+    type: Optional[String[1]]
+  git_rate_limit_users_alertlist:
+    type: Optional[Array[Integer[0], 0, 100]]
+  git_rate_limit_users_allowlist:
+    type: Optional[Array[String[1], 0, 100]]
+  # TODO: find a way to use Array[Stdlib::IP::Address] here
+  # Comma-separated list of IP addresses and CIDRs always allowed for inbound traffic. For example, `1.1.1.1, 2.2.2.0/24`.
+  globally_allowed_ips:
+    type: Optional[String[1]]
+  group_runner_token_expiration_interval:
+    type: Optional[Integer[7200]]
+  helm_max_packages_count:
+    type: Optional[Integer[1]]
+  import_sources:
+    type: Optional[Array[Enum['github', 'bitbucket', 'bitbucket_server', 'fogbugz', 'git', 'gitlab_project', 'gitea', 'manifest']]]
+  # TODO: should be a Struct
+  # Additional formats supported by the Kroki instance. Possible values are
+  # `true` or `false` for formats `bpmn`, `blockdiag`, and `excalidraw` in the
+  # format `: true` or `: false`."
+  kroki_formats:
+    type: Optional[Hash]
+  max_number_of_repository_downloads_within_time_period:
+    type: Optional[Integer[0, 864000]]
+  max_number_of_repository_downloads:
+    type: Optional[Integer[0, 10000]]
+  max_personal_access_token_lifetime:
+    type: Optional[Integer[0, 400]]
+  outbound_local_requests_whitelist:
+    type: Optional[Variant[Stdlib::FQDN, Stdlib::IP::Address::Nosubnet]]
+  polling_interval_multiplier:
+    type: Optional[Variant[Float, String]]
+  restricted_visibility_levels:
+    type: Optional[Array[Enum['private', 'internal', 'public']]]
+  rsa_key_restriction:
+    type: Optional[Integer[-1]]
+  scan_execution_policies_schedule_limit:
+    type: Optional[Integer[0, 20]]
+  scan_execution_policies_action_limit:
+    type: Optional[Integer[0, 20]]
+  # TODO: craft a Pattern (see Stdlib::HTTPUrl as a reference)
+  # This override is needed, otherwise it'd become Stdlib::HTTPUrl
+  # URL of the external Spamcheck service endpoint. Valid URI schemes are `grpc` or `tls`. Specifying `tls` forces communication to be encrypted.
+  spam_check_endpoint_url:
+    type: Optional[String[1]]
+  security_approval_policies_limit:
+    type: Optional[Integer[0, 20]]
+  sidekiq_job_limiter_mode:
+    type: Optional[Enum['track', 'compress']]
+  signin_enabled:
+    type: Optional[Boolean]
+  unconfirmed_users_delete_after_days:
+    type: Optional[Integer[1]]
+  user_default_internal_regex:
+    type: Optional[Variant[String[1], Regexp]]
+  valid_runner_registrars:
+    type: Optional[Array[Enum['group', 'project']]]
+  whats_new_variant:
+    type: Optional[Enum['all_tiers', 'current_tier', 'disabled']]
+  wiki_page_max_content_bytes:
+    type: Optional[Integer[1024]]
+
+## Delete settings (keys) below
+delete:
+  # Definition for resource usage limits enforced in Sidekiq workers. This setting is available for GitLab.com only.
+  - resource_usage_limits

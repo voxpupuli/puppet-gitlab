@@ -119,6 +119,7 @@ class gitlab::omnibus_config (
         source => $source_config_file,
       }
     } else {
+      $gitlab_rails_unwrap = $gitlab_rails.unwrap
       file { $config_file:
         *       => $config_file_attributes,
         content => template('gitlab/gitlab.rb.erb');

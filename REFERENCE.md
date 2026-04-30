@@ -419,7 +419,7 @@ Default value: `undef`
 
 ##### <a name="-gitlab--gitlab_rails"></a>`gitlab_rails`
 
-Data type: `Optional[Hash]`
+Data type: `Optional[Variant[Hash,Sensitive[Hash]]]`
 
 Hash of 'gitlab_pages' config parameters.
 

@@ -165,7 +165,7 @@ class gitlab (
   Optional[Hash]                      $gitlab_ci                       = undef,
   Optional[Hash]                      $gitlab_kas                      = undef,
   Optional[Hash]                      $gitlab_pages                    = undef,
-  Optional[Hash]                      $gitlab_rails                    = undef,
+  Optional[Variant[Hash,Sensitive[Hash]]] $gitlab_rails                = undef,
   Optional[Hash]                      $gitlab_sshd                     = undef,
   Optional[Hash]                      $grafana                         = undef,
   Optional[Hash]                      $high_availability               = undef,

@@ -63,14 +63,14 @@ roles <%= decorate(@roles) %>
 git_data_dirs(<%= decorate(@git_data_dirs) %>)
 
 <%- end -%>
-<%- if @gitlab_rails -%>
+<%- if @gitlab_rails_unwrap -%>
 
 ############################
 # gitlab.yml configuration #
 ############################
 
-<%- @gitlab_rails.keys.sort.each do |k| -%>
-gitlab_rails['<%= k -%>'] = <%= decorate(@gitlab_rails[k]) %>
+<%- @gitlab_rails_unwrap.keys.sort.each do |k| -%>
+gitlab_rails['<%= k -%>'] = <%= decorate(@gitlab_rails_unwrap[k]) %>
 <%- end end -%>
 <%- if @user -%>
 

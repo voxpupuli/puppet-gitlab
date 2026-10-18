@@ -1453,4 +1453,3 @@ Cleans up old postgres database after upgrade
 Upgrades the postgres database if needed
 
 **Supports noop?** false
-

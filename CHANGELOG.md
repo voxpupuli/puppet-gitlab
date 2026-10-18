@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v11.1.0](https://github.com/voxpupuli/puppet-gitlab/tree/v11.1.0) (2026-10-18)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-gitlab/compare/v11.0.0...v11.1.0)
+
+**Implemented enhancements:**
+
+- puppetlabs/stdlib: Allow 10.x [\#496](https://github.com/voxpupuli/puppet-gitlab/pull/496) ([bastelfreak](https://github.com/bastelfreak))
+
 ## [v11.0.0](https://github.com/voxpupuli/puppet-gitlab/tree/v11.0.0) (2025-12-05)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-gitlab/compare/v10.3.0...v11.0.0)
@@ -488,7 +496,7 @@ These should not affect the functionality of the module.
 - Ensure spec test use hiera fixtures. [\#181](https://github.com/voxpupuli/puppet-gitlab/pull/181) ([andrekeller](https://github.com/andrekeller))
 - Update for rubocop compliance [\#179](https://github.com/voxpupuli/puppet-gitlab/pull/179) ([mterzo](https://github.com/mterzo))
 - Fixes via rubocop -a [\#176](https://github.com/voxpupuli/puppet-gitlab/pull/176) ([kallies](https://github.com/kallies))
-- fix typo [\#175](https://github.com/voxpupuli/puppet-gitlab/pull/175) ([bc-bjoern](https://github.com/bc-bjoern))
+- fix typo [\#175](https://github.com/voxpupuli/puppet-gitlab/pull/175) ([epik0r](https://github.com/epik0r))
 - initial modulesync [\#174](https://github.com/voxpupuli/puppet-gitlab/pull/174) ([tobru](https://github.com/tobru))
 - Transfer module to Vox Pupuli [\#173](https://github.com/voxpupuli/puppet-gitlab/pull/173) ([tobru](https://github.com/tobru))
 - Fix repo URL for RHEL 7.  Enable gpgcheck and add in gitlab-ee key. [\#172](https://github.com/voxpupuli/puppet-gitlab/pull/172) ([mhyzon](https://github.com/mhyzon))
